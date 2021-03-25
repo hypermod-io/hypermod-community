@@ -53,12 +53,12 @@
   },
   "workspaces": [
     "packages/*",
-    "community/*"
+    "community/*/*/"
   ],
   "preconstruct": {
     "packages": [
       "packages/*",
-      "community/*"
+      "community/*/*/"
     ]
   }
 }

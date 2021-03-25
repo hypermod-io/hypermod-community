@@ -1,70 +1,11 @@
-import core, {
-  API,
-  ASTPath,
-  FileInfo,
-  ImportDeclaration,
-  ImportSpecifier,
-  Options,
-} from 'jscodeshift';
+import core, { API, FileInfo, Options } from 'jscodeshift';
 
-function getDefaultSpecifier(
-  j: core.JSCodeshift,
-  source: ReturnType<typeof j>,
-  specifier: string,
-) {
-  const specifiers = source
-    .find(j.ImportDeclaration)
-    .filter(
-      (path: ASTPath<ImportDeclaration>) =>
-        path.node.source.value === specifier,
-    )
-    .find(j.ImportDefaultSpecifier);
-
-  if (!specifiers.length) {
-    return null;
-  }
-  return specifiers.nodes()[0]!.local!.name;
-}
-
-function getImportSpecifier(
-  j: core.JSCodeshift,
-  source: ReturnType<typeof j>,
-  specifier: string,
-  imported: string,
-) {
-  const specifiers = source
-    .find(j.ImportDeclaration)
-    .filter(
-      (path: ASTPath<ImportDeclaration>) =>
-        path.node.source.value === specifier,
-    )
-    .find(j.ImportSpecifier)
-    .filter(
-      (path: ASTPath<ImportSpecifier>) => path.value.imported.name === imported,
-    );
-
-  if (!specifiers.length) {
-    return null;
-  }
-
-  return specifiers.nodes()[0]!.local!.name;
-}
-
-function getJSXAttributesByName(
-  j: core.JSCodeshift,
-  element: ASTPath<any>,
-  attributeName: string,
-) {
-  return j(element)
-    .find(j.JSXOpeningElement)
-    .find(j.JSXAttribute)
-    .filter(attribute => {
-      const matches = j(attribute)
-        .find(j.JSXIdentifier)
-        .filter(identifier => identifier.value.name === attributeName);
-      return Boolean(matches.length);
-    });
-}
+import {
+  getImportSpecifier,
+  getJSXAttributesByName,
+  hasImportDeclaration,
+  getDefaultImportSpecifier,
+} from '@codeshift/utils';
 
 function wrapChildrenProp(
   j: core.JSCodeshift,
@@ -113,16 +54,6 @@ function wrapChildrenProp(
   });
 }
 
-function hasImportDeclaration(
-  j: core.JSCodeshift,
-  source: ReturnType<typeof j>,
-  importPath: string,
-) {
-  return !!source
-    .find(j.ImportDeclaration)
-    .filter(path => path.node.source.value === importPath).length;
-}
-
 export default function transformer(
   fileInfo: FileInfo,
   { jscodeshift: j }: API,
@@ -131,7 +62,11 @@ export default function transformer(
   const source = j(fileInfo.source);
 
   if (hasImportDeclaration(j, source, '@atlaskit/avatar')) {
-    const defaultSpecifier = getDefaultSpecifier(j, source, '@atlaskit/avatar');
+    const defaultSpecifier = getDefaultImportSpecifier(
+      j,
+      source,
+      '@atlaskit/avatar',
+    );
 
     if (defaultSpecifier != null) {
       wrapChildrenProp(j, source, defaultSpecifier);

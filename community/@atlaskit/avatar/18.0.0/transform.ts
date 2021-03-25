@@ -2,90 +2,26 @@ import core, {
   API,
   ASTPath,
   FileInfo,
-  ImportDeclaration,
-  ImportSpecifier,
   MemberExpression,
   Options,
 } from 'jscodeshift';
 
-function getImportDeclaration(
-  j: core.JSCodeshift,
-  source: ReturnType<typeof j>,
-  specifier: string,
-) {
-  return source
-    .find(j.ImportDeclaration)
-    .filter(
-      (path: ASTPath<ImportDeclaration>) =>
-        path.node.source.value === specifier,
-    );
-}
-
-function getDefaultSpecifier(
-  j: core.JSCodeshift,
-  source: ReturnType<typeof j>,
-  specifier: string,
-) {
-  const specifiers = source
-    .find(j.ImportDeclaration)
-    .filter(
-      (path: ASTPath<ImportDeclaration>) =>
-        path.node.source.value === specifier,
-    )
-    .find(j.ImportDefaultSpecifier);
-
-  if (!specifiers.length) {
-    return null;
-  }
-  return specifiers.nodes()[0]!.local!.name;
-}
-
-function getImportSpecifier(
-  j: core.JSCodeshift,
-  source: ReturnType<typeof j>,
-  specifier: string,
-  imported: string,
-) {
-  const specifiers = source
-    .find(j.ImportDeclaration)
-    .filter(
-      (path: ASTPath<ImportDeclaration>) =>
-        path.node.source.value === specifier,
-    )
-    .find(j.ImportSpecifier)
-    .filter(
-      (path: ASTPath<ImportSpecifier>) => path.value.imported.name === imported,
-    );
-
-  if (!specifiers.length) {
-    return null;
-  }
-
-  return specifiers.nodes()[0]!.local!.name;
-}
-
-function getJSXAttributesByName(
-  j: core.JSCodeshift,
-  element: ASTPath<any>,
-  attributeName: string,
-) {
-  return j(element)
-    .find(j.JSXOpeningElement)
-    .find(j.JSXAttribute)
-    .filter(attribute => {
-      const matches = j(attribute)
-        .find(j.JSXIdentifier)
-        .filter(identifier => identifier.value.name === attributeName);
-      return Boolean(matches.length);
-    });
-}
+import {
+  hasImportDeclaration,
+  getDefaultImportSpecifier,
+  getImportSpecifier,
+  getImportDeclaration,
+  getJSXAttributesByName,
+} from '@codeshift/utils';
 
 function updateAvatarProps(j: core.JSCodeshift, source: ReturnType<typeof j>) {
-  const defaultSpecifier = getDefaultSpecifier(j, source, '@atlaskit/avatar');
+  const defaultSpecifier = getDefaultImportSpecifier(
+    j,
+    source,
+    '@atlaskit/avatar',
+  );
 
-  if (!defaultSpecifier) {
-    return;
-  }
+  if (!defaultSpecifier) return;
 
   source.findJSXElements(defaultSpecifier).forEach(element => {
     getJSXAttributesByName(j, element, 'isHover').remove();
@@ -120,9 +56,8 @@ function updateAvatarProps(j: core.JSCodeshift, source: ReturnType<typeof j>) {
 
     const hasExpression = !!enableTooltipAttributes
       .find(j.JSXExpressionContainer)
-      .filter(container => {
-        return j(container).find(j.BooleanLiteral).length === 0;
-      }).length;
+      .filter(container => j(container).find(j.BooleanLiteral).length === 0)
+      .length;
 
     const shouldWrapAvatar =
       !hasFalsy || hasDefaultTrue || hasTruthy || hasExpression;
@@ -183,9 +118,7 @@ function updateAvatarItemProps(
     'AvatarItem',
   );
 
-  if (!importSpecifier) {
-    return;
-  }
+  if (!importSpecifier) return;
 
   source.findJSXElements(importSpecifier).forEach(element => {
     getJSXAttributesByName(j, element, 'isHover').remove();
@@ -267,16 +200,6 @@ function updateBorderWidthUsage(
         );
       }
     });
-}
-
-function hasImportDeclaration(
-  j: core.JSCodeshift,
-  source: ReturnType<typeof j>,
-  importPath: string,
-) {
-  return !!source
-    .find(j.ImportDeclaration)
-    .filter(path => path.node.source.value === importPath).length;
 }
 
 export default function transformer(
