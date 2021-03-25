@@ -1,0 +1,63 @@
+---
+id: contribution
+title: Contribution
+slug: /contribution
+---
+
+CodemodCommunity only works because of contributions by users like you!
+
+All forms of contribution are welcome, from [issue reports](https://github.com/CodeshiftCommunity/CodeshiftCommunity/issues/new/choose) to PRs and documentation.
+
+## Rules
+
+- **Be kind:** Treat maintainers and other contributors with respect
+- **Be the change:** If you see a problem, politely raise an issue or consider contributing
+- **Help others:** We're all on a learning journey, try and help others with their journeys
+
+## Getting setup
+
+First, fork this repository, clone it, install node and yarn, and run `yarn`.
+
+## Creating a new codemod
+
+1. Clone the repository onto your machine
+2. cd to the directory `cd CodeshiftCommunity`
+3. Install dependencies `yarn`
+4. Create a new codemod with `yarn codeshift:init -p [package name] -v [version]`
+5. Write your codemod. See: [Authoring](/authoring)
+6. Test your changes
+7. Create a pull request
+
+## Editing an exsiting codemod
+
+1. Clone the repository onto your machine
+2. cd to the directory `cd CodeshiftCommunity`
+3. Install dependencies `yarn`
+4. cd to codemod directory
+5. Make your changes. See: [Authoring](/authoring)
+6. Test your changes
+7. Create a pull request
+
+## Removing a package
+
+1. Clone the repository onto your machine
+2. cd to the directory `cd CodeshiftCommunity`
+3. Install dependencies `yarn`
+4. Remove the codemod
+5. Create a pull request
+
+_Note:_ Codemods will continue to be hosted on npm even after the codemod has been removed
+
+## Testing
+
+- Make sure to write a healty amount of unit tests
+- Consider difference edge-cases, idempotency, different languages (js, flow, typescript)
+- Before you share your improvement with the world, be sure to use it yourself.
+
+## Raising a PR
+
+Once you've tested your package, you can share it on CodemodCommunity.
+
+## Thanks
+
+Many thanks for contributing and being a part of the CodemodCommunity 😍
