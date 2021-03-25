@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "docs:start": "cd website && yarn start",
+    "docs:deploy": "cd website && GIT_USER=danieldelcore yarn deploy",
     "postinstall": "preconstruct dev && yarn monorepo:check",
     "build": "yarn clean && preconstruct build",
     "clean": "rm -rf node_modules/.cache && rimraf packages/**/{tsconfig.tsbuildinfo,lib,dist} community/**/{tsconfig.tsbuildinfo,lib,dist}",
