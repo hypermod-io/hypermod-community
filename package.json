@@ -1,0 +1,63 @@
+{
+    "name": "codeshift-community",
+    "version": "0.1.0",
+    "description": "Codemods for everyone",
+    "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity",
+    "author": "Daniel Del Core <daniel.delcore.92@gmail.com>",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "postinstall": "preconstruct dev && yarn monorepo:check",
+        "build": "yarn clean && preconstruct build",
+        "clean": "rm -rf node_modules/.cache && rimraf packages/**/{tsconfig.tsbuildinfo,lib,dist} community/**/{tsconfig.tsbuildinfo,lib,dist}",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage",
+        "validate": "yarn build && yarn lint && yarn monorepo:check && preconstruct validate",
+        "lint": "eslint --config .eslintrc.js --ext tsx,ts ./packages/**/src ./community/**/src",
+        "lint:fix": "yarn lint -- --fix",
+        "types:check": "tsc --noEmit --skipLibCheck",
+        "monorepo:check": "manypkg check",
+        "monorepo:fix": "manypkg fix && preconstruct fix",
+        "prerelease": "yarn validate && yarn test",
+        "release": "yarn changeset publish"
+    },
+    "dependencies": {
+        "@babel/core": "^7.12.7",
+        "@babel/parser": "^7.12.10",
+        "@babel/preset-env": "^7.12.7",
+        "@babel/preset-typescript": "^7.12.7",
+        "@changesets/cli": "^2.6.2",
+        "@manypkg/cli": "^0.11.1",
+        "@preconstruct/cli": "^2.0.0",
+        "@types/jest": "^26.0.15",
+        "@types/jscodeshift": "^0.11.0",
+        "@typescript-eslint/eslint-plugin": "^1.4.2",
+        "@typescript-eslint/parser": "^1.4.2",
+        "babel-loader": "^8.0.6",
+        "eslint": "^5.15.1",
+        "eslint-config-prettier": "^4.1.0",
+        "eslint-plugin-prettier": "^3.0.1",
+        "jest": "^26.6.0",
+        "jest-serializer-html-string": "^1.0.1",
+        "jest-watch-typeahead": "^0.4.2",
+        "jscodeshift": "^0.11.0",
+        "markdown-toc": "^1.2.0",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^1.16.4",
+        "rimraf": "^2.6.3",
+        "ts-jest": "^26.4.4",
+        "ts-loader": "^6.2.1",
+        "typescript": "^4.1.3"
+    },
+    "workspaces": [
+        "packages/*",
+        "community/*"
+    ],
+    "preconstruct": {
+        "packages": [
+            "packages/*",
+            "community/*"
+        ]
+    }
+}
