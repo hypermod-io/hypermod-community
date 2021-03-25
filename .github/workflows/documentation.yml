@@ -1,10 +1,10 @@
-name: documentation
+name: Documentation
 
 on:
   pull_request:
-    branches: [documentation]
+    branches: [main]
   push:
-    branches: [documentation]
+    branches: [main]
 
 jobs:
   checks:
@@ -17,14 +17,9 @@ jobs:
           node-version: '14.x'
       - name: Test Build
         run: |
-          if [ -e yarn.lock ]; then
+          cd website
           yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-          npm ci
-          else
-          npm i
-          fi
-          npm run build
+          yarn build
   gh-release:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
@@ -43,11 +38,6 @@ jobs:
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "gh-actions"
-          if [ -e yarn.lock ]; then
+          cd website
           yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-          npm ci
-          else
-          npm i
-          fi
-          npm run docs:deploy
+          GIT_USER=danieldelcore yarn deploy
