@@ -5,7 +5,7 @@ Codeshift Community is a community-owned global registry and documentation hub f
 ## Getting started
 
 - [Writing codemods](docs/authoring)
-- [Testing codemods](docs/authoring#testing)
-- [Learning resources](docs/guides)
-- [Publishing & contribution](docs/contributing)
+- [Testing codemods](docs/testing)
+- [Learning resources](docs/your-first-codemod)
+- [Publishing & contribution](docs/contribution)
 - [Consuming codemods](docs/consuming)
