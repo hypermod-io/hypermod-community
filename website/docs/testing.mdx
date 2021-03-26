@@ -4,4 +4,22 @@ title: Testing
 slug: /testing
 ---
 
-TODO
+It's very likely that consumers will run into all sorts of edge-cases when running your transform. That's why it's important to start by writing some tests to assert it's behavior. Luckily, [jscodeshift provides some testing utilities](https://github.com/facebook/jscodeshift#unit-testing).
+
+When creating a codemod, it's best to always try to write your tests first. Think about the start and end state and how you might be able to achieve that. Also, make sure to consider as many edge-cases as you possibly can.
+
+Example:
+
+```ts
+const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
+const transform = require('../myTransform');
+const transformOptions = {};
+
+defineInlineTest(
+  transform,
+  transformOptions,
+  'input',
+  'expected output',
+  'test name (optional)',
+);
+```

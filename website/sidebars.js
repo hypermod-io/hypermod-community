@@ -4,7 +4,7 @@ module.exports = {
       'Getting Started': ['introduction', 'guiding-principles', 'faq'],
     },
     {
-      Docs: ['authoring', 'consuming', 'contribution', 'ecosystem'],
+      Docs: ['authoring', 'consuming', 'testing', 'contribution', 'ecosystem'],
     },
     {
       Guides: [
