@@ -1,30 +1,33 @@
 jest.autoMockOff();
 
+import { runTransform } from '@codeshift/test-utils';
 import * as transformer from '../transform';
 
 const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 describe('Update Avatar props', () => {
-  defineInlineTest(
-    { ...transformer, parser: 'tsx' },
-    {},
-    `
+  it('should wrap avatar in a tooltip if name is defined', () => {
+    const result = runTransform(
+      transformer,
+      `
         import Avatar from '@atlaskit/avatar';
 
         const App = () => {
           return <Avatar name="foo" />;
         }
       `,
-    `
-        import Tooltip from '@atlaskit/tooltip';
-        import Avatar from '@atlaskit/avatar';
+      { parser: 'tsx' },
+    );
 
-        const App = () => {
-          return <Tooltip content="foo"><Avatar name="foo" /></Tooltip>;
-        }
-      `,
-    'should wrap avatar in a tooltip if name is defined',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import Tooltip from '@atlaskit/tooltip';
+              import Avatar from '@atlaskit/avatar';
+
+              const App = () => {
+                return <Tooltip content=\\"foo\\"><Avatar name=\\"foo\\" /></Tooltip>;
+              }"
+    `);
+  });
 
   defineInlineTest(
     { ...transformer, parser: 'tsx' },
