@@ -1,4 +1,4 @@
-import core, { ASTPath, ImportDeclaration, ImportSpecifier } from 'jscodeshift';
+import core from 'jscodeshift';
 
 export function hasImportDeclaration(
   j: core.JSCodeshift,
@@ -17,10 +17,7 @@ export function getImportDeclaration(
 ) {
   return source
     .find(j.ImportDeclaration)
-    .filter(
-      (path: ASTPath<ImportDeclaration>) =>
-        path.node.source.value === specifier,
-    );
+    .filter(path => path.node.source.value === specifier);
 }
 
 export function getDefaultImportSpecifier(
@@ -30,15 +27,11 @@ export function getDefaultImportSpecifier(
 ) {
   const specifiers = source
     .find(j.ImportDeclaration)
-    .filter(
-      (path: ASTPath<ImportDeclaration>) =>
-        path.node.source.value === specifier,
-    )
+    .filter(path => path.node.source.value === specifier)
     .find(j.ImportDefaultSpecifier);
 
-  if (!specifiers.length) {
-    return null;
-  }
+  if (!specifiers.length) return null;
+
   return specifiers.nodes()[0]!.local!.name;
 }
 
@@ -50,18 +43,11 @@ export function getImportSpecifier(
 ) {
   const specifiers = source
     .find(j.ImportDeclaration)
-    .filter(
-      (path: ASTPath<ImportDeclaration>) =>
-        path.node.source.value === specifier,
-    )
+    .filter(path => path.node.source.value === specifier)
     .find(j.ImportSpecifier)
-    .filter(
-      (path: ASTPath<ImportSpecifier>) => path.value.imported.name === imported,
-    );
+    .filter(path => path.value.imported.name === imported);
 
-  if (!specifiers.length) {
-    return null;
-  }
+  if (!specifiers.length) return null;
 
   return specifiers.nodes()[0]!.local!.name;
 }
