@@ -3,7 +3,7 @@ module.exports = {
   title: 'CodeshiftCommunity',
   tagline: 'Codemods for everyone ✨',
   url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  baseUrl: '/CodeshiftCommunity/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
