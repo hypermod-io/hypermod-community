@@ -3,3 +3,29 @@ id: consuming
 title: Consuming
 slug: /consuming
 ---
+
+Consuming codemods is simple,
+
+## Via command line
+
+Most often you would want to run a single codemod, our CLI is all you need to do that.
+
+To make sure you're always on the latest version of the Codeshift cli, we recommend you use `npx`. (You can also install it globally with `npm install -g @codemod/cli`)
+
+`npx @codemod/cli -package @atlaskit/button -version 14.0.0 project/path/to/src`
+
+The cli tool will then:
+
+- Attempt to fetch codemods for the `@atlaskit/button` package.
+- Look for a codemod targetting version `14.0.0`
+- Parse and transform all source files matching the provided path
+
+## Consuming local codemods
+
+For codemods not published to the community repo, you can supply your own transform
+
+`npx @codemod/cli -transform path/to/transform.ts project/path/to/src`
+
+## Parsing TypeScript, Babel and more
+
+TODO

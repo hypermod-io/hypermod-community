@@ -4,12 +4,25 @@ title: Guiding principles
 slug: /guiding-principles
 ---
 
-There are several guiding prinicples used in this project.
+There are several guiding prinicples we follow in this project.
 
-## Codemods should be targetting a package & specific version
+## Codemods target a package & version
 
-...and should be 'playable in a sequence' in order to move from one version to another
+- APIs are always changing
+- Codemods written at a specific point of time aren't always going to work into the future
+- So we beleive codemods should support libraries moving from one API to another, and target a specific package and specific version
+
+This gives us a lot of benefits,
+
+1. It's obvious the scope and intent of a codemod (migrating a package from one version to another)
+2. Codemods can be 'playable in a sequence', for example migrating from an older verison of `@atlaskit/button` to the latest is possible for example `v14 -> v15 -> v16`.
+3. TODO`
 
 ## Everyone should ship codemods
 
+Codemods aren't complicated, anyone who has writtin anything in jQuery should be able to write a codemod with relative ease.
+We want to remove the stigma that "codemods are hard" or "they take a long time to write" and get everyone into the healthy practice of writing them to make dependeny management within the javascript ecosystem easier.
+
 ## Codemods help expedite adoption
+
+Reading and understanding changelogs is often confusing and painful. We aim to expedite adoption through automation.

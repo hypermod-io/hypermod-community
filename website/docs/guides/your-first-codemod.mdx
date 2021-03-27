@@ -4,13 +4,93 @@ title: Your first codemod
 slug: /your-first-codemod
 ---
 
-Every codemod follows fundamentally the same series of operations: find, modify/insert/remove.
-Once you learn how to accomplish these operations, you can do anything within a codemod.
+Every codemod follows fundamentally the same series of operations: find, modify/insert/remove and finally output.
+That's it. Once you know how to handle all of these operations you can do anything within a codemod.
+
+## Setup
+
+Firstly you'll need to define to create a new file with which defines a "transform" function. A transform is simply a javascript function which serves as the entry-point for your codemod.
+
+```ts
+export default function transform(file, api, options) {
+  //... codemod goes here
+}
+```
 
 ## Find
+
+Finding specific nodes within your file can be a strange experience for those who have never worked with ASTs before.
+
+For example, lets try and locate a `JSXIdentifier` with the name `isDisabled`.
+
+```ts
+export default function transform(file, api, options) {
+  const j = api.jscodeshift;
+  const source = j(file.source);
+
+  source.find(j.JSXIdentifier).forEach(path => {
+    if (path.node.name === 'isDisabled') {
+      // 🎉 Tada we found it, we can now modify/insert/remove this node
+    }
+  });
+
+  return source.toSource(options.printOptions); // We return the modified file
+}
+```
 
 ## Modify
 
 ## Insert
 
 ## Remove
+
+```ts
+export default function transform(file, api, options) {
+  const j = api.jscodeshift;
+  const source = j(file.source);
+
+  source.find(j.JSXIdentifier).forEach(path => {
+    if (path.node.name === 'isDisabled') {
+      j(path).remove(); // We remove the `isDisabled` prop from the AST
+    }
+  });
+
+  return source.toSource(options.printOptions);
+}
+```
+
+## Output
+
+At the end of your transform, you call and return the result of the `j(file.source).toSource()` method. When this function is called, it will traverse your AST and output a javascript (or typescript) source file. The result of which will include all of the modifications you made.
+
+```ts
+export default function transform(file, api, options) {
+  const j = api.jscodeshift;
+  const source = j(file.source);
+
+  // ...
+
+  return source.toSource(options.printOptions); // Output your file here
+}
+```
+
+This method, accepts some [options for formatting](https://github.com/benjamn/recast/blob/52a7ec3eaaa37e78436841ed8afc948033a86252/lib/options.js#L61).
+Codeshift uses recast under the hood, which tries it's best to format output code as close to the original file as possible. But it's often good to run your formatter of choice after running the codemod to be completely sure.
+
+To avoid formatting issues and to speed up running transforms across large codebases, it's good practice to only modify the files you need to.
+
+For example, in cases where the code you want to change does not exist in the file your attempting to transform, you should bail early and return the "raw" source file.
+
+```ts
+export default function transform(file, api, options) {
+  const source = j(fileInfo.source);
+  const hasIsDisabledProp = !!source.find(j.JSXIdentifier).filter(path.node.name === 'isDisabled').length
+
+  if (!hasIsDisabledProp) {
+    return fileInfo.source; // Returns original source file, untouched and unformatted
+  }
+
+  // transform code goes here...
+
+  return source.toSource(options.printOptions);
+```
