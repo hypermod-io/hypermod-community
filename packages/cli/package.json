@@ -5,5 +5,18 @@
   "module": "dist/codeshift-cli.esm.js",
   "types": "dist/codeshift-core.cjs.d.ts",
   "license": "MIT",
-  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/cli"
+  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/cli",
+  "bin": {
+    "codemod-cli": "./bin/codeshift-cli.js"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "jscodeshift": "^0.11.0",
+    "live-plugin-manager": "^0.15.1",
+    "meow": "^9.0.0",
+    "ts-node": "^9.1.1"
+  }
 }
