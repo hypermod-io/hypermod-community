@@ -31,6 +31,8 @@ export default async function main(
     //  Parse package string
     //  fetch transform from npm
     //  assign transform(s) to var
+
+    // TODO: consider using https://www.npmjs.com/package/npm-registry-client instead
     const packageManager = new PluginManager();
     await packageManager.install('moment');
 
