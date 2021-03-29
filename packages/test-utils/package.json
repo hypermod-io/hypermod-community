@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "dist/codeshift-test-utils.cjs.js",
   "module": "dist/codeshift-test-utils.esm.js",
-  "types": "dist/codeshift-core.cjs.d.ts",
+  "types": "dist/codeshift-test-utils.cjs.d.ts",
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/test-utils"
 }
