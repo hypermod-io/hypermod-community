@@ -17,8 +17,8 @@ _Inspired by Facebook's [jscodeshift](https://github.com/facebook/jscodeshift)_
 
 ## Getting started
 
-- [Writing codemods](docs/authoring)
-- [Testing codemods](docs/testing)
-- [Guides & learning resources](docs/your-first-codemod)
-- [Publishing & contribution](docs/contribution)
-- [Consuming codemods](docs/consuming)
+- [Writing codemods](https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/authoring)
+- [Testing codemods](https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/testing)
+- [Guides & learning resources](https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/your-first-codemod)
+- [Publishing & contribution](https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/contribution)
+- [Consuming codemods](https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/consuming)
