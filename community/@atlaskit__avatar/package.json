@@ -1,0 +1,12 @@
+{
+  "name": "@codeshift/mod-atlaskit__avatar",
+  "version": "0.1.0",
+  "main": "dist/codeshift-mod-atlaskit__avatar.cjs.js",
+  "license": "MIT",
+  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/",
+  "scripts": {},
+  "dependencies": {
+    "jscodeshift": "^0.11.0",
+    "@codeshift/utils": "latest"
+  }
+}
