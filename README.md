@@ -1,13 +1,17 @@
 # Codeshift Community
 
-Codeshift Community is a community-owned global registry and documentation hub for codemods. _Think [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) for codemods._ Providing library users & maintainers with facilities to help write, test, publish and consume codemods in a structured, standardized and familiar way.
+<p align="center">
+  <img width="500" src="assets/github-banner.png" alt="CodeshiftCommunity Logo">
+</p>
+
+Codeshift Community is a community-owned global registry and documentation hub for codemods. _Think [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) for codemods._ Providing library maintainers & users with facilities to help write, test, publish and consume codemods in a structured, standardized and familiar way.
 
 _Inspired by Facebook's [jscodeshift](https://github.com/facebook/jscodeshift)_
 
 ## Features
 
-- 🔭 Find and run community maintained codemods
-- ✨ Create & distribute your own codemods
+- 🔭 Explore codemods created by the community
+- 🚛 Create & publish your own codemods
 - 🤖 Helpers & Testing utilities
 - 📖 Learning resources, guides and more!
 
@@ -15,6 +19,6 @@ _Inspired by Facebook's [jscodeshift](https://github.com/facebook/jscodeshift)_
 
 - [Writing codemods](docs/authoring)
 - [Testing codemods](docs/testing)
-- [Learning resources](docs/your-first-codemod)
+- [Guides & learning resources](docs/your-first-codemod)
 - [Publishing & contribution](docs/contribution)
 - [Consuming codemods](docs/consuming)

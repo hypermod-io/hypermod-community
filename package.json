@@ -17,6 +17,7 @@
     "validate": "yarn build && yarn lint && yarn monorepo:check && preconstruct validate",
     "lint": "eslint --config .eslintrc.js --ext tsx,ts ./packages/**/src ./community/**/src",
     "lint:fix": "yarn lint -- --fix",
+    "lint:file-structure": "npx @ls-lint/ls-lint",
     "types:check": "tsc --noEmit --skipLibCheck",
     "monorepo:check": "manypkg check",
     "monorepo:fix": "manypkg fix && preconstruct fix",

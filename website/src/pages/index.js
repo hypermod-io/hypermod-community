@@ -1,94 +1,119 @@
 import React from 'react';
-import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
-const features = [
-  {
-    title: 'Easy to Use',
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
-  },
-  {
-    title: 'Focus on What Matters',
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
-  },
-  {
-    title: 'Powered by React',
-    imageUrl: 'img/undraw_docusaurus_react.svg',
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    ),
-  },
-];
-
-function Feature({imageUrl, title, description}) {
-  const imgUrl = useBaseUrl(imageUrl);
-  return (
-    <div className={clsx('col col--4', styles.feature)}>
-      {imgUrl && (
-        <div className="text--center">
-          <img className={styles.featureImage} src={imgUrl} alt={title} />
-        </div>
-      )}
-      <h3>{title}</h3>
-      <p>{description}</p>
-    </div>
-  );
-}
+import Logo from '@site/static/img/logo.svg';
 
 export default function Home() {
   const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
+  const { siteConfig = {} } = context;
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      description="Description will go into a meta tag in <head />"
+    >
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <div className="container">
+          <Logo title="CodeshiftCommunity logo" width="320px" />
           <h1 className="hero__title">{siteConfig.title}</h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>
             <Link
               className={clsx(
-                'button button--outline button--secondary button--lg',
+                'button button--secondary button--lg',
                 styles.getStarted,
               )}
-              to={useBaseUrl('docs/')}>
+              to={useBaseUrl('docs/')}
+            >
               Get Started
             </Link>
           </div>
         </div>
       </header>
       <main>
-        {features && features.length > 0 && (
-          <section className={styles.features}>
-            <div className="container">
-              <div className="row">
-                {features.map((props, idx) => (
-                  <Feature key={idx} {...props} />
-                ))}
-              </div>
+        <section className={styles.features}>
+          <div className="container">
+            <div className="row">
+              <p>
+                Codeshift Community is a community-owned global registry and
+                documentation hub for codemods.
+              </p>
+              <p>
+                <em>
+                  Think{' '}
+                  <Link
+                    href="https://github.com/DefinitelyTyped/DefinitelyTyped"
+                    target="_blank"
+                  >
+                    DefinitelyTyped
+                  </Link>{' '}
+                  for codemods.
+                </em>
+              </p>
+              <p>
+                Providing library maintainers and their users with facilities to
+                help write, test, publish and consume codemods in a structured,
+                standardized and familiar way.
+              </p>
             </div>
-          </section>
-        )}
+            <div className="row">
+              <h2>Features</h2>
+              <ul>
+                <li>
+                  <span role="img" aria-label="telescope">
+                    🔭
+                  </span>{' '}
+                  Explore codemods created by the community
+                </li>
+                <li>
+                  <span role="img" aria-label="truck">
+                    🚛
+                  </span>{' '}
+                  Create & publish your own codemods
+                </li>
+                <li>
+                  <span role="img" aria-label="robot">
+                    🤖
+                  </span>{' '}
+                  Helpers & Testing utilities
+                </li>
+                <li>
+                  <span role="img" aria-label="book">
+                    📖
+                  </span>{' '}
+                  Learning resources, guides and more!
+                </li>
+              </ul>
+            </div>
+            <div className="row">
+              <h2>Getting started</h2>
+              <ul>
+                <li>
+                  <Link href="docs/authoring">Writing codemods</Link>
+                </li>
+                <li>
+                  <Link href="docs/testing">Testing codemods</Link>
+                </li>
+                <li>
+                  <Link href="docs/your-first-codemod">
+                    Guides & learning resources
+                  </Link>
+                </li>
+                <li>
+                  <Link href="docs/contribution">
+                    Publishing & contribution
+                  </Link>
+                </li>
+                <li>
+                  <Link href="docs/consuming">Consuming codemods</Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
       </main>
     </Layout>
   );
