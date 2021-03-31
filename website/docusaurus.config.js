@@ -41,6 +41,10 @@ module.exports = {
               label: 'Getting Started',
               to: 'docs/',
             },
+            {
+              label: 'Your first codemod',
+              to: 'docs/your-first-codemod',
+            },
           ],
         },
         {

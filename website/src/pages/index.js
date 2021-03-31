@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -16,7 +17,7 @@ export default function Home() {
       description="Description will go into a meta tag in <head />"
     >
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
-        <div className="container">
+        <div className={clsx('container', styles.heroContainer)}>
           <Logo title="CodeshiftCommunity logo" width="320px" />
           <h1 className="hero__title">{siteConfig.title}</h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
@@ -34,68 +35,93 @@ export default function Home() {
         </div>
       </header>
       <main>
-        <section className={styles.features}>
-          <div className="container">
+        <section className={clsx(styles.heroSection)}>
+          <div className={clsx('container', styles.heroContainerCenter)}>
+            <p>
+              CodeshiftCommunity is a community-owned global registry and
+              documentation hub for codemods.
+              <em>
+                Think{' '}
+                <Link
+                  href="https://github.com/DefinitelyTyped/DefinitelyTyped"
+                  target="_blank"
+                >
+                  DefinitelyTyped
+                </Link>{' '}
+                for codemods.
+              </em>
+            </p>
+            <p>
+              Providing library maintainers and their users with facilities to
+              help write, test, publish and consume codemods in a structured,
+              standardized and familiar way.
+            </p>
+          </div>
+        </section>
+        <section className={clsx(styles.heroSection, styles.features)}>
+          <div className={clsx('container', styles.heroContainer)}>
             <div className="row">
-              <p>
-                Codeshift Community is a community-owned global registry and
-                documentation hub for codemods.
-              </p>
-              <p>
-                <em>
-                  Think{' '}
-                  <Link
-                    href="https://github.com/DefinitelyTyped/DefinitelyTyped"
-                    target="_blank"
-                  >
-                    DefinitelyTyped
-                  </Link>{' '}
-                  for codemods.
-                </em>
-              </p>
-              <p>
-                Providing library maintainers and their users with facilities to
-                help write, test, publish and consume codemods in a structured,
-                standardized and familiar way.
-              </p>
+              <div className={clsx('col col--3')}>
+                <span
+                  role="img"
+                  aria-label="telescope"
+                  style={{ fontSize: '60px' }}
+                >
+                  ❤️
+                </span>{' '}
+                <h3>Community backed</h3>
+                <p>
+                  Use our community maintained library of codemods to simplify
+                  your dependency management
+                </p>
+              </div>
+              <div className={clsx('col col--3')}>
+                <span
+                  role="img"
+                  aria-label="truck"
+                  style={{ fontSize: '60px' }}
+                >
+                  🚛
+                </span>{' '}
+                <h3>Distribute</h3>
+                <p>Ship your own codemods to your consumers</p>
+              </div>
+              <div className={clsx('col col--3')}>
+                <span role="img" aria-label="book" style={{ fontSize: '60px' }}>
+                  📖
+                </span>{' '}
+                <h3>Learn</h3>
+                <p>
+                  Use our guides and resources to get your engineering team up
+                  to speed with codemods
+                </p>
+              </div>
+              <div className={clsx('col col--3')}>
+                <span role="img" aria-label="bolt" style={{ fontSize: '60px' }}>
+                  ⚡️
+                </span>{' '}
+                <h3>Go fast</h3>
+                <p>
+                  Use our library of helpers & testing utilities to make writing
+                  codemods a breeze
+                </p>
+              </div>
             </div>
+          </div>
+        </section>
+        <section className={clsx(styles.heroSection)}>
+          <div className={clsx('container', styles.heroContainer)}>
+            <h2>Get started</h2>
             <div className="row">
-              <h2>Features</h2>
-              <ul>
-                <li>
-                  <span role="img" aria-label="telescope">
-                    🔭
-                  </span>{' '}
-                  Explore codemods created by the community
-                </li>
-                <li>
-                  <span role="img" aria-label="truck">
-                    🚛
-                  </span>{' '}
-                  Create & publish your own codemods
-                </li>
-                <li>
-                  <span role="img" aria-label="robot">
-                    🤖
-                  </span>{' '}
-                  Helpers & Testing utilities
-                </li>
-                <li>
-                  <span role="img" aria-label="book">
-                    📖
-                  </span>{' '}
-                  Learning resources, guides and more!
-                </li>
-              </ul>
-            </div>
-            <div className="row">
-              <h2>Getting started</h2>
               <ul>
                 <li>
                   <Link href="docs/authoring">Writing codemods</Link>
                 </li>
                 <li>
                   <Link href="docs/testing">Testing codemods</Link>
+                </li>
+                <li>
+                  <Link href="docs/guiding-principles">Guiding principles</Link>
                 </li>
                 <li>
                   <Link href="docs/your-first-codemod">

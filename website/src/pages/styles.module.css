@@ -24,11 +24,24 @@
   justify-content: center;
 }
 
-.features {
+.heroSection {
   display: flex;
   align-items: center;
   padding: 2rem 0;
   width: 100%;
+}
+
+.heroContainer {
+  max-width: 1000px;
+}
+
+.heroContainerCenter {
+  max-width: 768px;
+  text-align: center;
+}
+
+.features {
+  background-color: var(--ifm-color-emphasis-100);
 }
 
 .featureImage {
