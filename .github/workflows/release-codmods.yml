@@ -2,7 +2,7 @@ name: Release Codemods
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   release:
