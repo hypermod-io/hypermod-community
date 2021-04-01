@@ -3,11 +3,11 @@ import getChangedPackages from './changed';
 import buildPackages from './build';
 import publishPackages from './publish';
 
-async function main(sinceRef: string, sourcePath: string, targetPath: string) {
+async function main(sourcePath: string, targetPath: string) {
   cleanTargetDir(targetPath);
 
   console.log('Calculating changed packages');
-  const changedPackages = await getChangedPackages(sinceRef);
+  const changedPackages = await getChangedPackages();
 
   console.log('Changed packages', changedPackages);
 
@@ -24,4 +24,4 @@ async function main(sinceRef: string, sourcePath: string, targetPath: string) {
   cleanTargetDir(targetPath);
 }
 
-main(process.argv[2], process.argv[3], process.argv[4]);
+main(process.argv[2], process.argv[3]);
