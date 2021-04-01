@@ -2,7 +2,8 @@ import { exec } from 'child_process';
 
 export default function buildPackages() {
   return new Promise<void>((resolve, reject) => {
-    exec('yarn build', (error, stdout, stderr) => {
+    // TODO stop this from building the entire repo.
+    exec(`yarn build`, (error, stdout, stderr) => {
       if (error) {
         console.error(`exec error: ${error}`);
         reject('Unable to build codeshift packages');
