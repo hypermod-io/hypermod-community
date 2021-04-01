@@ -21,8 +21,9 @@
     "esModuleInterop": true,
     "allowJs": true,
     "paths": {
-      "@codeshift/*": ["packages/*/src"]
+      "@codeshift/*": ["../packages/*/src"]
     }
   },
+  "include": ["packages/**/*", ".tmp/**/*"],
   "exclude": ["node_modules", "dist", "__tests__", "**/*.test*", "**/*.spec*"]
 }

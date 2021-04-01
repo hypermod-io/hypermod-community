@@ -1,0 +1,5 @@
+codeshift.config.json
+src
+node_modules
+**/__test__
+**/*.(spec|test).(ts|js)
