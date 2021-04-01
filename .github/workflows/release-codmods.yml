@@ -1,13 +1,11 @@
-name: Test
+name: Release Codemods
 
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
 
     strategy:
@@ -21,6 +19,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
+      - run: yarn validate
       - run: yarn test
+      - run: yarn release:codemods
         env:
           CI: true
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

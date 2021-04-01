@@ -18,7 +18,7 @@ async function main(sinceRef: string, sourcePath: string, targetPath: string) {
   await buildPackages();
 
   console.log('Publishing changed packages');
-  await publishPackages(targetPath, process.env.GITHUB_TOKEN!);
+  await publishPackages(targetPath, process.env.NPM_TOKEN!);
 
   console.log('Cleaning up temporary directory');
   cleanTargetDir(targetPath);

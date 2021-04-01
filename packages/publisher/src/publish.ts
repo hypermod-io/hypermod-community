@@ -22,7 +22,6 @@ function publishPackage(
   return new Promise<void>((resolve, reject) =>
     client.publish(
       npmUri,
-      // npmUri + packageName,
       {
         metadata,
         access,
