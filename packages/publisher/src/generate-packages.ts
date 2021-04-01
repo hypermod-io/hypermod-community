@@ -1,17 +1,41 @@
 import fs, { lstatSync } from 'fs-extra';
+// @ts-ignore
+import RegClient from 'npm-registry-client';
 
-function getPackageJson(moduleName: string) {
+const client = new RegClient();
+const npmUri = 'https://registry.npmjs.org/';
+
+function getPackageVersion(packageName: string) {
+  return new Promise<string>((resolve, reject) =>
+    client.get(
+      npmUri + packageName,
+      { timeout: 2000 },
+      (
+        error: any,
+        data: { 'dist-tags': { latest: string } },
+        _raw: any,
+        res: { statusCode: number },
+      ) => {
+        if (res.statusCode === 404) return resolve('0.0.0');
+        if (error) reject(`Unexpected error when contacting NPM: ${error}`);
+        return resolve(data['dist-tags'].latest);
+      },
+    ),
+  );
+}
+
+function getPackageJson(packageName: string, version: string) {
   return JSON.stringify(
     {
-      name: moduleName,
-      version: '0.1.0', // TODO
-      main: `dist/codeshift-${moduleName.replace('@codeshift/', '')}.cjs.js`,
+      name: packageName,
+      version,
+      main: `dist/codeshift-${packageName.replace('@codeshift/', '')}.cjs.js`,
       license: 'MIT',
       repository: 'https://github.com/CodeshiftCommunity/CodeshiftCommunity/',
       scripts: {},
       dependencies: {
         jscodeshift: '^0.11.0',
-        '@codeshift/utils': 'latest',
+        '@codeshift/utils': '*',
       },
     },
     null,
@@ -42,21 +66,30 @@ export default async function generatePackages(
   fs.mkdirSync(targetPath);
   fs.readdirSync(sourcePath)
     .filter(dir => changedPackages.includes(dir))
-    .forEach(dir => {
-      const moduleName = `@codeshift/mod-${dir
+    .forEach(async dir => {
+      const packageName = `@codeshift/mod-${dir
         .replace('@', '')
         .replace('/', '__')}`;
+      const packageVersion = await getPackageVersion(packageName);
 
       const basePath = `${targetPath}/${dir}`;
       fs.copySync(`${sourcePath}/${dir}`, `${basePath}/src`);
-      fs.copyFileSync(`./template/LICENSE`, `${basePath}/LICENSE`);
-      fs.copyFileSync(`./template/README.md`, `${basePath}/README.md`);
-      fs.copyFileSync(`./template/.npmignore`, `${basePath}/.npmignore`);
+      fs.copyFileSync(
+        `${__dirname}/../template/LICENSE`,
+        `${basePath}/LICENSE`,
+      );
+      fs.copyFileSync(
+        `${__dirname}/../template/.npmignore`,
+        `${basePath}/.npmignore`,
+      );
       fs.writeFileSync(
         `${basePath}/src/index.ts`,
         getIndexFile(`${basePath}/src`),
       );
-      fs.writeFileSync(`${basePath}/package.json`, getPackageJson(moduleName));
+      fs.writeFileSync(
+        `${basePath}/package.json`,
+        getPackageJson(packageName, packageVersion),
+      );
     });
 }
 

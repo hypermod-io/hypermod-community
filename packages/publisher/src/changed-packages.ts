@@ -15,5 +15,6 @@ export default async function getChangedPackages(ref: string) {
   return diff
     .split('\n')
     .filter(path => !!path && path.startsWith('community/'))
-    .map(path => path.split('/')[1]);
+    .map(path => path.split('/')[1])
+    .filter((path, i, self) => self.indexOf(path) === i);
 }
