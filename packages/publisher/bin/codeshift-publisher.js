@@ -11,7 +11,10 @@ if (dev && !require.extensions['.ts']) {
   require('ts-node').register({ project });
 }
 
-require(path.join('..', dev ? 'src/cli' : 'dist/codeshift-cli.cjs.js'))
+require(path.join(
+  '..',
+  dev ? 'src/publisher' : 'dist/codeshift-publisher.cjs.js',
+))
   .run()
   .catch(error => {
     if (typeof error === 'number') {

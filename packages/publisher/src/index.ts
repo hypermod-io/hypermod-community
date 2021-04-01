@@ -1,6 +1,6 @@
 import generatePackages, { cleanTargetDir } from './generate-packages';
 import getChangedPackages from './changed-packages';
-// import buildPackages from './build-packages';
+import buildPackages from './build-packages';
 
 async function main(
   sinceRef: string,
@@ -18,13 +18,13 @@ async function main(
   generatePackages(sourcePath, tempDirectoryPath, changedPackages);
 
   console.log('Building changed packages');
-  // await buildPackages();
+  await buildPackages();
 
   console.log('Publishing changed packages');
   // await publishPackages(dry, githubAccessToken, fetcher);
 
-  // console.log('Cleaning up temporary directory');
-  // cleanTargetDir(tempDirectoryPath);
+  console.log('Cleaning up temporary directory');
+  cleanTargetDir(tempDirectoryPath);
 }
 
 //TODO: fix this
