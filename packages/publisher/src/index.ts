@@ -21,7 +21,7 @@ async function main(sinceRef: string, sourcePath: string, targetPath: string) {
   await publishPackages(targetPath, process.env.GITHUB_TOKEN!);
 
   console.log('Cleaning up temporary directory');
-  // cleanTargetDir(targetPath);
+  cleanTargetDir(targetPath);
 }
 
 main(process.argv[2], process.argv[3], process.argv[4]);

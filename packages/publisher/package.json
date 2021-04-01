@@ -15,6 +15,7 @@
     "jscodeshift": "^0.11.0",
     "meow": "^9.0.0",
     "npm-registry-client": "^8.6.0",
+    "semver": "^7.3.5",
     "simple-git": "^2.37.0",
     "tar": "^6.1.0",
     "ts-node": "^9.1.1"

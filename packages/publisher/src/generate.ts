@@ -1,3 +1,4 @@
+import semver from 'semver';
 import fs, { lstatSync } from 'fs-extra';
 // @ts-ignore
 import RegClient from 'npm-registry-client';
@@ -72,6 +73,8 @@ export default async function generatePackages(
         .replace('@', '')
         .replace('/', '__')}`;
       const packageVersion = await getPackageVersion(packageName);
+      // We need to manually patch bump the codemod
+      const nextPackageVersion = semver.inc(packageVersion, 'patch');
 
       const basePath = `${targetPath}/${dir}`;
       fs.copySync(`${sourcePath}/${dir}`, `${basePath}/src`);
@@ -89,7 +92,7 @@ export default async function generatePackages(
       );
       fs.writeFileSync(
         `${basePath}/package.json`,
-        getPackageJson(packageName, packageVersion),
+        getPackageJson(packageName, nextPackageVersion!),
       );
     });
 }
