@@ -21,6 +21,7 @@
     "types:check": "tsc --noEmit --skipLibCheck",
     "monorepo:check": "manypkg check",
     "monorepo:fix": "manypkg fix && preconstruct fix",
+    "init:codemod": "ts-node packages/initializer/src/index.ts",
     "release:codemods": "ts-node packages/publisher/src/index.ts ./community ./.tmp",
     "prerelease": "yarn validate && yarn test",
     "release": "yarn changeset publish"

@@ -1,0 +1,17 @@
+{
+  "name": "@codeshift/initializer",
+  "private": true,
+  "version": "0.1.0",
+  "main": "dist/codeshift-initializer.cjs.js",
+  "types": "dist/codeshift-initializer.cjs.d.ts",
+  "license": "MIT",
+  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/initializer",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "fs-extra": "^9.1.0",
+    "semver": "^7.3.5",
+    "ts-node": "^9.1.1"
+  }
+}
