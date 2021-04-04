@@ -3,7 +3,7 @@ module.exports = {
     '^.+\\.ts$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js'],
-  testRegex: '^.+\\.spec\\.(ts|js)$',
+  testRegex: '^.+\\.(spec|test)\\.(ts|js)$',
   testPathIgnorePatterns: ['/node_modules/', 'lib'],
   snapshotSerializers: ['jest-serializer-html-string'],
   watchPlugins: [
@@ -18,4 +18,8 @@ module.exports = {
   moduleNameMapper: {
     '@codeshift/(.*)$': '<rootDir>/packages/$1/src',
   },
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '<rootDir>/packages/initializer/template/',
+  ],
 };
