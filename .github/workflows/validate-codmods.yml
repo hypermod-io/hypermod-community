@@ -1,7 +1,7 @@
-name: Release Codemods
+name: Validate community directory
 
 on:
-  push:
+  pull_request:
     branches: [main]
 
 jobs:
@@ -19,10 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
-      - run: yarn validate
-      - run: yarn test
       - run: yarn validate:codemods
-      - run: yarn release:codemods
         env:
           CI: true
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
