@@ -18,7 +18,10 @@ export default function Home() {
     >
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <div className={clsx('container', styles.heroContainer)}>
-          <Logo title="CodeshiftCommunity logo" width="320px" />
+          <Logo
+            title="CodeshiftCommunity logo"
+            style={{ maxWidth: '320px', width: '100%' }}
+          />
           <h1 className="hero__title">{siteConfig.title}</h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>
@@ -40,22 +43,26 @@ export default function Home() {
             <p>
               CodeshiftCommunity is a community-owned global registry and
               documentation hub for codemods.
-              <em>
-                Think{' '}
-                <Link
-                  href="https://github.com/DefinitelyTyped/DefinitelyTyped"
-                  target="_blank"
-                >
-                  DefinitelyTyped
-                </Link>{' '}
-                for codemods.
-              </em>
             </p>
             <p>
               Providing library maintainers and their users with facilities to
               help write, test, publish and consume codemods in a structured,
               standardized and familiar way.
             </p>
+          </div>
+        </section>
+        <section className={clsx(styles.heroSection, styles.blockQuoteSection)}>
+          <div className={clsx('container', styles.blockQuoteContainer)}>
+            <blockquote>
+              It's like{' '}
+              <Link
+                href="https://github.com/DefinitelyTyped/DefinitelyTyped"
+                target="_blank"
+              >
+                DefinitelyTyped
+              </Link>{' '}
+              but for codemods.
+            </blockquote>
           </div>
         </section>
         <section className={clsx(styles.heroSection, styles.features)}>

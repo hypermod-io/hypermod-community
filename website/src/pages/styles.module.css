@@ -40,11 +40,34 @@
   text-align: center;
 }
 
-.features {
-  background-color: var(--ifm-color-emphasis-100);
-}
+/* .features {
+} */
 
 .featureImage {
   height: 200px;
   width: 200px;
+}
+
+.blockQuoteSection {
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+.blockQuoteContainer {
+  max-width: 768px;
+  text-align: center;
+}
+.blockQuoteContainer blockquote {
+  border-left: none;
+  font-size: x-large;
+  font-weight: 600;
+  font-style: italic;
+  margin: 0;
+}
+
+.blockQuoteContainer blockquote::before {
+  content: open-quote;
+}
+
+.blockQuoteContainer blockquote::after {
+  content: close-quote;
 }

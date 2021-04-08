@@ -44,6 +44,9 @@ export default function transform(file, api, options) {
 
 ## Remove
 
+When removing a node, it's usually as simple as finding the node and calling `.remove()` on it.
+This will remove it from the AST.
+
 ```ts
 export default function transform(file, api, options) {
   const j = api.jscodeshift;
@@ -75,7 +78,7 @@ export default function transform(file, api, options) {
 ```
 
 This method, accepts some [options for formatting](https://github.com/benjamn/recast/blob/52a7ec3eaaa37e78436841ed8afc948033a86252/lib/options.js#L61).
-Codeshift uses recast under the hood, which tries it's best to format output code as close to the original file as possible. But it's often good to run your formatter of choice after running the codemod to be completely sure.
+Codeshift uses recast under the hood, which tries its best to format output code as close to the original file as possible. But it's often good to run your formatter of choice after running the codemod to be completely sure.
 
 To avoid formatting issues and to speed up running transforms across large codebases, it's good practice to only modify the files you need to.
 

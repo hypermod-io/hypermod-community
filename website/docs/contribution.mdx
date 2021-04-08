@@ -21,27 +21,27 @@ First, fork this repository, clone it, install node and yarn, and run `yarn`.
 ## Creating a new codemod
 
 1. Clone the repository onto your machine
-2. cd to the directory `cd CodeshiftCommunity`
+2. cd to the project directory `cd CodeshiftCommunity`
 3. Install dependencies `yarn`
-4. Create a new codemod with `yarn codeshift:init -p [package name] -v [version]`
-5. Write your codemod. See: [Authoring](authoring)
+4. Create a new codemod with `yarn init:codemods [package name] [version]`
+5. Write your codemod. See the [authoring](authoring) guide.
 6. Test your changes
 7. Create a pull request
 
 ## Editing an exsiting codemod
 
 1. Clone the repository onto your machine
-2. cd to the directory `cd CodeshiftCommunity`
+2. cd to the project directory `cd CodeshiftCommunity`
 3. Install dependencies `yarn`
-4. cd to codemod directory
-5. Make your changes. See: [Authoring](authoring)
+4. Navigate to the `/community` directory
+5. Make your changes. See the [authoring](authoring) guide.
 6. Test your changes
 7. Create a pull request
 
 ## Removing a package
 
 1. Clone the repository onto your machine
-2. cd to the directory `cd CodeshiftCommunity`
+2. cd to the project directory `cd CodeshiftCommunity`
 3. Install dependencies `yarn`
 4. Remove the codemod
 5. Create a pull request
@@ -51,13 +51,16 @@ _Note:_ Codemods will continue to be hosted on npm even after the codemod has be
 ## Testing
 
 - Make sure to write a healty amount of unit tests
-- Consider difference edge-cases, idempotency, different languages (js, flow, typescript)
+- This is a great opportunity for test driven development
+- Consider different edge-cases, idempotency, different languages (js, flow, typescript)
 - Before you share your improvement with the world, be sure to use it yourself.
 
-## Raising a PR
+See the [testing](testing) guide for help getting started with unit tests.
 
-Once you've tested your package, you can share it on CodemodCommunity.
+## Raising a pull request
+
+Once you've tested your package, raise a PR!
 
 ## Thanks
 
-Many thanks for contributing and being a part of the CodemodCommunity 😍
+Many thanks for contributing and being a part of the CodeshiftCommunity 😍
