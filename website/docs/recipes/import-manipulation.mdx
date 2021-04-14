@@ -4,32 +4,419 @@ title: Import manipulation
 slug: /import-manipulation
 ---
 
-## Import declations
+Manipulating imports will likely be one of the first and most common operations you do when writing codemods.
 
-### Checking for an import declaration
+## Import declarations
 
-### Adding an import declaration
+An `ImportDeclaration` refers to an entire import statement for example:
+
+```javascript
+import React, { useEffect } from 'react';
+```
+
+The anatomy of an `ImportDeclaration` includes:
+
+- An array of `specifiers`
+  - `ImportDefaultSpecifier`: `React`
+  - `ImportSpecifier`: `useEffect`
+- A `source` which can either be a module name or path: `react`
+
+**Note: `@codeshift/utils` provides utilities for import manipulation, please see the docs**
+
+### Finding an import declaration
+
+Import declarations can be found with the `jscodeshift.ImportDeclaration` type.
+
+In this example we're seaching this file for the `React` import.
+
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  const reactImportDeclaration = source
+    .find(j.ImportDeclaration) // Find all nodes that match a type of `ImportDeclaration`
+    .filter(path => path.node.source.value === 'react'); // Filter imports by source equal to the target ie "react"
+
+  // Do something here
+  console.log(reactImportDeclaration);
+
+  return source.toSource();
+}
+```
+
+**Output (unchanged):**
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+### Inserting an import declaration
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Build a new import
+  const newImport = j.importDeclaration(
+    [j.importDefaultSpecifier(j.identifier('Foo'))],
+    j.stringLiteral('bar'),
+  );
+
+  // Insert it at the top of the document
+  source.get().node.program.body.unshift(newImport);
+
+  return source.toSource();
+}
+```
+
+**Output:**
+
+```diff
++import Foo from 'bar';
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+### Inserting an import declaration before/after a node
+
+Sometimes you might want to insert an import before another import.
+For that you can use `insertBefore`, `insertAfter` methods.
+
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Build a new import
+  const newImport = j.importDeclaration(
+    [j.importDefaultSpecifier(j.identifier('Foo'))],
+    j.stringLiteral('bar'),
+  );
+
+  const reactImportDeclaration = source
+    .find(j.ImportDeclaration)
+    .filter(path => path.node.source.value === 'react')
+    .insertAfter(newImport); // Insert the new import after all react imports
+
+  return source.toSource();
+}
+```
+
+**Output:**
+
+```diff
+import React from 'react';
++import Foo from 'bar';
+
+const Button = props => <button {...props} />;
+```
 
 ### Removing an import declaration
 
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+    .find(j.ImportDeclaration) // Find all nodes that match a type of `ImportDeclaration`
+    .filter(path => path.node.source.value === 'react') // Filter imports by source equal to the target ie "react"
+    .remove(); // Removes all found import declarations
+
+  return source.toSource();
+}
+```
+
+**Output:**
+
+```diff
+-import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
 ### Replacing an import declaration
+
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  const reactImports = source
+    .find(j.ImportDeclaration) // Find all nodes that match a type of `ImportDeclaration`
+    .filter(path => path.node.source.value === 'react'); // Filter imports by source equal to the target ie "react"
+
+  reactImports.forEach((
+    reactImport, // Iterate over react imports
+  ) =>
+    // Replace the existing node with a new one
+    j(reactImport).replaceWith(
+      // Build a new import declaration node based on the existing one
+      j.importDeclaration(
+        reactImport.node.specifiers, // copy over the existing import specificers
+        j.stringLiteral('hot-new-library'), // Replace the source with our new source
+      ),
+    ),
+  );
+
+  return source.toSource();
+}
+```
+
+**Output:**
+
+```diff
+-import React from 'react';
++import React from 'hot-new-library';
+
+const Button = props => <button {...props} />;
+```
 
 ## Import specifiers
 
-### Checking for an import specifiers
+Import specifiers are the actual variables and functions being imported
 
-### Adding an import specifiers
+```javascript
+import React, { useEffect } from 'react';
+```
 
-### Removing an import specifiers
+Generally, within an import declaration import specifiers are defined as an array of either `ImportSpecifier` or `ImportDefaultSpecifier`.
 
-### Replacing an import specifiers
+So in the above case import specifiers are `React` & `useEffect`.
 
-## Default import specifiers
+### Finding an import specifiers
 
-### Checking for an Default import specifiers
+Finding an import is the same as finding any other node.
 
-### Adding an Default import specifiers
+**Input:**
 
-### Removing an Default import specifiers
+```jsx
+import React, { useEffect } from 'react';
 
-### Replacing an Default import specifiers
+const Button = props => <button {...props} />;
+```
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Finding all react import declarations
+  const reactImports = source
+    .find(j.ImportDeclaration)
+    .filter(path => path.node.source.value === 'react');
+
+  // Here we narrow our search to only relevant import nodes
+  const useEffectSpecifier = reactImports
+    .find(j.ImportSpecifier)
+    .filter(path => path.node.imported.name === 'useEffect'); // Filter by name "useEffect"
+
+  // Do something here
+  console.log(useEffectSpecifier);
+
+  return source.toSource();
+}
+```
+
+**Output (unchanged):**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+### Inserting an import specifier
+
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Finding all react import declarations
+  const reactImports = source
+    .find(j.ImportDeclaration)
+    .filter(path => path.node.source.value === 'react');
+
+  // Build our new import specifier
+  const importSpecifier = j.importSpecifier(j.identifier('useContext'));
+
+  // Iterate over react imports
+  reactImports.forEach(reactImport =>
+    // Replace the existing node with a new one
+    j(reactImport).replaceWith(
+      // Build a new import declaration node based on the existing one
+      j.importDeclaration(
+        [...reactImport.node.specifiers, importSpecifier], // Insert our new import specificer
+        reactImport.node.source,
+      ),
+    ),
+  );
+
+  return source.toSource();
+}
+```
+
+**Output:**
+
+```diff
++import React, { useEffect, useContext } from 'react';
+-import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+### Inserting an aliased (as) import specifier
+
+Sometimes you might want to import something under an alias.
+
+For example: `import { useEffect as useFoo } from 'react'`.
+
+In this case, simply passing an identifier into the 'local' argument of `j.importSpecifier(imported, local)` will do the trick.
+
+```javascript
+const importSpecifier = j.importSpecifier(
+  j.identifier('useContext'),
+  j.identifier('useFoo'),
+);
+```
+
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  const reactImports = source
+    .find(j.ImportDeclaration)
+    .filter(path => path.node.source.value === 'react');
+
+  // Build our new import specifier
+  const importSpecifier = j.importSpecifier(
+    j.identifier('useContext'),
+    j.identifier('useFoo'),
+  );
+
+  reactImports.forEach(reactImport =>
+    j(reactImport).replaceWith(
+      j.importDeclaration(
+        [...reactImport.node.specifiers, importSpecifier], // Insert our new import specificer
+        reactImport.node.source,
+      ),
+    ),
+  );
+
+  return source.toSource();
+}
+```
+
+**Output:**
+
+```diff
++import React, { useEffect, useContext as useFoo } from 'react';
+-import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+### Removing an import specifier
+
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+    .find(j.ImportDeclaration)
+    .filter(path => path.node.source.value === 'react')
+    .find(j.ImportSpecifier)
+    .filter(path => path.node.imported.name === 'useEffect')
+    .remove();
+
+  return source.toSource();
+}
+```
+
+**Output:**
+
+```diff
++import React from 'react';
+-import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
