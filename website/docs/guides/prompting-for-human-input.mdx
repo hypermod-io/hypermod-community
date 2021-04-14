@@ -4,5 +4,67 @@ title: Prompting for human input
 slug: /prompting-for-human-input
 ---
 
-- If you can migrate some of the way there, consider safe-bailouts to prompt where human eyes are required
-  - Generally you can leave a comment
+When writing codemods, you might encounter a scenario where a specific migration might require human eyes, might not be possible or even [not worth the amount of work required](/docs/when-not-to-codemod).
+
+In these scenarios, it's usually the best to migrate as much as you can and bail-out by **prompting for human input**.
+
+Or in other words: **"Insert a comment"**.
+
+Inserting comments as Codemod output is a completely valid thing to do and highlights to maintainers that they need to manually complete the migration.
+When leaving comments, it's helpful to be as descriptive as possible, including all or as much of the context required for the maintainer.
+
+Comments are also helpful because when a PR is raised, these prompts can easily be seen in the diff and actioned at the maintainers discression. The key is to make the surface area of your codemod known and let maintainers know where they're needed.
+
+## Inserting a comment
+
+Let's say your component now requires an additional prop `securityToken` to function safely, but you need a user to manually enter the token.
+This is a great candidate for prompting for user input.
+
+Let's right a transform to do that:
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  const newProp = source
+    .find(j.JSXIdentifier)
+    .filter(path => path.node.name === 'securityToken')
+    .forEach(path => {
+      path.value.comments = path.value.comments || [];
+      path.value.comments.push(
+        j.commentBlock(`
+        * TODO (Codemod generated): Please provide a security token.
+        * Visit https://www.my-project/security/tokens to generate a valid token.
+      `),
+      );
+    });
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+import React from 'react';
+import MyComponent from '../components/my-module';
+
+const App = props => {
+  return <div {...props} securityToken="???" />;
+};
+```
+
+**Output:**
+
+```diff
+import React from 'react';
+import MyComponent from '../components/my-module';
+
++/**
++ * TODO (Codemod generated): Please provide a security token.
++ * Visit https://www.my-project/security/tokens to generate a valid token.
++ */
+const App = props => {
+  return <div {...props} securityToken="???" />;
+};
+```

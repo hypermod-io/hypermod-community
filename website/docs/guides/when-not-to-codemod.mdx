@@ -4,6 +4,158 @@ title: When not to codemod
 slug: /when-not-to-codemod
 ---
 
-Codemods can't solve every problem, sometimes there is simply too much human intervention required.
+Unfortunately Codemods aren't the solution to every problem, so as an author you have to weigh-up whether it's feasible before investing time into writing one.
 
-- When there is too much human intervention required. (consider writing a migration guide instead)
+Here is a list of some use-cases that are not possible or extremely hard to codemod and some possible alternatives.
+
+## When a codemod doesn't make sense?
+
+### API / feature removal
+
+When a part of your API has been removed without an alternative
+
+```js
+import { foo, bar, DEPRECATED_BAZ } from 'my-module';
+
+console.log(DEPRECATED_BAZ());
+```
+
+In this case a codemod to remove `DEPRECATED_BAZ` will lead to the following error
+
+```diff
+-import { foo, bar, DEPRECATED_BAZ} from 'my-module';
++import { foo, bar } from 'my-module';
+
+console.log(DEPRECATED_BAZ()); // 💥 Uncaught ReferenceError: DEPRECATED_BAZ is not defined
+```
+
+### There's too much human intervention required.
+
+Sometimes a change simply requires too much human intervention. These are usually cases where there might be implicit side-effects to your changes and you cannot write a codemod that will confidently get you from A-B.
+
+For example, consider moving from React class components to a hooks based function component. Changes in the React API might have implicit differences that all need to be accounted for. And moving blocks of logic from one to the other might seem possible at first but will completely become over complicated and not worth your time.
+
+### Changes that need an awareness of runtime usage
+
+For example: When you need the full runtime result of a React tree
+
+### Sometimes we need to know what values are being used.
+
+This can be hard if it is coming in across module boundaries, using object spreading and so on.
+
+Consider removing `DEPRECATED_BAZ` from `my-module` when it's imported and used like so:
+
+```jsx
+// src/utils/my-module.js
+export { * as myModule } from 'my-module';
+```
+
+```js
+// src/components/App.js
+import React from 'react';
+import * as utils from '../utils/my-module';
+
+const App = props => {
+  return <div {...props} {...utils} />;
+};
+```
+
+In this case, we're not able to guarantee that you'll be able to safely remove all usages of the `DEPRECATED_BAZ` function.
+
+### Usage paradigm shifts where the old paradigm does not have a 1:1 in the new paradigm
+
+Sometimes changes between package versions don't have a clear 1:1 mapping. Say in the previous version of our package you solved a problem with one approach and decided that in the new version of your package an entirely new architecture is required to solve that problem holistically. Resulting in a change so different from the original that there's no clear 1:1 mapping.
+
+### Consumers need to provide more information than they did before
+
+In some cases, you might need to ask your consumer to provide more information to your API than you were asking for prior.
+
+For example when a component now requires a new prop to function properly:
+
+```js
+import React from 'react';
+import MyComponent from '../utils/my-module';
+
+const App = props => {
+  return <div {...props} securityToken="???" />;
+};
+```
+
+## What to do when a codemod isn't possible?
+
+### Prompting for user input
+
+In most cases, we recommend that you aim to do as much of the work as possible, right up until you can't reasonably to anymore. Then prompt users for their intervention.
+
+Let's use our previous scenario as an example. Say your component now requires an additional `securityToken` prop to function safely, but you need a user to actually to the work to first get the token and then safely add it to your file.
+
+```jsx
+import React from 'react';
+import MyComponent from '../utils/my-module';
+
+const App = props => {
+  return <div {...props} securityToken="???" />;
+};
+```
+
+This is a great candidate for prompting for user input. Whenever you come across a scenario like this, we recommend leaving comments like so:
+
+```diff
+import React from 'react';
+import MyComponent from '../utils/my-module';
+
++/** TODO (Codemod generated): Please provide a security token here */
+const App = props => {
+  return <div {...props} securityToken="???" />;
+};
+```
+
+For more information on how to write a transform that does this, please refer to the [prompting for human input guide](/docs/prompting-for-human-input).
+
+### Thinking outside of the box
+
+You might come across the case where an "ideal" solution is too complex or too full of edge cases to do reasonably. When this happens, consider looking for a less than ideal but working solution.
+
+Consider the relatively trivial scenario of renaming an import:
+
+```diff
++import { Foo, Baz } from 'my-module';
+-import { Foo, Bar } from 'my-module';
+
++console.log(Baz);
+-console.log(Bar);
+```
+
+At first you might think it's a good idea to simply rename the import and look for all references of that import in your code.
+But what happens when your import can be used in many different contexts.
+
+```diff
++import { Foo, Baz } from 'my-module';
+-import { Foo, Bar } from 'my-module';
+
++console.log(Baz);
+-console.log(Bar);
+
+const App = props => {
++ return <Bar {...props} />;
+- return <Baz {...props} />;
+};
+```
+
+You now have to expand your transform to not only look for `Identifiers` with the name `Baz` but also `JsxExpressions` and maybe more?
+
+What if we could side-step that entire part of the transform and simply alias the import instead?
+
+```diff
++import { Foo, Bar as Baz } from 'my-module';
+-import { Foo, Bar } from 'my-module';
+
+console.log(Bar);
+
+const App = props => {
+  return <Bar {...props} />;
+};
+```
+
+Although you might see this result as less than idea, since the logic still refers to the old name. It's still a great solution to the problem because we now have a codemod that is a lot simpler (because we can get rid of half of the find and replace logic) and safer (because it will always work regardless of the usage).
+Keep this in mind, next time you're running into countless edge-cases.

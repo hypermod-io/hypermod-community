@@ -26,11 +26,11 @@ export default function Home() {
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>
             <Link
+              to={useBaseUrl('docs/')}
               className={clsx(
                 'button button--secondary button--lg',
                 styles.getStarted,
               )}
-              to={useBaseUrl('docs/')}
             >
               Get Started
             </Link>
@@ -71,36 +71,21 @@ export default function Home() {
               <div className={clsx('col col--3')}>
                 <span
                   role="img"
-                  aria-label="telescope"
-                  style={{ fontSize: '60px' }}
-                >
-                  ❤️
-                </span>{' '}
-                <h3>Community backed</h3>
-                <p>
-                  Use our community maintained library of codemods to simplify
-                  your dependency management
-                </p>
-              </div>
-              <div className={clsx('col col--3')}>
-                <span
-                  role="img"
                   aria-label="truck"
                   style={{ fontSize: '60px' }}
                 >
                   🚛
                 </span>{' '}
-                <h3>Distribute</h3>
-                <p>Ship your own codemods to your consumers</p>
+                <h3>Publish</h3>
+                <p>Create, test and publish your own codemods for your users</p>
               </div>
               <div className={clsx('col col--3')}>
                 <span role="img" aria-label="book" style={{ fontSize: '60px' }}>
                   📖
                 </span>{' '}
-                <h3>Learn</h3>
+                <h3>Up-skill</h3>
                 <p>
-                  Use our guides and resources to get your engineering team up
-                  to speed with codemods
+                  Up-skill your engineering team using our guides & resources
                 </p>
               </div>
               <div className={clsx('col col--3')}>
@@ -109,8 +94,22 @@ export default function Home() {
                 </span>{' '}
                 <h3>Go fast</h3>
                 <p>
-                  Use our library of helpers & testing utilities to make writing
-                  codemods a breeze
+                  Use our helpers & testing utilities to make writing codemods a
+                  breeze
+                </p>
+              </div>
+              <div className={clsx('col col--3')}>
+                <span
+                  role="img"
+                  aria-label="telescope"
+                  style={{ fontSize: '60px' }}
+                >
+                  🔭
+                </span>{' '}
+                <h3>Explore</h3>
+                <p>
+                  Explore an extensive list of codemods contributed by the
+                  community
                 </p>
               </div>
             </div>

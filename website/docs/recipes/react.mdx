@@ -1,0 +1,200 @@
+---
+id: react
+title: React & JSX
+slug: /react
+---
+
+## Props
+
+### Inserting props
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => {
+  return <button className="button">Submit</button>;
+};
+```
+
+**Output:**
+
+```diff
+import React, { useEffect } from 'react';
+
+const Button = props => {
+-  return <button className="button">Submit</button>;
++  return <button className="button" onClick={() => console.log('Hello, World!')}>Submit</button>;
+};
+```
+
+### Removing props
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => {
+  return <button className="button">Submit</button>;
+};
+```
+
+**Output:**
+
+```diff
+import React, { useEffect } from 'react';
+
+const Button = props => {
+-  return <button className="button">Submit</button>;
++  return <button className="button" onClick={() => console.log('Hello, World!')}>Submit</button>;
+};
+```
+
+### Replacing props
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => {
+  return <button className="button">Submit</button>;
+};
+```
+
+**Output:**
+
+```diff
+import React, { useEffect } from 'react';
+
+const Button = props => {
+-  return <button className="button">Submit</button>;
++  return <button className="button button-primary">Submit</button>;
+};
+```
+
+### Rest props
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+```
+
+**Output:**
+
+```diff
+
+```
+
+## JSX
+
+### Wrapping components
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+```
+
+**Output:**
+
+```diff
+
+```
+
+### Render props
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+```
+
+**Output:**
+
+```diff
+
+```
+
+### Inserting children nodes
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+```
+
+**Output:**
+
+```diff
+
+```

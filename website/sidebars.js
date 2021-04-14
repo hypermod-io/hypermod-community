@@ -1,10 +1,15 @@
 module.exports = {
   docs: [
     {
-      'Getting Started': ['introduction', 'guiding-principles', 'faq'],
+      'Getting Started': [
+        'introduction',
+        'guiding-principles',
+        'faq',
+        'ecosystem',
+      ],
     },
     {
-      Docs: ['authoring', 'consuming', 'testing', 'contribution', 'ecosystem'],
+      Docs: ['authoring', 'consuming', 'testing', 'contribution'],
     },
     {
       Guides: [
@@ -15,7 +20,7 @@ module.exports = {
       ],
     },
     {
-      Recipes: ['recipes/import-manipulation', 'recipes/prop-manipulation'],
+      Recipes: ['recipes/import-manipulation', 'recipes/react'],
     },
   ],
 };

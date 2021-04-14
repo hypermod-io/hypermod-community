@@ -4,71 +4,203 @@ title: Your first codemod
 slug: /your-first-codemod
 ---
 
-Every codemod follows fundamentally the same series of operations: find, modify/insert/remove and finally output.
+Every codemod follows the same series of operations: find, modify/insert, remove and finally output.
 That's it. Once you know how to handle all of these operations you can do anything within a codemod.
 
 ## Setup
 
-Firstly you'll need to define to create a new file with which defines a "transform" function. A transform is simply a javascript function which serves as the entry-point for your codemod.
+Firstly you'll need to create a new file which defines a "transform" function. A transform is simply a javascript function which serves as the entry-point for your codemod.
 
 ```ts
-export default function transform(file, api, options) {
+export default function transform(file, { jscodeshift: j }, options) {
   //... codemod goes here
 }
 ```
 
 ## Find
 
-Finding specific nodes within your file can be a strange experience for those who have never worked with ASTs before.
+When trying to locate specific nodes in your AST, it helps to think about it like finding DOM nodes with jQuery.
+Every node has a `type` and in most cases it's as simple a 'finding' all of the nodes in your AST that match that type, then filtering by an attribute of that node to determine if it's the one you're looking for.
 
-For example, lets try and locate a `JSXIdentifier` with the name `isDisabled`.
+Given this file, let's try and locate a `ImportDeclaration` with the source `my-module`.
+
+```js
+import { foo, bar } from 'my-module'; // We're looking for this one
+import { cheese, burger } from 'not-my-module'; // Not this one
+```
+
+Our transform will look something like this.
+
+(1) First we'll create an AST, (2) second we'll look at all nodes and return only nodes that match the `ImportDeclaration` and then (3) we'll filter all imports by their source values.
 
 ```ts
-export default function transform(file, api, options) {
-  const j = api.jscodeshift;
-  const source = j(file.source);
+export default function transform(file, { jscodeshift: j }, options) {
+  const source = j(file.source); // (1) Create an AST of the fiven file
 
-  source.find(j.JSXIdentifier).forEach(path => {
-    if (path.node.name === 'isDisabled') {
-      // 🎉 Tada we found it, we can now modify/insert/remove this node
-    }
-  });
+  const imports = source
+    .find(j.ImportDeclaration) // (2) Find all import declarations!
+    .filter(path => path.node.source.value === 'my-module'); // (3) Get only imports that have a source that matches what I'm looking for
+
+  console.log(imports); // Log our found node!
 
   return source.toSource(options.printOptions); // We return the modified file
 }
 ```
 
-## Modify
+## Modify & Insert
 
-## Insert
+Now let's say that we want to pull in a new import from 'my-module' called `baz`. Luckily you've already written a majority of the code above.
+All we'll need to do now is "insert" an new ImportSpecifier into the ImportDeclaration node that we've just retrieved.
 
-## Remove
-
-When removing a node, it's usually as simple as finding the node and calling `.remove()` on it.
-This will remove it from the AST.
+Now inserting can look a little awkward at first, because what we're really doing is building a new node based on what we've found and replacing it with a modified version of itself.
 
 ```ts
-export default function transform(file, api, options) {
-  const j = api.jscodeshift;
+export default function transform(file, { jscodeshift: j }, options) {
   const source = j(file.source);
 
-  source.find(j.JSXIdentifier).forEach(path => {
-    if (path.node.name === 'isDisabled') {
-      j(path).remove(); // We remove the `isDisabled` prop from the AST
-    }
+  const imports = source
+    .find(j.ImportDeclaration)
+    .filter(path => path.node.source.value === 'my-module');
+
+  const myNewImportSpecifier = j.importSpecifier(j.identifier('baz')); // (1) Build a new import specifier called "baz"
+
+  imports.array.forEach(moduleImport => {
+    // (4) Replace the node we found earlier with its modified counterpart
+    moduleImport.replaceWith(
+      // (2) Build a new import declaration based on the old one we found
+      j.importDeclaration(
+        [...moduleImport.node.specifiers, myNewImportSpecifier], // (3) Insert our new import specificer
+        reactImport.node.source, // Copy across other relevant attributes unchanged
+      ),
+    );
   });
 
   return source.toSource(options.printOptions);
 }
 ```
 
+Now there are a few moving pieces in this example, let's step through them:
+
+(1) Here we "build" a new node of type `ImportSpecifier`.
+
+You can build a node by using the camelCase variant methos of a node type.
+So to build an `ImportSpecifier` you use `j.importSpecifier(...)` and when you want to search for one, you use the CapitalCase variant `j.ImportSpecifier`.
+
+(2) Create a new import declaration
+
+Similar to (1), we build a new import declaration. We do this because in jscodeshift there's no way to mutate attributes of a node, instead we must use the `replaceWith()` method.
+So we create a new node, taking attributes from the old one and making modifications where necessary.
+
+(3) Insert our new import specifier
+
+Here we push our new import specifier into the array of existing specifiers.
+
+(4) Replace the node
+
+Finally we replace our ImportDeclaration with our new one and the resulting output should look like this:
+
+```diff
+-import { foo, bar } from 'my-module';
++import { foo, bar, baz } from 'my-module';
+import { cheese, burger } from 'not-my-module';
+```
+
+## Remove
+
+When removing a node, it's usually as simple as finding the node and calling `.remove()` on it.
+
+So given this file, let's say that we're trying to remove the `isDisabled` prop on the `Button` component.
+
+```jsx
+import React from 'react';
+import { Button, InputField } from 'ui-lib';
+
+export const App = props => {
+  return (
+    <>
+      <InputField value="Hello" isDisabled />
+      <Button isDisabled>Submit</Button>
+    </>
+  );
+};
+```
+
+We'll need to (1) find all JSX props, (2) filter only props called "isDisabled", (3) finally, call `remove()` to delete them from the AST.
+
+```js
+export default function transform(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+    .find(j.JSXIdentifier) // (1) Find all JSX props
+    .filter(path => path.node.name === 'isDisabled') // (2) Filter by name `isDisabled`
+    .remove(); // (3) We remove any `isDisabled` prop from the AST
+
+  return source.toSource(options.printOptions);
+}
+```
+
+The result of this change will leave our file looking like this:
+
+```diff
+import React from 'react';
+import { Button, InputField } from 'ui-lib';
+
+export const App = props => {
+  return (
+    <>
+-      <InputField value="Hello" isDisabled />
++      <InputField value="Hello" />
+-      <Button isDisabled>Submit</Button>
++      <Button>Submit</Button>
+    </>
+  );
+};
+```
+
+Now the important thing to note here is that both `Button` and `InputField` components lost the `isDisabled` prop.
+That's because we haven't filtered by component name first. Let's fix that now.
+
+```diff
+export default function transform(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
++   .find(j.JSXElement)
++   .filter(path => path.value.openingElement.name.name === 'Button')
+    .find(j.JSXIdentifier) // (1) Find all JSX props
+    .filter(path => path.node.name === 'isDisabled') // (2) Filter by name `isDisabled`
+    .remove(); // (3) We remove any `isDisabled` prop from the AST
+
+  return source.toSource(options.printOptions);
+}
+```
+
+and finally our output file will look as expected!
+
+```diff
+import React from 'react';
+import { Button, InputField } from 'ui-lib';
+
+export const App = props => {
+  return (
+    <>
+      <InputField value="Hello" isDisabled />
+-     <Button isDisabled>Submit</Button>
++     <Button>Submit</Button>
+    </>
+  );
+};
+```
+
 ## Output
 
-At the end of your transform, you call and return the result of the `j(file.source).toSource()` method. When this function is called, it will traverse your AST and output a javascript (or typescript) source file. The result of which will include all of the modifications you made.
+At the end of every transform, you'll need to call and return your modified AST. This is usually done via the `toSource()` method.
+When this function is called [Recast](https://github.com/benjamn/recast/) will take your AST, turn it back into code, format it and output it to the source file.
+The result of which will include all of the modifications you made.
 
 ```ts
-export default function transform(file, api, options) {
-  const j = api.jscodeshift;
+export default function transform(file, { jscodeshift: j }, options) {
   const source = j(file.source);
 
   // ...
@@ -78,19 +210,19 @@ export default function transform(file, api, options) {
 ```
 
 This method, accepts some [options for formatting](https://github.com/benjamn/recast/blob/52a7ec3eaaa37e78436841ed8afc948033a86252/lib/options.js#L61).
-Codeshift uses recast under the hood, which tries its best to format output code as close to the original file as possible. But it's often good to run your formatter of choice after running the codemod to be completely sure.
+jscodeshift uses [Recast](https://github.com/benjamn/recast/) under the hood, which tries its best to format output code as close to the original file as possible. But it's often good to run your formatter of choice after running the codemod to be completely sure.
 
-To avoid formatting issues and to speed up running transforms across large codebases, it's good practice to only modify the files you need to.
-
-For example, in cases where the code you want to change does not exist in the file your attempting to transform, you should bail early and return the "raw" source file.
+To avoid formatting issues and to speed up running transforms across large codebases, it's good practice to only modify the files you need to. For example, in cases where the code you want to change does not exist in the file you're attempting to transform, you should bail early and return the "raw" source file.
 
 ```ts
-export default function transform(file, api, options) {
-  const source = j(fileInfo.source);
-  const hasIsDisabledProp = !!source.find(j.JSXIdentifier).filter(path.node.name === 'isDisabled').length
+export default function transform(file, { jscodeshift: j }, options) {
+  const hasIsDisabledProp = !!source
+    .find(j.JSXIdentifier)
+    .filter(path.node.name === 'isDisabled')
+    .length
 
   if (!hasIsDisabledProp) {
-    return fileInfo.source; // Returns original source file, untouched and unformatted
+    return file.source; // Returns original source file, untouched and unformatted
   }
 
   // transform code goes here...

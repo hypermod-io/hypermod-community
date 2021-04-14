@@ -29,14 +29,6 @@ Import declarations can be found with the `jscodeshift.ImportDeclaration` type.
 
 In this example we're seaching this file for the `React` import.
 
-**Input:**
-
-```jsx
-import React from 'react';
-
-const Button = props => <button {...props} />;
-```
-
 **Transform:**
 
 ```javascript
@@ -54,6 +46,14 @@ export default function transformer(file, { jscodeshift: j }, options) {
 }
 ```
 
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
 **Output (unchanged):**
 
 ```jsx
@@ -63,12 +63,6 @@ const Button = props => <button {...props} />;
 ```
 
 ### Inserting an import declaration
-
-```jsx
-import React from 'react';
-
-const Button = props => <button {...props} />;
-```
 
 **Transform:**
 
@@ -89,6 +83,14 @@ export default function transformer(file, { jscodeshift: j }, options) {
 }
 ```
 
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
 **Output:**
 
 ```diff
@@ -102,14 +104,6 @@ const Button = props => <button {...props} />;
 
 Sometimes you might want to insert an import before another import.
 For that you can use `insertBefore`, `insertAfter` methods.
-
-**Input:**
-
-```jsx
-import React from 'react';
-
-const Button = props => <button {...props} />;
-```
 
 **Transform:**
 
@@ -132,6 +126,14 @@ export default function transformer(file, { jscodeshift: j }, options) {
 }
 ```
 
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
 **Output:**
 
 ```diff
@@ -142,14 +144,6 @@ const Button = props => <button {...props} />;
 ```
 
 ### Removing an import declaration
-
-**Input:**
-
-```jsx
-import React from 'react';
-
-const Button = props => <button {...props} />;
-```
 
 **Transform:**
 
@@ -166,6 +160,14 @@ export default function transformer(file, { jscodeshift: j }, options) {
 }
 ```
 
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
 **Output:**
 
 ```diff
@@ -174,15 +176,7 @@ export default function transformer(file, { jscodeshift: j }, options) {
 const Button = props => <button {...props} />;
 ```
 
-### Replacing an import declaration
-
-**Input:**
-
-```jsx
-import React from 'react';
-
-const Button = props => <button {...props} />;
-```
+### Replace/Rename an import declaration
 
 **Transform:**
 
@@ -211,6 +205,14 @@ export default function transformer(file, { jscodeshift: j }, options) {
 }
 ```
 
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => <button {...props} />;
+```
+
 **Output:**
 
 ```diff
@@ -236,14 +238,6 @@ So in the above case import specifiers are `React` & `useEffect`.
 
 Finding an import is the same as finding any other node.
 
-**Input:**
-
-```jsx
-import React, { useEffect } from 'react';
-
-const Button = props => <button {...props} />;
-```
-
 **Transform:**
 
 ```javascript
@@ -267,6 +261,14 @@ export default function transformer(file, { jscodeshift: j }, options) {
 }
 ```
 
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
 **Output (unchanged):**
 
 ```jsx
@@ -276,14 +278,6 @@ const Button = props => <button {...props} />;
 ```
 
 ### Inserting an import specifier
-
-**Input:**
-
-```jsx
-import React, { useEffect } from 'react';
-
-const Button = props => <button {...props} />;
-```
 
 **Transform:**
 
@@ -315,6 +309,14 @@ export default function transformer(file, { jscodeshift: j }, options) {
 }
 ```
 
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
 **Output:**
 
 ```diff
@@ -337,14 +339,6 @@ const importSpecifier = j.importSpecifier(
   j.identifier('useContext'),
   j.identifier('useFoo'),
 );
-```
-
-**Input:**
-
-```jsx
-import React, { useEffect } from 'react';
-
-const Button = props => <button {...props} />;
 ```
 
 **Transform:**
@@ -376,6 +370,14 @@ export default function transformer(file, { jscodeshift: j }, options) {
 }
 ```
 
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
 **Output:**
 
 ```diff
@@ -386,14 +388,6 @@ const Button = props => <button {...props} />;
 ```
 
 ### Removing an import specifier
-
-**Input:**
-
-```jsx
-import React, { useEffect } from 'react';
-
-const Button = props => <button {...props} />;
-```
 
 **Transform:**
 
@@ -412,10 +406,57 @@ export default function transformer(file, { jscodeshift: j }, options) {
 }
 ```
 
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
 **Output:**
 
 ```diff
 +import React from 'react';
+-import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+### Replace/Rename an import specifier
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Build an import specifier
+  const newImport = j.importSpecifier(j.identifier('useFoo'));
+
+  source
+    .find(j.ImportDeclaration)
+    .filter(path => path.node.source.value === 'react')
+    .find(j.ImportSpecifier)
+    .filter(path => path.node.imported.name === 'useEffect')
+    .replaceWith(newImport); // Insert our new import specifier
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+import React, { useEffect } from 'react';
+
+const Button = props => <button {...props} />;
+```
+
+**Output:**
+
+```diff
++import React, { useFoo } from 'react';
 -import React, { useEffect } from 'react';
 
 const Button = props => <button {...props} />;
