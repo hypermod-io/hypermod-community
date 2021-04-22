@@ -55,36 +55,36 @@ function wrapChildrenProp(
 }
 
 export default function transformer(
-  fileInfo: FileInfo,
+  file: FileInfo,
   { jscodeshift: j }: API,
   options: Options,
 ) {
-  const source = j(fileInfo.source);
+  const source = j(file.source);
 
-  if (hasImportDeclaration(j, source, '@atlaskit/avatar')) {
-    const defaultSpecifier = getDefaultImportSpecifier(
-      j,
-      source,
-      '@atlaskit/avatar',
-    );
-
-    if (defaultSpecifier != null) {
-      wrapChildrenProp(j, source, defaultSpecifier);
-    }
-
-    const importSpecifier = getImportSpecifier(
-      j,
-      source,
-      '@atlaskit/avatar',
-      'AvatarItem',
-    );
-
-    if (importSpecifier != null) {
-      wrapChildrenProp(j, source, importSpecifier);
-    }
-
-    return source.toSource(options.printOptions || { quote: 'single' });
+  if (!hasImportDeclaration(j, source, '@atlaskit/avatar')) {
+    return file.source;
   }
 
-  return fileInfo.source;
+  const defaultSpecifier = getDefaultImportSpecifier(
+    j,
+    source,
+    '@atlaskit/avatar',
+  );
+
+  if (defaultSpecifier != null) {
+    wrapChildrenProp(j, source, defaultSpecifier);
+  }
+
+  const importSpecifier = getImportSpecifier(
+    j,
+    source,
+    '@atlaskit/avatar',
+    'AvatarItem',
+  );
+
+  if (importSpecifier != null) {
+    wrapChildrenProp(j, source, importSpecifier);
+  }
+
+  return source.toSource(options.printOptions || { quote: 'single' });
 }
