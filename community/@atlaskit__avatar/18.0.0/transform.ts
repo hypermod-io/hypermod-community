@@ -203,11 +203,11 @@ function updateBorderWidthUsage(
 }
 
 export default function transformer(
-  fileInfo: FileInfo,
+  file: FileInfo,
   { jscodeshift: j }: API,
   options: Options,
 ) {
-  const source = j(fileInfo.source);
+  const source = j(file.source);
 
   if (hasImportDeclaration(j, source, '@atlaskit/avatar')) {
     updateBorderWidthUsage(j, source);
@@ -217,5 +217,5 @@ export default function transformer(
     return source.toSource(options.printOptions || { quote: 'single' });
   }
 
-  return fileInfo.source;
+  return file.source;
 }

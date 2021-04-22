@@ -14,6 +14,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -21,6 +23,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn validate
       - run: yarn test
+      - run: echo "CHANGED_FILES=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})" >> $GITHUB_ENV
       - run: yarn validate:codemods
       - run: yarn release:codemods
         env:
