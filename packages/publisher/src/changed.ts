@@ -1,16 +1,24 @@
 import simpleGit from 'simple-git/promise';
+import fs from 'fs-extra';
 
 export default async function getChangedPackages() {
   const git = simpleGit();
-  let commit: string;
+
+  const eventMeta = JSON.parse(
+    fs.readFileSync(process.env.GITHUB_EVENT_PATH!, 'utf8'),
+  );
 
   try {
-    commit = await git.revparse(['--verify', process.env.GITHUB_SHA!]);
+    await git.revparse(['--verify', eventMeta.before]);
   } catch (e) {
-    throw new Error(`Invalid git ref "${process.env.GITHUB_SHA}"`);
+    throw new Error(`Invalid git ref detected in ref: "${eventMeta.before}"`);
   }
 
-  const diff = await git.diff(['--name-only', commit, 'HEAD']);
+  const diff = await git.diff([
+    '--name-only',
+    eventMeta.before,
+    eventMeta.after,
+  ]);
 
   return diff
     .split('\n')

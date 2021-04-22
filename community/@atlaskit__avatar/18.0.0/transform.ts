@@ -209,13 +209,13 @@ export default function transformer(
 ) {
   const source = j(file.source);
 
-  if (hasImportDeclaration(j, source, '@atlaskit/avatar')) {
-    updateBorderWidthUsage(j, source);
-    updateAvatarProps(j, source);
-    updateAvatarItemProps(j, source);
-
-    return source.toSource(options.printOptions || { quote: 'single' });
+  if (!hasImportDeclaration(j, source, '@atlaskit/avatar')) {
+    return file.source;
   }
 
-  return file.source;
+  updateBorderWidthUsage(j, source);
+  updateAvatarProps(j, source);
+  updateAvatarItemProps(j, source);
+
+  return source.toSource(options.printOptions || { quote: 'single' });
 }

@@ -9,8 +9,6 @@ async function main(sourcePath: string, targetPath: string) {
   console.log('Calculating changed packages');
   const changedPackages = await getChangedPackages();
 
-  console.log(process.env.CHANGED_FILES);
-
   if (changedPackages.length === 0) {
     console.log('No packages changed, exiting...');
     process.exit(0);
