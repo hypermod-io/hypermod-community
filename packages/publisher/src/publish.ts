@@ -22,12 +22,7 @@ function publishPackage(
   return new Promise<void>((resolve, reject) =>
     client.publish(
       npmUri,
-      {
-        metadata,
-        access,
-        body,
-        auth: { token },
-      },
+      { metadata, access, body, auth: { token } },
       (error: any) => {
         if (error) {
           reject(
@@ -46,12 +41,11 @@ export default function publishPackages(path: string, authToken: string) {
       const packageName = `@codeshift/mod-${dir
         .replace('@', '')
         .replace('/', '__')}`;
-
       const packageJson = await fs.readFile(`${path}/${dir}/package.json`);
       const distPath = `${path}/${dir}/dist`;
       const tarballPath = `${path}/${dir}/tarball.tgz`;
 
-      await tar.create({ file: tarballPath, gzip: true }, [distPath]);
+      await tar.create({ cwd: distPath, file: tarballPath, gzip: true }, ['.']);
 
       return publishPackage(packageName, {
         // @ts-ignore

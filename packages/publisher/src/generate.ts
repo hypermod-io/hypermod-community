@@ -1,5 +1,5 @@
 import semver from 'semver';
-import fs, { lstatSync } from 'fs-extra';
+import fs from 'fs-extra';
 // @ts-ignore
 import RegClient from 'npm-registry-client';
 
@@ -48,7 +48,7 @@ function getPackageJson(packageName: string, version: string) {
 function getIndexFile(path: string) {
   return fs
     .readdirSync(path)
-    .filter(subDirPath => lstatSync(`${path}/${subDirPath}`).isDirectory())
+    .filter(subDirPath => fs.lstatSync(`${path}/${subDirPath}`).isDirectory())
     .map(
       transformDir =>
         `export { default as transform${transformDir.replace(
