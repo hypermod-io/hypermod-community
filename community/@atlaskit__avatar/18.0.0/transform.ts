@@ -165,9 +165,7 @@ function updateAvatarItemProps(
         // if `enableTextTruncate` was an expression, negate it
         j(attribute)
           .find(j.JSXExpressionContainer)
-          .filter(container => {
-            return j(container).find(j.BooleanLiteral).length === 0;
-          })
+          .filter(container => j(container).find(j.BooleanLiteral).length === 0)
           .forEach(container => {
             j(container).replaceWith(
               j.jsxExpressionContainer(
