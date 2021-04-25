@@ -1,5 +1,6 @@
 # Repo
 .tmp/
+plugin_packages/
 
 # Logs
 logs

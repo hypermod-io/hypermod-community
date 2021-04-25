@@ -41,11 +41,18 @@ export default function publishPackages(path: string, authToken: string) {
       const packageName = `@codeshift/mod-${dir
         .replace('@', '')
         .replace('/', '__')}`;
-      const packageJson = await fs.readFile(`${path}/${dir}/package.json`);
-      const distPath = `${path}/${dir}/dist`;
-      const tarballPath = `${path}/${dir}/tarball.tgz`;
+      const packagePath = `${path}/${dir}`;
+      const packageJson = await fs.readFile(`${packagePath}/package.json`);
+      const tarballPath = `${packagePath}/tarball.tgz`;
 
-      await tar.create({ cwd: distPath, file: tarballPath, gzip: true }, ['.']);
+      await tar.create(
+        {
+          cwd: packagePath,
+          file: tarballPath,
+          gzip: true,
+        },
+        ['.'],
+      );
 
       return publishPackage(packageName, {
         // @ts-ignore
