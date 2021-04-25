@@ -59,17 +59,14 @@ export default function transformer(
   { jscodeshift: j }: API,
   options: Options,
 ) {
+  const packageName = '@atlaskit/avatar';
   const source = j(file.source);
 
-  if (!hasImportDeclaration(j, source, '@atlaskit/avatar')) {
+  if (!hasImportDeclaration(j, source, packageName)) {
     return file.source;
   }
 
-  const defaultSpecifier = getDefaultImportSpecifier(
-    j,
-    source,
-    '@atlaskit/avatar',
-  );
+  const defaultSpecifier = getDefaultImportSpecifier(j, source, packageName);
 
   if (defaultSpecifier != null) {
     wrapChildrenProp(j, source, defaultSpecifier);
@@ -78,7 +75,7 @@ export default function transformer(
   const importSpecifier = getImportSpecifier(
     j,
     source,
-    '@atlaskit/avatar',
+    packageName,
     'AvatarItem',
   );
 

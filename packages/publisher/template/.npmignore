@@ -1,4 +1,3 @@
-codeshift.config.json
 src
 node_modules
 **/__test__
