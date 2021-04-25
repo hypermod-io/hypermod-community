@@ -36,7 +36,7 @@ function getPackageJson(packageName: string, version: string) {
       repository: 'https://github.com/CodeshiftCommunity/CodeshiftCommunity/',
       scripts: {},
       dependencies: {
-        jscodeshift: '^0.11.0',
+        jscodeshift: '^0.12.0',
         '@codeshift/utils': '*',
       },
     },

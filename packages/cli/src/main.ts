@@ -28,18 +28,25 @@ export default async function main(
   }
 
   if (flags.packages) {
-    //  Parse package string
-    //  fetch transform from npm
-    //  assign transform(s) to var
+    const rawPackageName = flags.packages.replace('@', '').replace('/', '__');
+    const packageName = `@codeshift/mod-${rawPackageName}`;
+    console.log(rawPackageName, packageName);
 
-    // TODO: consider using https://www.npmjs.com/package/npm-registry-client instead
     const packageManager = new PluginManager();
-    await packageManager.install('moment');
+    await packageManager.install(packageName);
 
-    const moment = packageManager.require('moment');
-    console.log(moment().format());
+    const codemod = packageManager.require(packageName);
 
-    await packageManager.uninstall('moment');
+    console.log(
+      // codemod,
+      codemod.transform18_0_0,
+      codemod.transform19_0_0,
+      // packageManager.list(),
+      // packageManager.getInfo(packageName),
+    );
+
+    // TODO: We'll have to uninstall the mod at some point
+    // await packageManager.uninstall('codemod');
   }
 
   if (!transforms.length) {

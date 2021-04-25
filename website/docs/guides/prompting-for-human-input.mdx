@@ -20,7 +20,7 @@ Comments are also helpful because when a PR is raised, these prompts can easily 
 Let's say your component now requires an additional prop `securityToken` to function safely, but you need a user to manually enter the token.
 This is a great candidate for prompting for user input.
 
-Let's right a transform to do that:
+Let's write a transform to do that:
 
 ```javascript
 export default function transformer(file, { jscodeshift: j }, options) {

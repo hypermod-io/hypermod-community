@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "jscodeshift": "^0.11.0",
+    "jscodeshift": "^0.12.0",
     "live-plugin-manager": "^0.15.1",
     "meow": "^9.0.0",
     "ts-node": "^9.1.1"
