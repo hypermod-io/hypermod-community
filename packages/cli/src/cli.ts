@@ -22,9 +22,9 @@ Usage
 
 Options
   --transform, -t the transform to run, will prompt for a transform if not provided and no module is passed
-  --packages, runs transforms for the specified comma separated list of packages, optionally include a version for each package to run all transforms since that version
-  --parser, -p babel|babylon|flow|ts|tsx parser to use for parsing the source files (default: babel)
+  --packages -pkgs, Comma separated list of packages to run transforms for, @scope/package[@version]. If version is supplied, will only run transforms above that version
   --version, -v version number
+  --parser, -p babel|babylon|flow|ts|tsx parser to use for parsing the source files (default: babel)
   --help, 😱
 
 Examples
@@ -43,6 +43,11 @@ Examples
       },
       packages: {
         type: 'string',
+        alias: 'pkgs',
+      },
+      range: {
+        type: 'string',
+        alias: 'r',
       },
       parser: {
         type: 'string',
