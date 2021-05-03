@@ -1,18 +1,22 @@
 module.exports = {
   docs: [
     {
-      'Getting Started': [
-        'introduction',
-        'guiding-principles',
-        'faq',
-        'ecosystem',
-      ],
+      type: 'category',
+      label: 'Getting Started',
+      collapsed: false,
+      items: ['introduction', 'guiding-principles', 'faq', 'ecosystem'],
     },
     {
-      Docs: ['authoring', 'consuming', 'testing', 'contribution'],
+      type: 'category',
+      label: 'Docs',
+      collapsed: false,
+      items: ['authoring', 'consuming', 'testing', 'contribution'],
     },
     {
-      Guides: [
+      type: 'category',
+      label: 'Guides',
+      collapsed: false,
+      items: [
         'guides/your-first-codemod',
         'guides/understanding-asts',
         'guides/when-not-to-codemod',
@@ -20,7 +24,10 @@ module.exports = {
       ],
     },
     {
-      Recipes: ['recipes/import-manipulation', 'recipes/react'],
+      type: 'category',
+      label: 'Recipes',
+      collapsed: false,
+      items: ['recipes/import-manipulation', 'recipes/react'],
     },
   ],
 };

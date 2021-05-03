@@ -20,7 +20,7 @@ export default function Home() {
         <div className={clsx('container', styles.heroContainer)}>
           <Logo
             title="CodeshiftCommunity logo"
-            style={{ maxWidth: '320px', width: '100%' }}
+            style={{ maxWidth: '160px', width: '100%' }}
           />
           <h1 className="hero__title">{siteConfig.title}</h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>

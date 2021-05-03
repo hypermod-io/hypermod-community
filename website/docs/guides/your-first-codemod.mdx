@@ -132,8 +132,8 @@ export default function transform(file, { jscodeshift: j }, options) {
   const source = j(file.source);
 
   source
-    .find(j.JSXIdentifier) // (1) Find all JSX props
-    .filter(path => path.node.name === 'isDisabled') // (2) Filter by name `isDisabled`
+    .find(j.JSXAttribute) // (1) Find all JSX props
+    .filter(path => path.node.name.name === 'isDisabled') // (2) Filter by name `isDisabled`
     .remove(); // (3) We remove any `isDisabled` prop from the AST
 
   return source.toSource(options.printOptions);
@@ -168,8 +168,8 @@ export default function transform(file, { jscodeshift: j }, options) {
   source
 +   .find(j.JSXElement)
 +   .filter(path => path.value.openingElement.name.name === 'Button')
-    .find(j.JSXIdentifier) // (1) Find all JSX props
-    .filter(path => path.node.name === 'isDisabled') // (2) Filter by name `isDisabled`
+    .find(j.JSXAttribute) // (1) Find all JSX props
+    .filter(path => path.node.name.name === 'isDisabled') // (2) Filter by name `isDisabled`
     .remove(); // (3) We remove any `isDisabled` prop from the AST
 
   return source.toSource(options.printOptions);
@@ -217,8 +217,8 @@ To avoid formatting issues and to speed up running transforms across large codeb
 ```ts
 export default function transform(file, { jscodeshift: j }, options) {
   const hasIsDisabledProp = !!source
-    .find(j.JSXIdentifier)
-    .filter(path.node.name === 'isDisabled')
+    .find(j.JSXAttribute)
+    .filter(path.node.name.name === 'isDisabled')
     .length
 
   if (!hasIsDisabledProp) {

@@ -14,6 +14,25 @@ slug: /react
 export default function transformer(file, { jscodeshift: j }, options) {
   const source = j(file.source);
 
+  source
+    .find(j.JSXElement)
+    // Find all components called button
+    .filter(path => path.value.openingElement.name.name === 'button')
+    .forEach(element => {
+      const newComponent = j.jsxElement(
+        j.jsxOpeningElement(element.node.openingElement.name, [
+          ...element.node.openingElement.attributes,
+          // build and insert our new prop
+          j.jsxAttribute(j.jsxIdentifier('disabled'), j.stringLiteral('true')),
+        ]),
+        element.node.closingElement,
+        element.node.children,
+      );
+
+      // Replace our original component with our modified one
+      j(element).replaceWith(newComponent);
+    });
+
   return source.toSource();
 }
 ```
@@ -21,7 +40,7 @@ export default function transformer(file, { jscodeshift: j }, options) {
 **Input:**
 
 ```jsx
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Button = props => {
   return <button className="button">Submit</button>;
@@ -31,11 +50,11 @@ const Button = props => {
 **Output:**
 
 ```diff
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Button = props => {
 -  return <button className="button">Submit</button>;
-+  return <button className="button" onClick={() => console.log('Hello, World!')}>Submit</button>;
++  return <button className="button" disabled="true">Submit</button>;
 };
 ```
 
@@ -47,6 +66,13 @@ const Button = props => {
 export default function transformer(file, { jscodeshift: j }, options) {
   const source = j(file.source);
 
+  source
+    .find(j.JSXElement)
+    .filter(path => path.value.openingElement.name.name === 'button') // Find all button jsx elements
+    .find(j.JSXAttribute) // Find all attributes (props) on the button
+    .filter(path => path.node.name.name === 'onClick') // Filter to only props called onClick
+    .remove(); // Remove everything that matched
+
   return source.toSource();
 }
 ```
@@ -54,21 +80,25 @@ export default function transformer(file, { jscodeshift: j }, options) {
 **Input:**
 
 ```jsx
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Button = props => {
-  return <button className="button">Submit</button>;
+  return (
+    <button className="button" onClick={() => console.log('Hello, World!')}>
+      Submit
+    </button>
+  );
 };
 ```
 
 **Output:**
 
 ```diff
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Button = props => {
--  return <button className="button">Submit</button>;
-+  return <button className="button" onClick={() => console.log('Hello, World!')}>Submit</button>;
+-  return <button className="button" onClick={() => console.log('Hello, World!')}>Submit</button>;
++  return <button className="button">Submit</button>;
 };
 ```
 
@@ -87,7 +117,7 @@ export default function transformer(file, { jscodeshift: j }, options) {
 **Input:**
 
 ```jsx
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Button = props => {
   return <button className="button">Submit</button>;
@@ -97,7 +127,7 @@ const Button = props => {
 **Output:**
 
 ```diff
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Button = props => {
 -  return <button className="button">Submit</button>;
@@ -132,11 +162,39 @@ export default function transformer(file, { jscodeshift: j }, options) {
 
 ### Wrapping components
 
+Wrapping react components with react components is a fairly common opperation.
+
+Simply follow this fairly simple set of steps:
+
+1. Find the component you want to wrap
+2. Create a new component and pass the component to be wrapped in as a child node
+3. Replace the original component with a wrapped version of itself
+
 **Transform:**
 
 ```javascript
 export default function transformer(file, { jscodeshift: j }, options) {
   const source = j(file.source);
+
+  // Find all components named "Avatar"
+  source.findJSXElements('Avatar').forEach(element => {
+    /**
+     * Create a new JSXElement called "Tooltip" and use the original Avatar component as children
+     */
+    const wrappedAvatar = j.jsxElement(
+      j.jsxOpeningElement(j.jsxIdentifier('Tooltip'), [
+        // Create a prop on the tooltip so it works as expected
+        j.jsxAttribute(
+          j.jsxIdentifier('content'),
+          j.stringLiteral('Hello, there!'),
+        ),
+      ]),
+      j.jsxClosingElement(j.jsxIdentifier('Tooltip')),
+      [element.value], // Pass in the original component as children
+    );
+
+    j(element).replaceWith(wrappedAvatar);
+  });
 
   return source.toSource();
 }
@@ -145,35 +203,25 @@ export default function transformer(file, { jscodeshift: j }, options) {
 **Input:**
 
 ```jsx
+import { Avatar, Tooltip } from 'component-lib';
+
+const App = () => {
+  return <Avatar name="foo" />;
+};
 ```
 
 **Output:**
 
 ```diff
+import {Avatar, Tooltip } from 'component-lib';
 
-```
-
-### Render props
-
-**Transform:**
-
-```javascript
-export default function transformer(file, { jscodeshift: j }, options) {
-  const source = j(file.source);
-
-  return source.toSource();
+const App = () => {
+  return (
++    <Tooltip content="foo">
+      <Avatar name="foo" />
++    </Tooltip>
+  );
 }
-```
-
-**Input:**
-
-```jsx
-```
-
-**Output:**
-
-```diff
-
 ```
 
 ### Inserting children nodes
@@ -197,4 +245,92 @@ export default function transformer(file, { jscodeshift: j }, options) {
 
 ```diff
 
+```
+
+### Render props
+
+Moving between different types of React composition strategies, like for example, from component props to [render props](https://reactjs.org/docs/render-props.html#using-props-other-than-render) is could be something you want to do between major versions.
+This might seem difficult on the surface, but think about it like every other codemod. First we need to find the component, replace it with a modified copy of itself and finally insert a function as children.
+
+**Transform:**
+
+```javascript
+import { getJSXAttributesByName } from '@codeshift/utils';
+
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source.findJSXElements('Avatar').forEach(element => {
+    // Find props all JSXAttributes with a prop called "component"
+    // (Using the getJSXAttributeByName util here for simplicity)
+    const componentProp = getJSXAttributesByName(j, element, 'component').get();
+    // Grabs the name of the component passed into the "component" prop
+    const componentName = j(componentProp)
+      .find(j.JSXExpressionContainer)
+      .find(j.Expression)
+      .get().value.name;
+
+    // Remove it since it's no longer required on the wrapping component
+    j(componentProp).remove();
+
+    // Create a new child component based on the component prop and spread props onto it
+    const customComponent = j.jsxElement(
+      j.jsxOpeningElement(
+        j.jsxIdentifier(componentName),
+        [j.jsxSpreadAttribute(j.identifier('props'))],
+        true,
+      ),
+    );
+
+    /**
+     * Here's where it gets interesting.
+     * We create a render prop function and pass in `customComponent` as the return value
+     */
+    const childrenExpression = j.jsxExpressionContainer(
+      j.arrowFunctionExpression([j.identifier('props')], customComponent),
+    );
+
+    /**
+     * Then finally, we replace our original component with the following.
+     * Taking properties from the original component and combining them with our new render prop function
+     */
+    j(element).replaceWith(
+      j.jsxElement(
+        j.jsxOpeningElement(
+          element.value.openingElement.name,
+          element.value.openingElement.attributes,
+          false,
+        ),
+        j.jsxClosingElement(element.value.openingElement.name),
+        [childrenExpression],
+      ),
+    );
+  });
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+import Avatar from '@component-lib/avatar';
+
+const App = () => {
+  return <Avatar name="Dan" component={CustomAvatar} />;
+};
+```
+
+**Output:**
+
+```diff
+
+import Avatar from '@component-lib/avatar';
+
+const App = () => {
+  return (
+-    <Avatar name="Dan" component={CustomAvatar} />
++    <Avatar name="Dan">{props => <CustomAvatar {...props} />}</Avatar>
++  );
+}
 ```

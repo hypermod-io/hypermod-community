@@ -60,12 +60,8 @@ Example:
 import { hasImportDeclaration } from '@codeshift/utils';
 import updateBorderWidth from './motions/update-border-width';
 
-export default function transformer(
-  fileInfo: FileInfo,
-  { jscodeshift: j }: API,
-  options: Options,
-) {
-  const source = j(fileInfo.source);
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
 
   if (hasImportDeclaration(j, source, '@atlaskit/avatar')) {
     // Checks if the file needs to be modified
@@ -74,13 +70,13 @@ export default function transformer(
     return source.toSource(options.printOptions || { quote: 'single' }); // Writes modified AST to file
   }
 
-  return fileInfo.source; // Writes original untouched file
+  return file.source; // Writes original untouched file
 }
 ```
 
 ## Motions
 
-A motion is what we call specific actions performed within a codemod. For example, `updateBorderWidth` or `removeDeprecatedProps`.
+A motion (aka migration) is what we call specific actions performed within a codemod. For example, `updateBorderWidth` or `removeDeprecatedProps`.
 They can be simply thought of a functions that are responsible for a single action within a codemod. This is not required but can help to isolate more complicated parts of your codemod into a single place.
 
 Example:

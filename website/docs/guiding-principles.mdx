@@ -6,7 +6,7 @@ slug: /guiding-principles
 
 There are several guiding principles we follow in this project.
 
-## Target a package & version
+## Codemod should target a version of package
 
 - APIs are always changing
 - Codemods written at a specific point of time aren't always going to work into the future
@@ -17,6 +17,8 @@ This gives us a lot of benefits,
 1. It's obvious the scope and intent of a codemod (migrating a package from one version to another)
 2. Codemods can be 'playable in a sequence', for example migrating from an older version of `@atlaskit/button` to the latest is possible for example `v14 -> v15 -> v16`.
 3. TODO`
+
+## Codemods should be playable in sequence
 
 ## Everyone should ship codemods
 
