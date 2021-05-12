@@ -4,19 +4,64 @@ title: Introduction
 slug: /
 ---
 
-CodeshiftCommunity is a community-owned global registry and documentation hub for codemods. _Think [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) for codemods._
-This project provides library users & maintainers with facilities to help [write](authoring), [test](testing), [publish](contribution) and [consume](docs/consuming) codemods in a structured, standardized and familiar way.
+CodeshiftCommunity is a community-owned global registry and documentation hub for codemods.
+This project provides library users & maintainers with facilities to help [write](authoring), [test](testing), [publish](contribution) and [consume](docs/consuming) codemods in a structured and familiar way.
 
-## The problem
+## Why?
 
-A lot popular of libraries in the ecosystem like React, Material Design and Nextjs, all provide their own codemods, CLI and distribution services, but these services are usually quite hidden from the average user. What if there was a centralized registry, similar to [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)? Libraries would be able to consolidate codemods and users have a single place to go to look for them.
+Our overarching goal is to build a community around codemods to help normalize both authoring and consuming them, turning it into a standard development practice throughout the JavaScript ecosystem.
 
-## The solution
+We believe this can be achieved by making the right support, documentation and tooling available to everyone.
 
-Our goal is to build a community around codemods to help normalize both authoring and consuming them and make it a standard development practice throughout the JavaScript ecosystem. In doing so, we hope to also demystify codemods, which are often seen as "arcane knowledge" and generally too hard to warrant learning. We believe this can be achieved by making the right support, documentation and tooling available to everyone.
+To do this CodeshiftCommunity aims to solve three main problems.
+
+1. Fragmentation of how codemods are written & distributed in the ecosystem
+2. Package adoption & upgrade pain
+3. Lack of documentation & familiarity
+
+### Fragmentation in the ecosystem
+
+Popular libraries in the ecosystem such as [React](https://github.com/reactjs/react-codemod), [material-ui](https://github.com/mui-org/material-ui/tree/master/packages/material-ui-codemod) and [next.js](https://nextjs.org/docs/advanced-features/codemods), all provide their own take on codemods, CLI and distribution services.
+These services are varied from one another and generally quite hidden from the average user.
+Providing this as an additional service to aid in upgrading their libraries is a great thing, but comes with significant overhead to those projects.
+
+### Package adoption & upgrade pain
+
+When publishing packages via semver, it is too easy to push the upgrade pain onto users.
+Users will likely then have to go digging in either your changelog or (worst case) your code to find out how to safely migrate to the latest and greatest.
+Often the solution is just to avoid upgrading entirely or migrate to a new library.
+
+### Lack of documentation & familiarity
+
+Writing codemods often feels like tribal knowledge, there might be only a handfull of people in your company that have written one or know how to write one. This needs to change!
+
+## How do we solve these problems?
+
+### A centralized registry
+
+[DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) is a great example of how consolidating type definitions under the one roof builds familiarity and consistency for the entire typescript user base.
+
+By consolidating codemods in the same way, the ecosystem can benefit from:
+
+1. A single place to find, use and publish codemods
+2. Community support & bug fixes
+3. Countless examples
+
+CodeshiftCommunity provides a codemod registry that hosts and automatically publishes codemods for you under the [/community directory](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community).
+The community directory organizes codemods by package name and version. They are then published to npm as modules that can be retrospectivally patched or improved.
+This ensures that users running codemods are always getting the latest and greatest version of your codemod.
+
+### Rich documentation
+
+CodeshiftCommunity is a documentation hub first, by provding guides, recipes and reference material we aim demystify codemods, which are often seen as "arcane knowledge".
+
+With the right documentation and guidance in place, it will be significantly easier to normalize codemods and reduce their learning curve.
+We want to remove the stigma that "codemods are hard" or "they take a long time to write" and get everyone into the healthy practice of writing them.
+Meaning that more people can contribute to writing codemods and ultimately improve the javascript ecosystem's adoption problem.
 
 ## Getting started
 
+- [Your first codemod](/docs/your-first-codemod)
 - [Consuming codemods](consuming)
 - [Writing codemods](authoring)
 - [Testing codemods](testing)

@@ -4,7 +4,7 @@
   <img width="700" src="assets/github-banner.png" alt="CodeshiftCommunity Logo">
 </p>
 
-CodeshiftCommunity is a community-owned global registry and documentation hub for codemods. _Think [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) for codemods._ Providing library maintainers & users with facilities to help write, test, publish and consume codemods in a structured, standardized and familiar way.
+CodeshiftCommunity is a community-owned global registry and documentation hub for codemods. Providing library maintainers & users with facilities to help write, test, publish and consume codemods in a structured, standardized and familiar way.
 
 _Inspired by Facebook's [jscodeshift](https://github.com/facebook/jscodeshift)_
 

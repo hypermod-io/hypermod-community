@@ -39,15 +39,21 @@ For example, consider moving from React class components to a hooks based functi
 
 For example: When you need the full runtime result of a React tree
 
-### Sometimes we need to know what values are being used.
+### Indirection
 
-This can be hard if it is coming in across module boundaries, using object spreading and so on.
+Indirection is one of the biggest hurdles codemods have to overcome.
+Anytime we run into indirection, it is harder to statically analyse how a piece of code is being used and have to take different approaches to work around it.
 
-Consider removing `DEPRECATED_BAZ` from `my-module` when it's imported and used like so:
+Indirection as several forms and can include working across module boundaries, using object spreading, dependency injection and so on. Keep an eye out for these cases.
+
+For example, consider removing `DEPRECATED_BAZ` from `my-module` when it's imported and used like so:
 
 ```jsx
 // src/utils/my-module.js
-export { * as myModule } from 'my-module';
+export {
+  DEPRECATED_BAZ: 'DEPRECATED_BAZ',
+  foo: () => 'hello',
+};
 ```
 
 ```js
@@ -60,7 +66,7 @@ const App = props => {
 };
 ```
 
-In this case, we're not able to guarantee that you'll be able to safely remove all usages of the `DEPRECATED_BAZ` function.
+In this case, because we're using "rest" in our import statement and then "spreading" it onto our component, we're not able to guarantee that you'll be able to safely remove all usages of the `DEPRECATED_BAZ` function.
 
 ### Usage paradigm shifts where the old paradigm does not have a 1:1 in the new paradigm
 
@@ -112,7 +118,7 @@ const App = props => {
 
 For more information on how to write a transform that does this, please refer to the [prompting for human input guide](/docs/prompting-for-human-input).
 
-### Thinking outside of the box
+### Aliasing
 
 You might come across the case where an "ideal" solution is too complex or too full of edge cases to do reasonably. When this happens, consider looking for a less than ideal but working solution.
 

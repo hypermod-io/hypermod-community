@@ -4,7 +4,7 @@ title: Authoring
 slug: /authoring
 ---
 
-Please read the [contribution guide](docs/contribution) 🙏
+Before writing a codemod, please read the [contribution guide](docs/contribution) 🙏
 
 ## Initializing
 
@@ -29,7 +29,7 @@ community/[package-name]/[version]
     /[motion-name].spec.ts // motion tests
 ```
 
-Example:
+**Example:**
 
 ```
 community/react-cool-library/18.0.0
@@ -42,19 +42,20 @@ community/react-cool-library/18.0.0
 
 ## Versioning
 
+You might wonder why we require that codemods are named by a semver version like `react-cool-library/18.0.0`.
 We believe that codemods should aim to target specific package and versions of that package.
 
 This is done to:
 
-- Make it obvious what the intended purpose of a codemod is
+- Make it obvious what the intended purpose and scope of a codemod is
 - Make it obvious which package is being upgraded
 - Make it easy to play codemods in sequence to allow migration from v4 -> v5 -> v6
 
 ## Transformers
 
-Transformers are the main entry point to your codemod, they are responsible for accepting a raw file and coordinating the appropriate modifications to it.
+Transformers are the main entrypoint to your codemod, they are responsible for accepting a raw file and applying the appropriate modifications to it.
 
-Example:
+**Example:**
 
 ```ts
 import { hasImportDeclaration } from '@codeshift/utils';
@@ -77,9 +78,9 @@ export default function transformer(file, { jscodeshift: j }, options) {
 ## Motions
 
 A motion (aka migration) is what we call specific actions performed within a codemod. For example, `updateBorderWidth` or `removeDeprecatedProps`.
-They can be simply thought of a functions that are responsible for a single action within a codemod. This is not required but can help to isolate more complicated parts of your codemod into a single place.
+They can be simply thought of a functions that are responsible for a single action within a codemod. It is not required but they are a helpful design pattern to isolate more complicated parts of your codemod into discrete pieces.
 
-Example:
+**Example:**
 
 ```ts
 function removeDeprecatedProps(
@@ -94,9 +95,9 @@ function removeDeprecatedProps(
 
 It's very likely that consumers will run into all sorts of edge-cases when running your transform. That's why it's important to start by writing some tests to assert it's behavior. Luckily, [jscodeshift provides some testing utilities](https://github.com/facebook/jscodeshift#unit-testing).
 
-When creating a codemod, it's best to always try to write your tests first. Think about the start and end state and how you might be able to achieve that. Also, make sure to consider as many edge-cases as you possibly can.
+When creating a codemod, it's best to always try to write your tests first (TDD style). Think about the start and end state and how you might be able to achieve that. Also, make sure to consider as many edge-cases as you possibly can.
 
-Example:
+**Example:**
 
 ```ts
 const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
@@ -111,3 +112,5 @@ defineInlineTest(
   'test name (optional)',
 );
 ```
+
+For more information, please see the [testing docs](testing).

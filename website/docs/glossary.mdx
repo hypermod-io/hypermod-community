@@ -1,0 +1,80 @@
+---
+id: glossary
+title: Glossary
+slug: /glossary
+---
+
+## Codemod
+
+> Code that is written with the sole intent of transforming other code. An example would be a piece of code that takes a normal function, and rewrites it to be an arrow function.
+
+– [Reference](https://medium.com/@andrew_levine/writing-your-very-first-codemod-with-jscodeshift-7a24c4ede31b)
+
+## Motion
+
+A motion (aka migration) is what we call specific actions performed within a codemod. Put simply, javascript functions that are responsible for a single action within a codemod.
+
+For more information see: [Authoring](/docs/authoring#motions)
+
+## AST
+
+> An abstract syntax tree (AST), is a tree representation of the abstract syntactic structure of source code written in a programming language. Each node of the tree denotes a construct occurring in the source code.
+
+– [Wiki: Abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
+
+## jscodeshift
+
+[jscodeshift](https://github.com/facebook/jscodeshift) is the underlying library used by CodeshiftCommunity.
+
+## recast
+
+[recast](https://github.com/benjamn/recast) is the underlying library used by jscodeshift to parse, transform and output files as ASTs. It's a comparable library to [babel](https://babeljs.io/)
+
+> A fantastic library (authored by Ben Newman) that takes an AST and transforms it back into source code. The beauty of recast is that it tries to preserve as much of your codes existing formatting as possible.
+
+– [Reference](https://medium.com/@andrew_levine/writing-your-very-first-codemod-with-jscodeshift-7a24c4ede31b)
+
+## ast-types
+
+> Another great library authored by Ben Newman. It exposes 2 kinds of helpers that you’ll be using: functions that allow you to verify assumptions about nodes, and functions that allow you to compose new nodes to be added to an existing AST.
+
+– [Reference](https://medium.com/@andrew_levine/writing-your-very-first-codemod-with-jscodeshift-7a24c4ede31b)
+
+## Node
+
+> The representation of a single construct within an AST. An example of a node could be a node for a `FunctionExpression`. A node will often have many other nodes nested within it.
+
+– [Reference](https://medium.com/@andrew_levine/writing-your-very-first-codemod-with-jscodeshift-7a24c4ede31b)
+
+For more information see the [jscodeshift docs](https://github.com/facebook/jscodeshift#ast-nodes)
+
+## Path
+
+> An object that wraps a single node, and exposes an API to make modifying/inspecting information about the node simpler.
+
+– [Reference](https://medium.com/@andrew_levine/writing-your-very-first-codemod-with-jscodeshift-7a24c4ede31b)
+
+For more information see the [jscodeshift docs](https://github.com/facebook/jscodeshift#path-objects)
+
+## Collection
+
+> A group of path objects that exposes helpers to transform all contained paths, or traverse them further. Collections are very similar to the object returned from jQuery’s \$() function.
+
+– [Reference](https://medium.com/@andrew_levine/writing-your-very-first-codemod-with-jscodeshift-7a24c4ede31b)
+
+For more information see the [jscodeshift docs](https://github.com/facebook/jscodeshift#collections-and-traversal)
+
+## Builders
+
+Builders are methods intended to create new AST nodes.
+
+For example creating an import declaration with the `importDeclaration()` builder might look like this:
+
+```js
+j.importDeclaration(
+  [j.importDefaultSpecifier(j.identifier('Foo'))],
+  j.stringLiteral('bar'),
+);
+```
+
+For more information see the [jscodeshift docs](https://github.com/facebook/jscodeshift#builders)

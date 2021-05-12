@@ -56,10 +56,6 @@ module.exports = {
                 'https://stackoverflow.com/questions/tagged/CodeshiftCommunity',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/CodeshiftCommunity',
-            },
-            {
               label: 'Twitter',
               href: 'https://twitter.com/CodeshiftCommunity',
             },

@@ -4,7 +4,13 @@ module.exports = {
       type: 'category',
       label: 'Getting Started',
       collapsed: false,
-      items: ['introduction', 'guiding-principles', 'faq', 'ecosystem'],
+      items: [
+        'introduction',
+        'guiding-principles',
+        'faq',
+        'ecosystem',
+        'glossary',
+      ],
     },
     {
       type: 'category',

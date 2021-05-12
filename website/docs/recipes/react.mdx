@@ -142,6 +142,42 @@ const Button = props => {
 ```javascript
 export default function transformer(file, { jscodeshift: j }, options) {
   const source = j(file.source);
+  const props = [];
+
+  source
+    // Find all jsx elements with the name "button"
+    .find(j.JSXElement)
+    .filter(path => path.node.openingElement.name.name === 'button')
+    // Collect all of their props
+    .forEach(path => props.push(...path.node.openingElement.attributes))
+    // Now get all of the jsx attributes (props)...
+    .find(j.JSXAttribute)
+    // And replace them with a spread attribute called "props" for example `{...props}`
+    .forEach(path => path.replace(j.jsxSpreadAttribute(j.identifier('props'))));
+
+  // Create a new constant variable named props.
+  const variableDeclaration = j.variableDeclaration('const', [
+    j.variableDeclarator(
+      j.identifier('props'),
+      // the variable will be assigned an object containing all of the props from button
+      j.objectExpression(
+        props.map(prop =>
+          j.objectProperty(
+            j.identifier(prop.name.name),
+            j.stringLiteral(prop.value.value),
+          ),
+        ),
+      ),
+    ),
+  ]);
+
+  // Finally, we find the arrow function expression
+  source
+    .find(j.ArrowFunctionExpression)
+    // We then retrieve its body, which is the "block scope" of the component
+    .get('body')
+    // Since elements in a block are an array, we need to insert our new variable using unshift because we want it to be first
+    .value.body.unshift(variableDeclaration);
 
   return source.toSource();
 }
@@ -150,12 +186,23 @@ export default function transformer(file, { jscodeshift: j }, options) {
 **Input:**
 
 ```jsx
+import React from 'react';
+
+const Button = () => {
+  return <button className="button">Submit</button>;
+};
 ```
 
 **Output:**
 
 ```diff
+import React from 'react';
 
+const Button = () => {
++  const props = { className: 'button' };
+-  return <button className="button">Submit</button>;
++  return <button {...props}>Submit</button>;
+};
 ```
 
 ## JSX
@@ -178,9 +225,7 @@ export default function transformer(file, { jscodeshift: j }, options) {
 
   // Find all components named "Avatar"
   source.findJSXElements('Avatar').forEach(element => {
-    /**
-     * Create a new JSXElement called "Tooltip" and use the original Avatar component as children
-     */
+    // Create a new JSXElement called "Tooltip" and use the original Avatar component as children
     const wrappedAvatar = j.jsxElement(
       j.jsxOpeningElement(j.jsxIdentifier('Tooltip'), [
         // Create a prop on the tooltip so it works as expected
@@ -232,6 +277,25 @@ const App = () => {
 export default function transformer(file, { jscodeshift: j }, options) {
   const source = j(file.source);
 
+  source
+    .find(j.JSXElement) // Find all jsx elements
+    .filter(path => path.node.openingElement.name.name === 'ul') // filter to an array of only ul elements
+    .forEach(path =>
+      // Replace each ul element with a modified version of itself
+      path.replace(
+        j.jsxElement(path.node.openingElement, path.node.closingElement, [
+          ...path.node.children, // Copy existing children
+          // Create a new li element containing our new entry
+          j.jsxElement(
+            j.jsxOpeningElement(j.jsxIdentifier('li')),
+            j.jsxClosingElement(j.jsxIdentifier('li')),
+            [j.stringLiteral('Venusaur')],
+          ),
+          j.jsxText('\n'), // Add this to tidy up the formatting
+        ]),
+      ),
+    );
+
   return source.toSource();
 }
 ```
@@ -239,12 +303,32 @@ export default function transformer(file, { jscodeshift: j }, options) {
 **Input:**
 
 ```jsx
+import React from 'react';
+
+const Button = () => {
+  return (
+    <ul>
+      <li>Bulbasaur</li>
+      <li>Ivysaur</li>
+    </ul>
+  );
+};
 ```
 
 **Output:**
 
 ```diff
+import React from 'react';
 
+const Button = () => {
+  return (
+    <ul>
+      <li>Bulbasaur</li>
+      <li>Ivysaur</li>
++     <li>Venusaur</li>
+    </ul>
+  );
+};
 ```
 
 ### Render props
