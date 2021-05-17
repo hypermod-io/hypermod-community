@@ -3,7 +3,7 @@ module.exports = {
   title: 'CodeshiftCommunity',
   tagline: 'Codemods for everyone ✨',
   url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/CodeshiftCommunity/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -68,6 +68,11 @@ module.exports = {
               label: 'GitHub',
               href: 'https://github.com/CodeshiftCommunity/CodeshiftCommunity',
             },
+            {
+              label: 'Roadmap',
+              href:
+                'https://github.com/CodeshiftCommunity/CodeshiftCommunity/projects/1',
+            },
           ],
         },
       ],
@@ -88,5 +93,11 @@ module.exports = {
         },
       },
     ],
+  ],
+  scripts: [
+    {
+      src: 'https://cdn.splitbee.io/sb.js',
+      async: true,
+    },
   ],
 };
