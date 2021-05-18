@@ -1,1 +1,1 @@
-export { default as runTransform } from './run-transform';
+export { default as applyTransform } from './apply-transform';

@@ -1,13 +1,13 @@
 jest.autoMockOff();
 
-import { runTransform } from '@codeshift/test-utils';
+import { applyTransform } from '@codeshift/test-utils';
 import * as transformer from '../transform';
 
 const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 describe('Update Avatar props', () => {
   it('should wrap avatar in a tooltip if name is defined', () => {
-    const result = runTransform(
+    const result = applyTransform(
       transformer,
       `
         import Avatar from '@atlaskit/avatar';

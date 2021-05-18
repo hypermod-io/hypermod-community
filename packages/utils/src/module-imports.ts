@@ -13,11 +13,11 @@ export function hasImportDeclaration(
 export function getImportDeclaration(
   j: core.JSCodeshift,
   source: ReturnType<typeof j>,
-  specifier: string,
+  importPath: string,
 ) {
   return source
     .find(j.ImportDeclaration)
-    .filter(path => path.node.source.value === specifier);
+    .filter(path => path.node.source.value === importPath);
 }
 
 export function getDefaultImportSpecifier(

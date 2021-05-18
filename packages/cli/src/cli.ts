@@ -28,8 +28,8 @@ Options
   --help, 😱
 
 Examples
-  # Run all transforms for "@atlaskit/button" greater than version 3.0.0 and @atlaskit/range greater than 4.0.0
-  $ npx @codeshift/cli --packages @atlaskit/button@3.0.0,@atlaskit/range@4.0.0 /project/src
+  # Run all transforms for "@mylib/button" greater than version 3.0.0 and @mylib/range greater than 4.0.0
+  $ npx @codeshift/cli --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src
 
   # Run the "my-custom-transform" transform of the "button" package
   $ npx @codeshift/cli -t my-custom-transform /project/src

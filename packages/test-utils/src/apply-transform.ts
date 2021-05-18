@@ -6,7 +6,7 @@ interface Options {
   parser?: Parser;
 }
 
-export default function runTransform(
+export default function applyTransform(
   transform: any,
   input: string,
   options: Options = {
