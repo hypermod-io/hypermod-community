@@ -36,4 +36,12 @@ module.exports = {
       items: ['recipes/import-manipulation', 'recipes/react'],
     },
   ],
+  api: [
+    {
+      type: 'category',
+      label: 'Packages',
+      collapsed: false,
+      items: ['api/cli', 'api/utils', 'api/test-utils'],
+    },
+  ],
 };

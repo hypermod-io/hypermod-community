@@ -4,22 +4,66 @@ title: Testing
 slug: /testing
 ---
 
-It's very likely that consumers will run into all sorts of edge-cases when running your transform. That's why it's important to start by writing some tests to assert it's behavior. Luckily, [jscodeshift provides some testing utilities](https://github.com/facebook/jscodeshift#unit-testing).
+It's very likely that consumers will run into all sorts of edge-cases when running your codemod. That's why it's important to always start by writing tests (TDD style) to assert its behavior.
+Think about a start and end state. How you might be able to achieve that? What edge-cases can potentially arise?
 
-When creating a codemod, it's best to always try to write your tests first. Think about the start and end state and how you might be able to achieve that. Also, make sure to consider as many edge-cases as you possibly can.
+CodeshiftCommunity (and [jscodeshift](https://github.com/facebook/jscodeshift#unit-testing)) exposes [testing utilities](/docs/api/test-utils) to help.
 
-Example:
+> Codemods are a textbook example of where TDD works. You have an input file, you run the script and you get output. Thus I would really recommend using TDD for codemod projects.
+> Not only does it make codemods more stable, but having projects with test workflow setup, will help you learn.
+> Because you can experiment just by running the same test over and over again.
 
-```ts
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
-const transform = require('../myTransform');
-const transformOptions = {};
+– [Reference](https://katilius.dev/writing-js-codemods/#setting-up-codemod-project-for-tdd-workflow)
 
-defineInlineTest(
-  transform,
-  transformOptions,
-  'input',
-  'expected output',
-  'test name (optional)',
-);
+## Folder structure
+
+If you're planning to write and publish a codemod to the [Community folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community), follow the [Authoring guide](/docs/authoring#initializing).
+
+Once initialsing your file structure should look something like this:
+
 ```
+community/[package-name]/[version]
+  /transform.ts
+  /transform.spec.ts // Here's where your test should go
+```
+
+## An example
+
+To give an example, consider you're trying to write a codemod that removes deprecated props from a component.
+In this case, you would be able to write a simple test using `jest` & `@codeshift/test-utils` like so..
+
+```jsx
+import * as transformer from '../transform';
+import { applyTransform } from '@codeshift/test-utils';
+
+it('should remove all deleted props', () => {
+  const result = applyTransform(
+    transformer,
+    `
+      import Foo from '@mylib/foo';
+
+      const App = () => <Foo isSelected doNotUse='true' />;
+    `,
+    { parser: 'tsx' },
+  );
+
+  expect(result).toMatchInlineSnapshot(`
+    "
+    import Foo from '@mylib/foo';
+
+    const App = () => <Foo isSelected />;"
+  `);
+```
+
+Great, but what have we missed? What might go wrong?
+
+## Considerations
+
+Whenever you're writing tests for a codemod, it's usually good to consider a few classic gotchas.
+
+In general they can include:
+
+- Import aliasing: `import { Foo as Bar } from '@mylib/foo';`
+- Idempotency: Will a codemod produce the same result if run multiple times on the same file
+- Indirection: Is the code your modifying being obscured by indirection?
+- Equivalent syntax: `function foo() {}` vs `const foo = () => {}`

@@ -51,6 +51,9 @@ This is done to:
 - Make it obvious which package is being upgraded
 - Make it easy to play codemods in sequence to allow migration from v4 -> v5 -> v6
 
+But importantly, in terms of authoring, this also allows us to **retrospectivally patch published codemods**.
+Patched codemods will then be automatically published when merged to the repo, ensuring that consumers are always running the latest version.
+
 ## Transformers
 
 Transformers are the main entrypoint to your codemod, they are responsible for accepting a raw file and applying the appropriate modifications to it.

@@ -1,0 +1,164 @@
+---
+id: utils
+title: codeshift/utils
+slug: /utils
+---
+
+CodeshiftCommunity provides a set of utilities to help perform common codemod operations.
+
+## Installation
+
+`@codeshift/utils` is pre-bundled with every codemod that is published to the [Community folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community),
+so there's no need to install it manually.
+
+However, it is also available for use outside of this project and compatible with jscodeshift.
+
+`npm install --save-dev @codeshift/utils` or `yarn add -D @codeshift/utils`
+
+## Imports
+
+### `hasImportDeclaration(j, source, importPath)`
+
+Finds an import declaration by source name
+
+**Returns**
+
+`boolean`
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+```
+
+```js
+import { hasImportDeclaration } from '@codeshift/utils';
+
+hasImportDeclaration(j, source, 'react'); // True
+```
+
+### `getImportDeclaration(j, source, importPath)`
+
+Returns an import declaration by source name
+
+**Returns**
+
+`Collection`: Collection containing 1 or more imports
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+```
+
+```js
+import { getImportDeclaration } from '@codeshift/utils';
+
+getImportDeclaration(j, source, 'react');
+```
+
+### `getDefaultImportSpecifier(j, source, specifier)`
+
+Finds a default import specifier by name
+
+**Returns**
+
+`Collection`: Collection containing all matched default import specifiers
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+```
+
+```js
+import { getDefaultImportSpecifier } from '@codeshift/utils';
+
+getDefaultImportSpecifier(j, source, 'React'); // Collection containing 'React'
+```
+
+### `getImportSpecifier(j, source, specifier)`
+
+Finds an import specifier by name
+
+**Returns**
+
+`Collection`: Collection containing all matched import specifiers
+
+**Example**
+
+```jsx
+// src/App.js
+import React, { useEffect } from 'react';
+```
+
+```js
+import { getImportSpecifier } from '@codeshift/utils';
+
+getImportSpecifier(j, source, 'useEffect'); // Collection containing 'useEffect'
+```
+
+## JSX
+
+### `getJSXAttributesByName(j, source, attributeName)`
+
+Finds a JSX attributeName (aka prop) by name
+
+**Returns**
+
+`Collection`: Collection containing all matched jsx attributes
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+
+const App = () => <Button primary>Say hello</Button>;
+```
+
+```js
+import { getJSXAttributesByName } from '@codeshift/utils';
+
+getJSXAttributesByName(j, source, 'primary'); // Collection containing 'primary'
+```
+
+## Comments
+
+### `addCommentBefore(j, source, message)`
+
+Appends a comment before the provided node
+
+**Returns**
+
+`void`
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+
+const App = () => <Button primary>Say hello</Button>;
+```
+
+```js
+import { addCommentBefore } from '@codeshift/utils';
+
+addCommentBefore(
+  j,
+  path.find(j.ImportDeclaration),
+  'This should be removed in favour of mylib',
+);
+```
+
+```js
+// src/App.js
+// TODO: (Codemod) This should be removed in favour of mylib
+import React from 'react';
+
+const App = () => <Button primary>Say hello</Button>;
+```

@@ -18,10 +18,15 @@ module.exports = {
       },
       items: [
         {
-          to: 'docs/',
-          activeBasePath: 'docs',
-          docid: 'introduction',
+          type: 'doc',
+          docId: 'introduction',
           label: 'Docs',
+          position: 'left',
+        },
+        {
+          type: 'doc',
+          docId: 'api/cli',
+          label: 'API',
           position: 'left',
         },
         {
@@ -86,7 +91,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/CodeshiftCommunity/CodeshiftCommunity/edit/master/website/',
+            'https://github.com/CodeshiftCommunity/CodeshiftCommunity/edit/main/website/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

@@ -4,7 +4,6 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js'],
   testRegex: '^.+\\.(spec|test)\\.(ts|js)$',
-  testPathIgnorePatterns: ['/node_modules/', 'lib'],
   snapshotSerializers: ['jest-serializer-html-string'],
   watchPlugins: [
     'jest-watch-typeahead/filename',
@@ -20,6 +19,7 @@ module.exports = {
   },
   testPathIgnorePatterns: [
     '/node_modules/',
+    '/plugin_packages/',
     '<rootDir>/packages/initializer/template/',
   ],
 };
