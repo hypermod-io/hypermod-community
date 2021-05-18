@@ -10,6 +10,18 @@ slug: /glossary
 
 – [Reference](https://medium.com/@andrew_levine/writing-your-very-first-codemod-with-jscodeshift-7a24c4ede31b)
 
+## Transform
+
+A transform is simply a javascript function which serves as the entry-point for your codemod.
+
+For example:
+
+```jsx
+export default function transform(file, { jscodeshift: j }, options) {
+  //... codemod goes here
+}
+```
+
 ## Motion
 
 A motion (aka migration) is what we call specific actions performed within a codemod. Put simply, javascript functions that are responsible for a single action within a codemod.
@@ -26,6 +38,10 @@ For more information see: [Authoring](/docs/authoring#motions)
 
 [jscodeshift](https://github.com/facebook/jscodeshift) is the underlying library used by CodeshiftCommunity.
 
+- Provides both a CLI for running transforms and a jQuery-like API for manipulating ASTs
+- AST transformations are performed using a wrapper around [recast](https://github.com/benjamn/recast).
+- The AST is implemented in [ast-types](https://github.com/benjamn/ast-types), which is itself based on [esprima](https://esprima.org/)
+
 ## recast
 
 [recast](https://github.com/benjamn/recast) is the underlying library used by jscodeshift to parse, transform and output files as ASTs. It's a comparable library to [babel](https://babeljs.io/)
@@ -35,6 +51,8 @@ For more information see: [Authoring](/docs/authoring#motions)
 – [Reference](https://medium.com/@andrew_levine/writing-your-very-first-codemod-with-jscodeshift-7a24c4ede31b)
 
 ## ast-types
+
+[ast-types](https://github.com/benjamn/ast-types)
 
 > Another great library authored by Ben Newman. It exposes 2 kinds of helpers that you’ll be using: functions that allow you to verify assumptions about nodes, and functions that allow you to compose new nodes to be added to an existing AST.
 

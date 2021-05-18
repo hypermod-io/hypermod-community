@@ -8,14 +8,24 @@ There are several guiding principles we follow in this project.
 
 ## Codemods should target a version of package
 
-Code is always on the move and codemods written against a specific API, at a specific point of time aren't guaranteed to work in the future.
-We believe codemods should only aim to migrate from one API to another, by limiting the scope of change to a specific package and version.
-In doing so the scope and intent of a codemod is encoded and always obvious to users.
+Code is always on the move and codemods written against a specific API, at a specific point of time aren't guaranteed to work into the future.
+That's why we should aim to limit the scope of a codemod to migrate a specific package from one API to another.
+
+In doing so:
+
+- The scope and intent of a codemod is encoded and always obvious to users.
+- Changes to the package that occur thereafter should not affect or break older codemods.
+- Allow us to go back and patch older codemods if necessary.
+
+Conversely, if codemods were named arbitrarily, there will be no apparent sequence for the consumer to follow.
 
 ## Codemods should be playable in sequence
 
-By writing codemods that target a package and version, it should then be possible to move consumers across major versions by playing them in a sequence.
+By writing codemods that target a package and version, it should then be theoretically possible to move your consumers across multiple major versions by playing them in a sequence.
 For example, migrating from an older version of `@mylib/button` to the latest is possible by playing all available codemods in order `v14 -> v15 -> v16`.
+
+Ultimately, this is the happy-path this project strives for. But it's also important to meantion that in reality this might not always be possible depending on how your package might be consumed and how hard it might be to write a codemods for it.
+In these cases we recommend that you are aware of [when not to codemod](/docs/when-not-to-codemod) and [what to do when a codemod isn't possible](/docs/when-not-to-codemod#what-to-do-when-a-codemod-isnt-possible)
 
 ## Codemods should do as much as can be safely done, automatically and prompt for human intervention when needed
 
