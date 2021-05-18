@@ -1,0 +1,103 @@
+---
+id: cli
+title: codeshift/cli
+slug: /cli
+---
+
+To download and run codemods, we provide a CLI tool called `@codeshift/cli`.
+
+`@codeshift/cli` is responsible for running the provided transform against your entire codebase.
+Under the hood, it is a wrapper of jscodeshift's cli, which provides additional functionality
+
+1. Ability to run community codemods hosted on npm
+2. Runs versioned codemods in sequence
+3. Always runs the latest version of a codemod
+
+The cli allows you to run transforms either from the [community folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community) or on your local machine as per the original implementation of jscodeshift
+
+**Note:** Codemods will be designed to do the heavy lifting, but they'll often not be perfect so some manual work may still be required in order to successfully migrate.
+
+## Usage/Installation
+
+We recommend running the CLI with `npx` to ensure you always have the latest version.
+
+`$ npx @codeshift/cli --packages mylib@1.0.0 /project/src`
+
+But it can also be installed normally:
+
+`npm install -g @codeshift/cli` or `yarn global add @codeshift/cli`
+
+Or globally:
+
+`npm install --save-dev @codeshift/cli` or `yarn add -D @codeshift/cli`
+
+## Options
+
+### --transform, -t
+
+The transform to run, transforms can be either a single file or directory with an index.
+
+**example:**
+
+- `npx @codeshift/cli --transform codemods/my-special-mod /project/src/file.js`
+- `npx @codeshift/cli --transform codemods/my-special-mod/index.ts /project/src/file.js`
+
+### --packages
+
+Runs transforms for the specified comma separated list of packages, optionally include a version for each package to run all transforms since that version
+
+**example:**
+
+- `npx @codeshift/cli --packages @atlaskit/button /project/src`
+- `npx @codeshift/cli --packages @atlaskit/button@3.0.0,@atlaskit/range@4.0.0 /project/src`
+
+### --parser, -p
+
+Parser to use for parsing the source files you are code modding.
+
+**options:**
+
+- babel (default)
+- babylon
+- flow
+- ts
+- tsx
+
+**example:**
+
+- `npx @codeshift/cli --parser tsx /project/src/file.ts`
+- `npx @codeshift/cli -p babel /project/src/file.ts`
+
+### --extensions, -e
+
+Transform files with these file extensions (comma separated list) (default: js)
+
+**example:**
+
+- `npx @codeshift/cli --extensions ts,tsx /project/src/file.js`
+- `npx @codeshift/cli -e js /project/src/file.js`
+
+### --ignore-pattern
+
+Ignore files that match a provided glob expression
+
+**example:**
+
+- `@codeshift/cli --ignore-pattern node_modules /project/src/file.js`
+
+### --version, -v
+
+Get current version number
+
+**example:**
+
+- `@codeshift/cli --version`
+- `@codeshift/cli -v`
+
+### --help
+
+Print all help text to the command line
+
+**example:**
+
+- `@codeshift/cli --help`

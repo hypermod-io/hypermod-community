@@ -18,10 +18,15 @@ module.exports = {
       },
       items: [
         {
-          to: 'docs/',
-          activeBasePath: 'docs',
-          docid: 'introduction',
+          type: 'doc',
+          docId: 'introduction',
           label: 'Docs',
+          position: 'left',
+        },
+        {
+          type: 'doc',
+          docId: 'api/cli',
+          label: 'API',
           position: 'left',
         },
         {
