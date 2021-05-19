@@ -9,9 +9,9 @@ import { InvalidUserInputError } from './errors';
 
 export default async function main(
   paths: string[],
-  flags: Flags = { parser: 'babel' },
+  flags: Flags = { parser: 'babel', extensions: 'js' },
 ) {
-  console.log('CodeshiftCommunity CLI', paths, flags);
+  console.log('CodeshiftCommunity CLI');
 
   let transforms: string[] = [];
 
@@ -34,16 +34,18 @@ export default async function main(
   const packageManager = new PluginManager();
 
   if (flags.packages) {
-    const pkgs = flags.packages.split(',');
+    const pkgs = flags.packages.split(',').filter(pkg => !!pkg);
 
     for (const pkg of pkgs) {
       const pkgSplit = pkg.split('@').filter(str => !!str);
       const name = pkgSplit[0].replace('/', '__');
-      const baseVersion = semver.coerce(pkgSplit[pkgSplit.length - 1]);
+      const baseVersion = semver.valid(
+        semver.coerce(pkgSplit[pkgSplit.length - 1]),
+      );
 
-      if (!baseVersion && !semver.valid(baseVersion)) {
+      if (!baseVersion) {
         throw new InvalidUserInputError(
-          `Invalid version provided to the --packages flag. Package ${pkg} is missing version. Please try: "@[scope]/[package]@[version]" for example @atlaskit/avatar@10.0.0`,
+          `Invalid version provided to the --packages flag. Package ${pkg} is missing version. Please try: "@[scope]/[package]@[version]" for example @mylib/avatar@10.0.0`,
         );
       }
 
@@ -63,6 +65,11 @@ export default async function main(
         .filter(
           dir => semver.valid(dir) && semver.satisfies(dir, `>=${baseVersion}`),
         )
+        .filter(dir => {
+          if (flags.sequence) return true;
+
+          return baseVersion && semver.eq(dir, baseVersion);
+        })
         .forEach(dir => transforms.push(`${modulePath}/${dir}/transform.ts`));
     }
   }
@@ -86,8 +93,8 @@ export default async function main(
       dry: false,
       print: true,
       babel: true,
-      extensions: 'js,jsx,ts,tsx',
-      ignorePattern: [],
+      extensions: flags.extensions,
+      ignorePattern: flags.ignorePattern,
       ignoreConfig: [],
       runInBand: false,
       silent: false,
@@ -100,5 +107,5 @@ export default async function main(
    * TODO: uncomment the below when jscodeshift can be used as an async function
    */
   // await packageManager.uninstallAll();
-  // console.log('Done!');
+  console.log('Done!');
 }
