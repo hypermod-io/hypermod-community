@@ -7,7 +7,7 @@ slug: /testing
 It's very likely that consumers will run into all sorts of edge-cases when running your codemod. That's why it's important to always start by writing tests (TDD style) to assert its behavior.
 Think about a start and end state. How you might be able to achieve that? What edge-cases can potentially arise?
 
-CodeshiftCommunity (and [jscodeshift](https://github.com/facebook/jscodeshift#unit-testing)) exposes [testing utilities](/docs/api/test-utils) to help.
+CodeshiftCommunity (and [jscodeshift](https://github.com/facebook/jscodeshift#unit-testing)) exposes [testing utilities](/docs/test-utils) to help.
 
 > Codemods are a textbook example of where TDD works. You have an input file, you run the script and you get output. Thus I would really recommend using TDD for codemod projects.
 > Not only does it make codemods more stable, but having projects with test workflow setup, will help you learn.
@@ -53,6 +53,7 @@ it('should remove all deleted props', () => {
 
     const App = () => <Foo isSelected />;"
   `);
+});
 ```
 
 Great, but what have we missed? What might go wrong?

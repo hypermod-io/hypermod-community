@@ -4,11 +4,11 @@ title: Consuming
 slug: /consuming
 ---
 
-Running codemods is made simple through our CLI tool, [@codeshift/cli](/docs/api/codeshift-cli).
+Running codemods is made simple through our CLI tool, [@codeshift/cli](/docs/cli).
 
 > @codeshift/cli is responsible for running the provided transform against your entire codebase. Under the hood, it is a wrapper of jscodeshift's cli, which provides additional functionality
 
-For usage please refer to the [@codeshift/cli API reference](/docs/api/codeshift-cli).
+For usage please refer to the [@codeshift/cli API reference](/docs/cli).
 
 ## How to run Community codemods
 
@@ -56,4 +56,4 @@ By default `@codemod/cli` will use `babel` as the default parser and only transf
 
 If your repo depends on flow or typescript, it's important to remember to specify `ts`, `tsx` or `flow` as the `--parser` and or `jsx, ts, tsx` as `--extensions` to make sure jscodeshift can interpret the files properly.
 
-Please refer to the [@codeshift/cli API reference](/docs/api/codeshift-cli) for more information.
+Please refer to the [@codeshift/cli API reference](/docs/cli) for more information.
