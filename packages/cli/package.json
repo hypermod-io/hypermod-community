@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
+    "commander": "^7.2.0",
     "fs-extra": "^9.1.0",
     "jscodeshift": "^0.12.0",
     "live-plugin-manager": "^0.15.1",
-    "meow": "^9.0.0",
     "semver": "^7.3.5",
     "ts-node": "^9.1.1"
   }

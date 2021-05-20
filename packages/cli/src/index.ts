@@ -1,14 +1,14 @@
 import chalk from 'chalk';
 
 import main from './main';
-import cli, { Flags } from './cli';
+import cli from './cli';
 import {
   ValidationError,
   NoTransformsExistError,
   InvalidUserInputError,
 } from './errors';
 
-main(cli.input, cli.flags as Flags).catch(e => {
+main(cli.parse(process.argv).args, cli.opts()).catch(e => {
   if (e instanceof ValidationError) {
     console.error(cli.help);
     console.error(chalk.red(e.message));

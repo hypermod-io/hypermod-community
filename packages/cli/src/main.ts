@@ -1,18 +1,14 @@
 import semver from 'semver';
 import fs from 'fs-extra';
+import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
 import * as jscodeshift from 'jscodeshift/src/Runner';
 
-import { Flags } from './cli';
+import { Flags } from './types';
 import { InvalidUserInputError } from './errors';
 
-export default async function main(
-  paths: string[],
-  flags: Flags = { parser: 'babel', extensions: 'js' },
-) {
-  console.log('CodeshiftCommunity CLI');
-
+export default async function main(paths: string[], flags: Flags) {
   let transforms: string[] = [];
 
   if (!flags.transform && !flags.packages) {
@@ -86,7 +82,7 @@ export default async function main(
   );
 
   for (const transform of transforms) {
-    console.log('Running transform', transform);
+    console.log(chalk.green('Running transform:'), transform);
 
     await jscodeshift.run(transform, paths, {
       verbose: 0,
@@ -107,5 +103,4 @@ export default async function main(
    * TODO: uncomment the below when jscodeshift can be used as an async function
    */
   // await packageManager.uninstallAll();
-  console.log('Done!');
 }
