@@ -12,7 +12,13 @@ Create a folder structure for your new codemod by running:
 
 `yarn codeshift:init -p [package-name] -v [version]`
 
-for example: `yarn init:codemods react-cool-library 10.0.0`
+For example:
+
+`yarn init:codemods react-cool-library 10.0.0`
+
+And for scoped packages:
+
+`yarn init:codemods @scope/react-cool-library 10.0.0`
 
 It will create a package within the `/community` subdirectory, this is for you to implement your codemod.
 
