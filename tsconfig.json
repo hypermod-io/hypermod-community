@@ -24,6 +24,6 @@
       "@codeshift/*": ["../packages/*/src"]
     }
   },
-  "include": ["packages/**/*", ".tmp/**/*"],
+  "include": ["packages/**/*", "community/**/*", ".tmp/**/*"],
   "exclude": ["node_modules", "dist", "__tests__", "**/*.test*", "**/*.spec*"]
 }
