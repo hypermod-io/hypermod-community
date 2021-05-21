@@ -47,7 +47,7 @@ function main(packageName: string, version: string) {
   );
 
   console.log(
-    `🚚 New codemod package created at: community/${codemodPath}/${safePackageName}/${version}`,
+    `🚚 New codemod package created at: community/${safePackageName}/${version}`,
   );
 }
 

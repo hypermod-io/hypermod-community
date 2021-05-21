@@ -1,6 +1,6 @@
 # @codeshift/test-utils
 
-## `runTransform`
+## `applyTransform`
 
 Accepts a transform and a code string and runs the transform against it.
 
@@ -10,7 +10,7 @@ Example:
 
 ```ts
 it('should wrap avatar in a tooltip', () => {
-  const result = runTransform(
+  const result = applyTransform(
     transformer,
     `
       import Avatar from '@atlaskit/avatar';

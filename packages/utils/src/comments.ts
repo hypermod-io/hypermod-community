@@ -13,7 +13,7 @@ export function addCommentBefore<NodeType = ASTNode>(
   path: Collection<NodeType>,
   message: string,
 ) {
-  const content = ` TODO: (Codemod) ${clean(message)} `;
+  const content = ` TODO: (@codeshift) ${clean(message)} `;
 
   path.forEach(path => {
     // @ts-ignore
@@ -33,14 +33,10 @@ export function addCommentBefore<NodeType = ASTNode>(
   });
 }
 
-export function addCommentToStartOfFile<NodeType = any>({
-  j,
-  path,
-  message,
-}: {
-  j: core.JSCodeshift;
-  path: Collection<NodeType>;
-  message: string;
-}) {
+export function addCommentToStartOfFile<NodeType = any>(
+  j: core.JSCodeshift,
+  path: Collection<NodeType>,
+  message: string,
+) {
   addCommentBefore(j, path.find(j.Program), message);
 }

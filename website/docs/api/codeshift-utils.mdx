@@ -17,7 +17,7 @@ However, it is also available for use outside of this project and compatible wit
 
 ## Imports
 
-### `hasImportDeclaration(j, source, importPath)`
+### `hasImportDeclaration(j, source, sourcePath)`
 
 Finds an import declaration by source name
 
@@ -38,7 +38,7 @@ import { hasImportDeclaration } from '@codeshift/utils';
 hasImportDeclaration(j, source, 'react'); // True
 ```
 
-### `getImportDeclaration(j, source, importPath)`
+### `getImportDeclaration(j, source, sourcePath)`
 
 Returns an import declaration by source name
 
@@ -57,6 +57,32 @@ import React from 'react';
 import { getImportDeclaration } from '@codeshift/utils';
 
 getImportDeclaration(j, source, 'react');
+```
+
+### `removeImportDeclaration(j, source, sourcePath)`
+
+Removes an import declaration by source name
+
+**Returns**
+
+`void`
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+```
+
+```js
+import { removeImportDeclaration } from '@codeshift/utils';
+
+removeImportDeclaration(j, source, 'react');
+```
+
+```diff
+// src/App.js
+-import React, { useEffect } from 'react';
 ```
 
 ### `getDefaultImportSpecifier(j, source, specifier)`
@@ -99,6 +125,33 @@ import React, { useEffect } from 'react';
 import { getImportSpecifier } from '@codeshift/utils';
 
 getImportSpecifier(j, source, 'useEffect'); // Collection containing 'useEffect'
+```
+
+### `insertImportSpecifier(j, source, specifier)`
+
+Inserts an import specifier
+
+**Returns**
+
+`void`
+
+**Example**
+
+```jsx
+// src/App.js
+import React, { useEffect } from 'react';
+```
+
+```js
+import { getImportSpecifier } from '@codeshift/utils';
+
+insertImportSpecifier(j, source, 'useMemo'); // Collection containing 'useEffect'
+```
+
+```diff
+// src/App.js
+-import React, { useEffect } from 'react';
++import React, { useEffect, useMemo } from 'react';
 ```
 
 ## JSX
@@ -157,8 +210,62 @@ addCommentBefore(
 
 ```js
 // src/App.js
+import React from 'react';
+
+// TODO: (Codemod) This should be removed in favour of mylib
+const App = () => <Button primary>Say hello</Button>;
+```
+
+### `addCommentToStartOfFile(j, source, message)`
+
+Appends a comment to the start of a file
+
+**Returns**
+
+`void`
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+
+const App = () => <Button primary>Say hello</Button>;
+```
+
+```js
+import { addCommentToStartOfFile } from '@codeshift/utils';
+
+addCommentToStartOfFile(
+  j,
+  path.find(j.ImportDeclaration),
+  'This should be removed in favour of mylib',
+);
+```
+
+```js
+// src/App.js
 // TODO: (Codemod) This should be removed in favour of mylib
 import React from 'react';
 
 const App = () => <Button primary>Say hello</Button>;
+```
+
+## Motions
+
+### `applyMotions(j, source, motions)`
+
+Applies an array of motions to your AST
+
+**Returns**
+
+`void`
+
+**Example**
+
+```js
+import { applyMotions } from '@codeshift/utils';
+import { sortImports } from './motions';
+
+applyMotions(j, j(fileInfo.source), [sortImports, removeVar]);
 ```

@@ -1,9 +1,9 @@
-import { runTransform } from '@codeshift/test-utils';
+import { applyTransform } from '@codeshift/test-utils';
 import * as transformer from '../transform';
 
 describe('<% packageName %>@<% version %> transform', () => {
   it('should transform correctly', () => {
-    const result = runTransform(
+    const result = applyTransform(
       transformer,
       `
         import foo from '<% packageName %>';
