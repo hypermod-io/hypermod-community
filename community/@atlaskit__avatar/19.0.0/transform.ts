@@ -4,7 +4,7 @@ import {
   getImportSpecifierName,
   getJSXAttributesByName,
   hasImportDeclaration,
-  getDefaultImportSpecifier,
+  getDefaultImportSpecifierName,
 } from '@codeshift/utils';
 
 function wrapChildrenProp(
@@ -66,7 +66,11 @@ export default function transformer(
     return file.source;
   }
 
-  const defaultSpecifier = getDefaultImportSpecifier(j, source, packageName);
+  const defaultSpecifier = getDefaultImportSpecifierName(
+    j,
+    source,
+    packageName,
+  );
 
   if (defaultSpecifier != null) {
     wrapChildrenProp(j, source, defaultSpecifier);

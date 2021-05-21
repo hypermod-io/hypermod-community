@@ -4,7 +4,7 @@ import core, {
   Collection,
   Identifier,
 } from 'jscodeshift';
-import { getDefaultImportSpecifier } from '@codeshift/utils';
+import { getDefaultImportSpecifierName } from '@codeshift/utils';
 
 function doesIdentifierExist(
   j: core.JSCodeshift,
@@ -39,7 +39,7 @@ const createRenameJSXFunc = (
   to: string,
   fallback: string | undefined = undefined,
 ) => (j: core.JSCodeshift, source: any) => {
-  const defaultSpecifier = getDefaultImportSpecifier(j, source, component);
+  const defaultSpecifier = getDefaultImportSpecifierName(j, source, component);
 
   const toName = fallback
     ? getSafeImportName(j, source, defaultSpecifier!, to, fallback)

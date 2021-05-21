@@ -35,16 +35,32 @@ export function removeImportDeclaration(
 export function getDefaultImportSpecifier(
   j: core.JSCodeshift,
   source: Collection<any>,
-  specifier: string,
+  sourcePath: string,
 ) {
-  const specifiers = source
+  return source
     .find(j.ImportDeclaration)
-    .filter(path => path.node.source.value === specifier)
+    .filter(path => path.node.source.value === sourcePath)
     .find(j.ImportDefaultSpecifier);
+}
+
+export function getDefaultImportSpecifierName(
+  j: core.JSCodeshift,
+  source: Collection<any>,
+  sourcePath: string,
+) {
+  const specifiers = getDefaultImportSpecifier(j, source, sourcePath);
 
   if (!specifiers.length) return null;
 
   return specifiers.nodes()[0]!.local!.name;
+}
+
+export function hasDefaultImportSpecifier(
+  j: core.JSCodeshift,
+  source: Collection<any>,
+  sourcePath: string,
+) {
+  return !!getDefaultImportSpecifier(j, source, sourcePath).length;
 }
 
 export function getImportSpecifier(

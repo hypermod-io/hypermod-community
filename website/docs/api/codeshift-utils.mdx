@@ -85,9 +85,9 @@ removeImportDeclaration(j, source, 'react');
 -import React, { useEffect } from 'react';
 ```
 
-### `getDefaultImportSpecifier(j, source, specifier)`
+### `getDefaultImportSpecifier(j, source, sourcePath)`
 
-Finds a default import specifier by name
+Finds a default import specifier
 
 **Returns**
 
@@ -103,7 +103,49 @@ import React from 'react';
 ```js
 import { getDefaultImportSpecifier } from '@codeshift/utils';
 
-getDefaultImportSpecifier(j, source, 'React'); // Collection containing 'React'
+getDefaultImportSpecifier(j, source, 'react'); // Collection containing 'React'
+```
+
+### `getDefaultImportSpecifierName(j, source, sourcePath)`
+
+Finds a default import specifier and returns its name
+
+**Returns**
+
+`string | null`: Default import's name
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+```
+
+```js
+import { getDefaultImportSpecifierName } from '@codeshift/utils';
+
+getDefaultImportSpecifierName(j, source, 'react'); // Collection containing 'React'
+```
+
+### `hasDefaultImportSpecifierName(j, source, sourcePath)`
+
+Attempts to find a default import specifier and returns a boolean result
+
+**Returns**
+
+`boolean`
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+```
+
+```js
+import { getDefaultImportSpecifierName } from '@codeshift/utils';
+
+getDefaultImportSpecifierName(j, source, 'react'); // True
 ```
 
 ### `hasImportSpecifier(j, source, sourcePath)`
@@ -246,7 +288,7 @@ hasJSXAttributesByName(j, source, 'primary'); // Found!
 
 ## Comments
 
-### `addCommentBefore(j, source, message)`
+### `addCommentBefore(j, source, message, prefix)`
 
 Appends a comment before the provided node
 
@@ -277,7 +319,7 @@ addCommentBefore(
 // src/App.js
 import React from 'react';
 
-// TODO: (Codemod) This should be removed in favour of mylib
+// TODO: (@codeshift) This should be removed in favour of mylib
 const App = () => <Button primary>Say hello</Button>;
 ```
 

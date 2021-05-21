@@ -5,7 +5,7 @@ import {
   getJSXAttributesByName,
   removeJSXAttributesByName,
   getImportDeclaration,
-  getDefaultImportSpecifier,
+  getDefaultImportSpecifierName,
 } from '@codeshift/utils';
 
 // Changing `SpinnerSizes` type to `Size`
@@ -44,7 +44,7 @@ function changeTypeName(j: core.JSCodeshift, source: Collection) {
 }
 
 function changeSpinnerUsage(j: core.JSCodeshift, source: Collection) {
-  const name = getDefaultImportSpecifier(j, source, '@atlaskit/spinner');
+  const name = getDefaultImportSpecifierName(j, source, '@atlaskit/spinner');
 
   if (name == null) return;
 

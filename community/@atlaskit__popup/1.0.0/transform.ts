@@ -1,7 +1,7 @@
 import { API, FileInfo, Options } from 'jscodeshift';
 import {
   hasImportDeclaration,
-  getDefaultImportSpecifier,
+  getDefaultImportSpecifierName,
   getImportSpecifier,
 } from '@codeshift/utils';
 
@@ -21,7 +21,7 @@ export default function transformer(
   }
 
   // Get imported name for the component
-  let specifier = getDefaultImportSpecifier(j, source, '@atlaskit/popup');
+  let specifier = getDefaultImportSpecifierName(j, source, '@atlaskit/popup');
 
   if (!specifier) {
     specifier = getImportSpecifier(j, source, '@atlaskit/popup', 'Popup');

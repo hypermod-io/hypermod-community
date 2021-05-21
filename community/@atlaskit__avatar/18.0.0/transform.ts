@@ -8,14 +8,14 @@ import core, {
 
 import {
   hasImportDeclaration,
-  getDefaultImportSpecifier,
+  getDefaultImportSpecifierName,
   getImportSpecifierName,
   getImportDeclaration,
   getJSXAttributesByName,
 } from '@codeshift/utils';
 
 function updateAvatarProps(j: core.JSCodeshift, source: ReturnType<typeof j>) {
-  const defaultSpecifier = getDefaultImportSpecifier(
+  const defaultSpecifier = getDefaultImportSpecifierName(
     j,
     source,
     '@atlaskit/avatar',

@@ -12,8 +12,9 @@ export function addCommentBefore<NodeType = ASTNode>(
   j: core.JSCodeshift,
   path: Collection<NodeType>,
   message: string,
+  prefix: string = ` TODO: (@codeshift)`,
 ) {
-  const content = ` TODO: (@codeshift) ${clean(message)} `;
+  const content = `${prefix} ${clean(message)} `;
 
   path.forEach(path => {
     // @ts-ignore
