@@ -51,17 +51,33 @@ export function getImportSpecifier(
   j: core.JSCodeshift,
   source: Collection<any>,
   specifier: string,
-  imported: string,
+  sourcePath: string,
 ) {
-  const specifiers = source
+  return source
     .find(j.ImportDeclaration)
-    .filter(path => path.node.source.value === specifier)
+    .filter(path => path.node.source.value === sourcePath)
     .find(j.ImportSpecifier)
-    .filter(path => path.value.imported.name === imported);
+    .filter(path => path.value.imported.name === specifier);
+}
 
-  if (!specifiers.length) return null;
+export function getImportSpecifierName(
+  j: core.JSCodeshift,
+  source: Collection<any>,
+  specifier: string,
+  sourcePath: string,
+) {
+  const specifiers = getImportSpecifier(j, source, specifier, sourcePath);
 
-  return specifiers.nodes()[0]!.local!.name;
+  return specifiers.length > 0 ? specifiers.nodes()[0]!.local!.name : null;
+}
+
+export function hasImportSpecifier(
+  j: core.JSCodeshift,
+  source: Collection<any>,
+  specifier: string,
+  sourcePath: string,
+) {
+  return !!getImportSpecifier(j, source, specifier, sourcePath)?.length;
 }
 
 export function insertImportSpecifier(

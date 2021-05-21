@@ -2,18 +2,18 @@ import core, { ASTPath, Collection, Node } from 'jscodeshift';
 import {
   addCommentToStartOfFile,
   getJSXAttributesByName,
-  getImportSpecifier,
+  getImportSpecifierName,
 } from '@codeshift/utils';
 
 const createRemoveFuncFor = (
-  component: string,
+  importSource: string,
   importName: string,
   prop: string,
   predicate: (j: core.JSCodeshift, element: ASTPath<any>) => boolean = () =>
     true,
   comment?: string,
 ) => (j: core.JSCodeshift, source: Collection<Node>) => {
-  const specifier = getImportSpecifier(j, source, component, importName);
+  const specifier = getImportSpecifierName(j, source, importName, importSource);
 
   if (!specifier) return;
 

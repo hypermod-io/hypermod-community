@@ -1,7 +1,7 @@
 import core, { API, FileInfo, Options } from 'jscodeshift';
 
 import {
-  getImportSpecifier,
+  getImportSpecifierName,
   getJSXAttributesByName,
   hasImportDeclaration,
   getDefaultImportSpecifier,
@@ -72,11 +72,11 @@ export default function transformer(
     wrapChildrenProp(j, source, defaultSpecifier);
   }
 
-  const importSpecifier = getImportSpecifier(
+  const importSpecifier = getImportSpecifierName(
     j,
     source,
-    packageName,
     'AvatarItem',
+    packageName,
   );
 
   if (importSpecifier != null) {

@@ -9,7 +9,7 @@ import core, {
 import {
   hasImportDeclaration,
   getDefaultImportSpecifier,
-  getImportSpecifier,
+  getImportSpecifierName,
   getImportDeclaration,
   getJSXAttributesByName,
 } from '@codeshift/utils';
@@ -111,11 +111,11 @@ function updateAvatarItemProps(
   j: core.JSCodeshift,
   source: ReturnType<typeof j>,
 ) {
-  const importSpecifier = getImportSpecifier(
+  const importSpecifier = getImportSpecifierName(
     j,
     source,
-    '@atlaskit/avatar',
     'AvatarItem',
+    '@atlaskit/avatar',
   );
 
   if (!importSpecifier) return;

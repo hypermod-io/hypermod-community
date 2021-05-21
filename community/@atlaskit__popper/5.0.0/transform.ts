@@ -1,5 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import { hasImportDeclaration, getImportSpecifier } from '@codeshift/utils';
+import { hasImportDeclaration, getImportSpecifierName } from '@codeshift/utils';
 
 import updateRenderProps from './motions/update-render-props';
 import updateOffset from './motions/update-offset';
@@ -24,7 +24,12 @@ export default function transformer(
     return fileInfo.source;
   }
 
-  const specifier = getImportSpecifier(j, source, '@atlaskit/popper', 'Popper');
+  const specifier = getImportSpecifierName(
+    j,
+    source,
+    'Popper',
+    '@atlaskit/popper',
+  );
 
   if (!specifier) return fileInfo.source;
 

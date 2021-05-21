@@ -106,7 +106,28 @@ import { getDefaultImportSpecifier } from '@codeshift/utils';
 getDefaultImportSpecifier(j, source, 'React'); // Collection containing 'React'
 ```
 
-### `getImportSpecifier(j, source, specifier)`
+### `hasImportSpecifier(j, source, sourcePath)`
+
+Checks for an import import specifier
+
+**Returns**
+
+`boolean`
+
+**Example**
+
+```jsx
+// src/App.js
+import React, { useEffect } from 'react';
+```
+
+```js
+import { hasImportSpecifier } from '@codeshift/utils';
+
+hasImportSpecifier(j, source, 'react', 'useEffect'); // True
+```
+
+### `getImportSpecifier(j, specifier, source)`
 
 Finds an import specifier by name
 
@@ -127,6 +148,27 @@ import { getImportSpecifier } from '@codeshift/utils';
 getImportSpecifier(j, source, 'useEffect'); // Collection containing 'useEffect'
 ```
 
+### `getImportSpecifierName(j, specifier, source)`
+
+Returns the local name of an import. This is useful for cases where an import specifier is potentially aliased.
+
+**Returns**
+
+`string` | null: specifier name or null if not found
+
+**Example**
+
+```jsx
+// src/App.js
+import React, { useEffect as foo } from 'react';
+```
+
+```js
+import { getImportSpecifierName } from '@codeshift/utils';
+
+getImportSpecifierName(j, source, 'useEffect', 'react'); // 'foo'
+```
+
 ### `insertImportSpecifier(j, source, specifier)`
 
 Inserts an import specifier
@@ -145,7 +187,7 @@ import React, { useEffect } from 'react';
 ```js
 import { getImportSpecifier } from '@codeshift/utils';
 
-insertImportSpecifier(j, source, 'useMemo'); // Collection containing 'useEffect'
+insertImportSpecifier(j, source, 'useMemo', 'react'); // Collection containing 'useEffect'
 ```
 
 ```diff
@@ -177,6 +219,29 @@ const App = () => <Button primary>Say hello</Button>;
 import { getJSXAttributesByName } from '@codeshift/utils';
 
 getJSXAttributesByName(j, source, 'primary'); // Collection containing 'primary'
+```
+
+### `hasJSXAttributesByName(j, source, attributeName)`
+
+Finds a JSX attributeName (aka prop) by name and returns true if found
+
+**Returns**
+
+`boolean`
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+
+const App = () => <Button primary>Say hello</Button>;
+```
+
+```js
+import { hasJSXAttributesByName } from '@codeshift/utils';
+
+hasJSXAttributesByName(j, source, 'primary'); // Found!
 ```
 
 ## Comments

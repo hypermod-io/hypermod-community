@@ -15,3 +15,19 @@ export function getJSXAttributesByName(
       return Boolean(matches.length);
     });
 }
+
+export function hasJSXAttributesByName(
+  j: core.JSCodeshift,
+  element: ASTPath<any>,
+  attributeName: string,
+) {
+  return getJSXAttributesByName(j, element, attributeName).length > 0;
+}
+
+export function removeJSXAttributesByName(
+  j: core.JSCodeshift,
+  element: ASTPath<any>,
+  attributeName: string,
+) {
+  return getJSXAttributesByName(j, element, attributeName).remove();
+}
