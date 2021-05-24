@@ -8,7 +8,7 @@ function clean(value: string) {
     .trim();
 }
 
-export function addCommentBefore<NodeType = ASTNode>(
+export function insertCommentBefore<NodeType = ASTNode>(
   j: core.JSCodeshift,
   path: Collection<NodeType>,
   message: string,
@@ -34,10 +34,10 @@ export function addCommentBefore<NodeType = ASTNode>(
   });
 }
 
-export function addCommentToStartOfFile<NodeType = any>(
+export function insertCommentToStartOfFile<NodeType = any>(
   j: core.JSCodeshift,
   path: Collection<NodeType>,
   message: string,
 ) {
-  addCommentBefore(j, path.find(j.Program), message);
+  insertCommentBefore(j, path.find(j.Program), message);
 }

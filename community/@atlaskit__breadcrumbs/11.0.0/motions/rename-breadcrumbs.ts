@@ -68,9 +68,11 @@ const createRenameJSXFunc = (
   });
 };
 
-export const renameBreadcrumbs = createRenameJSXFunc(
+const renameBreadcrumbs = createRenameJSXFunc(
   '@atlaskit/breadcrumbs',
   'BreadcrumbsStateless',
   'Breadcrumbs',
   'DSBreadcrumbs',
 );
+
+export default renameBreadcrumbs;

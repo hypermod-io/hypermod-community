@@ -1,9 +1,9 @@
 import { API, FileInfo, Options } from 'jscodeshift';
 import { hasImportDeclaration, applyMotions } from '@codeshift/utils';
 
-import { elevateStatelessToDefault } from './motions/elevate-stateless-to-default';
-import { removeHasSeparator } from './motions/remove-hasSeparator';
-import { renameBreadcrumbs } from './motions/rename-breadcrumbs';
+import elevateStatelessToDefault from './motions/elevate-stateless-to-default';
+import removeHasSeparator from './motions/remove-has-separator';
+import renameBreadcrumbs from './motions/rename-breadcrumbs';
 
 export default function transformer(
   fileInfo: FileInfo,

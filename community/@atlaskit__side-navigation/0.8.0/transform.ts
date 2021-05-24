@@ -7,7 +7,7 @@ import {
   getJSXAttributesByName,
 } from '@codeshift/utils';
 
-function addCommentBeforeJSX(
+function insertCommentBeforeJSX(
   j: core.JSCodeshift,
   element: Collection,
   message: string,
@@ -66,7 +66,7 @@ function updateCssFnProp(
 
         cssFnExpression!.value.params.shift();
       } catch (e) {
-        addCommentBeforeJSX(
+        insertCommentBeforeJSX(
           j,
           cssFnPropCollection.get(),
           `

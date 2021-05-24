@@ -1,6 +1,6 @@
 import core, { Collection, JSXElement } from 'jscodeshift';
 import {
-  addCommentToStartOfFile,
+  insertCommentToStartOfFile,
   hasJSXAttributesByName,
 } from '@codeshift/utils';
 import { NodePath } from 'ast-types/lib/node-path';
@@ -158,7 +158,7 @@ export default function updateModifierProp(
 ) {
   source.findJSXElements(specifier).forEach(element => {
     if (isUsingProp({ j, base: source, element, propName: 'modifiers' })) {
-      addCommentToStartOfFile(j, source, messageForModifierProps);
+      insertCommentToStartOfFile(j, source, messageForModifierProps);
     }
   });
 }

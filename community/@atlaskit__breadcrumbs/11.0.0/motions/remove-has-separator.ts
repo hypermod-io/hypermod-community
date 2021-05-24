@@ -1,6 +1,6 @@
 import core, { ASTPath, Collection, Node } from 'jscodeshift';
 import {
-  addCommentToStartOfFile,
+  insertCommentToStartOfFile,
   getJSXAttributesByName,
   getImportSpecifierName,
 } from '@codeshift/utils';
@@ -19,7 +19,7 @@ const createRemoveFuncFor = (
 
   source.findJSXElements(specifier).forEach(element => {
     if (predicate(j, element) && comment) {
-      addCommentToStartOfFile(j, source, comment);
+      insertCommentToStartOfFile(j, source, comment);
     } else {
       getJSXAttributesByName(j, element, prop).forEach(attribute => {
         j(attribute).remove();
@@ -28,7 +28,7 @@ const createRemoveFuncFor = (
   });
 };
 
-export const removeHasSeparator = createRemoveFuncFor(
+const removeHasSeparator = createRemoveFuncFor(
   '@atlaskit/breadcrumbs',
   'BreadcrumbsItem',
   'hasSeparator',
@@ -37,3 +37,5 @@ export const removeHasSeparator = createRemoveFuncFor(
       has now been removed due to its poor performance characteristics. From version 11.0.0, we changed to
       \`css\` pseudo element for the separator and consumer should not use hasSeparator directly anymore.`,
 );
+
+export default removeHasSeparator;

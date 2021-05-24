@@ -2,10 +2,10 @@ import core, { ASTPath, ImportDeclaration, ImportSpecifier } from 'jscodeshift';
 
 type Nullable<T> = T | null;
 
-export const elevateComponentToDefault = (
-  pkg: string,
-  innerElementName: string,
-) => (j: core.JSCodeshift, root: any) => {
+const elevateComponentToDefault = (pkg: string, innerElementName: string) => (
+  j: core.JSCodeshift,
+  root: any,
+) => {
   const existingAlias: Nullable<string> =
     root
       .find(j.ImportDeclaration)
@@ -62,7 +62,9 @@ export const elevateComponentToDefault = (
     });
 };
 
-export const elevateStatelessToDefault = elevateComponentToDefault(
+const elevateStatelessToDefault = elevateComponentToDefault(
   '@atlaskit/breadcrumbs',
   'BreadcrumbsStateless',
 );
+
+export default elevateStatelessToDefault;

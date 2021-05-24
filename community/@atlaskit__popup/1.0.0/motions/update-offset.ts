@@ -2,7 +2,7 @@ import core, { ASTPath, JSXElement, Collection } from 'jscodeshift';
 
 import {
   getJSXAttributesByName,
-  addCommentToStartOfFile,
+  insertCommentToStartOfFile,
 } from '@codeshift/utils';
 
 export default function updateOffset(
@@ -25,7 +25,7 @@ export default function updateOffset(
             value.includes('vw') ||
             value.includes('vh')
           ) {
-            addCommentToStartOfFile(
+            insertCommentToStartOfFile(
               j,
               source,
               `
@@ -73,7 +73,7 @@ export default function updateOffset(
           );
         } else if (expression.type === 'Identifier') {
           // If there is a variable add this comment
-          addCommentToStartOfFile(
+          insertCommentToStartOfFile(
             j,
             source,
             `

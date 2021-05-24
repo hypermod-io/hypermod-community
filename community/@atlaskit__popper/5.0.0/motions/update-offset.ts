@@ -8,7 +8,7 @@ import core, {
 } from 'jscodeshift';
 import {
   getJSXAttributesByName,
-  addCommentToStartOfFile,
+  insertCommentToStartOfFile,
 } from '@codeshift/utils';
 
 import {
@@ -85,7 +85,7 @@ export default function updateOffset(
             value.includes('vw') ||
             value.includes('vh')
           ) {
-            addCommentToStartOfFile(j, source, messageForUsingExpression);
+            insertCommentToStartOfFile(j, source, messageForUsingExpression);
           } else {
             updateOffsetNumbers(value, j, attribute);
           }
@@ -98,7 +98,7 @@ export default function updateOffset(
           );
         } else if (expression.type === 'Identifier') {
           // If there is a variable add this comment
-          addCommentToStartOfFile(j, source, messageForUsingVariable);
+          insertCommentToStartOfFile(j, source, messageForUsingVariable);
         }
       });
     }

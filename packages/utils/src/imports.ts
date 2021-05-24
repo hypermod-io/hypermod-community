@@ -43,6 +43,14 @@ export function getDefaultImportSpecifier(
     .find(j.ImportDefaultSpecifier);
 }
 
+export function removeDefaultImportSpecifier(
+  j: core.JSCodeshift,
+  source: Collection<any>,
+  sourcePath: string,
+) {
+  return getDefaultImportSpecifier(j, source, sourcePath).remove();
+}
+
 export function getDefaultImportSpecifierName(
   j: core.JSCodeshift,
   source: Collection<any>,

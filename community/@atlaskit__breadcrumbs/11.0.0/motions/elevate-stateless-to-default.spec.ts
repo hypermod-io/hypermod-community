@@ -1,5 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import { elevateStatelessToDefault } from './elevate-stateless-to-default';
+import elevateStatelessToDefault from './elevate-stateless-to-default';
 
 function transformer(
   fileInfo: FileInfo,

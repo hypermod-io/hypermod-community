@@ -127,7 +127,7 @@ import { getDefaultImportSpecifierName } from '@codeshift/utils';
 getDefaultImportSpecifierName(j, source, 'react'); // Collection containing 'React'
 ```
 
-### `hasDefaultImportSpecifierName(j, source, sourcePath)`
+### `hasDefaultImportSpecifier(j, source, sourcePath)`
 
 Attempts to find a default import specifier and returns a boolean result
 
@@ -143,9 +143,35 @@ import React from 'react';
 ```
 
 ```js
-import { getDefaultImportSpecifierName } from '@codeshift/utils';
+import { hasDefaultImportSpecifier } from '@codeshift/utils';
 
-getDefaultImportSpecifierName(j, source, 'react'); // True
+hasDefaultImportSpecifier(j, source, 'react'); // True
+```
+
+### `removeDefaultImportSpecifier(j, source, sourcePath)`
+
+Attempts to remove a default import specifier
+
+**Returns**
+
+`void`
+
+**Example**
+
+```jsx
+// src/App.js
+import React, { useEffect } from 'react';
+```
+
+```js
+import { removeDefaultImportSpecifier } from '@codeshift/utils';
+
+removeDefaultImportSpecifier(j, source, 'React');
+```
+
+```diff
+-import React, { useEffect } from 'react';
++import { useEffect } from 'react';
 ```
 
 ### `hasImportSpecifier(j, source, sourcePath)`
@@ -288,7 +314,7 @@ hasJSXAttributesByName(j, source, 'primary'); // Found!
 
 ## Comments
 
-### `addCommentBefore(j, source, message, prefix)`
+### `insertCommentBefore(j, source, message, prefix)`
 
 Appends a comment before the provided node
 
@@ -306,9 +332,9 @@ const App = () => <Button primary>Say hello</Button>;
 ```
 
 ```js
-import { addCommentBefore } from '@codeshift/utils';
+import { insertCommentBefore } from '@codeshift/utils';
 
-addCommentBefore(
+insertCommentBefore(
   j,
   path.find(j.ImportDeclaration),
   'This should be removed in favour of mylib',
@@ -323,7 +349,7 @@ import React from 'react';
 const App = () => <Button primary>Say hello</Button>;
 ```
 
-### `addCommentToStartOfFile(j, source, message)`
+### `insertCommentToStartOfFile(j, source, message)`
 
 Appends a comment to the start of a file
 
@@ -341,9 +367,9 @@ const App = () => <Button primary>Say hello</Button>;
 ```
 
 ```js
-import { addCommentToStartOfFile } from '@codeshift/utils';
+import { insertCommentToStartOfFile } from '@codeshift/utils';
 
-addCommentToStartOfFile(
+insertCommentToStartOfFile(
   j,
   path.find(j.ImportDeclaration),
   'This should be removed in favour of mylib',
