@@ -24,7 +24,7 @@ export default function transformer(
   let specifier = getDefaultImportSpecifierName(j, source, '@atlaskit/popup');
 
   if (!specifier) {
-    specifier = getImportSpecifierName(j, source, '@atlaskit/popup', 'Popup');
+    specifier = getImportSpecifierName(j, source, 'Popup', '@atlaskit/popup');
   }
 
   if (!specifier) {

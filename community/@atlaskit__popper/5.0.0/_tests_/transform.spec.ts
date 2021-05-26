@@ -1,10 +1,7 @@
-const defineInlineTest = require('jscodeshift/dist/testUtils')
-  .defineInlineTest;
+const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 import transformer from '../transform';
 
 describe('@atlaskit/popper@5.0.0 transform', () => {
-  jest.autoMockOff();
-
   describe('Changing popper usage', () => {
     // TODO this probably isn't worth including, as they still have to do some major work to
     //  re-work these modifiers.
@@ -69,13 +66,14 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
       );};
   `,
     );
+  });
 
-    describe('Update offset prop', () => {
-  describe('offset as a string', () => {
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+  describe('Update offset prop', () => {
+    describe('offset as a string', () => {
+      defineInlineTest(
+        { default: transformer, parser: 'tsx' },
+        {},
+        `
       import { Popper } from '@atlaskit/popper';
 
       export default () => (
@@ -89,7 +87,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
         </Popper>
       );
       `,
-      `
+        `
       import { Popper } from '@atlaskit/popper';
 
       export default () => (
@@ -103,13 +101,13 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
         </Popper>
       );
       `,
-      'should convert string literal to array notation',
-    );
+        'should convert string literal to array notation',
+      );
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+      defineInlineTest(
+        { default: transformer, parser: 'tsx' },
+        {},
+        `
       import { Popper } from '@atlaskit/popper';
 
       export default () => (
@@ -123,7 +121,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
         </Popper>
       );
       `,
-      `
+        `
       import { Popper } from '@atlaskit/popper';
 
       export default () => (
@@ -137,15 +135,15 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
         </Popper>
       );
       `,
-      'should convert string literal to array notation - with comma',
-    );
-  });
+        'should convert string literal to array notation - with comma',
+      );
+    });
 
-  describe('offset as object expression', () => {
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    describe('offset as object expression', () => {
+      defineInlineTest(
+        { default: transformer, parser: 'tsx' },
+        {},
+        `
       import { Popper } from '@atlaskit/popper';
 
       export default () => (
@@ -159,7 +157,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
         </Popper>
       );
       `,
-      `
+        `
       import { Popper } from '@atlaskit/popper';
 
       export default () => (
@@ -173,13 +171,13 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
         </Popper>
       );
       `,
-      `should convert object to array notation`,
-    );
+        `should convert object to array notation`,
+      );
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+      defineInlineTest(
+        { default: transformer, parser: 'tsx' },
+        {},
+        `
       import { Popper } from '@atlaskit/popper';
 
       function numCommaOffset() {
@@ -195,7 +193,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
         );
       }
     `,
-      `
+        `
       import { Popper } from '@atlaskit/popper';
 
       function numCommaOffset() {
@@ -211,13 +209,13 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
         );
       }
       `,
-      `should convert number with comma as offset`,
-    );
+        `should convert number with comma as offset`,
+      );
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+      defineInlineTest(
+        { default: transformer, parser: 'tsx' },
+        {},
+        `
     import { Popper } from '@atlaskit/popper';
 
     function numStringOffset() {
@@ -233,7 +231,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
       );
     }
   `,
-      `
+        `
     import { Popper } from '@atlaskit/popper';
 
     function numStringOffset() {
@@ -249,13 +247,13 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
       );
     }
     `,
-      `should add default value as 0 when one offset is missing - string`,
-    );
+        `should add default value as 0 when one offset is missing - string`,
+      );
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+      defineInlineTest(
+        { default: transformer, parser: 'tsx' },
+        {},
+        `
     import { Popper } from '@atlaskit/popper';
 
     function numOffset() {
@@ -271,7 +269,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
       );
     }
   `,
-      `
+        `
     import { Popper } from '@atlaskit/popper';
 
     function numOffset() {
@@ -287,14 +285,14 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
       );
     }
     `,
-      `should add default value as 0 when one offset is missing - number`,
-    );
-  });
+        `should add default value as 0 when one offset is missing - number`,
+      );
+    });
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+    defineInlineTest(
+      { default: transformer, parser: 'tsx' },
+      {},
+      `
   import { Popper } from '@atlaskit/popper';
 
   export default () => (
@@ -308,7 +306,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
     </Popper>
   );
   `,
-    `
+      `
   /* TODO: (@codeshift) Popper.js has been upgraded from 1.14.1 to 2.4.2,
   and as a result the offset prop has changed to be an array. e.g '0px 8px' -> [0, 8]
   Along with this change you cannot use vw, vh or % units or addition or multiplication
@@ -327,17 +325,17 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
     </Popper>
   );
   `,
-    `should add correct document string for vh, vw and %`,
-  );
+      `should add correct document string for vh, vw and %`,
+    );
 
-  /**
+    /**
     If a user is passing in a variable for offset then we should leave a comment to
     update it themselves
   */
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+    defineInlineTest(
+      { default: transformer, parser: 'tsx' },
+      {},
+      `
     import { Popper } from '@atlaskit/popper';
 
     function directOffset({offset}) {
@@ -353,7 +351,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
       );
     }
     `,
-    `
+      `
     /* TODO: (@codeshift) Popper.js has been upgraded from 1.14.1 to 2.4.2, and as a result the offset
     prop has changed to be an array. e.g '0px 8px' -> [0, 8]
     As you are using a variable, you will have change the offset prop manually
@@ -373,13 +371,13 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
       );
     }
     `,
-    `should add correct document string for variable`,
-  );
+      `should add correct document string for variable`,
+    );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+    defineInlineTest(
+      { default: transformer, parser: 'tsx' },
+      {},
+      `
     import { Manager, Popper as Popeye } from '@atlaskit/popper';
 
     export default () => (
@@ -393,7 +391,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
       </Popeye>
     );
     `,
-    `
+      `
     import { Manager, Popper as Popeye } from '@atlaskit/popper';
 
     export default () => (
@@ -407,21 +405,22 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
       </Popeye>
     );
   `,
-    `should works with an aliased import and other imports`,
-  );
-});
-describe('Update props', () => {
-  /**
+      `should works with an aliased import and other imports`,
+    );
+  });
+
+  describe('Update props', () => {
+    /**
    * It should rename outOfBoundaries and scheduleUpdate props
    * Render Props:
     - `outOfBoundaries` has been replaced with `isReferenceHidden`, and is now true when the popper is hidden (i.e. by a
    scroll container)
     - `scheduleUpdate`, for async updates, has been renamed to `update`, and now returns a Promise.
   */
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+    defineInlineTest(
+      { default: transformer, parser: 'tsx' },
+      {},
+      `
     import { Popper } from '@atlaskit/popper';
 
     export default () => (
@@ -441,7 +440,7 @@ describe('Update props', () => {
       </Popper>
     )
   `,
-    `
+      `
     import { Popper } from '@atlaskit/popper';
 
     export default () => (
@@ -461,5 +460,6 @@ describe('Update props', () => {
       </Popper>
     )
   `,
-  );
+    );
+  });
 });
