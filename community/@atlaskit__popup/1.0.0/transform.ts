@@ -2,7 +2,7 @@ import { API, FileInfo, Options } from 'jscodeshift';
 import {
   hasImportDeclaration,
   getDefaultImportSpecifierName,
-  getImportSpecifier,
+  getImportSpecifierName,
 } from '@codeshift/utils';
 
 import updateBoundariesProps from './motions/update-boundaries-props';
@@ -24,7 +24,7 @@ export default function transformer(
   let specifier = getDefaultImportSpecifierName(j, source, '@atlaskit/popup');
 
   if (!specifier) {
-    specifier = getImportSpecifier(j, source, '@atlaskit/popup', 'Popup');
+    specifier = getImportSpecifierName(j, source, '@atlaskit/popup', 'Popup');
   }
 
   if (!specifier) {
