@@ -1,5 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import renameBreadcrumbs from './rename-breadcrumbs';
+import renameBreadcrumbs from '../motions/rename-breadcrumbs';
 
 function transformer(
   fileInfo: FileInfo,

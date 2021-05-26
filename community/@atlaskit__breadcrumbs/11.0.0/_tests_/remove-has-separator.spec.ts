@@ -1,5 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import removeHasSeparator from './remove-has-separator';
+import removeHasSeparator from '../motions/remove-has-separator';
 
 function transformer(
   fileInfo: FileInfo,
