@@ -20,17 +20,19 @@ function main(packageName: string, version: string) {
   const codemodBasePath = `${communityDirectoryPath}/${safePackageName}`;
   const codemodPath = `${codemodBasePath}/${version}`;
   const configPath = `${codemodBasePath}/codeshift.config.js`;
-  const testPath = `${codemodPath}/_tests_`;
+  const testsPath = `${codemodPath}/_tests_`;
+  const motionsPath = `${codemodPath}/motions`;
 
   fs.mkdirSync(codemodPath, { recursive: true });
-  fs.copySync(`${__dirname}/../template/_tests_`, testPath);
+  fs.copySync(`${__dirname}/../template/motions`, motionsPath);
+  fs.copySync(`${__dirname}/../template/_tests_`, testsPath);
 
   const testFile = fs
-    .readFileSync(`${testPath}/transform.spec.ts`, 'utf8')
+    .readFileSync(`${testsPath}/transform.spec.ts`, 'utf8')
     .replace('<% packageName %>', packageName)
     .replace('<% version %>', version);
 
-  fs.writeFileSync(`${testPath}/transform.spec.ts`, testFile);
+  fs.writeFileSync(`${testsPath}/transform.spec.ts`, testFile);
 
   if (!fs.existsSync(configPath)) {
     fs.writeFileSync(
