@@ -1,5 +1,3 @@
-jest.autoMockOff();
-
 import * as transformer from '../transform';
 
 const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
