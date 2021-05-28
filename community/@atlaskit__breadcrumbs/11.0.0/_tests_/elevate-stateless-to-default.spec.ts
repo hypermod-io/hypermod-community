@@ -1,5 +1,6 @@
 import { API, FileInfo, Options } from 'jscodeshift';
 import elevateStatelessToDefault from '../motions/elevate-stateless-to-default';
+const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 function transformer(
   fileInfo: FileInfo,
@@ -12,8 +13,6 @@ function transformer(
 
   return source.toSource(options.printOptions);
 }
-
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 describe('@atlaskit/breadcrumbs@11.0.0 motion: Elevate BreadcrumbsStateless', () => {
   defineInlineTest(
