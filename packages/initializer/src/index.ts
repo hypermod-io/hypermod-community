@@ -39,7 +39,8 @@ function main(packageName: string, version: string) {
       configPath,
       `export default {
   maintainers: ['danieldelcore'],
-};`,
+};
+`,
     );
   }
 
