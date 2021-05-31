@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.1.4
+
+### Patch Changes
+
+- 9f1d028: Updates babel config to fix cli issue
+
 ## 0.1.3
 
 ### Patch Changes
