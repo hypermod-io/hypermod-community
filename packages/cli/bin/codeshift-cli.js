@@ -11,12 +11,12 @@ if (dev && !require.extensions['.ts']) {
   require('ts-node').register({ project });
 }
 
-require(path.join('..', dev ? 'src/cli' : 'dist/codeshift-cli.cjs.js'))
-  .run()
-  .catch(error => {
-    if (typeof error === 'number') {
-      process.exit(error);
-    }
-    console.error(error);
-    process.exit(1);
-  });
+try {
+  require(path.join('..', dev ? 'src/index' : 'dist/codeshift-cli.cjs.js'));
+} catch (error) {
+  if (typeof error === 'number') {
+    process.exit(error);
+  }
+  console.error(error);
+  process.exit(1);
+}
