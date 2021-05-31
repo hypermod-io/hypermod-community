@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.1.5
+
+### Patch Changes
+
+- 5748332: Adds npmignore to avoid publishing unwanted files and folders
+
 ## 0.1.4
 
 ### Patch Changes
