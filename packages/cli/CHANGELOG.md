@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.1.3
+
+### Patch Changes
+
+- 07212c0: Fix entrypoint
+
 ## 0.1.2
 
 ### Patch Changes
