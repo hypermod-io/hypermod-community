@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import semver from 'semver';
+import * as recast from 'recast';
 
 function transformPackageName(packageName: string) {
   return packageName.replace('/', '__');
@@ -38,9 +39,50 @@ function main(packageName: string, version: string) {
     fs.writeFileSync(
       configPath,
       `export default {
-  maintainers: ['danieldelcore'],
+  maintainers: [],
+  transforms: {
+    '${version}': require('./${version}/transform'),
+  }
 };
 `,
+    );
+  } else {
+    const source = fs.readFileSync(configPath, 'utf8');
+    const ast = recast.parse(source);
+    const b = recast.types.builders;
+
+    recast.visit(ast, {
+      visitProperty(path) {
+        // @ts-ignore
+        if (path.node.key.name !== 'transforms') return false;
+        // @ts-ignore
+        const properties = path.node.value.properties;
+        // @ts-ignore
+        properties.forEach(property => {
+          if (semver.eq(property.key.value, version)) {
+            throw new Error(
+              `Transform for ${packageName} version ${version} already exists`,
+            );
+          }
+        });
+
+        properties.push(
+          b.property(
+            'init',
+            b.stringLiteral(version),
+            b.callExpression(b.identifier('require'), [
+              b.stringLiteral(`./${version}/transform`),
+            ]),
+          ),
+        );
+
+        return false;
+      },
+    });
+
+    fs.writeFileSync(
+      configPath,
+      recast.prettyPrint(ast, { quote: 'single', trailingComma: true }).code,
     );
   }
 

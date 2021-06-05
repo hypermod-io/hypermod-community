@@ -12,6 +12,7 @@
   "dependencies": {
     "fs-extra": "^9.1.0",
     "semver": "^7.3.5",
+    "recast": "^0.20.4",
     "ts-node": "^9.1.1"
   }
 }
