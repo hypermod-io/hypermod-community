@@ -45,28 +45,15 @@ function getPackageJson(packageName: string, version: string) {
   );
 }
 
-function getIndexFile(path: string) {
-  return fs
-    .readdirSync(path)
-    .filter(subDirPath => fs.lstatSync(`${path}/${subDirPath}`).isDirectory())
-    .map(
-      transformDir =>
-        `export { default as transform${transformDir.replace(
-          /\./gi,
-          '_',
-        )} } from \'./${transformDir}/transform\';\n`,
-    )
-    .join('')
-    .trim();
-}
-
 export default async function generatePackages(
   sourcePath: string,
   targetPath: string,
   changedPackages: string[],
 ) {
-  fs.mkdirSync(targetPath);
-  fs.readdirSync(sourcePath)
+  await fs.mkdir(targetPath);
+  const directories = await fs.readdir(sourcePath);
+
+  directories
     .filter(dir => changedPackages.includes(dir))
     .forEach(async dir => {
       const packageName = `@codeshift/mod-${dir
@@ -77,20 +64,20 @@ export default async function generatePackages(
       const nextPackageVersion = semver.inc(packageVersion, 'patch');
 
       const basePath = `${targetPath}/${dir}`;
-      fs.copySync(`${sourcePath}/${dir}`, `${basePath}/src`);
-      fs.copyFileSync(
+      await fs.copy(`${sourcePath}/${dir}`, `${basePath}/src`);
+      await fs.copyFile(
         `${__dirname}/../template/LICENSE`,
         `${basePath}/LICENSE`,
       );
-      fs.copyFileSync(
+      await fs.copyFile(
         `${__dirname}/../template/.npmignore`,
         `${basePath}/.npmignore`,
       );
-      fs.writeFileSync(
-        `${basePath}/src/index.ts`,
-        getIndexFile(`${basePath}/src`),
+      await fs.rename(
+        `${basePath}/src/codeshift.config.js`,
+        `${basePath}/src/index.js`,
       );
-      fs.writeFileSync(
+      await fs.writeFile(
         `${basePath}/package.json`,
         getPackageJson(packageName, nextPackageVersion!),
       );
