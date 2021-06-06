@@ -47,6 +47,15 @@ export default function transform(file, { jscodeshift: j }, options) {
 }
 ```
 
+If you prefer a more declarative approach, you can provide a second argument to `find` describing the expected shape of the node you are looking for.
+
+```ts
+  const imports = source
+    .find(j.ImportDeclaration, { source: { value: 'my-module' } }) // Find all import declarations that match this shape
+```
+
+This behaves like a fuzzy searcher: The more details provided the more narrow the search is.
+
 ## Modify & Insert
 
 Now let's say that we want to pull in a new import from 'my-module' called `baz`. Luckily you've already written a majority of the code above.
