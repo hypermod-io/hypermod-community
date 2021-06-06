@@ -29,4 +29,6 @@ async function main(sourcePath: string, targetPath: string) {
   cleanTargetDir(targetPath);
 }
 
-main(process.argv[2], process.argv[3]);
+main(process.argv[2], process.argv[3]).catch(error => {
+  console.error('Publishing error:', error.message);
+});
