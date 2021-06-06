@@ -1,6 +1,6 @@
 import core, { JSXAttribute } from 'jscodeshift';
 import {
-  getJSXAttributesByName,
+  getJSXAttributes,
   getDefaultImportSpecifierName,
 } from '@codeshift/utils';
 
@@ -16,15 +16,13 @@ export const addIsRemovableFlag = (j: core.JSCodeshift, source: any) => {
   source
     .findJSXElements(defaultSpecifier)
     .forEach((element: core.ASTPath<JSXAttribute>) => {
-      getJSXAttributesByName(j, element, 'removeButtonText').forEach(
-        attribute => {
-          // @ts-ignore
-          const shouldConvert = attribute.node.value.value !== '' || false;
-          const node = j.jsxAttribute(j.jsxIdentifier('isRemovable'));
-          if (shouldConvert) {
-            j(attribute).insertBefore(node);
-          }
-        },
-      );
+      getJSXAttributes(j, element, 'removeButtonText').forEach(attribute => {
+        // @ts-ignore
+        const shouldConvert = attribute.node.value.value !== '' || false;
+        const node = j.jsxAttribute(j.jsxIdentifier('isRemovable'));
+        if (shouldConvert) {
+          j(attribute).insertBefore(node);
+        }
+      });
     });
 };

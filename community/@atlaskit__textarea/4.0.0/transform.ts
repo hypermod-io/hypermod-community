@@ -1,7 +1,7 @@
 import { API, FileInfo, Options } from 'jscodeshift';
 import {
   getDefaultImportSpecifierName,
-  getJSXAttributesByName,
+  getJSXAttributes,
 } from '@codeshift/utils';
 
 export default function transformer(
@@ -20,7 +20,7 @@ export default function transformer(
   if (!defaultSpecifier) return fileInfo.source;
 
   source.findJSXElements(defaultSpecifier).forEach(element => {
-    getJSXAttributesByName(j, element, 'forwardedRef').forEach(attribute => {
+    getJSXAttributes(j, element, 'forwardedRef').forEach(attribute => {
       j(attribute).replaceWith(
         j.jsxAttribute(j.jsxIdentifier('ref'), attribute.node.value),
       );

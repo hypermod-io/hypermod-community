@@ -266,7 +266,7 @@ insertImportSpecifier(j, source, 'useMemo', 'react'); // Collection containing '
 
 ## JSX
 
-### `getJSXAttributesByName(j, source, attributeName)`
+### `getJSXAttributes(j, source, attributeName)`
 
 Finds a JSX attributeName (aka prop) by name
 
@@ -284,12 +284,12 @@ const App = () => <Button primary>Say hello</Button>;
 ```
 
 ```js
-import { getJSXAttributesByName } from '@codeshift/utils';
+import { getJSXAttributes } from '@codeshift/utils';
 
-getJSXAttributesByName(j, source, 'primary'); // Collection containing 'primary'
+getJSXAttributes(j, source, 'primary'); // Collection containing 'primary'
 ```
 
-### `hasJSXAttributesByName(j, source, attributeName)`
+### `hasJSXAttributes(j, source, attributeName)`
 
 Finds a JSX attributeName (aka prop) by name and returns true if found
 
@@ -307,9 +307,9 @@ const App = () => <Button primary>Say hello</Button>;
 ```
 
 ```js
-import { hasJSXAttributesByName } from '@codeshift/utils';
+import { hasJSXAttributes } from '@codeshift/utils';
 
-hasJSXAttributesByName(j, source, 'primary'); // Found!
+hasJSXAttributes(j, source, 'primary'); // Found!
 ```
 
 ## Comments

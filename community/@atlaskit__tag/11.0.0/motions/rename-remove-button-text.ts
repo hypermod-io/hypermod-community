@@ -1,6 +1,6 @@
 import core from 'jscodeshift';
 import {
-  getJSXAttributesByName,
+  getJSXAttributes,
   getDefaultImportSpecifierName,
 } from '@codeshift/utils';
 
@@ -16,15 +16,13 @@ export const renameRemoveButtonText = (j: core.JSCodeshift, source: any) => {
   source
     .findJSXElements(defaultSpecifier)
     .forEach((element: core.ASTPath<any>) => {
-      getJSXAttributesByName(j, element, 'removeButtonText').forEach(
-        attribute => {
-          j(attribute).replaceWith(
-            j.jsxAttribute(
-              j.jsxIdentifier('removeButtonLabel'),
-              attribute.node.value,
-            ),
-          );
-        },
-      );
+      getJSXAttributes(j, element, 'removeButtonText').forEach(attribute => {
+        j(attribute).replaceWith(
+          j.jsxAttribute(
+            j.jsxIdentifier('removeButtonLabel'),
+            attribute.node.value,
+          ),
+        );
+      });
     });
 };

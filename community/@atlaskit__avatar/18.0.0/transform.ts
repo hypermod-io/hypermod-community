@@ -11,7 +11,7 @@ import {
   getDefaultImportSpecifierName,
   getImportSpecifierName,
   getImportDeclaration,
-  getJSXAttributesByName,
+  getJSXAttributes,
 } from '@codeshift/utils';
 
 function updateAvatarProps(j: core.JSCodeshift, source: ReturnType<typeof j>) {
@@ -24,15 +24,15 @@ function updateAvatarProps(j: core.JSCodeshift, source: ReturnType<typeof j>) {
   if (!defaultSpecifier) return;
 
   source.findJSXElements(defaultSpecifier).forEach(element => {
-    getJSXAttributesByName(j, element, 'isHover').remove();
-    getJSXAttributesByName(j, element, 'isActive').remove();
-    getJSXAttributesByName(j, element, 'isFocus').remove();
-    getJSXAttributesByName(j, element, 'isSelected').remove();
-    getJSXAttributesByName(j, element, 'theme').remove();
+    getJSXAttributes(j, element, 'isHover').remove();
+    getJSXAttributes(j, element, 'isActive').remove();
+    getJSXAttributes(j, element, 'isFocus').remove();
+    getJSXAttributes(j, element, 'isSelected').remove();
+    getJSXAttributes(j, element, 'theme').remove();
 
-    const nameAttributes = getJSXAttributesByName(j, element, 'name');
+    const nameAttributes = getJSXAttributes(j, element, 'name');
     const name = nameAttributes.length && nameAttributes.get();
-    const enableTooltipAttributes = getJSXAttributesByName(
+    const enableTooltipAttributes = getJSXAttributes(
       j,
       element,
       'enableTooltip',
@@ -121,61 +121,59 @@ function updateAvatarItemProps(
   if (!importSpecifier) return;
 
   source.findJSXElements(importSpecifier).forEach(element => {
-    getJSXAttributesByName(j, element, 'isHover').remove();
-    getJSXAttributesByName(j, element, 'isActive').remove();
-    getJSXAttributesByName(j, element, 'isFocus').remove();
-    getJSXAttributesByName(j, element, 'isSelected').remove();
-    getJSXAttributesByName(j, element, 'theme').remove();
-    getJSXAttributesByName(j, element, 'enableTextTruncate').forEach(
-      attribute => {
-        // Change the prop name to isTruncationDisabled
-        j(attribute)
-          .find(j.JSXIdentifier)
-          .replaceWith(j.jsxIdentifier('isTruncationDisabled'));
+    getJSXAttributes(j, element, 'isHover').remove();
+    getJSXAttributes(j, element, 'isActive').remove();
+    getJSXAttributes(j, element, 'isFocus').remove();
+    getJSXAttributes(j, element, 'isSelected').remove();
+    getJSXAttributes(j, element, 'theme').remove();
+    getJSXAttributes(j, element, 'enableTextTruncate').forEach(attribute => {
+      // Change the prop name to isTruncationDisabled
+      j(attribute)
+        .find(j.JSXIdentifier)
+        .replaceWith(j.jsxIdentifier('isTruncationDisabled'));
 
-        // Remove if enableTextTruncate was true or given no value (ie true)
-        j(attribute)
-          .filter(attr => attr.node.value == null)
-          .remove();
+      // Remove if enableTextTruncate was true or given no value (ie true)
+      j(attribute)
+        .filter(attr => attr.node.value == null)
+        .remove();
 
-        j(attribute)
-          .filter(attr => {
-            return !!j(attr)
+      j(attribute)
+        .filter(attr => {
+          return !!j(attr)
+            .find(j.JSXExpressionContainer)
+            .find(j.BooleanLiteral)
+            .filter(literal => literal.node.value).length;
+        })
+        .remove();
+
+      // if `enableTextTruncate` value is negative we can change it to 'true'
+      j(attribute)
+        .filter(
+          attr =>
+            !!j(attr)
               .find(j.JSXExpressionContainer)
-              .find(j.BooleanLiteral)
-              .filter(literal => literal.node.value).length;
-          })
-          .remove();
+              .filter(
+                expression =>
+                  j(expression)
+                    .find(j.BooleanLiteral)
+                    .filter(literal => !literal.node.value).length > 0,
+              ).length,
+        )
+        .replaceWith(j.jsxAttribute(j.jsxIdentifier('isTruncationDisabled')));
 
-        // if `enableTextTruncate` value is negative we can change it to 'true'
-        j(attribute)
-          .filter(
-            attr =>
-              !!j(attr)
-                .find(j.JSXExpressionContainer)
-                .filter(
-                  expression =>
-                    j(expression)
-                      .find(j.BooleanLiteral)
-                      .filter(literal => !literal.node.value).length > 0,
-                ).length,
-          )
-          .replaceWith(j.jsxAttribute(j.jsxIdentifier('isTruncationDisabled')));
-
-        // if `enableTextTruncate` was an expression, negate it
-        j(attribute)
-          .find(j.JSXExpressionContainer)
-          .filter(container => j(container).find(j.BooleanLiteral).length === 0)
-          .forEach(container => {
-            j(container).replaceWith(
-              j.jsxExpressionContainer(
-                //@ts-ignore
-                j.unaryExpression('!', container.node.expression),
-              ),
-            );
-          });
-      },
-    );
+      // if `enableTextTruncate` was an expression, negate it
+      j(attribute)
+        .find(j.JSXExpressionContainer)
+        .filter(container => j(container).find(j.BooleanLiteral).length === 0)
+        .forEach(container => {
+          j(container).replaceWith(
+            j.jsxExpressionContainer(
+              //@ts-ignore
+              j.unaryExpression('!', container.node.expression),
+            ),
+          );
+        });
+    });
   });
 }
 

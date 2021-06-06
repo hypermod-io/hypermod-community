@@ -6,10 +6,7 @@ import core, {
   Literal,
   Collection,
 } from 'jscodeshift';
-import {
-  getJSXAttributesByName,
-  insertCommentToStartOfFile,
-} from '@codeshift/utils';
+import { getJSXAttributes, insertCommentToStartOfFile } from '@codeshift/utils';
 
 import {
   messageForUsingExpression,
@@ -58,7 +55,7 @@ export default function updateOffset(
   specifier: string,
 ) {
   source.findJSXElements(specifier).forEach((path: ASTPath<JSXElement>) => {
-    const offsetExpr = getJSXAttributesByName(j, path, 'offset');
+    const offsetExpr = getJSXAttributes(j, path, 'offset');
     const stringLiteral = offsetExpr.filter(
       attr => attr.value!.value!.type === 'StringLiteral',
     );

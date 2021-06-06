@@ -1,9 +1,6 @@
 import core, { ASTPath, JSXElement, Collection } from 'jscodeshift';
 
-import {
-  getJSXAttributesByName,
-  insertCommentToStartOfFile,
-} from '@codeshift/utils';
+import { getJSXAttributes, insertCommentToStartOfFile } from '@codeshift/utils';
 
 export default function updateOffset(
   j: core.JSCodeshift,
@@ -11,7 +8,7 @@ export default function updateOffset(
   specifier: string,
 ) {
   source.findJSXElements(specifier).forEach((path: ASTPath<JSXElement>) => {
-    getJSXAttributesByName(j, path, 'offset')
+    getJSXAttributes(j, path, 'offset')
       .find(j.JSXExpressionContainer)
       .forEach(attribute => {
         const expression = attribute.value.expression;

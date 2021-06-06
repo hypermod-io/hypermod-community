@@ -2,8 +2,8 @@ import core, { API, Collection, FileInfo, Options } from 'jscodeshift';
 
 import {
   hasImportDeclaration,
-  getJSXAttributesByName,
-  removeJSXAttributesByName,
+  getJSXAttributes,
+  removeJSXAttributes,
   getImportDeclaration,
   getDefaultImportSpecifierName,
 } from '@codeshift/utils';
@@ -49,9 +49,9 @@ function changeSpinnerUsage(j: core.JSCodeshift, source: Collection) {
   if (name == null) return;
 
   source.findJSXElements(name).forEach(element => {
-    removeJSXAttributesByName(j, element, 'isCompleting');
-    removeJSXAttributesByName(j, element, 'onComplete');
-    getJSXAttributesByName(j, element, 'delay')
+    removeJSXAttributes(j, element, 'isCompleting');
+    removeJSXAttributes(j, element, 'onComplete');
+    getJSXAttributes(j, element, 'delay')
       .filter(attribute => {
         const toRemove = j(attribute)
           .find(j.JSXExpressionContainer)
@@ -68,7 +68,7 @@ function changeSpinnerUsage(j: core.JSCodeshift, source: Collection) {
       .remove();
 
     // Changing `invertColor` prop to `appearance`
-    getJSXAttributesByName(j, element, 'invertColor').forEach(attribute => {
+    getJSXAttributes(j, element, 'invertColor').forEach(attribute => {
       // change the name of the prop to appearance
       j(attribute)
         .find(j.JSXIdentifier)

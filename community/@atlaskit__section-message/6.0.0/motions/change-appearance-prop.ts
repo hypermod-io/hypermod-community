@@ -4,7 +4,7 @@ import { Collection } from 'jscodeshift/src/Collection';
 import {
   insertCommentBefore,
   getDefaultImportSpecifierName,
-  getJSXAttributesByName,
+  getJSXAttributes,
 } from '@codeshift/utils';
 
 import {
@@ -43,68 +43,66 @@ const changeAppearanceProp = (
   if (!defaultSpecifier) return;
 
   source.findJSXElements(defaultSpecifier).forEach(element => {
-    getJSXAttributesByName(j, element, APPEARANCE_PROP_NAME).forEach(
-      attribute => {
-        const { value } = attribute.node;
-        if (!value) return;
+    getJSXAttributes(j, element, APPEARANCE_PROP_NAME).forEach(attribute => {
+      const { value } = attribute.node;
+      if (!value) return;
 
-        // appearance prop can be provided in multiple ways. Handling different cases here
-        switch (value.type) {
-          // case when object value is provided
-          case 'JSXExpressionContainer':
-            const { expression } = value;
+      // appearance prop can be provided in multiple ways. Handling different cases here
+      switch (value.type) {
+        // case when object value is provided
+        case 'JSXExpressionContainer':
+          const { expression } = value;
 
-            // case when string is provided inside JSX expression
-            // e.g.: <SectionMessage appearance={"information"} />
-            if (expression.type === 'StringLiteral') {
-              replaceAppearanceStringValue(j, attribute, expression.value);
-            }
-            // case when a variable is provided as value
-            // e.g.: <SectionMessage appearance={someVariable} />
-            else if (expression.type !== 'JSXEmptyExpression') {
-              const mappingValue = j.memberExpression(
-                j.objectExpression(
-                  Object.entries(
-                    APPEARANCE_OLD_TO_NEW_MAPPING,
-                  ).map(([key, value]) =>
-                    j.objectProperty(j.identifier(key), j.stringLiteral(value)),
-                  ),
+          // case when string is provided inside JSX expression
+          // e.g.: <SectionMessage appearance={"information"} />
+          if (expression.type === 'StringLiteral') {
+            replaceAppearanceStringValue(j, attribute, expression.value);
+          }
+          // case when a variable is provided as value
+          // e.g.: <SectionMessage appearance={someVariable} />
+          else if (expression.type !== 'JSXEmptyExpression') {
+            const mappingValue = j.memberExpression(
+              j.objectExpression(
+                Object.entries(
+                  APPEARANCE_OLD_TO_NEW_MAPPING,
+                ).map(([key, value]) =>
+                  j.objectProperty(j.identifier(key), j.stringLiteral(value)),
                 ),
-                expression,
-              );
-              mappingValue.computed = true;
+              ),
+              expression,
+            );
+            mappingValue.computed = true;
 
-              const propValue = j.logicalExpression(
-                '||',
-                mappingValue,
-                expression,
-              );
+            const propValue = j.logicalExpression(
+              '||',
+              mappingValue,
+              expression,
+            );
 
-              j(attribute).replaceWith(
-                j.jsxAttribute(
-                  j.jsxIdentifier(APPEARANCE_PROP_NAME),
-                  j.jsxExpressionContainer(propValue),
-                ),
-              );
+            j(attribute).replaceWith(
+              j.jsxAttribute(
+                j.jsxIdentifier(APPEARANCE_PROP_NAME),
+                j.jsxExpressionContainer(propValue),
+              ),
+            );
 
-              insertCommentBefore(
-                j,
-                j(attribute),
-                `We have added this temporary appearance mapping here to make things work. Feel free to change it accordingly. We have also added @ts-ignore for typescript files.
+            insertCommentBefore(
+              j,
+              j(attribute),
+              `We have added this temporary appearance mapping here to make things work. Feel free to change it accordingly. We have also added @ts-ignore for typescript files.
                    @ts-ignore
                   `,
-              );
-            }
+            );
+          }
 
-            break;
+          break;
 
-          // case when string value is provided
-          // e.g.: <SectionMessage appearance="information" />
-          case 'StringLiteral':
-            replaceAppearanceStringValue(j, attribute, value.value);
-        }
-      },
-    );
+        // case when string value is provided
+        // e.g.: <SectionMessage appearance="information" />
+        case 'StringLiteral':
+          replaceAppearanceStringValue(j, attribute, value.value);
+      }
+    });
   });
 };
 

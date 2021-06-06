@@ -2,7 +2,7 @@ import core, { API, Collection, FileInfo, Options } from 'jscodeshift';
 import {
   getDefaultImportSpecifierName,
   hasImportDeclaration,
-  getJSXAttributesByName,
+  getJSXAttributes,
 } from '@codeshift/utils';
 
 function findIdentifierAndReplaceAttribute(
@@ -69,16 +69,11 @@ export default function transformer(
   if (!defaultSpecifier) return fileInfo.source;
 
   source.findJSXElements(defaultSpecifier).forEach(element => {
-    getJSXAttributesByName(j, element, 'isDefaultChecked').forEach(
-      attribute => {
-        j(attribute).replaceWith(
-          j.jsxAttribute(
-            j.jsxIdentifier('defaultChecked'),
-            attribute.node.value,
-          ),
-        );
-      },
-    );
+    getJSXAttributes(j, element, 'isDefaultChecked').forEach(attribute => {
+      j(attribute).replaceWith(
+        j.jsxAttribute(j.jsxIdentifier('defaultChecked'), attribute.node.value),
+      );
+    });
   });
 
   const variable = hasVariableAssignment(j, source, defaultSpecifier);

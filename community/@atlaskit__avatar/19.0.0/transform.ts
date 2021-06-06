@@ -2,7 +2,7 @@ import core, { API, FileInfo, Options } from 'jscodeshift';
 
 import {
   getImportSpecifierName,
-  getJSXAttributesByName,
+  getJSXAttributes,
   hasImportDeclaration,
   getDefaultImportSpecifierName,
 } from '@codeshift/utils';
@@ -13,7 +13,7 @@ function wrapChildrenProp(
   specifier: string,
 ) {
   source.findJSXElements(specifier).forEach(element => {
-    const componentProp = getJSXAttributesByName(j, element, 'component').get();
+    const componentProp = getJSXAttributes(j, element, 'component').get();
     const componentName = j(componentProp)
       .find(j.JSXExpressionContainer)
       .find(j.Expression)

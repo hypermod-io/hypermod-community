@@ -12,7 +12,7 @@ import core, {
 import {
   insertCommentBefore,
   getDefaultImportSpecifierName,
-  getJSXAttributesByName,
+  getJSXAttributes,
 } from '@codeshift/utils';
 
 import {
@@ -91,7 +91,7 @@ const transferLinkComponentProp = (
   j: core.JSCodeshift,
   element: ASTPath<JSXElement>,
 ) => {
-  const linkComponentAttributeCollection: Collection<JSXAttribute> = getJSXAttributesByName(
+  const linkComponentAttributeCollection: Collection<JSXAttribute> = getJSXAttributes(
     j,
     element,
     LINK_COMPONENT_PROP_NAME,
@@ -137,7 +137,7 @@ const mapActionsProp = (j: core.JSCodeshift, source: Collection<Node>) => {
     .forEach(element => {
       const linkComponentAttributeValue = transferLinkComponentProp(j, element);
       // @ts-ignore
-      actionsAttributes = getJSXAttributesByName(j, element, ACTIONS_PROP_NAME);
+      actionsAttributes = getJSXAttributes(j, element, ACTIONS_PROP_NAME);
 
       actionsAttributes.forEach((attribute: ASTPath<JSXAttribute>) => {
         j(attribute)

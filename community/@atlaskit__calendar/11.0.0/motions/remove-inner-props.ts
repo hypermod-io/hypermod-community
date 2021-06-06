@@ -2,7 +2,7 @@ import core, { Collection, Node } from 'jscodeshift';
 import {
   insertCommentToStartOfFile,
   getDefaultImportSpecifierName,
-  getJSXAttributesByName,
+  getJSXAttributes,
 } from '@codeshift/utils';
 
 const removeInnerProps = (j: core.JSCodeshift, source: Collection<Node>) => {
@@ -15,7 +15,7 @@ const removeInnerProps = (j: core.JSCodeshift, source: Collection<Node>) => {
   if (!defaultSpecifier) return;
 
   source.findJSXElements(defaultSpecifier).forEach(element => {
-    getJSXAttributesByName(j, element, 'innerProps').forEach(attribute => {
+    getJSXAttributes(j, element, 'innerProps').forEach(attribute => {
       j(attribute).remove();
 
       insertCommentToStartOfFile(

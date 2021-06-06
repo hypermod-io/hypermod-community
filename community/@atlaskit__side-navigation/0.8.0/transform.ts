@@ -4,7 +4,7 @@ import {
   getDefaultImportSpecifierName,
   getImportSpecifierName,
   hasImportDeclaration,
-  getJSXAttributesByName,
+  getJSXAttributes,
 } from '@codeshift/utils';
 
 function insertCommentBeforeJSX(
@@ -30,7 +30,7 @@ function updateCssFnProp(
   specifier: string,
 ) {
   source.findJSXElements(specifier).forEach(element => {
-    const cssFnPropCollection = getJSXAttributesByName(j, element, 'cssFn');
+    const cssFnPropCollection = getJSXAttributes(j, element, 'cssFn');
 
     // no cssProp usage for this element
     if (!cssFnPropCollection.length) return;

@@ -19,7 +19,7 @@ const relevantEntryPoints = [
   '@atlaskit/button/custom-theme-button',
 ];
 
-function getJSXAttributesByName(
+function getJSXAttributes(
   j: core.JSCodeshift,
   element: JSXElement,
   attributeName: string,
@@ -62,13 +62,13 @@ function renameProp(
   attributeTo: string,
 ) {
   base.findJSXElements(component).forEach(element => {
-    const first = getJSXAttributesByName(j, element.value, attributeFrom);
+    const first = getJSXAttributes(j, element.value, attributeFrom);
 
     // not using attribute
     if (!first.length) return;
 
     // let's check to see if they are using the to attribute
-    const second = getJSXAttributesByName(j, element.value, attributeTo);
+    const second = getJSXAttributes(j, element.value, attributeTo);
 
     // if the attribute we are moving to already exists we are in trouble
     if (second.length) {

@@ -1,8 +1,8 @@
 import core, { ASTPath, JSXElement, Collection } from 'jscodeshift';
 import {
-  hasJSXAttributesByName,
-  removeJSXAttributesByName,
-  getJSXAttributesByName,
+  hasJSXAttributes,
+  removeJSXAttributes,
+  getJSXAttributes,
 } from '@codeshift/utils';
 import { NodePath } from 'ast-types/lib/node-path';
 
@@ -117,7 +117,7 @@ function isUsingProp(
   propName: string,
 ) {
   return (
-    hasJSXAttributesByName(j, element.value as any, propName) ||
+    hasJSXAttributes(j, element.value as any, propName) ||
     isUsingThroughSpread(j, base, element, propName)
   );
 }
@@ -130,39 +130,37 @@ export default function updateBoundariesProps(
   source.findJSXElements(specifier).forEach((path: ASTPath<JSXElement>) => {
     if (isUsingProp(j, source, path, 'boundariesElement')) {
       // Get value from prop
-      getJSXAttributesByName(j, path, 'boundariesElement').forEach(
-        attribute => {
-          const expression = attribute.node.value;
-          if (expression && expression.type === 'StringLiteral') {
-            const value = expression && expression.value;
-            if (value === 'window') {
-              j(attribute).replaceWith(
-                j.jsxAttribute(
-                  j.jsxIdentifier('rootBoundary'),
-                  j.stringLiteral('document'),
-                ),
-              );
-            } else if (value === 'viewport') {
-              j(attribute).replaceWith(
-                j.jsxAttribute(
-                  j.jsxIdentifier('rootBoundary'),
-                  j.stringLiteral('viewport'),
-                ),
-              );
-            } else if (value === 'scrollParents') {
-              j(attribute).replaceWith(
-                j.jsxAttribute(
-                  j.jsxIdentifier('boundary'),
-                  j.stringLiteral('clippingParents'),
-                ),
-              );
-            }
+      getJSXAttributes(j, path, 'boundariesElement').forEach(attribute => {
+        const expression = attribute.node.value;
+        if (expression && expression.type === 'StringLiteral') {
+          const value = expression && expression.value;
+          if (value === 'window') {
+            j(attribute).replaceWith(
+              j.jsxAttribute(
+                j.jsxIdentifier('rootBoundary'),
+                j.stringLiteral('document'),
+              ),
+            );
+          } else if (value === 'viewport') {
+            j(attribute).replaceWith(
+              j.jsxAttribute(
+                j.jsxIdentifier('rootBoundary'),
+                j.stringLiteral('viewport'),
+              ),
+            );
+          } else if (value === 'scrollParents') {
+            j(attribute).replaceWith(
+              j.jsxAttribute(
+                j.jsxIdentifier('boundary'),
+                j.stringLiteral('clippingParents'),
+              ),
+            );
           }
-        },
-      );
+        }
+      });
 
       // Remove old prop
-      removeJSXAttributesByName(j, path, 'boundariesElement');
+      removeJSXAttributes(j, path, 'boundariesElement');
     }
   });
 }

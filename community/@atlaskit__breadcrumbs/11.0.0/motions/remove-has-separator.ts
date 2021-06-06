@@ -1,7 +1,7 @@
 import core, { ASTPath, Collection, Node } from 'jscodeshift';
 import {
   insertCommentToStartOfFile,
-  getJSXAttributesByName,
+  getJSXAttributes,
   getImportSpecifierName,
 } from '@codeshift/utils';
 
@@ -21,7 +21,7 @@ const createRemoveFuncFor = (
     if (predicate(j, element) && comment) {
       insertCommentToStartOfFile(j, source, comment);
     } else {
-      getJSXAttributesByName(j, element, prop).forEach(attribute => {
+      getJSXAttributes(j, element, prop).forEach(attribute => {
         j(attribute).remove();
       });
     }

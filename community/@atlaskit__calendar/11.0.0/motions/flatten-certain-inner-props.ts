@@ -1,6 +1,6 @@
 import core, { Collection, Node, ObjectExpression } from 'jscodeshift';
 import {
-  getJSXAttributesByName,
+  getJSXAttributes,
   getDefaultImportSpecifierName,
 } from '@codeshift/utils';
 
@@ -17,7 +17,7 @@ const flattenCertainChildProps = (
   if (!defaultSpecifier) return;
 
   source.findJSXElements(defaultSpecifier).forEach(element => {
-    getJSXAttributesByName(j, element, 'innerProps').forEach(attribute => {
+    getJSXAttributes(j, element, 'innerProps').forEach(attribute => {
       j(attribute)
         .find(j.JSXExpressionContainer)
         .find(j.ObjectExpression)

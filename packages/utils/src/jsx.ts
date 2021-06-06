@@ -1,6 +1,6 @@
 import core, { ASTPath } from 'jscodeshift';
 
-export function getJSXAttributesByName(
+export function getJSXAttributes(
   j: core.JSCodeshift,
   element: ASTPath<any>,
   attributeName: string,
@@ -16,18 +16,18 @@ export function getJSXAttributesByName(
     });
 }
 
-export function hasJSXAttributesByName(
+export function hasJSXAttributes(
   j: core.JSCodeshift,
   element: ASTPath<any>,
   attributeName: string,
 ) {
-  return getJSXAttributesByName(j, element, attributeName).length > 0;
+  return getJSXAttributes(j, element, attributeName).length > 0;
 }
 
-export function removeJSXAttributesByName(
+export function removeJSXAttributes(
   j: core.JSCodeshift,
   element: ASTPath<any>,
   attributeName: string,
 ) {
-  return getJSXAttributesByName(j, element, attributeName).remove();
+  return getJSXAttributes(j, element, attributeName).remove();
 }

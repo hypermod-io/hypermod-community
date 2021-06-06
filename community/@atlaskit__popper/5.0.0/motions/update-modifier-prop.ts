@@ -1,8 +1,5 @@
 import core, { Collection, JSXElement } from 'jscodeshift';
-import {
-  insertCommentToStartOfFile,
-  hasJSXAttributesByName,
-} from '@codeshift/utils';
+import { insertCommentToStartOfFile, hasJSXAttributes } from '@codeshift/utils';
 import { NodePath } from 'ast-types/lib/node-path';
 
 import { messageForModifierProps } from '../constants';
@@ -141,7 +138,7 @@ function isUsingProp({
   propName: string;
 }): boolean {
   return (
-    hasJSXAttributesByName(j, element, propName) ||
+    hasJSXAttributes(j, element, propName) ||
     isUsingThroughSpread({
       j,
       base,

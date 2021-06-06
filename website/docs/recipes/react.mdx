@@ -339,7 +339,7 @@ This might seem difficult on the surface, but think about it like every other co
 **Transform:**
 
 ```javascript
-import { getJSXAttributesByName } from '@codeshift/utils';
+import { getJSXAttributes } from '@codeshift/utils';
 
 export default function transformer(file, { jscodeshift: j }, options) {
   const source = j(file.source);
@@ -347,7 +347,7 @@ export default function transformer(file, { jscodeshift: j }, options) {
   source.findJSXElements('Avatar').forEach(element => {
     // Find props all JSXAttributes with a prop called "component"
     // (Using the getJSXAttributeByName util here for simplicity)
-    const componentProp = getJSXAttributesByName(j, element, 'component').get();
+    const componentProp = getJSXAttributes(j, element, 'component').get();
     // Grabs the name of the component passed into the "component" prop
     const componentName = j(componentProp)
       .find(j.JSXExpressionContainer)

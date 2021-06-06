@@ -1,8 +1,5 @@
 import core, { Node, Collection } from 'jscodeshift';
-import {
-  getImportSpecifierName,
-  getJSXAttributesByName,
-} from '@codeshift/utils';
+import { getImportSpecifierName, getJSXAttributes } from '@codeshift/utils';
 
 function hasVariableAssignment(
   j: core.JSCodeshift,
@@ -58,7 +55,7 @@ export const renameInputRef = (
   if (!specifier) return;
 
   source.findJSXElements(specifier).forEach(element => {
-    getJSXAttributesByName(j, element, 'inputRef').forEach(attribute => {
+    getJSXAttributes(j, element, 'inputRef').forEach(attribute => {
       j(attribute).replaceWith(
         j.jsxAttribute(j.jsxIdentifier('ref'), attribute.node.value),
       );

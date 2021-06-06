@@ -2,7 +2,7 @@ import core, { Collection, Node } from 'jscodeshift';
 import {
   insertCommentToStartOfFile,
   getDefaultImportSpecifierName,
-  getJSXAttributesByName,
+  getJSXAttributes,
 } from '@codeshift/utils';
 
 export const removeThemeProp = (
@@ -18,7 +18,7 @@ export const removeThemeProp = (
   if (!defaultSpecifier) return;
 
   source.findJSXElements(defaultSpecifier).forEach(element => {
-    getJSXAttributesByName(j, element, 'theme')
+    getJSXAttributes(j, element, 'theme')
       .forEach(() => {
         insertCommentToStartOfFile(
           j,
