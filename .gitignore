@@ -1,6 +1,7 @@
 # Repo
 .tmp/
 plugin_packages/
+website/docs/explore/*
 
 # Logs
 logs

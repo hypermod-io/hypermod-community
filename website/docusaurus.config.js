@@ -30,6 +30,12 @@ module.exports = {
           position: 'left',
         },
         {
+          type: 'doc',
+          docId: 'explore/atlaskit__avatar',
+          label: 'Explore',
+          position: 'left',
+        },
+        {
           href: 'https://github.com/CodeshiftCommunity/CodeshiftCommunity',
           label: 'GitHub',
           position: 'right',
