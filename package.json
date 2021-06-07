@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "predocs:start": "ts-node scripts/docs",
     "docs:start": "cd website && yarn start",
     "postinstall": "preconstruct dev && yarn monorepo:check",
     "build": "yarn clean && preconstruct build",
