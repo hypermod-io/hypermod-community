@@ -28,7 +28,8 @@ The file structure of your codemod will look like this:
 
 ```
 community/[package-name]/[version]
-  /transform.ts // main entrypoint (should contain a transform)
+  /codeshift.config.js // main entrypoint containing configuration and references to your transforms
+  /transform.ts // main logic (should contain a transformer)
   /transform.spec.ts // main tests
   /motions // different operations that make up the codemod
     /[motion-name].ts // motion
@@ -39,12 +40,34 @@ community/[package-name]/[version]
 
 ```
 community/react-cool-library/18.0.0
+  /codeshift.config.js
   /transform.ts
   /transform.spec.ts
   /motions
     /remove-ref-usage.ts
     /remove-ref-usage.spec.ts
 ```
+
+## Configuration
+
+Each codemod package should be coupled with a `codeshift.config.js` file.
+The config file is the entry-point of your codemod and is responsible for holding all of the relevant
+metadata about it, as well as references to the transformer functions themselves.
+
+They typically look like this:
+
+```js
+export default {
+  maintainers: ['danieldelcore'],
+  transforms: {
+    '18.0.0': require('./18.0.0/transform'),
+    '19.0.0': require('./19.0.0/transform'),
+  },
+};
+```
+
+- `maintainers`: Github usernames of the people that maintain that codemod, they will be notified on PRs etc.
+- `transforms`: A key value pair of transforms organized by semver-compatible versions
 
 ## Versioning
 
@@ -62,7 +85,7 @@ Patched codemods will then be automatically published when merged to the repo, e
 
 ## Transformers
 
-Transformers are the main entrypoint to your codemod, they are responsible for accepting a raw file and applying the appropriate modifications to it.
+Transformers are the main entrypoint to your codemod, they are responsible for accepting a raw file, applying the appropriate modifications to it and finally outputting the resulting AST to the original file.
 
 **Example:**
 
@@ -73,53 +96,107 @@ import updateBorderWidth from './motions/update-border-width';
 export default function transformer(file, { jscodeshift: j }, options) {
   const source = j(file.source);
 
-  if (hasImportDeclaration(j, source, '@atlaskit/avatar')) {
-    // Checks if the file needs to be modified
-    updateBorderWidth(j, source); // Execute individual motions
-
-    return source.toSource(options.printOptions || { quote: 'single' }); // Writes modified AST to file
+  if (!hasImportDeclaration(j, source, 'my')) {
+    return file.source; // Writes original untouched file
   }
 
-  return file.source; // Writes original untouched file
+  // Checks if the file needs to be modified
+  updateBorderWidth(j, source); // Execute individual motions
+
+  return source.toSource(options.printOptions); // Writes modified AST to file
 }
 ```
 
 ## Motions
 
 A motion (aka migration) is what we call specific actions performed within a codemod. For example, `updateBorderWidth` or `removeDeprecatedProps`.
-They can be simply thought of a functions that are responsible for a single action within a codemod. It is not required but they are a helpful design pattern to isolate more complicated parts of your codemod into discrete pieces.
+They can be simply thought of a functions that are responsible for a single action within a codemod. It is not required but they are highly recommended as
+a helpful design pattern to isolate more complicated parts of your codemod into discrete pieces.
 
 **Example:**
 
 ```ts
-function removeDeprecatedProps(
-  j: core.JSCodeshift,
-  source: ReturnType<typeof j>,
-) {
-  // TODO:
+function removeDeprecatedProps(j, source) {
+  // Some logic here
+}
+```
+
+Motions can then be applied from the main transform, just like any other function.
+
+```ts
+import { hasImportDeclaration } from '@codeshift/utils';
+import removeDeprecatedProps from './motions/remove-deprecated-props';
+import restructureImports from './motions/restructure-imports';
+
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Execute individual motions
+  removeDeprecatedProps(j, source);
+  restructureImports(j, source);
+
+  return source.toSource(options.printOptions); // Writes modified AST to file
+}
+```
+
+Each motion receives a reference to the AST (`source`) which it can then manipulate as required.
+
+Alternatively, you can use the utility function [applyMotions](./utils#applymotionsj-source-motions) to run motions in sequence.
+
+```ts
+import { applyMotions } from '@codeshift/utils';
+import removeDeprecatedProps from './motions/remove-deprecated-props';
+import restructureImports from './motions/restructure-imports';
+
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Execute a series of motions in order
+  applyMotions(j, source, [removeDeprecatedProps, restructureImports]);
+
+  return source.toSource(options.printOptions);
 }
 ```
 
 ## Testing
 
-It's very likely that consumers will run into all sorts of edge-cases when running your transform. That's why it's important to start by writing some tests to assert it's behavior. Luckily, [jscodeshift provides some testing utilities](https://github.com/facebook/jscodeshift#unit-testing).
+It's very likely that consumers will run into all sorts of edge-cases when running your transform.
+That's why it's important to start by writing some tests to assert it's behavior. Luckily, both [CodeshiftCommunity](./test-utils) & [jscodeshift](https://github.com/facebook/jscodeshift#unit-testing) provides testing utilities to help.
 
-When creating a codemod, it's best to always try to write your tests first (TDD style). Think about the start and end state and how you might be able to achieve that. Also, make sure to consider as many edge-cases as you possibly can.
+When creating a codemod, it's best to always try to write your tests first (TDD style).
+Think about the start and end state and how you might be able to achieve that. Also, make sure to consider as many edge-cases as you possibly can.
+
+For more information, please see the [testing docs](testing).
 
 **Example:**
 
 ```ts
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
-const transform = require('../myTransform');
-const transformOptions = {};
+import { applyTransform } from '@codeshift/test-utils';
 
-defineInlineTest(
-  transform,
-  transformOptions,
-  'input',
-  'expected output',
-  'test name (optional)',
-);
+import * as transformer from '../transform';
+
+describe('MyTransform', () => {
+  it('should wrap component in a tooltip if name is defined', () => {
+    const result = applyTransform(
+      transformer,
+      `
+      import MyComponent from 'my-component';
+
+      const App = () => {
+        return <MyComponent name="foo" />;
+      }
+    `,
+      { parser: 'tsx' },
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+    "import Tooltip from 'my-tooltip';
+    import MyComponent from 'my-component';
+
+    const App = () => {
+      return <Tooltip content=\\"foo\\"><MyComponent name=\\"foo\\" /></Tooltip>;
+    }"
+  `);
+  });
+});
 ```
-
-For more information, please see the [testing docs](testing).
