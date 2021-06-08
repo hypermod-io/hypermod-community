@@ -2,7 +2,7 @@
 module.exports = {
   title: 'CodeshiftCommunity',
   tagline: 'Codemods for everyone ✨',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://www.codeshiftcommunity.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
