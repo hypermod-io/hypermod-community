@@ -2,10 +2,6 @@ import fs from 'fs-extra';
 import semver from 'semver';
 import * as recast from 'recast';
 
-function transformPackageName(packageName: string) {
-  return packageName.replace('/', '__');
-}
-
 function main(packageName: string, version: string) {
   if (!packageName) throw new Error('Package name was not provided');
   if (!version) throw new Error('Version was not provided');
@@ -17,23 +13,30 @@ function main(packageName: string, version: string) {
   }
 
   const communityDirectoryPath = `${__dirname}/../../../community`;
-  const safePackageName = transformPackageName(packageName);
+  const safePackageName = packageName.replace('/', '__');
   const codemodBasePath = `${communityDirectoryPath}/${safePackageName}`;
   const codemodPath = `${codemodBasePath}/${version}`;
   const configPath = `${codemodBasePath}/codeshift.config.js`;
-  const testsPath = `${codemodPath}/_tests_`;
   const motionsPath = `${codemodPath}/motions`;
 
   fs.mkdirSync(codemodPath, { recursive: true });
+
+  fs.copyFileSync(
+    `${__dirname}/../template/transform.spec.ts`,
+    `${codemodPath}/transform.spec.ts`,
+  );
+  fs.copyFileSync(
+    `${__dirname}/../template/transform.ts`,
+    `${codemodPath}/transform.ts`,
+  );
   fs.copySync(`${__dirname}/../template/motions`, motionsPath);
-  fs.copySync(`${__dirname}/../template/_tests_`, testsPath);
 
   const testFile = fs
-    .readFileSync(`${testsPath}/transform.spec.ts`, 'utf8')
+    .readFileSync(`${codemodPath}/transform.spec.ts`, 'utf8')
     .replace('<% packageName %>', packageName)
     .replace('<% version %>', version);
 
-  fs.writeFileSync(`${testsPath}/transform.spec.ts`, testFile);
+  fs.writeFileSync(`${codemodPath}/transform.spec.ts`, testFile);
 
   if (!fs.existsSync(configPath)) {
     fs.writeFileSync(
@@ -85,11 +88,6 @@ function main(packageName: string, version: string) {
       recast.prettyPrint(ast, { quote: 'single', trailingComma: true }).code,
     );
   }
-
-  fs.copyFileSync(
-    `${__dirname}/../template/transform.ts`,
-    `${codemodPath}/transform.ts`,
-  );
 
   console.log(
     `🚚 New codemod package created at: community/${safePackageName}/${version}`,

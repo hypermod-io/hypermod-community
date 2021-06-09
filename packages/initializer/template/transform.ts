@@ -1,11 +1,11 @@
 import { API, FileInfo, Options } from 'jscodeshift';
 
 export default function transformer(
-  fileInfo: FileInfo,
+  file: FileInfo,
   { jscodeshift: j }: API,
   options: Options,
 ) {
-  const source = j(fileInfo.source);
+  const source = j(file.source);
 
   /**
    * Early exit condition
@@ -16,7 +16,7 @@ export default function transformer(
    * https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/your-first-codemod#output
    */
   if (/* Some condition here */ true) {
-    return fileInfo.source;
+    return file.source;
   }
 
   /**
