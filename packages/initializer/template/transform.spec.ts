@@ -1,5 +1,5 @@
 import { applyTransform } from '@codeshift/test-utils';
-import * as transformer from '../transform';
+import * as transformer from './transform';
 
 describe('<% packageName %>@<% version %> transform', () => {
   it('should transform correctly', () => {

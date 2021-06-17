@@ -85,6 +85,33 @@ removeImportDeclaration(j, source, 'react');
 -import React, { useEffect } from 'react';
 ```
 
+### `renameImportDeclaration(j, source, sourcePath, newSourcePath)`
+
+Renames an import declaration by source name
+
+**Returns**
+
+`void`
+
+**Example**
+
+```jsx
+// src/App.js
+import React from 'react';
+```
+
+```js
+import { renameImportDeclaration } from '@codeshift/utils';
+
+renameImportDeclaration(j, source, 'react', 'preact');
+```
+
+```diff
+// src/App.js
+-import React, { useEffect } from 'react';
++import React, { useEffect } from 'preact';
+```
+
 ### `getDefaultImportSpecifier(j, source, sourcePath)`
 
 Finds a default import specifier

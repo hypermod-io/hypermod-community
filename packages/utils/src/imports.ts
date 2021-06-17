@@ -32,6 +32,18 @@ export function removeImportDeclaration(
   getImportDeclaration(j, source, sourcePath).remove();
 }
 
+export function renameImportDeclaration(
+  j: core.JSCodeshift,
+  source: Collection<any>,
+  sourcePath: string,
+  newSourcePath: string,
+) {
+  getImportDeclaration(j, source, sourcePath).forEach(
+    importDeclaration =>
+      (importDeclaration.node.source = j.stringLiteral(newSourcePath)),
+  );
+}
+
 export function getDefaultImportSpecifier(
   j: core.JSCodeshift,
   source: Collection<any>,
