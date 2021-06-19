@@ -117,3 +117,14 @@ Print a list of available codemods for a single package
 Print a list of available codemods for multiple packages
 
 - `@codeshift/cli list mylib, @material-ui/button`
+
+### init
+
+Generates a new codemod at your desired path
+
+**example:**
+
+Create a new codemod package called foobar with a transform for version 10
+on the Desktop
+
+- `@codeshift/cli init --packageName="foobar" --version"10.0.0" ~/Desktop`

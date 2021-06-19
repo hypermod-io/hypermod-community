@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import main from './main';
 import list from './list';
+import init from './init';
 import {
   ValidationError,
   NoTransformsExistError,
@@ -64,6 +65,21 @@ program
   .command('list <package-names...>')
   .description('list available codemods for provided packages')
   .action(packageNames => list(packageNames));
+
+program
+  .command('init [path]')
+  .description('create a new codemod package')
+  // FIXME: Commander seems to have issues parsing the paths and arguments
+  .option('--package-name <name>', 'Name of the package')
+  .option('--version <version>', 'Target version')
+  .action((path, options) => init(options.packageName, options.version, path))
+  .addHelpText(
+    'after',
+    `
+Examples:
+  $ npx @codeshift/cli init --package-name foobar --version 10.0.0 ~/Desktop
+  `,
+  );
 
 program.exitOverride();
 
