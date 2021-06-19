@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import main from './main';
 import list from './list';
 import init from './init';
+import validate from './validate';
 import {
   ValidationError,
   NoTransformsExistError,
@@ -78,6 +79,19 @@ program
     `
 Examples:
   $ npx @codeshift/cli init --package-name foobar --version 10.0.0 ~/Desktop
+  `,
+  );
+
+program
+  .command('validate [path]')
+  .description('validates if a codemod package is publishable')
+  .action(path => validate(path))
+  .addHelpText(
+    'after',
+    `
+Examples:
+  $ npx @codeshift/cli validate
+  $ npx @codeshift/cli validate ./codemods/my-codemods
   `,
   );
 

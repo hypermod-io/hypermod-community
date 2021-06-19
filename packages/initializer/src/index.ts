@@ -16,6 +16,7 @@ export function initDirectory(
   const basePath = `${targetPath}/${packageName.replace('/', '__')}`;
   const codemodPath = `${basePath}/${version}`;
   const configPath = `${basePath}/codeshift.config.js`;
+  const packagePath = `${basePath}/package.json`;
   const motionsPath = `${codemodPath}/motions`;
 
   fs.mkdirSync(codemodPath, { recursive: true });
@@ -36,6 +37,22 @@ export function initDirectory(
     .replace('<% version %>', version);
 
   fs.writeFileSync(`${codemodPath}/transform.spec.ts`, testFile);
+
+  fs.writeFileSync(
+    packagePath,
+    `{
+  "name": "${packageName}",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/${packageName}.cjs.js",
+  "dependencies": {
+    "@codeshift/utils": "^0.1.2"
+  },
+  "devDependencies": {
+    "jscodeshift": "^0.12.0"
+  }
+}`,
+  );
 
   if (!fs.existsSync(configPath)) {
     fs.writeFileSync(
