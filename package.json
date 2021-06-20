@@ -22,9 +22,9 @@
     "types:check": "tsc --noEmit --skipLibCheck",
     "monorepo:check": "manypkg check",
     "monorepo:fix": "manypkg fix && preconstruct fix",
-    "init:codemods": "ts-node packages/initializer/src/index.ts",
+    "init:codemods": "ts-node scripts/initialize.ts",
     "start:codemods": "node packages/cli/bin/codeshift-cli.js",
-    "validate:codemods": "ts-node packages/validator/src/index.ts ./community",
+    "validate:codemods": "ts-node scripts/validate.ts ./community",
     "release:codemods": "ts-node packages/publisher/src/index.ts ./community ./.tmp",
     "prerelease": "yarn validate && yarn test",
     "release": "yarn changeset publish"

@@ -1,6 +1,5 @@
 {
   "name": "@codeshift/validator",
-  "private": true,
   "version": "0.1.0",
   "main": "dist/codeshift-validator.cjs.js",
   "types": "dist/codeshift-validator.cjs.d.ts",
@@ -11,6 +10,7 @@
   },
   "dependencies": {
     "fs-extra": "^9.1.0",
+    "recast": "^0.20.4",
     "semver": "^7.3.5",
     "ts-node": "^9.1.1"
   }

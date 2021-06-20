@@ -1,6 +1,5 @@
 {
   "name": "@codeshift/initializer",
-  "private": true,
   "version": "0.1.0",
   "main": "dist/codeshift-initializer.cjs.js",
   "types": "dist/codeshift-initializer.cjs.d.ts",
