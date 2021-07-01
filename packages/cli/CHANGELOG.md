@@ -1,5 +1,14 @@
 # @codeshift/cli
 
+## 0.1.6
+
+### Patch Changes
+
+- a78ad25: Update package configuration and refactors repo scripts
+- Updated dependencies [a78ad25]
+  - @codeshift/initializer@0.1.1
+  - @codeshift/validator@0.1.1
+
 ## 0.1.5
 
 ### Patch Changes
