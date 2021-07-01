@@ -99,8 +99,5 @@ export default async function main(paths: string[], flags: Flags) {
     });
   }
 
-  /**
-   * TODO: uncomment the below when jscodeshift can be used as an async function
-   */
-  // await packageManager.uninstallAll();
+  await packageManager.uninstallAll();
 }
