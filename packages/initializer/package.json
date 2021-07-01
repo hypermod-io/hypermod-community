@@ -5,9 +5,6 @@
   "types": "dist/codeshift-initializer.cjs.d.ts",
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/initializer",
-  "scripts": {
-    "start": "ts-node src/index.ts"
-  },
   "dependencies": {
     "fs-extra": "^9.1.0",
     "recast": "^0.20.4",

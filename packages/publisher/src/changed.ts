@@ -1,12 +1,16 @@
 import simpleGit from 'simple-git/promise';
 import fs from 'fs-extra';
 
-export default async function getChangedPackages() {
-  const git = simpleGit();
+export function getAllPackages(path: string) {
+  return fs
+    .readdirSync(path, { withFileTypes: true })
+    .filter(dir => dir.isDirectory())
+    .map(dir => dir.name);
+}
 
-  const eventMeta = JSON.parse(
-    fs.readFileSync(process.env.GITHUB_EVENT_PATH!, 'utf8'),
-  );
+export async function getChangedPackages(sinceRef: string) {
+  const git = simpleGit();
+  const eventMeta = JSON.parse(fs.readFileSync(sinceRef!, 'utf8'));
 
   try {
     await git.revparse(['--verify', eventMeta.before]);

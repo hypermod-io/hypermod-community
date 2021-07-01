@@ -7,6 +7,7 @@ jest.mock('live-plugin-manager', () => ({
     install: () => Promise.resolve(undefined),
     getInfo: (name: string) =>
       Promise.resolve({ location: `node_modules/${name}` }),
+    uninstallAll: () => Promise.resolve(),
   }),
 }));
 

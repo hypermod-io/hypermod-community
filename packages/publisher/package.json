@@ -1,15 +1,12 @@
 {
   "name": "@codeshift/publisher",
-  "private": true,
   "version": "0.1.0",
   "main": "dist/codeshift-publisher.cjs.js",
   "types": "dist/codeshift-publisher.cjs.d.ts",
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/publisher",
-  "scripts": {
-    "start": "ts-node src/index.ts"
-  },
   "dependencies": {
+    "@preconstruct/cli": "^2.0.0",
     "fs-extra": "^9.1.0",
     "npm-registry-client": "^8.6.0",
     "semver": "^7.3.5",
