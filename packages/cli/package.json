@@ -10,7 +10,8 @@
     "codemod-cli": "./bin/codeshift-cli.js"
   },
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "./bin/codeshift-cli.js",
+    "start:dev": "ts-node src/index.ts"
   },
   "dependencies": {
     "@codeshift/initializer": "0.1.0",
