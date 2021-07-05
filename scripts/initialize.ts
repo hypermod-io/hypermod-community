@@ -6,7 +6,7 @@ export function main(packageName: string, version: string) {
   if (!packageName) throw new Error('Package name was not provided');
   if (!version) throw new Error('Version was not provided');
 
-  initDirectory(packageName, version, path);
+  initDirectory(packageName, version, path, true);
 
   console.log(
     `🚚 New codemod package created at: community/${packageName}/${version}`,
