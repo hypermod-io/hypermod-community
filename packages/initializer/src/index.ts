@@ -2,32 +2,33 @@ import fs from 'fs-extra';
 import semver from 'semver';
 import * as recast from 'recast';
 
-import { version as utilsVersion } from '../../utils/package.json';
-import { version as testUtilsVersion } from '../../test-utils/package.json';
-
-function getPackageJson(packageName: string) {
-  return `{
-  "name": "${packageName}",
-  "version": "0.0.1",
-  "license": "MIT",
-  "main": "dist/codeshift.config.js",
-  "scripts": {
-    "build": "tsc --build",
-    "test": "jest"
-  },
-  "dependencies": {
-    "@codeshift/utils": "^${utilsVersion}"
-  },
-  "devDependencies": {
-    "@codeshift/test-utils": "^${testUtilsVersion}",
-    "@types/jest": "^26.0.15",
-    "jest": "^26.6.0",
-    "jscodeshift": "^0.12.0",
-    "prettier": "^1.16.4",
-    "ts-jest": "^26.4.4",
-    "typescript": "^4.3.5"
-  }
-}`;
+export function getPackageJson(packageName: string, version: string = '0.0.0') {
+  return JSON.stringify(
+    {
+      name: packageName,
+      version: version,
+      license: 'MIT',
+      main: 'dist/codeshift.config.js',
+      scripts: {
+        build: 'tsc --build',
+        test: 'jest',
+      },
+      dependencies: {
+        '@codeshift/utils': '*',
+      },
+      devDependencies: {
+        '@codeshift/test-utils': '*',
+        '@types/jest': '^26.0.15',
+        jest: '^26.6.0',
+        jscodeshift: '^0.12.0',
+        prettier: '^1.16.4',
+        'ts-jest': '^26.4.4',
+        typescript: '^4.3.5',
+      },
+    },
+    null,
+    2,
+  );
 }
 
 function getConfig(packageName: string, version: string) {
