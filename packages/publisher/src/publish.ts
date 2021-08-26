@@ -54,15 +54,15 @@ export default function publishPackages(path: string, authToken: string) {
         ['.'],
       );
 
-      return publishPackage(packageName, {
+      await publishPackage(packageName, {
         // @ts-ignore
         metadata: JSON.parse(packageJson),
         access: 'public',
         body: fs.createReadStream(tarballPath),
         token: authToken,
-      }).catch(err => {
-        throw new Error(err);
       });
     }),
-  );
+  ).catch(err => {
+    throw new Error(err);
+  });
 }
