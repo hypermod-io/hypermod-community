@@ -60,6 +60,8 @@ export default function publishPackages(path: string, authToken: string) {
         access: 'public',
         body: fs.createReadStream(tarballPath),
         token: authToken,
+      }).catch(err => {
+        throw new Error(err);
       });
     }),
   );
