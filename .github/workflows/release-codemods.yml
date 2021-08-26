@@ -1,4 +1,4 @@
-name: Release Codemods
+name: Release codemods
 
 on:
   push:
