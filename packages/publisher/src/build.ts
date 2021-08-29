@@ -12,10 +12,14 @@ export default function buildPackages(path: string, packages: string[]) {
               if (error) {
                 console.error(`exec error: ${error}`);
                 reject('Unable to build codeshift packages');
+                return;
+              }
+
+              if (stderr) {
+                console.error(stderr);
               }
 
               console.log(stdout);
-              console.error(stderr);
 
               resolve();
             },

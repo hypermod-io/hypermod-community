@@ -41,6 +41,7 @@ describe('main', () => {
       try {
         await main([], { transform: 'path/to/transform.ts' });
       } catch (error) {
+        // @ts-ignore
         expect(error.message).toMatch(
           'No path provided, please specify which files your codemod should modify',
         );
@@ -53,6 +54,7 @@ describe('main', () => {
       try {
         await main([mockPath], {});
       } catch (error) {
+        // @ts-ignore
         expect(error.message).toMatch(
           'No transform provided, please specify a transform with either the --transform or --packages flags',
         );
@@ -259,6 +261,7 @@ describe('main', () => {
           extensions: 'js',
         });
       } catch (error) {
+        // @ts-ignore
         expect(error.message).toMatch(
           'Invalid version provided to the --packages flag. Package mylib@NOT_SEMVER is missing version. Please try: "@[scope]/[package]@[version]" for example @mylib/avatar@10.0.0',
         );

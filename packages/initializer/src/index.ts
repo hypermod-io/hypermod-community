@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import semver from 'semver';
 import * as recast from 'recast';
+import { version as utilVersion } from '@codeshift/utils/package.json';
 
 export function getPackageJson(packageName: string, version: string = '0.0.0') {
   return JSON.stringify(
@@ -14,7 +15,7 @@ export function getPackageJson(packageName: string, version: string = '0.0.0') {
         test: 'jest',
       },
       dependencies: {
-        '@codeshift/utils': '*',
+        '@codeshift/utils': `^${utilVersion}`,
       },
       devDependencies: {
         '@codeshift/test-utils': '*',

@@ -25,9 +25,9 @@
     "start:codemods": "node packages/cli/bin/codeshift-cli.js",
     "init:codemods": "ts-node scripts/initialize.ts",
     "validate:codemods": "ts-node scripts/validate.ts ./community",
-    "release:codemods": "ts-node scripts/publish.ts ./community ./.tmp",
-    "release-all:codemods": "ts-node scripts/publish-all.ts ./community ./.tmp",
-    "release-all-dry:codemods": "ts-node scripts/publish-all-dry.ts ./community ./.tmp",
+    "release:codemods": "ts-node scripts/publish.ts ./community .tmp",
+    "release-all:codemods": "ts-node scripts/publish-all.ts ./community .tmp",
+    "release-all-dry:codemods": "ts-node scripts/publish-all-dry.ts ./community .tmp",
     "prerelease": "yarn validate && yarn test",
     "release": "yarn changeset publish"
   },

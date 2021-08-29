@@ -6,6 +6,7 @@
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/initializer",
   "dependencies": {
+    "@codeshift/utils": "*",
     "fs-extra": "^9.1.0",
     "recast": "^0.20.4",
     "semver": "^7.3.5",

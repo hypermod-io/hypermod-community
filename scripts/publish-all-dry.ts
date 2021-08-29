@@ -10,13 +10,14 @@ async function main(sourcePath: string, targetPath: string) {
 
   const packages = getAllPackages(sourcePath);
 
-  console.log('Generating temporary directory');
+  console.log('✨ Generating temporary directory');
   await generatePackages(sourcePath, targetPath, packages);
 
-  console.log('Building all packages');
+  console.log('🏗 Building all packages');
   await buildPackages(targetPath, packages);
 }
 
 main(process.argv[2], process.argv[3]).catch(error => {
   console.error('Publishing error:', error.message);
+  process.exit(1);
 });
