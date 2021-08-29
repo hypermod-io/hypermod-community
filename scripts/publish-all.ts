@@ -17,8 +17,8 @@ async function main(sourcePath: string, targetPath: string) {
   console.log('🏗 Building all packages');
   await buildPackages(targetPath, packages);
 
-  await publishPackages(targetPath, process.env.NPM_TOKEN!);
   console.log('📦 Publishing all packages');
+  await publishPackages(targetPath, {}, process.env.NPM_TOKEN!);
 
   console.log('🧹 Cleaning up temporary directory');
   cleanTargetDir(targetPath);

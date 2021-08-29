@@ -8,10 +8,12 @@
   "dependencies": {
     "@codeshift/initializer": "*",
     "@preconstruct/cli": "^2.0.0",
+    "chalk": "^4.1.0",
     "fs-extra": "^9.1.0",
     "npm-registry-client": "^8.6.0",
     "semver": "^7.3.5",
     "simple-git": "^2.37.0",
+    "spawndamnit": "^2.0.0",
     "tar": "^6.1.0",
     "ts-node": "^9.1.1"
   }

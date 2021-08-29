@@ -5,9 +5,9 @@ export default function buildPackages(path: string, packages: string[]) {
     packages.map(
       pkg =>
         new Promise<void>((resolve, reject) => {
-          // TODO: stop this from building the entire repo.
           exec(
-            `echo $PWD && cd ${path}/${pkg} && yarn build`,
+            `yarn build`,
+            { cwd: `${path}/${pkg}` },
             (error, stdout, stderr) => {
               if (error) {
                 console.error(`exec error: ${error}`);

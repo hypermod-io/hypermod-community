@@ -1,68 +1,86 @@
 import fs from 'fs-extra';
-import tar from 'tar';
-
+import chalk from 'chalk';
 // @ts-ignore
-import RegClient from 'npm-registry-client';
+import spawn from 'spawndamnit';
 
-// TODO: dependency inject this instance
-const client = new RegClient();
-const npmUri = 'https://registry.npmjs.org/';
-
-interface PublishPackageOptions {
-  metadata: Record<string, string>;
-  access: 'public' | 'restricted';
-  token: string;
-  body: any;
+function jsonParse(input: string) {
+  try {
+    return JSON.parse(input);
+  } catch (err) {
+    if (err instanceof SyntaxError) {
+      console.error('error parsing json:', input);
+    }
+    throw err;
+  }
 }
 
-function publishPackage(
-  packageName: string,
-  { metadata, access, body, token }: PublishPackageOptions,
+async function publish(
+  pkg: { dir: string; packageJson: Record<string, any> },
+  opts: { dry?: boolean },
+  authToken: string,
 ) {
-  return new Promise<void>((resolve, reject) =>
-    client.publish(
-      npmUri,
-      { metadata, access, body, auth: { token } },
-      (error: any) => {
-        if (error) {
-          reject(
-            `Unexpected error when publishing ${packageName} to NPM: ${error}`,
-          );
-        }
-        resolve();
-      },
-    ),
+  const { name, version } = pkg.packageJson;
+
+  console.log(
+    `Publishing ${chalk.cyan(`"${name}"`)} at ${chalk.green(`"${version}"`)}`,
   );
+
+  // Due to a super annoying issue in yarn, we have to manually override this env variable
+  // See: https://github.com/yarnpkg/yarn/issues/2935#issuecomment-355292633
+  const envOverride = {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    npm_config_registry: `//registry.npmjs.org/:_authToken=${authToken}`,
+  };
+
+  const publishOpts = ['--access', 'public'];
+
+  if (opts?.dry) {
+    publishOpts.push('--dry-run');
+  }
+
+  const { stdout } = await spawn(
+    'npm',
+    ['publish', pkg.dir, '--json', ...publishOpts],
+    {
+      env: Object.assign({}, process.env, envOverride),
+    },
+  );
+
+  const json = jsonParse(stdout.toString().replace(/[^{]*/, ''));
+
+  if (json.error) {
+    throw new Error(
+      `An error occurred while publishing ${name}: ${json.error.code}
+${json.error.summary}
+${json.error.detail ? '\n' + json.error.detail : ''}
+      `,
+    );
+  }
 }
 
-export default function publishPackages(path: string, authToken: string) {
+export default function publishPackages(
+  path: string,
+  opts: { dry?: boolean },
+  authToken: string,
+) {
   return Promise.all(
     fs.readdirSync(path).map(async dir => {
-      const packageName = `@codeshift/mod-${dir
-        .replace('@', '')
-        .replace('/', '__')}`;
       const packagePath = `${path}/${dir}`;
-      const packageJson = await fs.readFile(`${packagePath}/package.json`);
-      const tarballPath = `${packagePath}/tarball.tgz`;
-
-      await tar.create(
-        {
-          cwd: packagePath,
-          file: tarballPath,
-          gzip: true,
-        },
-        ['.'],
+      const packageJson = await fs.readFile(
+        `${packagePath}/package.json`,
+        'utf8',
       );
 
-      await publishPackage(packageName, {
-        // @ts-ignore
-        metadata: JSON.parse(packageJson),
-        access: 'public',
-        body: fs.createReadStream(tarballPath),
-        token: authToken,
-      });
+      await publish(
+        {
+          dir: packagePath,
+          packageJson: jsonParse(packageJson),
+        },
+        opts,
+        authToken,
+      );
     }),
-  ).catch(err => {
-    throw new Error(err);
+  ).catch(error => {
+    throw new Error(error);
   });
 }

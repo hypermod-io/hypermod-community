@@ -2,6 +2,7 @@ import {
   getAllPackages,
   buildPackages,
   generatePackages,
+  publishPackages,
   cleanTargetDir,
 } from '@codeshift/publisher';
 
@@ -15,6 +16,9 @@ async function main(sourcePath: string, targetPath: string) {
 
   console.log('🏗 Building all packages');
   await buildPackages(targetPath, packages);
+
+  console.log('📦 Publishing changed packages (dry)');
+  await publishPackages(targetPath, { dry: true }, process.env.NPM_TOKEN!);
 }
 
 main(process.argv[2], process.argv[3]).catch(error => {
