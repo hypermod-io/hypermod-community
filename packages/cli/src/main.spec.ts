@@ -5,22 +5,29 @@ jest.mock('jscodeshift/src/Runner', () => ({
 jest.mock('live-plugin-manager', () => ({
   PluginManager: () => ({
     install: () => Promise.resolve(undefined),
-    getInfo: (name: string) =>
-      Promise.resolve({ location: `node_modules/${name}` }),
+    require: (codemodName: string) => ({
+      default: {
+        transforms: {
+          '18.0.0': `${codemodName}/path/to/18.js`,
+          '19.0.0': `${codemodName}/path/to/19.js`,
+          '20.0.0': `${codemodName}/path/to/20.js`,
+        },
+      },
+    }),
     uninstallAll: () => Promise.resolve(),
   }),
 }));
 
-jest.mock('fs-extra', () => ({
-  readdir: () =>
-    Promise.resolve([
-      '18.0.0',
-      '19.0.0',
-      '20.0.0',
-      'codeshift.config.js',
-      'index.ts',
-    ]),
-}));
+// jest.mock('fs-extra', () => ({
+//   readdir: () =>
+//     Promise.resolve([
+//       '18.0.0',
+//       '19.0.0',
+//       '20.0.0',
+//       'codeshift.config.js',
+//       'index.ts',
+//     ]),
+// }));
 
 // @ts-ignore
 import * as jscodeshift from 'jscodeshift/src/Runner';
@@ -144,7 +151,7 @@ describe('main', () => {
 
       expect(jscodeshift.run).toHaveBeenCalledTimes(1);
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-mylib/src/18.0.0/transform.ts',
+        '@codeshift/mod-mylib/path/to/18.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
           parser: 'babel',
@@ -163,7 +170,7 @@ describe('main', () => {
 
       expect(jscodeshift.run).toHaveBeenCalledTimes(3);
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-mylib/src/18.0.0/transform.ts',
+        '@codeshift/mod-mylib/path/to/18.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
           parser: 'babel',
@@ -171,12 +178,12 @@ describe('main', () => {
         }),
       );
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-mylib/src/19.0.0/transform.ts',
+        '@codeshift/mod-mylib/path/to/19.js',
         expect.any(Array),
         expect.any(Object),
       );
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-mylib/src/20.0.0/transform.ts',
+        '@codeshift/mod-mylib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
       );
@@ -190,7 +197,7 @@ describe('main', () => {
       });
 
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-myscope__mylib/src/19.0.0/transform.ts',
+        '@codeshift/mod-myscope__mylib/path/to/19.js',
         expect.any(Array),
         expect.any(Object),
       );
@@ -205,12 +212,12 @@ describe('main', () => {
 
       expect(jscodeshift.run).toHaveBeenCalledTimes(2);
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-mylib/src/20.0.0/transform.ts',
+        '@codeshift/mod-mylib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
       );
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-myotherlib/src/20.0.0/transform.ts',
+        '@codeshift/mod-myotherlib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
       );
@@ -225,12 +232,12 @@ describe('main', () => {
 
       expect(jscodeshift.run).toHaveBeenCalledTimes(2);
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-myscope__mylib/src/20.0.0/transform.ts',
+        '@codeshift/mod-myscope__mylib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
       );
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-myotherscope__myotherlib/src/20.0.0/transform.ts',
+        '@codeshift/mod-myotherscope__myotherlib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
       );
@@ -245,7 +252,7 @@ describe('main', () => {
 
       expect(jscodeshift.run).toHaveBeenCalledTimes(1);
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-mylib/src/20.0.0/transform.ts',
+        '@codeshift/mod-mylib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
       );
@@ -278,7 +285,7 @@ describe('main', () => {
 
       expect(jscodeshift.run).toHaveBeenCalledTimes(2);
       expect(jscodeshift.run).toHaveBeenCalledWith(
-        'node_modules/@codeshift/mod-mylib/src/20.0.0/transform.ts',
+        '@codeshift/mod-mylib/path/to/20.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
           parser: 'babel',
