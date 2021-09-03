@@ -19,17 +19,21 @@ The cli allows you to run transforms either from the [community folder](https://
 
 ## Usage/Installation
 
-We recommend running the CLI with `npx` to ensure you always have the latest version.
+We recommend running the CLI with `$ npx` to ensure you always have the latest version.
 
 `$ npx @codeshift/cli --packages mylib@1.0.0 /project/src`
 
 But it can also be installed normally:
 
-`npm install -g @codeshift/cli` or `yarn global add @codeshift/cli`
+`$ npm install --save-dev @codeshift/cli` or `yarn add -D @codeshift/cli`
 
 Or globally:
 
-`npm install --save-dev @codeshift/cli` or `yarn add -D @codeshift/cli`
+`$ npm install -g @codeshift/cli` or `yarn global add @codeshift/cli`
+
+and run with:
+
+`$ codeshift-cli`
 
 ## Options
 
@@ -39,8 +43,8 @@ The transform to run, transforms can be either a single file or directory with a
 
 **example:**
 
-- `npx @codeshift/cli --transform codemods/my-special-mod /project/src/file.js`
-- `npx @codeshift/cli --transform codemods/my-special-mod/index.ts /project/src/file.js`
+- `$ codeshift-cli --transform codemods/my-special-mod /project/src/file.js`
+- `$ codeshift-cli --transform codemods/my-special-mod/index.ts /project/src/file.js`
 
 ### --packages
 
@@ -48,8 +52,8 @@ Runs transforms for the specified comma separated list of packages, optionally i
 
 **example:**
 
-- `npx @codeshift/cli --packages @atlaskit/button /project/src`
-- `npx @codeshift/cli --packages @atlaskit/button@3.0.0,@atlaskit/range@4.0.0 /project/src`
+- `$ codeshift-cli --packages @atlaskit/button /project/src`
+- `$ codeshift-cli --packages @atlaskit/button@3.0.0,@atlaskit/range@4.0.0 /project/src`
 
 ### --parser, -p
 
@@ -65,8 +69,8 @@ Parser to use for parsing the source files you are code modding.
 
 **example:**
 
-- `npx @codeshift/cli --parser tsx /project/src/file.ts`
-- `npx @codeshift/cli -p babel /project/src/file.js`
+- `$ codeshift-cli --parser tsx /project/src/file.ts`
+- `$ codeshift-cli -p babel /project/src/file.js`
 
 ### --extensions, -e
 
@@ -74,8 +78,8 @@ Transform files with these file extensions (comma separated list) (default: js)
 
 **example:**
 
-- `npx @codeshift/cli --extensions ts,tsx /project/src/file.js`
-- `npx @codeshift/cli -e js /project/src/file.js`
+- `$ codeshift-cli --extensions ts,tsx /project/src/file.js`
+- `$ codeshift-cli -e js /project/src/file.js`
 
 ### --ignore-pattern
 
@@ -83,7 +87,7 @@ Ignore files that match a provided glob expression
 
 **example:**
 
-- `@codeshift/cli --ignore-pattern node_modules /project/src/file.js`
+- `$ codeshift-cli --ignore-pattern node_modules /project/src/file.js`
 
 ### --version, -v
 
@@ -91,8 +95,8 @@ Get current version number
 
 **example:**
 
-- `@codeshift/cli --version`
-- `@codeshift/cli -v`
+- `$ codeshift-cli --version`
+- `$ codeshift-cli -v`
 
 ### --help
 
@@ -100,7 +104,7 @@ Print all help text to the command line
 
 **example:**
 
-- `@codeshift/cli --help`
+- `$ codeshift-cli --help`
 
 ## Commands
 
@@ -112,11 +116,11 @@ Lists available codemods for the provided packages
 
 Print a list of available codemods for a single package
 
-- `@codeshift/cli list mylib`
+- `$ codeshift-cli list mylib`
 
 Print a list of available codemods for multiple packages
 
-- `@codeshift/cli list mylib, @material-ui/button`
+- `$ codeshift-cli list mylib, @material-ui/button`
 
 ### init
 
@@ -127,7 +131,7 @@ Generates a new codemod at your desired path
 Create a new codemod package called foobar with a transform for version 10
 on the Desktop
 
-- `@codeshift/cli init --packageName="foobar" --version"10.0.0" ~/Desktop`
+- `$ codeshift-cli init --packageName="foobar" --version"10.0.0" ~/Desktop`
 
 ### validate
 
@@ -137,8 +141,8 @@ Validates a codemod package at the desired path.
 
 Validate a codemod package called "my-codemods".
 
-- `$ npx @codeshift/cli validate ./codemods/my-codemods`
+- `$ codeshift-cli validate ./codemods/my-codemods`
 
 Validate a codemod package from the current working directory
 
-- `$ npx @codeshift/cli validate`
+- `$ codeshift-cli validate`

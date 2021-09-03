@@ -52,13 +52,13 @@ program
     `
 Examples:
   # Run a transform for "@mylib/button" version 3.0.0 only
-  $ npx @codeshift/cli --packages @mylib/button@3.0.0 /project/src
+  $ codeshift-cli --packages @mylib/button@3.0.0 /project/src
 
   # Run all transforms for "@mylib/button" greater than version 3.0.0 and @mylib/range greater than 4.0.0
-  $ npx @codeshift/cli --sequence --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src
+  $ codeshift-cli --sequence --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src
 
   # Run the "my-custom-transform" transform
-  $ npx @codeshift/cli -t path/to/my-custom-transform /project/src`,
+  $ codeshift-cli -t path/to/my-custom-transform /project/src`,
   )
   .action((options, command) => main(command.args, options));
 
@@ -78,7 +78,7 @@ program
     'after',
     `
 Examples:
-  $ npx @codeshift/cli init --package-name foobar --version 10.0.0 ~/Desktop
+  $ codeshift-cli init --package-name foobar --version 10.0.0 ~/Desktop
   `,
   );
 
@@ -90,8 +90,8 @@ program
     'after',
     `
 Examples:
-  $ npx @codeshift/cli validate
-  $ npx @codeshift/cli validate ./codemods/my-codemods
+  $ codeshift-cli validate
+  $ codeshift-cli validate ./codemods/my-codemods
   `,
   );
 
