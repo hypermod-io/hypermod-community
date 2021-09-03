@@ -1,5 +1,12 @@
 # @codeshift/cli
 
+## 0.1.9
+
+### Patch Changes
+
+- ad76039: CLI can now properly run packaged codemods without dangerously looking for files
+- 49b5762: Updates cli identifier to the correct name + updates docs accordingly
+
 ## 0.1.8
 
 ### Patch Changes
