@@ -1,6 +1,6 @@
 export default {
   maintainers: ['danieldelcore'],
   transforms: {
-    '12.0.0': require('./12.0.0/transform'),
+    '12.0.0': require.resolve('./12.0.0/transform'),
   },
 };

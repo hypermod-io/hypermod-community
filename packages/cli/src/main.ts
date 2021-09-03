@@ -1,5 +1,4 @@
 import semver from 'semver';
-import fs from 'fs-extra';
 import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
@@ -46,27 +45,20 @@ export default async function main(paths: string[], flags: Flags) {
       }
 
       const codemodName = `@codeshift/mod-${name}`;
-
       await packageManager.install(codemodName);
-      const info = await packageManager.getInfo(codemodName);
+      const { default: codeshiftConfig } = packageManager.require(codemodName);
 
-      /**
-       * TODO: currently jscodeshift only accepts a path to a transform rather than a function or module.
-       * The below logic will need to be refactored once this is fixed
-       */
-      const modulePath = `${info?.location}/src`;
-      const directories = await fs.readdir(modulePath);
-
-      directories
+      Object.entries(codeshiftConfig.transforms as Record<string, string>)
         .filter(
-          dir => semver.valid(dir) && semver.satisfies(dir, `>=${baseVersion}`),
+          ([key]) =>
+            semver.valid(key) && semver.satisfies(key, `>=${baseVersion}`),
         )
-        .filter(dir => {
+        .filter(([key]) => {
           if (flags.sequence) return true;
 
-          return baseVersion && semver.eq(dir, baseVersion);
+          return baseVersion && semver.eq(key, baseVersion);
         })
-        .forEach(dir => transforms.push(`${modulePath}/${dir}/transform.ts`));
+        .forEach(([, path]) => transforms.push(path));
     }
   }
 
