@@ -32,33 +32,77 @@ export default async function main(paths: string[], flags: Flags) {
     const pkgs = flags.packages.split(',').filter(pkg => !!pkg);
 
     for (const pkg of pkgs) {
-      const pkgSplit = pkg.split('@').filter(str => !!str);
-      const name = pkgSplit[0].replace('/', '__');
-      const baseVersion = semver.valid(
-        semver.coerce(pkgSplit[pkgSplit.length - 1]),
-      );
+      const pkgName = pkg
+        .split(/[@#]/)
+        .filter(str => !!str)[0]
+        .replace('/', '__');
+      const codemodName = `@codeshift/mod-${pkgName}`;
 
-      if (!baseVersion) {
-        throw new InvalidUserInputError(
-          `Invalid version provided to the --packages flag. Package ${pkg} is missing version. Please try: "@[scope]/[package]@[version]" for example @mylib/avatar@10.0.0`,
-        );
-      }
-
-      const codemodName = `@codeshift/mod-${name}`;
       await packageManager.install(codemodName);
       const { default: codeshiftConfig } = packageManager.require(codemodName);
 
-      Object.entries(codeshiftConfig.transforms as Record<string, string>)
-        .filter(
-          ([key]) =>
-            semver.valid(key) && semver.satisfies(key, `>=${baseVersion}`),
-        )
-        .filter(([key]) => {
-          if (flags.sequence) return true;
+      const codemodIds = pkg.split(/(?=[@#])/).filter(str => !!str);
+      codemodIds.shift();
 
-          return baseVersion && semver.eq(key, baseVersion);
-        })
-        .forEach(([, path]) => transforms.push(path));
+      const transformIds = codemodIds
+        .filter(id => id.startsWith('@'))
+        .map(id => id.substring(1))
+        .sort((idA, idB) => {
+          if (semver.lt(idA, idB)) return -1;
+          if (semver.gt(idA, idB)) return 1;
+          return 0;
+        });
+
+      const presetIds = codemodIds
+        .filter(id => id.startsWith('#'))
+        .map(id => id.substring(1));
+
+      // Validate transforms/presets
+      transformIds.forEach(id => {
+        if (!semver.valid(semver.coerce(id.substring(1)))) {
+          throw new InvalidUserInputError(
+            `Invalid version provided to the --packages flag. Unable to resolve version "${id}" for package "${pkgName}". Please try: "[scope]/[package]@[version]" for example @mylib/mypackage@10.0.0`,
+          );
+        }
+
+        if (!codeshiftConfig.transforms[id]) {
+          throw new InvalidUserInputError(
+            `Invalid version provided to the --packages flag. Unable to resolve version "${id}" for package "${pkgName}"`,
+          );
+        }
+      });
+
+      presetIds.forEach(id => {
+        if (!codeshiftConfig.presets[id]) {
+          throw new InvalidUserInputError(
+            `Invalid preset provided to the --packages flag. Unable to resolve preset "${id}" for package "${pkgName}""`,
+          );
+        }
+      });
+
+      // Get transform file paths
+      if (flags.sequence) {
+        Object.entries(codeshiftConfig.transforms as Record<string, string>)
+          .filter(([key]) => semver.satisfies(key, `>=${transformIds[0]}`))
+          .forEach(([, path]) => transforms.push(path));
+      } else {
+        Object.entries(
+          codeshiftConfig.transforms as Record<string, string>,
+        ).forEach(([id, path]) => {
+          if (transformIds.includes(id)) {
+            transforms.push(path);
+          }
+        });
+      }
+
+      // Get preset file paths
+      Object.entries(codeshiftConfig.presets as Record<string, string>).forEach(
+        ([id, path]) => {
+          if (presetIds.includes(id)) {
+            transforms.push(path);
+          }
+        },
+      );
     }
   }
 

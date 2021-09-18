@@ -12,22 +12,15 @@ jest.mock('live-plugin-manager', () => ({
           '19.0.0': `${codemodName}/path/to/19.js`,
           '20.0.0': `${codemodName}/path/to/20.js`,
         },
+        presets: {
+          'update-formatting': `${codemodName}/path/to/update-formatting.js`,
+          'update-imports': `${codemodName}/path/to/update-imports.js`,
+        },
       },
     }),
     uninstallAll: () => Promise.resolve(),
   }),
 }));
-
-// jest.mock('fs-extra', () => ({
-//   readdir: () =>
-//     Promise.resolve([
-//       '18.0.0',
-//       '19.0.0',
-//       '20.0.0',
-//       'codeshift.config.js',
-//       'index.ts',
-//     ]),
-// }));
 
 // @ts-ignore
 import * as jscodeshift from 'jscodeshift/src/Runner';
@@ -242,6 +235,25 @@ describe('main', () => {
         expect.any(Object),
       );
     });
+    it('should run multiple transforms of the same package', async () => {
+      await main([mockPath], {
+        packages: '@myscope/mylib@20.0.0@19.0.0',
+        parser: 'babel',
+        extensions: 'js',
+      });
+
+      expect(jscodeshift.run).toHaveBeenCalledTimes(2);
+      expect(jscodeshift.run).toHaveBeenCalledWith(
+        '@codeshift/mod-myscope__mylib/path/to/19.js',
+        expect.any(Array),
+        expect.any(Object),
+      );
+      expect(jscodeshift.run).toHaveBeenCalledWith(
+        '@codeshift/mod-myscope__mylib/path/to/20.js',
+        expect.any(Array),
+        expect.any(Object),
+      );
+    });
 
     it('should handle empty package transforms', async () => {
       await main([mockPath], {
@@ -270,7 +282,24 @@ describe('main', () => {
       } catch (error) {
         // @ts-ignore
         expect(error.message).toMatch(
-          'Invalid version provided to the --packages flag. Package mylib@NOT_SEMVER is missing version. Please try: "@[scope]/[package]@[version]" for example @mylib/avatar@10.0.0',
+          'Invalid version provided to the --packages flag. Unable to resolve version "NOT_SEMVER" for package "mylib". Please try: "[scope]/[package]@[version]" for example @mylib/mypackage@10.0.0',
+        );
+      }
+    });
+
+    it('should throw when transform is not found', async () => {
+      expect.assertions(1);
+
+      try {
+        await main([mockPath], {
+          packages: 'mylib@120.0.0',
+          parser: 'babel',
+          extensions: 'js',
+        });
+      } catch (error) {
+        // @ts-ignore
+        expect(error.message).toMatch(
+          'Invalid version provided to the --packages flag. Unable to resolve version "120.0.0" for package "mylib"',
         );
       }
     });
@@ -297,6 +326,95 @@ describe('main', () => {
         expect.any(Array),
         expect.any(Object),
       );
+    });
+  });
+
+  describe('when running presets with the -p flag', () => {
+    it('should run single preset', async () => {
+      await main([mockPath], {
+        packages: 'mylib#update-formatting',
+        parser: 'babel',
+        extensions: 'js',
+      });
+
+      expect(jscodeshift.run).toHaveBeenCalledTimes(1);
+      expect(jscodeshift.run).toHaveBeenCalledWith(
+        '@codeshift/mod-mylib/path/to/update-formatting.js',
+        expect.arrayContaining([mockPath]),
+        expect.objectContaining({
+          parser: 'babel',
+          extensions: 'js',
+        }),
+      );
+    });
+
+    it('should run multiple presets', async () => {
+      await main([mockPath], {
+        packages: 'mylib#update-formatting,mylib#update-imports',
+        parser: 'babel',
+        extensions: 'js',
+      });
+
+      expect(jscodeshift.run).toHaveBeenCalledTimes(2);
+      expect(jscodeshift.run).toHaveBeenCalledWith(
+        '@codeshift/mod-mylib/path/to/update-formatting.js',
+        expect.arrayContaining([mockPath]),
+        expect.objectContaining({
+          parser: 'babel',
+          extensions: 'js',
+        }),
+      );
+      expect(jscodeshift.run).toHaveBeenCalledWith(
+        '@codeshift/mod-mylib/path/to/update-imports.js',
+        expect.arrayContaining([mockPath]),
+        expect.objectContaining({
+          parser: 'babel',
+          extensions: 'js',
+        }),
+      );
+    });
+
+    it('should run multiple presets of the same package', async () => {
+      await main([mockPath], {
+        packages: 'mylib#update-formatting#update-imports',
+        parser: 'babel',
+        extensions: 'js',
+      });
+
+      expect(jscodeshift.run).toHaveBeenCalledTimes(2);
+      expect(jscodeshift.run).toHaveBeenCalledWith(
+        '@codeshift/mod-mylib/path/to/update-formatting.js',
+        expect.arrayContaining([mockPath]),
+        expect.objectContaining({
+          parser: 'babel',
+          extensions: 'js',
+        }),
+      );
+      expect(jscodeshift.run).toHaveBeenCalledWith(
+        '@codeshift/mod-mylib/path/to/update-imports.js',
+        expect.arrayContaining([mockPath]),
+        expect.objectContaining({
+          parser: 'babel',
+          extensions: 'js',
+        }),
+      );
+    });
+
+    it('should throw when preset is not found', async () => {
+      expect.assertions(1);
+
+      try {
+        await main([mockPath], {
+          packages: 'mylib#does-not-exist',
+          parser: 'babel',
+          extensions: 'js',
+        });
+      } catch (error) {
+        // @ts-ignore
+        expect(error.message).toMatch(
+          'Invalid preset provided to the --packages flag. Unable to resolve preset "does-not-exist" for package "mylib"',
+        );
+      }
     });
   });
 });
