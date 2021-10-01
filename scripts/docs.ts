@@ -12,6 +12,9 @@ interface Config {
   transforms: {
     [key: string]: any;
   };
+  presets: {
+    [key: string]: any;
+  };
 }
 
 interface DocsData {
@@ -36,6 +39,8 @@ function main() {
 
   cleanTargetDir(DOCS_PATH);
 
+  console.log(data);
+
   data.forEach(({ name, config }) => {
     const safeName = name.replace('@', '');
     const rawName = name.replace('__', '/');
@@ -57,9 +62,11 @@ ${config.maintainers.map(
   maintainer => `- [${maintainer}](https://github.com/${maintainer})`,
 )}
 
+## Transforms
+
 ${Object.keys(config.transforms)
   .map(
-    key => `## ${key}
+    key => `### ${key}
 
 [Source](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community/${urlSafeName}) | [Report an issue](https://github.com/CodeshiftCommunity/CodeshiftCommunity/issues/new?title=${safeName}@${key})
 
@@ -67,13 +74,32 @@ Migrates ${packageLink} to version ${key}.
 
 ### Usage
 
-
 \`\`\`
-npx @codeshift/cli --packages ${name}@${key} path/to/source
+$ @codeshift/cli --packages ${name}@${key} path/to/source
 \`\`\`
 `,
   )
   .join('')}
+
+${config.presets &&
+  `
+## Presets
+
+${Object.keys(config.presets)
+  .map(
+    key => `### ${key}
+
+[Source](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community/${urlSafeName}) | [Report an issue](https://github.com/CodeshiftCommunity/CodeshiftCommunity/issues/new?title=${safeName}@${key})
+
+### Usage
+
+\`\`\`
+$ @codeshift/cli --packages ${name}#${key} path/to/source
+\`\`\`
+`,
+  )
+  .join('')}
+`}
 `,
     );
   });

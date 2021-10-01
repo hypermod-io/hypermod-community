@@ -1,5 +1,4 @@
 import fs, { lstatSync, existsSync } from 'fs-extra';
-import semver from 'semver';
 import { isValidPackageName, isValidConfig } from '@codeshift/validator';
 
 async function main(path: string) {
@@ -18,15 +17,6 @@ async function main(path: string) {
 
     const subDirectories = await fs.readdir(`${path}/${dir}`);
     subDirectories.forEach(async subDir => {
-      if (
-        lstatSync(`${path}/${dir}/${subDir}`).isDirectory() &&
-        !semver.valid(subDir)
-      ) {
-        throw new Error(
-          `Codemod folder name "${subDir}" has an invalid version name. Please make sure the file name is valid semver. For example "18.0.0"`,
-        );
-      }
-
       if (
         lstatSync(`${path}/${dir}/${subDir}`).isDirectory() &&
         !existsSync(`${path}/${dir}/${subDir}/transform.ts`) &&
