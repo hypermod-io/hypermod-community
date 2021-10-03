@@ -6,10 +6,7 @@
   "types": "dist/codeshift-cli.cjs.d.ts",
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/cli",
-  "bin": {
-    "@codeshift/cli": "./bin/codeshift-cli.js",
-    "codeshift-cli": "./bin/codeshift-cli.js"
-  },
+  "bin": "./bin/codeshift-cli.js",
   "scripts": {
     "start": "./bin/codeshift-cli.js",
     "start:dev": "ts-node src/index.ts"
