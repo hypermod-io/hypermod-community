@@ -19,7 +19,7 @@ For example, say we want to run transforms for `@mylib/button` and migrate from 
 In this case we could try:
 
 ```
-npx @codemod/cli --package @mylib/button@14.0.0 project/path/to/src
+npx codemod-cli --package @mylib/button@14.0.0 project/path/to/src
 ```
 
 The following sequence of events will follow:
@@ -36,7 +36,7 @@ It's also possible to run a series of codemods, one after the other, to migrate 
 This is done my providing the `--sequence` (or `-s`) flag to `@codemod/cli`.
 
 ```
-npx @codemod/cli --package @mylib/button@14.0.0 --sequence project/path/to/src
+npx codemod-cli --package @mylib/button@14.0.0 --sequence project/path/to/src
 ```
 
 This time around, we use the provided version (14.0.0) as the start of a semver range between `14.0.0-@latest`.
@@ -47,7 +47,7 @@ We then fetch all codemods that match and run them one after another.
 For codemods not published to the community repo, you can supply your own transform the same way you would with jscodeshift.
 
 ```
-npx @codemod/cli --transform path/to/transform.ts project/path/to/src
+npx codemod-cli --transform path/to/transform.ts project/path/to/src
 ```
 
 ## Parsing TypeScript & Flow

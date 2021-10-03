@@ -75,7 +75,7 @@ Migrates ${packageLink} to version ${key}.
 ### Usage
 
 \`\`\`
-$ @codeshift/cli --packages ${name}@${key} path/to/source
+$ codeshift-cli --packages ${name}@${key} path/to/source
 \`\`\`
 `,
   )
@@ -94,7 +94,7 @@ ${Object.keys(config.presets)
 ### Usage
 
 \`\`\`
-$ @codeshift/cli --packages ${name}#${key} path/to/source
+$ codeshift-cli --packages ${name}#${key} path/to/source
 \`\`\`
 `,
   )
