@@ -39,6 +39,7 @@ export default async function main(paths: string[], flags: Flags) {
       const codemodName = `@codeshift/mod-${pkgName}`;
 
       await packageManager.install(codemodName);
+      // TODO: check if default exists first. module.exports might not have it
       const { default: codeshiftConfig } = packageManager.require(codemodName);
 
       const codemodIds = pkg.split(/(?=[@#])/).filter(str => !!str);
@@ -65,7 +66,7 @@ export default async function main(paths: string[], flags: Flags) {
           );
         }
 
-        if (!codeshiftConfig.transforms[id]) {
+        if (!codeshiftConfig.transforms || !codeshiftConfig.transforms[id]) {
           throw new InvalidUserInputError(
             `Invalid version provided to the --packages flag. Unable to resolve version "${id}" for package "${pkgName}"`,
           );
@@ -73,36 +74,40 @@ export default async function main(paths: string[], flags: Flags) {
       });
 
       presetIds.forEach(id => {
-        if (!codeshiftConfig.presets[id]) {
+        if (!codeshiftConfig.presets || !codeshiftConfig.presets[id]) {
           throw new InvalidUserInputError(
-            `Invalid preset provided to the --packages flag. Unable to resolve preset "${id}" for package "${pkgName}""`,
+            `Invalid preset provided to the --packages flag. Unable to resolve preset "${id}" for package "${pkgName}"`,
           );
         }
       });
 
       // Get transform file paths
-      if (flags.sequence) {
-        Object.entries(codeshiftConfig.transforms as Record<string, string>)
-          .filter(([key]) => semver.satisfies(key, `>=${transformIds[0]}`))
-          .forEach(([, path]) => transforms.push(path));
-      } else {
+      if (codeshiftConfig.transforms) {
+        if (flags.sequence) {
+          Object.entries(codeshiftConfig.transforms as Record<string, string>)
+            .filter(([key]) => semver.satisfies(key, `>=${transformIds[0]}`))
+            .forEach(([, path]) => transforms.push(path));
+        } else {
+          Object.entries(
+            codeshiftConfig.transforms as Record<string, string>,
+          ).forEach(([id, path]) => {
+            if (transformIds.includes(id)) {
+              transforms.push(path);
+            }
+          });
+        }
+      }
+
+      // Get preset file paths
+      if (codeshiftConfig.presets) {
         Object.entries(
-          codeshiftConfig.transforms as Record<string, string>,
+          codeshiftConfig.presets as Record<string, string>,
         ).forEach(([id, path]) => {
-          if (transformIds.includes(id)) {
+          if (presetIds.includes(id)) {
             transforms.push(path);
           }
         });
       }
-
-      // Get preset file paths
-      Object.entries(codeshiftConfig.presets as Record<string, string>).forEach(
-        ([id, path]) => {
-          if (presetIds.includes(id)) {
-            transforms.push(path);
-          }
-        },
-      );
     }
   }
 

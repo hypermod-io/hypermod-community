@@ -1,36 +1,37 @@
+jest.mock('live-plugin-manager');
 jest.mock('jscodeshift/src/Runner', () => ({
   run: jest.fn().mockImplementation(() => Promise.resolve()),
 }));
 
-jest.mock('live-plugin-manager', () => ({
-  PluginManager: () => ({
-    install: () => Promise.resolve(undefined),
-    require: (codemodName: string) => ({
-      default: {
-        transforms: {
-          '18.0.0': `${codemodName}/path/to/18.js`,
-          '19.0.0': `${codemodName}/path/to/19.js`,
-          '20.0.0': `${codemodName}/path/to/20.js`,
-        },
-        presets: {
-          'update-formatting': `${codemodName}/path/to/update-formatting.js`,
-          'update-imports': `${codemodName}/path/to/update-imports.js`,
-        },
-      },
-    }),
-    uninstallAll: () => Promise.resolve(),
-  }),
-}));
-
 // @ts-ignore
 import * as jscodeshift from 'jscodeshift/src/Runner';
-
+import { PluginManager } from 'live-plugin-manager';
 import main from './main';
 
 const mockPath = 'src/pages/home-page/';
 
 describe('main', () => {
   beforeEach(() => {
+    (PluginManager as jest.Mock).mockReturnValue({
+      install: () => Promise.resolve(undefined),
+      require: (codemodName: string) => ({
+        default: {
+          transforms: {
+            '18.0.0': `${codemodName}/path/to/18.js`,
+            '19.0.0': `${codemodName}/path/to/19.js`,
+            '20.0.0': `${codemodName}/path/to/20.js`,
+          },
+          presets: {
+            'update-formatting': `${codemodName}/path/to/update-formatting.js`,
+            'update-imports': `${codemodName}/path/to/update-imports.js`,
+          },
+        },
+      }),
+      uninstallAll: () => Promise.resolve(),
+    });
+  });
+
+  afterEach(() => {
     jest.resetAllMocks();
   });
 
@@ -327,6 +328,55 @@ describe('main', () => {
         expect.any(Object),
       );
     });
+
+    it('should not throw when attempting to run transform that is not present in config', async () => {
+      (PluginManager as jest.Mock).mockReturnValue({
+        install: () => Promise.resolve(undefined),
+        require: (codemodName: string) => ({
+          default: {
+            presets: {
+              'update-formatting': `${codemodName}/path/to/update-formatting.js`,
+            },
+          },
+        }),
+        uninstallAll: () => Promise.resolve(),
+      });
+
+      await expect(
+        main([mockPath], {
+          packages: 'mylib@20.0.0',
+          parser: 'babel',
+          extensions: 'js',
+        }),
+      ).rejects.toEqual(
+        Error(
+          'Invalid version provided to the --packages flag. Unable to resolve version "20.0.0" for package "mylib"',
+        ),
+      );
+    });
+
+    it('should not throw when transform are not present in the config', async () => {
+      (PluginManager as jest.Mock).mockReturnValue({
+        install: () => Promise.resolve(undefined),
+        // @ts-ignore
+        require: (codemodName: string) => ({
+          default: {
+            presets: {
+              'update-formatting': `${codemodName}/path/to/update-formatting.js`,
+            },
+          },
+        }),
+        uninstallAll: () => Promise.resolve(),
+      });
+
+      await expect(
+        main([mockPath], {
+          packages: 'mylib#update-formatting',
+          parser: 'babel',
+          extensions: 'js',
+        }),
+      ).resolves.not.toThrow();
+    });
   });
 
   describe('when running presets with the -p flag', () => {
@@ -415,6 +465,56 @@ describe('main', () => {
           'Invalid preset provided to the --packages flag. Unable to resolve preset "does-not-exist" for package "mylib"',
         );
       }
+    });
+
+    it('should not throw when attempting to run preset that is not present in config', async () => {
+      (PluginManager as jest.Mock).mockReturnValue({
+        install: () => Promise.resolve(undefined),
+        // @ts-ignore
+        require: (codemodName: string) => ({
+          default: {
+            transforms: {
+              '20.0.0': `${codemodName}/path/to/20.js`,
+            },
+          },
+        }),
+        uninstallAll: () => Promise.resolve(),
+      });
+
+      await expect(
+        main([mockPath], {
+          packages: 'mylib#foo-bar',
+          parser: 'babel',
+          extensions: 'js',
+        }),
+      ).rejects.toEqual(
+        Error(
+          'Invalid preset provided to the --packages flag. Unable to resolve preset "foo-bar" for package "mylib"',
+        ),
+      );
+    });
+
+    it('should not throw when presets are not present in the config', async () => {
+      (PluginManager as jest.Mock).mockReturnValue({
+        install: () => Promise.resolve(undefined),
+        // @ts-ignore
+        require: (codemodName: string) => ({
+          default: {
+            transforms: {
+              '20.0.0': `${codemodName}/path/to/20.js`,
+            },
+          },
+        }),
+        uninstallAll: () => Promise.resolve(),
+      });
+
+      await expect(
+        main([mockPath], {
+          packages: 'mylib@20.0.0',
+          parser: 'babel',
+          extensions: 'js',
+        }),
+      ).resolves.not.toThrow();
     });
   });
 });
