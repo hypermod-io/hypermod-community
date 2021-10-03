@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.2.1
+
+### Patch Changes
+
+- 73f5a59: Use default binary name
+
 ## 0.2.0
 
 ### Minor Changes
