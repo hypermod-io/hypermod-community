@@ -1,6 +1,4 @@
-import fs from 'fs-extra';
 import chalk from 'chalk';
-import semver from 'semver';
 import { PluginManager } from 'live-plugin-manager';
 import { NoTransformsExistError } from './errors';
 
@@ -20,18 +18,35 @@ export default async function list(packages: string[]) {
       );
     }
 
-    const info = await packageManager.getInfo(codemodName);
-
-    /**
-     * TODO: currently jscodeshift only accepts a path to a transform rather than a function or module.
-     * The below logic will need to be refactored once this is fixed
-     */
-    const modulePath = `${info?.location}/src`;
-    const directories = await fs.readdir(modulePath);
+    await packageManager.install(codemodName);
+    const { default: codeshiftConfig } = packageManager.require(codemodName);
 
     console.log(chalk.bold(pkg));
-    directories
-      .filter(dir => semver.valid(dir))
-      .forEach(dir => console.log(`├─${dir}`));
+
+    if (codeshiftConfig.transforms) {
+      console.log(`├─ transforms`),
+        Object.keys(codeshiftConfig.transforms).forEach(
+          (transform, index, array) => {
+            if (index + 1 === array.length) {
+              console.log(`|  └─ ${transform}`);
+              return;
+            }
+            console.log(`|  ├─ ${transform}`);
+          },
+        );
+    }
+
+    if (codeshiftConfig.presets) {
+      console.log(`└─ presets`),
+        Object.keys(codeshiftConfig.presets).forEach(
+          (transform, index, array) => {
+            if (index + 1 === array.length) {
+              console.log(`   └─ ${transform}`);
+              return;
+            }
+            console.log(`|  ├─ ${transform}`);
+          },
+        );
+    }
   }
 }
