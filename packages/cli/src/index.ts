@@ -15,11 +15,11 @@ import { Command, Option } from 'commander';
 const program = new Command();
 
 program
+  .command(`${packageJson.name} [path...]`, { isDefault: true })
   .version(packageJson.version, '-v, --version')
-  .name(packageJson.name)
   .usage('[global options] <file-paths>...')
   .option(
-    '-t,--transform <value>',
+    '-t, --transform <value>',
     'The transform to run, will prompt for a transform if not provided and no module is passed',
   )
   .option(
@@ -60,7 +60,7 @@ Examples:
   # Run the "my-custom-transform" transform
   $ codeshift-cli -t path/to/my-custom-transform /project/src`,
   )
-  .action((options, command) => main(command.args, options));
+  .action((path, options) => main(path, options));
 
 program
   .command('list <package-names...>')
@@ -69,22 +69,28 @@ program
 
 program
   .command('init [path]')
-  .description('create a new codemod package')
-  // FIXME: Commander seems to have issues parsing the paths and arguments
-  .option('--package-name <name>', 'Name of the package')
-  .option('--version <version>', 'Target version')
-  .action((path, options) => init(options.packageName, options.version, path))
+  .description('creates a new codeshift package')
+  .requiredOption('--package-name <value>', 'Name of the package')
+  .option('-t, --transform <value>', 'Transform version')
+  .option('-p, --preset <value>', 'Preset transfrom')
+  .action((path, options) =>
+    init(options.packageName, options.transform, options.preset, path),
+  )
   .addHelpText(
     'after',
     `
 Examples:
-  $ codeshift-cli init --package-name foobar --version 10.0.0 ~/Desktop
+  # Initializes a new codeshift package with a transform for 10.0.0
+  $ codeshift-cli init --package-name foobar --transform 10.0.0 ~/Desktop
+
+  # Initializes a new codeshift package with a preset "update-imports"
+  $ codeshift-cli init --package-name foobar --preset update-imports ~/Desktop
   `,
   );
 
 program
   .command('validate [path]')
-  .description('validates if a codemod package is publishable')
+  .description('validates if a codeshift package is publishable')
   .action(path => validate(path))
   .addHelpText(
     'after',
