@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.2.2
+
+### Patch Changes
+
+- 216dd18: Reverts binary change
+
 ## 0.2.1
 
 ### Patch Changes
