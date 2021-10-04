@@ -36,16 +36,19 @@ export default async function main(paths: string[], flags: Flags) {
         .split(/[@#]/)
         .filter(str => !!str)[0]
         .replace('/', '__');
-      const codemodName = `@codeshift/mod-${pkgName}`;
+      const packageName = `@codeshift/mod-${pkgName}`;
 
-      await packageManager.install(codemodName);
-      // TODO: check if default exists first. module.exports might not have it
-      const { default: codeshiftConfig } = packageManager.require(codemodName);
+      await packageManager.install(packageName);
+      const codeshiftPackage = packageManager.require(packageName);
 
-      const codemodIds = pkg.split(/(?=[@#])/).filter(str => !!str);
-      codemodIds.shift();
+      const config = codeshiftPackage.default
+        ? codeshiftPackage.default
+        : codeshiftPackage;
 
-      const transformIds = codemodIds
+      const rawTransformIds = pkg.split(/(?=[@#])/).filter(str => !!str);
+      rawTransformIds.shift();
+
+      const transformIds = rawTransformIds
         .filter(id => id.startsWith('@'))
         .map(id => id.substring(1))
         .sort((idA, idB) => {
@@ -54,7 +57,7 @@ export default async function main(paths: string[], flags: Flags) {
           return 0;
         });
 
-      const presetIds = codemodIds
+      const presetIds = rawTransformIds
         .filter(id => id.startsWith('#'))
         .map(id => id.substring(1));
 
@@ -66,7 +69,7 @@ export default async function main(paths: string[], flags: Flags) {
           );
         }
 
-        if (!codeshiftConfig.transforms || !codeshiftConfig.transforms[id]) {
+        if (!config.transforms || !config.transforms[id]) {
           throw new InvalidUserInputError(
             `Invalid version provided to the --packages flag. Unable to resolve version "${id}" for package "${pkgName}"`,
           );
@@ -74,7 +77,7 @@ export default async function main(paths: string[], flags: Flags) {
       });
 
       presetIds.forEach(id => {
-        if (!codeshiftConfig.presets || !codeshiftConfig.presets[id]) {
+        if (!config.presets || !config.presets[id]) {
           throw new InvalidUserInputError(
             `Invalid preset provided to the --packages flag. Unable to resolve preset "${id}" for package "${pkgName}"`,
           );
@@ -82,31 +85,31 @@ export default async function main(paths: string[], flags: Flags) {
       });
 
       // Get transform file paths
-      if (codeshiftConfig.transforms) {
+      if (config.transforms) {
         if (flags.sequence) {
-          Object.entries(codeshiftConfig.transforms as Record<string, string>)
+          Object.entries(config.transforms as Record<string, string>)
             .filter(([key]) => semver.satisfies(key, `>=${transformIds[0]}`))
             .forEach(([, path]) => transforms.push(path));
         } else {
-          Object.entries(
-            codeshiftConfig.transforms as Record<string, string>,
-          ).forEach(([id, path]) => {
-            if (transformIds.includes(id)) {
-              transforms.push(path);
-            }
-          });
+          Object.entries(config.transforms as Record<string, string>).forEach(
+            ([id, path]) => {
+              if (transformIds.includes(id)) {
+                transforms.push(path);
+              }
+            },
+          );
         }
       }
 
       // Get preset file paths
-      if (codeshiftConfig.presets) {
-        Object.entries(
-          codeshiftConfig.presets as Record<string, string>,
-        ).forEach(([id, path]) => {
-          if (presetIds.includes(id)) {
-            transforms.push(path);
-          }
-        });
+      if (config.presets) {
+        Object.entries(config.presets as Record<string, string>).forEach(
+          ([id, path]) => {
+            if (presetIds.includes(id)) {
+              transforms.push(path);
+            }
+          },
+        );
       }
     }
   }

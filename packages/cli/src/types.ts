@@ -6,9 +6,6 @@ export type Transform = (
   options: Options,
 ) => string;
 
-export class ValidationError extends Error {}
-export class NoTransformsExistError extends Error {}
-
 export interface Flags {
   /**
    * The transform to run

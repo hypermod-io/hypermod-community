@@ -15,16 +15,14 @@ describe('main', () => {
     (PluginManager as jest.Mock).mockReturnValue({
       install: () => Promise.resolve(undefined),
       require: (codemodName: string) => ({
-        default: {
-          transforms: {
-            '18.0.0': `${codemodName}/path/to/18.js`,
-            '19.0.0': `${codemodName}/path/to/19.js`,
-            '20.0.0': `${codemodName}/path/to/20.js`,
-          },
-          presets: {
-            'update-formatting': `${codemodName}/path/to/update-formatting.js`,
-            'update-imports': `${codemodName}/path/to/update-imports.js`,
-          },
+        transforms: {
+          '18.0.0': `${codemodName}/path/to/18.js`,
+          '19.0.0': `${codemodName}/path/to/19.js`,
+          '20.0.0': `${codemodName}/path/to/20.js`,
+        },
+        presets: {
+          'update-formatting': `${codemodName}/path/to/update-formatting.js`,
+          'update-imports': `${codemodName}/path/to/update-imports.js`,
         },
       }),
       uninstallAll: () => Promise.resolve(),
@@ -333,10 +331,8 @@ describe('main', () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
         require: (codemodName: string) => ({
-          default: {
-            presets: {
-              'update-formatting': `${codemodName}/path/to/update-formatting.js`,
-            },
+          presets: {
+            'update-formatting': `${codemodName}/path/to/update-formatting.js`,
           },
         }),
         uninstallAll: () => Promise.resolve(),
@@ -360,10 +356,8 @@ describe('main', () => {
         install: () => Promise.resolve(undefined),
         // @ts-ignore
         require: (codemodName: string) => ({
-          default: {
-            presets: {
-              'update-formatting': `${codemodName}/path/to/update-formatting.js`,
-            },
+          presets: {
+            'update-formatting': `${codemodName}/path/to/update-formatting.js`,
           },
         }),
         uninstallAll: () => Promise.resolve(),
@@ -472,10 +466,8 @@ describe('main', () => {
         install: () => Promise.resolve(undefined),
         // @ts-ignore
         require: (codemodName: string) => ({
-          default: {
-            transforms: {
-              '20.0.0': `${codemodName}/path/to/20.js`,
-            },
+          transforms: {
+            '20.0.0': `${codemodName}/path/to/20.js`,
           },
         }),
         uninstallAll: () => Promise.resolve(),
@@ -499,10 +491,8 @@ describe('main', () => {
         install: () => Promise.resolve(undefined),
         // @ts-ignore
         require: (codemodName: string) => ({
-          default: {
-            transforms: {
-              '20.0.0': `${codemodName}/path/to/20.js`,
-            },
+          transforms: {
+            '20.0.0': `${codemodName}/path/to/20.js`,
           },
         }),
         uninstallAll: () => Promise.resolve(),
@@ -515,6 +505,39 @@ describe('main', () => {
           extensions: 'js',
         }),
       ).resolves.not.toThrow();
+    });
+  });
+
+  describe('when reading configs using non-cjs exports', () => {
+    it('should read configs exported with export default', async () => {
+      (PluginManager as jest.Mock).mockReturnValue({
+        install: () => Promise.resolve(undefined),
+        // @ts-ignore
+        require: (codemodName: string) => ({
+          default: {
+            transforms: {
+              '18.0.0': `${codemodName}/path/to/18.js`,
+            },
+          },
+        }),
+        uninstallAll: () => Promise.resolve(),
+      });
+
+      await main([mockPath], {
+        packages: 'mylib@18.0.0',
+        parser: 'babel',
+        extensions: 'js',
+      });
+
+      expect(jscodeshift.run).toHaveBeenCalledTimes(1);
+      expect(jscodeshift.run).toHaveBeenCalledWith(
+        '@codeshift/mod-mylib/path/to/18.js',
+        expect.arrayContaining([mockPath]),
+        expect.objectContaining({
+          parser: 'babel',
+          extensions: 'js',
+        }),
+      );
     });
   });
 });
