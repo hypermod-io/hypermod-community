@@ -1,5 +1,16 @@
 # @codeshift/cli
 
+## 0.3.0
+
+### Minor Changes
+
+- 7f1e99c: CLI now supports configs exported with cjs and es module types
+
+### Patch Changes
+
+- bbca56f: Fixes a bug where consistent option names used across default and subcommands were breaking.
+- e9b263e: CLI will no longer error if either transforms or presets were undefined in the config
+
 ## 0.2.2
 
 ### Patch Changes
