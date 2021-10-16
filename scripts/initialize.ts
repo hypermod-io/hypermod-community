@@ -1,15 +1,17 @@
 import { initDirectory } from '@codeshift/initializer';
 
-export function main(packageName: string, version: string) {
-  const path = `${__dirname}/../community`;
+const targetPath = `${__dirname}/../community`;
 
+export function main(packageName: string, transform?: string) {
   if (!packageName) throw new Error('Package name was not provided');
-  if (!version) throw new Error('Version was not provided');
+  if (!transform) throw new Error('Version was not provided');
 
-  initDirectory(packageName, version, path, true);
+  if (transform) {
+    initDirectory(packageName, transform, 'version', targetPath);
+  }
 
   console.log(
-    `🚚 New codemod package created at: community/${packageName}/${version}`,
+    `🚚 New codemod package created at: community/${packageName}/${transform}`,
   );
 }
 

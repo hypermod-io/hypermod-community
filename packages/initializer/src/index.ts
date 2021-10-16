@@ -14,11 +14,11 @@ export function getPackageJson(packageName: string, version: string = '0.0.0') {
         build: 'tsc --build',
         test: 'jest',
       },
-      dependencies: {
-        '@codeshift/utils': `^${utilVersion}`,
-      },
+      dependencies: {},
       devDependencies: {
+        '@codeshift/utils': `^${utilVersion}`,
         '@codeshift/test-utils': '*',
+        '@types/node': '^16.11.0',
         '@types/jest': '^26.0.15',
         jest: '^26.6.0',
         jscodeshift: '^0.12.0',
@@ -32,35 +32,45 @@ export function getPackageJson(packageName: string, version: string = '0.0.0') {
   );
 }
 
-function getConfig(packageName: string, version: string) {
-  return `export default {
+function getConfig(packageName: string, transform?: string, preset?: string) {
+  return `module.exports = {
   maintainers: [],
   target: [],
   description: 'Codemods for ${packageName}',
-  transforms: {
-    '${version}': require('./${version}/transform'),
-  },
-  presets: {},
+  transforms: {${
+    transform
+      ? `'${transform}': require.resolve('./${transform}/transform'),`
+      : ''
+  }},
+  presets: {${
+    preset ? `'${preset}': require.resolve('./${preset}/transform'),` : ''
+  }},
 };
 `;
 }
 
-function updateConfig(path: string, packageName: string, version: string) {
+function updateConfig(
+  path: string,
+  packageName: string,
+  transformName: string,
+  type: 'version' | 'preset',
+) {
   const source = fs.readFileSync(path, 'utf8');
   const ast = recast.parse(source);
   const b = recast.types.builders;
+  const key = type === 'version' ? 'transforms' : 'presets';
 
   recast.visit(ast, {
     visitProperty(path) {
       // @ts-ignore
-      if (path.node.key.name !== 'transforms') return false;
+      if (path.node.key.name !== key) return false;
       // @ts-ignore
       const properties = path.node.value.properties;
       // @ts-ignore
       properties.forEach(property => {
-        if (semver.eq(property.key.value, version)) {
+        if (property.key.value === transformName) {
           throw new Error(
-            `Transform for ${packageName} version ${version} already exists`,
+            `Transform for ${packageName} ${transformName} already exists`,
           );
         }
       });
@@ -68,10 +78,14 @@ function updateConfig(path: string, packageName: string, version: string) {
       properties.push(
         b.property(
           'init',
-          b.stringLiteral(version),
-          b.callExpression(b.identifier('require'), [
-            b.stringLiteral(`./${version}/transform`),
-          ]),
+          b.stringLiteral(transformName),
+          b.callExpression(
+            b.memberExpression(
+              b.identifier('require'),
+              b.identifier('resolve'),
+            ),
+            [b.stringLiteral(`./${transformName}/transform`)],
+          ),
         ),
       );
 
@@ -84,46 +98,51 @@ function updateConfig(path: string, packageName: string, version: string) {
 
 export function initDirectory(
   packageName: string,
-  version: string,
-  targetPath: string = './',
+  transform: string,
+  type: 'version' | 'preset',
+  path: string = './',
   isReduced: boolean = false,
 ) {
-  if (!semver.valid(version)) {
+  if (type === 'version' && !semver.valid(transform)) {
     throw new Error(
-      `Provided version ${version} is not a valid semver version`,
+      `Provided version ${transform} is not a valid semver version`,
     );
   }
 
-  const basePath = `${targetPath}/${packageName.replace('/', '__')}`;
-  const codemodPath = `${basePath}${!isReduced ? '/src/' : ''}/${version}`;
+  const basePath = `${path}/${packageName.replace('/', '__')}`;
+  const transformPath = `${basePath}${!isReduced ? '/src/' : ''}/${transform}`;
   const configPath = `${basePath}${
     !isReduced ? '/src' : ''
   }/codeshift.config.ts`;
 
-  if (fs.existsSync(codemodPath)) {
-    throw new Error(`Codemod for version "${version}" already exists`);
+  if (fs.existsSync(transformPath)) {
+    throw new Error(`Codemod for ${type} "${transform}" already exists`);
   }
 
   fs.copySync(`${__dirname}/../template${isReduced ? '/src' : ''}`, basePath);
-  fs.renameSync(`${basePath}${!isReduced ? '/src/' : ''}/codemod`, codemodPath);
+  fs.renameSync(
+    `${basePath}${!isReduced ? '/src/' : ''}/codemod`,
+    transformPath,
+  );
 
   const testFile = fs
-    .readFileSync(`${codemodPath}/transform.spec.ts`, 'utf8')
+    .readFileSync(`${transformPath}/transform.spec.ts`, 'utf8')
     .replace('<% packageName %>', packageName)
-    .replace('<% version %>', version);
+    .replace('<% seperator %>', type === 'version' ? '@' : '#')
+    .replace('<% transform %>', transform || '');
 
-  fs.writeFileSync(`${codemodPath}/transform.spec.ts`, testFile);
+  fs.writeFileSync(`${transformPath}/transform.spec.ts`, testFile);
 
   if (!isReduced) {
     fs.writeFileSync(`${basePath}/package.json`, getPackageJson(packageName));
   }
 
   if (!fs.existsSync(configPath)) {
-    fs.writeFileSync(configPath, getConfig(packageName, version));
+    fs.writeFileSync(configPath, getConfig(packageName, transform));
   } else {
     fs.writeFileSync(
       configPath,
-      updateConfig(configPath, packageName, version),
+      updateConfig(configPath, packageName, transform || '', type),
     );
   }
 }

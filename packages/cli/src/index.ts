@@ -3,19 +3,15 @@ import main from './main';
 import list from './list';
 import init from './init';
 import validate from './validate';
-import {
-  ValidationError,
-  NoTransformsExistError,
-  InvalidUserInputError,
-} from './errors';
+import { NoTransformsExistError, InvalidUserInputError } from './errors';
 
 import packageJson from '../package.json';
-import { Command, Option } from 'commander';
+import { Command, Option, CommanderError } from 'commander';
 
 const program = new Command();
 
 program
-  .command(`${packageJson.name} [path...]`, { isDefault: true })
+  .command(`codeshift/cli [path...]`, { isDefault: true })
   .version(packageJson.version, '-v, --version')
   .usage('[global options] <file-paths>...')
   .option(
@@ -103,24 +99,27 @@ Examples:
 
 program.exitOverride();
 
-program.parseAsync(process.argv).catch(e => {
-  if (e instanceof ValidationError) {
-    console.error(program.help());
-    console.error(chalk.red(e.message));
-    process.exit(1);
+try {
+  program.parse(process.argv);
+} catch (error) {
+  if (error instanceof CommanderError) {
+    console.log(error);
+
+    console.error(chalk.red(error.message));
+    process.exit(error.exitCode);
   }
 
-  if (e instanceof InvalidUserInputError) {
+  if (error instanceof InvalidUserInputError) {
     console.warn(program.help());
-    console.warn(chalk.red(e.message));
+    console.warn(chalk.red(error.message));
     process.exit(9);
   }
 
-  if (e instanceof NoTransformsExistError) {
-    console.warn(chalk.yellow(e.message));
+  if (error instanceof NoTransformsExistError) {
+    console.warn(chalk.yellow(error.message));
     process.exit(0);
   }
 
-  console.error(chalk.red(e));
+  console.error(chalk.red(error));
   process.exit(3);
-});
+}
