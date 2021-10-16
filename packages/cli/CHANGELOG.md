@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.4.0
+
+### Minor Changes
+
+- b316132: CLI Init command now supports the ability to create a stub preset
+
 ## 0.3.0
 
 ### Minor Changes
