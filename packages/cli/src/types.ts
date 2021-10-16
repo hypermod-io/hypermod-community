@@ -31,4 +31,9 @@ export interface Flags {
    * Ignore files that match a provided glob expression
    */
   ignorePattern?: string;
+
+  /** Auxiliary jscodeshift params */
+  cpus?: number;
+  dry?: boolean;
+  runInBand?: boolean;
 }

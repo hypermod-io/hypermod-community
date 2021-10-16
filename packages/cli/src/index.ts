@@ -43,6 +43,12 @@ program
     '--ignore-pattern <value>',
     'Ignore files that match a provided glob expression',
   )
+  .option(
+    '-c, --cpus <value>',
+    'start at most N child processes to process source files',
+  )
+  .option('-d, --dry', 'dry run (no changes are made to files)')
+  .option('--run-in-band', 'run serially in the current process')
   .addHelpText(
     'after',
     `

@@ -130,13 +130,14 @@ export default async function main(paths: string[], flags: Flags) {
 
     await jscodeshift.run(transform, paths, {
       verbose: 0,
-      dry: false,
+      dry: flags.dry,
       print: true,
       babel: true,
       extensions: flags.extensions,
       ignorePattern: flags.ignorePattern,
+      cpus: flags.cpus,
       ignoreConfig: [],
-      runInBand: false,
+      runInBand: flags.runInBand,
       silent: false,
       parser: flags.parser,
       stdin: false,
