@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.5.0
+
+### Minor Changes
+
+- 8bbe2a6: Adds auxiliary flags for jscodeshift
+
 ## 0.4.0
 
 ### Minor Changes
