@@ -15,7 +15,7 @@ export default function transformer(
    * See this page for more information:
    * https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/your-first-codemod#output
    */
-  if (/* Some condition here */ true) {
+  if (true) {
     return file.source;
   }
 
