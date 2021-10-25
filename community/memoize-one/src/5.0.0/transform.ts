@@ -11,14 +11,7 @@ export default function transformer(
 ) {
   const source = j(file.source);
 
-  /**
-   * Early exit condition
-   * -----
-   * It is often good practice to exit early and return the original source file
-   * if it does not contain code relevant to the codemod.
-   * See this page for more information:
-   * https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/your-first-codemod#output
-   */
+  // Exit early if file is not importing memoize-one
   if (!hasImportDeclaration(j, source, 'memoize-one')) {
     return file.source;
   }
@@ -40,6 +33,9 @@ export default function transformer(
       if (second == null) {
         return;
       }
+      // We are going to wrap the existing customEqualityFn in our new one
+      // 4.0.0 EqualityFn → (a, b) => boolean [called for each argument]
+      // 5.0.0 EqualityFn → ([newArgs], [lastArgs]) => boolean [called once with all arguments]
       if (
         second.type === 'FunctionExpression' ||
         second.type === 'ArrowFunctionExpression' ||
@@ -95,22 +91,5 @@ export default function transformer(
       }
     });
 
-  /**
-   * Codemod logic goes here 👇
-   * -----
-   * This is where the core logic for your codemod will go,
-   * consider grouping specific actions into 'motions' and running them in sequence
-   *
-   * See this page for more information:
-   * https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/authoring#motions
-   */
-  // source.findVariableDeclarators('foo').renameTo('bar');
-
-  /**
-   * Return your modified AST here 👇
-   * -----
-   * This is where your modified AST will be transformed back into a string
-   * and written back to the file.
-   */
   return source.toSource(options.printOptions);
 }
