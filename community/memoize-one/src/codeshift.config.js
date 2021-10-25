@@ -1,7 +1,4 @@
-module.exports = {
+export default {
   maintainers: ['alexreardon'],
-  target: [],
-  description: 'Codemods for memoize-one',
   transforms: { '5.0.0': require.resolve('./5.0.0/transform') },
-  presets: {},
 };
