@@ -6,6 +6,7 @@
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/validator",
   "dependencies": {
+    "@codeshift/types": "^0.0.1",
     "fs-extra": "^9.1.0",
     "recast": "^0.20.4",
     "semver": "^7.3.5",

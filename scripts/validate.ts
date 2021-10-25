@@ -1,5 +1,5 @@
 import fs, { lstatSync, existsSync } from 'fs-extra';
-import { isValidPackageName, isValidConfig } from '@codeshift/validator';
+import { isValidPackageName, isValidConfigAtPath } from '@codeshift/validator';
 
 async function main(path: string) {
   const directories = await fs.readdir(path);
@@ -13,7 +13,7 @@ async function main(path: string) {
       );
     }
 
-    await isValidConfig(`${path}/${dir}`);
+    await isValidConfigAtPath(`${path}/${dir}`);
 
     const subDirectories = await fs.readdir(`${path}/${dir}`);
     subDirectories.forEach(async subDir => {

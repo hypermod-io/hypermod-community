@@ -1,50 +1,69 @@
 import fs from 'fs-extra';
 import semver from 'semver';
 import path from 'path';
+import { CodeshiftConfig } from '@codeshift/types';
+
+function getConfigFromPath(filePath: string): CodeshiftConfig {
+  const configPath = path.join(process.cwd(), filePath, 'codeshift.config.js');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const config = require(configPath);
+
+  return !!config.default ? config.default : config;
+}
+
+function hasValidTransforms(transforms?: Record<string, string>) {
+  if (!transforms || !Object.keys(transforms).length) return false;
+
+  let isValid = true;
+
+  Object.entries(transforms).forEach(([key]) => {
+    if (!semver.valid(key)) isValid = false;
+  });
+
+  return isValid;
+}
+
+function hasValidPresets(presets?: Record<string, string>) {
+  if (!presets || !Object.keys(presets).length) return false;
+
+  let isValid = true;
+
+  Object.entries(presets).forEach(([key]) => {
+    if (!key.match(/^[0-9a-zA-Z\-]+$/)) isValid = false;
+  });
+
+  return isValid;
+}
 
 export function isValidPackageName(dir: string) {
   return dir.match(/^(@[a-z0-9-~][a-z0-9-._~]*__)?[a-z0-9-~][a-z0-9-._~]*$/);
 }
 
-export async function isValidConfig(filePath: string) {
-  const configPath = path.join(process.cwd(), filePath, 'codeshift.config.js');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  let config = require(configPath);
+export async function isValidConfig(config: CodeshiftConfig) {
+  return (
+    hasValidTransforms(config.transforms) || hasValidPresets(config.presets)
+  );
+}
 
-  config = !!config.default ? config.default : config;
+export async function isValidConfigAtPath(filePath: string) {
+  const config = getConfigFromPath(filePath);
 
-  const invalidSemverIds = [];
-  const invalidPresetIds = [];
-
-  let hasTransforms = false;
-
-  if (config.transforms && Object.keys(config.transforms).length) {
-    Object.entries(config.transforms).forEach(([key]) => {
-      hasTransforms = true;
-      if (!semver.valid(key)) invalidSemverIds.push(key);
-    });
-  }
-
-  if (config.presets && Object.keys(config.presets).length) {
-    hasTransforms = true;
-    Object.entries(config.presets).forEach(([key]) => {
-      if (key.includes(' ')) invalidPresetIds.push(key);
-    });
-  }
-
-  if (!hasTransforms) {
+  if (
+    !hasValidTransforms(config.transforms) &&
+    !hasValidPresets(config.presets)
+  ) {
     throw new Error(
-      `At least one transform should be specified for config at "${configPath}"`,
+      `At least one transform should be specified for config at "${filePath}"`,
     );
   }
 
-  if (invalidSemverIds.length) {
-    throw new Error(`Invalid transform ids found for config at "${configPath}".
+  if (!hasValidTransforms(config.transforms)) {
+    throw new Error(`Invalid transform ids found for config at "${filePath}".
 Please make sure all transforms are identified by a valid semver version. ie 10.0.0`);
   }
 
-  if (invalidPresetIds.length) {
-    throw new Error(`Invalid preset ids found for config at "${configPath}".
+  if (!hasValidPresets(config.presets)) {
+    throw new Error(`Invalid preset ids found for config at "${filePath}".
 Please make sure all presets are kebab case and contain no spaces or special characters. ie sort-imports-by-scope`);
   }
 }

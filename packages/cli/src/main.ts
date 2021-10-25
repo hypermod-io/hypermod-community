@@ -1,11 +1,53 @@
 import semver from 'semver';
 import chalk from 'chalk';
+import path from 'path';
 import { PluginManager } from 'live-plugin-manager';
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
 import * as jscodeshift from 'jscodeshift/src/Runner';
+import { isValidConfig } from '@codeshift/validator';
 
 import { Flags } from './types';
 import { InvalidUserInputError } from './errors';
+
+const packageManager = new PluginManager();
+
+async function fetchPackageConfig(packageName: string) {
+  // Attempt to find package from the community folder
+  await packageManager.install(`@codeshift/mod-${packageName}`);
+  const commPkg = packageManager.require(packageName);
+  const commConfig = commPkg.default ? commPkg.default : commPkg;
+
+  // if (!isValidConfig(commConfig)) {
+  // }
+
+  // Attempt to find source package from npm
+  await packageManager.install(packageName);
+  // For source packages, fetching configs is a bit more elaborate
+  let config;
+
+  // Attemp to fetch from the main entrypoint
+  const info = packageManager.getInfo(packageName);
+  const pkg = packageManager.require(packageName);
+
+  if (info || pkg) {
+    config = pkg.default ? pkg.default : pkg;
+
+    if (config && isValidConfig) {
+      // Found a config at the main entry-point
+    }
+
+    config = require(path.join(info?.location, 'codeshift.config.js'));
+    config = require(path.join(info?.location, 'src', 'codeshift.config.js'));
+    config = require(path.join(
+      info?.location,
+      'codemods',
+      'codeshift.config.js',
+    ));
+  }
+  // if ()
+
+  return config;
+}
 
 export default async function main(paths: string[], flags: Flags) {
   let transforms: string[] = [];
@@ -26,8 +68,6 @@ export default async function main(paths: string[], flags: Flags) {
     transforms.push(flags.transform);
   }
 
-  const packageManager = new PluginManager();
-
   if (flags.packages) {
     const pkgs = flags.packages.split(',').filter(pkg => !!pkg);
 
@@ -36,14 +76,8 @@ export default async function main(paths: string[], flags: Flags) {
         .split(/[@#]/)
         .filter(str => !!str)[0]
         .replace('/', '__');
-      const packageName = `@codeshift/mod-${pkgName}`;
 
-      await packageManager.install(packageName);
-      const codeshiftPackage = packageManager.require(packageName);
-
-      const config = codeshiftPackage.default
-        ? codeshiftPackage.default
-        : codeshiftPackage;
+      const config = await fetchPackageConfig(pkgName);
 
       const rawTransformIds = pkg.split(/(?=[@#])/).filter(str => !!str);
       rawTransformIds.shift();
