@@ -125,7 +125,7 @@ describe('memoize-one@5.0.0 transform', () => {
     );
   });
 
-  it('should wrap identifiers', () => {
+  it('should wrap function identifiers', () => {
     const result = applyTransform(
       transformer,
       format(`
@@ -158,6 +158,36 @@ describe('memoize-one@5.0.0 transform', () => {
         const __equalityFn = isEqual;
         return newArgs.every((newArg, index) => __equalityFn(newArg, lastArgs[index]));
       });
+      `),
+    );
+  });
+
+  it('should add a comment when an unsupported equality fn is encountered', () => {
+    const result = applyTransform(
+      transformer,
+      format(`
+        import memoize from 'memoize-one';
+
+        function add(a: number, b: number) {
+          return a + b;
+        }
+
+        const memoized = memoize(add, {});
+      `),
+      { parser: 'tsx' },
+    );
+
+    expect(result).toEqual(
+      format(`
+        /* TODO: (@codeshift) Unable to migrate memoize-one custom equality function.
+Expected a function or an identifier */
+        import memoize from 'memoize-one';
+
+        function add(a: number, b: number) {
+          return a + b;
+        }
+
+        const memoized = memoize(add, {});
       `),
     );
   });

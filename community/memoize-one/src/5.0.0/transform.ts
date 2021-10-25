@@ -1,6 +1,7 @@
 import {
   hasImportDeclaration,
   getDefaultImportSpecifierName,
+  insertCommentToStartOfFile,
 } from '@codeshift/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
 
@@ -26,7 +27,6 @@ export default function transformer(
         call.value.callee.type === 'Identifier' &&
         call.value.callee.name === importName,
     )
-    // .filter(call => call.value.arguments.length === 2)
     .forEach(call => {
       const equalityFn = call.value.arguments[1];
       // we don't need to do anything for calls without an equality fn
@@ -92,6 +92,12 @@ export default function transformer(
         call.value.arguments[1] = customEqualityFn;
         return;
       }
+
+      insertCommentToStartOfFile(
+        j,
+        source,
+        'Unable to migrate memoize-one custom equality function.\nExpected a function or an identifier',
+      );
     });
 
   return source.toSource(options.printOptions);
