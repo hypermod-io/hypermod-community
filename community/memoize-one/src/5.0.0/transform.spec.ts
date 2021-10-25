@@ -45,7 +45,7 @@ describe('memoize-one@5.0.0 transform', () => {
     );
   });
 
-  it.only('should wrap inline equality arrow functions', () => {
+  it('should wrap inline equality arrow functions', () => {
     const result = applyTransform(
       transformer,
       format(`
@@ -125,15 +125,12 @@ describe('memoize-one@5.0.0 transform', () => {
     );
   });
 
-  it('should wrap references', () => {
+  it('should wrap identifiers', () => {
     const result = applyTransform(
       transformer,
       format(`
         import memoize from 'memoize-one';
-
-        function isEqual(a, b) {
-          return a === b;
-        }
+        import isEqual from 'something';
 
         function add(a: number, b: number) {
           return a + b;
@@ -146,24 +143,64 @@ describe('memoize-one@5.0.0 transform', () => {
 
     expect(result).toEqual(
       format(`
-        import memoize from "memoize-one";
+      import memoize from 'memoize-one';
+      import isEqual from 'something';
 
-        function isEqual(a, b) {
-          return a === b;
+      function add(a: number, b: number) {
+        return a + b;
+      }
+
+      const memoized = memoize(add, (newArgs, lastArgs) => {
+        if (newArgs.length !== lastArgs.length) {
+          return false;
         }
 
-        function add(a: number, b: number) {
-          return a + b;
-        }
-
-        const memoized = memoize(add, (newArgs, lastArgs) => {
-          if (newArgs.length !== lastArgs.length) {
-            return false;
-          }
-
-          return newArgs.every((newArg, index) => isEqual(newArg, lastArgs[index]));
-        });
+        const __equalityFn = isEqual;
+        return newArgs.every((newArg, index) => __equalityFn(newArg, lastArgs[index]));
+      });
       `),
     );
   });
+
+  // it('should wrap references', () => {
+  //   const result = applyTransform(
+  //     transformer,
+  //     format(`
+  //       import memoize from 'memoize-one';
+
+  //       function isEqual(a, b) {
+  //         return a === b;
+  //       }
+
+  //       function add(a: number, b: number) {
+  //         return a + b;
+  //       }
+
+  //       const memoized = memoize(add, isEqual);
+  //     `),
+  //     { parser: 'tsx' },
+  //   );
+
+  //   expect(result).toEqual(
+  //     format(`
+  //       import memoize from "memoize-one";
+
+  //       function isEqual(a, b) {
+  //         return a === b;
+  //       }
+
+  //       function add(a: number, b: number) {
+  //         return a + b;
+  //       }
+
+  //       const memoized = memoize(add, (newArgs, lastArgs) => {
+  //         if (newArgs.length !== lastArgs.length) {
+  //           return false;
+  //         }
+
+  //         return newArgs.every((newArg, index) => isEqual(newArg, lastArgs[index]));
+  //       });
+  //     `),
+  //   );
+  // });
 });

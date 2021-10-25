@@ -42,7 +42,8 @@ export default function transformer(
       }
       if (
         second.type === 'FunctionExpression' ||
-        second.type === 'ArrowFunctionExpression'
+        second.type === 'ArrowFunctionExpression' ||
+        second.type === 'Identifier'
       ) {
         const customEqualityFn = j.arrowFunctionExpression(
           [j.identifier('newArgs'), j.identifier('lastArgs')],
@@ -78,7 +79,7 @@ export default function transformer(
                       j.memberExpression(
                         j.identifier('lastArgs'),
                         j.identifier('index'),
-                        // computed lastArgs[index]
+                        // computed: lastArgs[index]
                         true,
                       ),
                     ]),
@@ -91,9 +92,6 @@ export default function transformer(
 
         call.value.arguments = [first, customEqualityFn];
         return;
-      }
-
-      if (second.type === 'Identifier') {
       }
     });
 
