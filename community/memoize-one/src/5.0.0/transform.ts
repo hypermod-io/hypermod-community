@@ -26,20 +26,20 @@ export default function transformer(
         call.value.callee.type === 'Identifier' &&
         call.value.callee.name === importName,
     )
-    // looking for calls with a custom equality function
     // .filter(call => call.value.arguments.length === 2)
     .forEach(call => {
-      const [first, second] = call.value.arguments;
-      if (second == null) {
+      const equalityFn = call.value.arguments[1];
+      // we don't need to do anything for calls without an equality fn
+      if (equalityFn == null) {
         return;
       }
       // We are going to wrap the existing customEqualityFn in our new one
       // 4.0.0 EqualityFn → (a, b) => boolean [called for each argument]
       // 5.0.0 EqualityFn → ([newArgs], [lastArgs]) => boolean [called once with all arguments]
       if (
-        second.type === 'FunctionExpression' ||
-        second.type === 'ArrowFunctionExpression' ||
-        second.type === 'Identifier'
+        equalityFn.type === 'FunctionExpression' ||
+        equalityFn.type === 'ArrowFunctionExpression' ||
+        equalityFn.type === 'Identifier'
       ) {
         const customEqualityFn = j.arrowFunctionExpression(
           [j.identifier('newArgs'), j.identifier('lastArgs')],
@@ -59,7 +59,7 @@ export default function transformer(
               j.blockStatement([j.returnStatement(j.booleanLiteral(false))]),
             ),
             j.variableDeclaration('const', [
-              j.variableDeclarator(j.identifier('__equalityFn'), second),
+              j.variableDeclarator(j.identifier('__equalityFn'), equalityFn),
             ]),
             j.returnStatement(
               j.callExpression(
@@ -86,7 +86,7 @@ export default function transformer(
           ]),
         );
 
-        call.value.arguments = [first, customEqualityFn];
+        call.value.arguments[1] = customEqualityFn;
         return;
       }
     });
