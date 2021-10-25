@@ -35,7 +35,7 @@ describe('memoize-one@5.0.0 transform', () => {
     );
   });
 
-  it('should wrap inline equality functions', () => {
+  it.only('should wrap inline equality functions', () => {
     const result = applyTransform(
       transformer,
       format(`
