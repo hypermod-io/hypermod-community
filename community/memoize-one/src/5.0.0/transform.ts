@@ -43,6 +43,7 @@ export default function transformer(
       ) {
         const customEqualityFn = j.arrowFunctionExpression(
           [j.identifier('newArgs'), j.identifier('lastArgs')],
+          // Exit early if the newArgs and lastArgs are different lengths
           j.blockStatement([
             j.ifStatement(
               j.binaryExpression(
@@ -58,9 +59,11 @@ export default function transformer(
               ),
               j.blockStatement([j.returnStatement(j.booleanLiteral(false))]),
             ),
+            // create a __equalityFn constant that points to the existing equality function
             j.variableDeclaration('const', [
               j.variableDeclarator(j.identifier('__equalityFn'), equalityFn),
             ]),
+            // Call the original equalityFn for each argument
             j.returnStatement(
               j.callExpression(
                 j.memberExpression(
