@@ -40,7 +40,10 @@ export default function transformer(
       if (second == null) {
         return;
       }
-      if (second.type === 'FunctionExpression') {
+      if (
+        second.type === 'FunctionExpression' ||
+        second.type === 'ArrowFunctionExpression'
+      ) {
         const customEqualityFn = j.arrowFunctionExpression(
           [j.identifier('newArgs'), j.identifier('lastArgs')],
           j.blockStatement([
@@ -56,25 +59,37 @@ export default function transformer(
                   j.identifier('length'),
                 ),
               ),
-              j.returnStatement(j.booleanLiteral(false)),
+              j.blockStatement([j.returnStatement(j.booleanLiteral(false))]),
             ),
-            j.returnStatement(j.booleanLiteral(true)),
+            j.variableDeclaration('const', [
+              j.variableDeclarator(j.identifier('__equalityFn'), second),
+            ]),
+            j.returnStatement(
+              j.callExpression(
+                j.memberExpression(
+                  j.identifier('newArgs'),
+                  j.identifier('every'),
+                ),
+                [
+                  j.arrowFunctionExpression(
+                    [j.identifier('newArg'), j.identifier('index')],
+                    j.callExpression(j.identifier('__equalityFn'), [
+                      j.identifier('newArg'),
+                      j.memberExpression(
+                        j.identifier('lastArgs'),
+                        j.identifier('index'),
+                        // computed lastArgs[index]
+                        true,
+                      ),
+                    ]),
+                  ),
+                ],
+              ),
+            ),
           ]),
         );
 
-        // (newArgs, lastArgs) => {
-        //   if (newArgs.length !== lastArgs.length) {
-        //     return false;
-        //   }
-
-        //   return newArgs.every((newArg, index) =>
-        //     isEqual(newArg, lastArgs[index]),
-        //   );
-        // };
-
         call.value.arguments = [first, customEqualityFn];
-        // console.log('FunctionExpression', call);
-        // call.replace(j.functionExpression([first, 'hi']));
         return;
       }
 
