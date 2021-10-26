@@ -31,8 +31,8 @@ module.exports = {
         },
         {
           type: 'doc',
-          docId: 'explore/atlaskit__avatar',
-          label: 'Explore',
+          docId: 'registry/atlaskit__avatar',
+          label: 'Registry',
           position: 'left',
         },
         {

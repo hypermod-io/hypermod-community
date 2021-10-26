@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 
 const COMMUNITY_PATH = `${__dirname}/../community`;
-const DOCS_PATH = `${__dirname}/../website/docs/explore`;
+const DOCS_PATH = `${__dirname}/../website/docs/registry`;
 
 function cleanTargetDir(path: string) {
   if (fs.existsSync(path)) fs.emptyDirSync(path);
