@@ -1,6 +1,8 @@
 # Repo
 .tmp/
 plugin_packages/
+
+# Generated website pages
 website/docs/registry/*
 
 # Logs
