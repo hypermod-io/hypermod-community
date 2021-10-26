@@ -81,8 +81,9 @@ $ codeshift-cli --packages ${name}@${key} path/to/source
   )
   .join('')}
 
-${config.presets &&
-  `
+${
+  config.presets
+    ? `
 ## Presets
 
 ${Object.keys(config.presets)
@@ -99,7 +100,9 @@ $ codeshift-cli --packages ${name}#${key} path/to/source
 `,
   )
   .join('')}
-`}
+`
+    : ''
+}
 `,
     );
   });
