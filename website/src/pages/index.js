@@ -106,7 +106,7 @@ export default function Home() {
                 >
                   🔭
                 </span>{' '}
-                <h3>Explore</h3>
+                <h3>Registry</h3>
                 <p>
                   Explore an extensive list of codemods contributed by the
                   community
