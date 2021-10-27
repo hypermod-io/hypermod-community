@@ -14,25 +14,15 @@ function getConfigFromPath(filePath: string): CodeshiftConfig {
 function hasValidTransforms(transforms?: Record<string, string>) {
   if (!transforms || !Object.keys(transforms).length) return false;
 
-  let isValid = true;
-
-  Object.entries(transforms).forEach(([key]) => {
-    if (!semver.valid(key)) isValid = false;
-  });
-
-  return isValid;
+  return Object.entries(transforms).every(([key]) => semver.valid(key));
 }
 
 function hasValidPresets(presets?: Record<string, string>) {
   if (!presets || !Object.keys(presets).length) return false;
 
-  let isValid = true;
-
-  Object.entries(presets).forEach(([key]) => {
-    if (!key.match(/^[0-9a-zA-Z\-]+$/)) isValid = false;
-  });
-
-  return isValid;
+  return Object.entries(presets).every(([key]) =>
+    key.match(/^[0-9a-zA-Z\-]+$/),
+  );
 }
 
 export function isValidPackageName(dir: string) {
