@@ -29,13 +29,13 @@ export function isValidPackageName(dir: string) {
   return dir.match(/^(@[a-z0-9-~][a-z0-9-._~]*__)?[a-z0-9-~][a-z0-9-._~]*$/);
 }
 
-export async function isValidConfig(config: CodeshiftConfig) {
+export function isValidConfig(config: CodeshiftConfig) {
   return (
     hasValidTransforms(config.transforms) || hasValidPresets(config.presets)
   );
 }
 
-export async function isValidConfigAtPath(filePath: string) {
+export function isValidConfigAtPath(filePath: string) {
   const config = getConfigFromPath(filePath);
 
   if (

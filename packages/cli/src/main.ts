@@ -2,51 +2,73 @@ import semver from 'semver';
 import chalk from 'chalk';
 import path from 'path';
 import { PluginManager } from 'live-plugin-manager';
+import merge from 'lodash/merge';
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
 import * as jscodeshift from 'jscodeshift/src/Runner';
 import { isValidConfig } from '@codeshift/validator';
+import { CodeshiftConfig } from '@codeshift/types';
 
 import { Flags } from './types';
 import { InvalidUserInputError } from './errors';
 
 const packageManager = new PluginManager();
 
-async function fetchPackageConfig(packageName: string) {
-  // Attempt to find package from the community folder
-  await packageManager.install(`@codeshift/mod-${packageName}`);
-  const commPkg = packageManager.require(packageName);
-  const commConfig = commPkg.default ? commPkg.default : commPkg;
-
-  // if (!isValidConfig(commConfig)) {
-  // }
-
-  // Attempt to find source package from npm
-  await packageManager.install(packageName);
-  // For source packages, fetching configs is a bit more elaborate
-  let config;
-
-  // Attemp to fetch from the main entrypoint
-  const info = packageManager.getInfo(packageName);
+async function fetchCommunityPackageConfig(packageName: string) {
+  const commPackageName = `@codeshift/mod-${packageName}`;
+  await packageManager.install(commPackageName);
   const pkg = packageManager.require(packageName);
+  const config: CodeshiftConfig = pkg.default ? pkg.default : pkg;
 
-  if (info || pkg) {
-    config = pkg.default ? pkg.default : pkg;
-
-    if (config && isValidConfig) {
-      // Found a config at the main entry-point
-    }
-
-    config = require(path.join(info?.location, 'codeshift.config.js'));
-    config = require(path.join(info?.location, 'src', 'codeshift.config.js'));
-    config = require(path.join(
-      info?.location,
-      'codemods',
-      'codeshift.config.js',
-    ));
+  if (!isValidConfig(config)) {
+    throw new Error(`Invalid config found in module ${commPackageName}`);
   }
-  // if ()
 
   return config;
+}
+
+async function fetchRemotePackageConfig(packageName: string) {
+  await packageManager.install(packageName);
+  const pkg = packageManager.require(packageName);
+
+  if (pkg) {
+    const config: CodeshiftConfig = pkg.default ? pkg.default : pkg;
+
+    if (config && isValidConfig(config)) {
+      // Found a config at the main entry-point
+      return config;
+    }
+  }
+
+  const info = packageManager.getInfo(packageName);
+
+  if (info) {
+    let config: any;
+
+    [
+      path.join(info?.location, 'codeshift.config.js'),
+      path.join(info?.location, 'codeshift.config.ts'),
+      path.join(info?.location, 'src', 'codeshift.config.js'),
+      path.join(info?.location, 'src', 'codeshift.config.ts'),
+      path.join(info?.location, 'codemods', 'codeshift.config.js'),
+      path.join(info?.location, 'codemods', 'codeshift.config.ts'),
+    ].forEach(searchPath => {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const pkg = require(searchPath);
+        const searchConfig: CodeshiftConfig = pkg.default ? pkg.default : pkg;
+
+        if (isValidConfig(searchConfig)) {
+          config = searchConfig;
+        }
+      } catch (e) {}
+    });
+
+    if (config) return config;
+  }
+
+  throw new Error(
+    `Unable to locate a valid codeshift.config in package ${packageName}`,
+  );
 }
 
 export default async function main(paths: string[], flags: Flags) {
@@ -77,7 +99,9 @@ export default async function main(paths: string[], flags: Flags) {
         .filter(str => !!str)[0]
         .replace('/', '__');
 
-      const config = await fetchPackageConfig(pkgName);
+      const communityConfig = await fetchCommunityPackageConfig(pkgName);
+      const remoteConfig = await fetchRemotePackageConfig(pkgName);
+      const config: CodeshiftConfig = merge(communityConfig, remoteConfig);
 
       const rawTransformIds = pkg.split(/(?=[@#])/).filter(str => !!str);
       rawTransformIds.shift();
