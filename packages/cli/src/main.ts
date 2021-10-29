@@ -1,3 +1,4 @@
+import path from 'path';
 import semver from 'semver';
 import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
@@ -126,9 +127,10 @@ export default async function main(paths: string[], flags: Flags) {
   );
 
   for (const transform of transforms) {
-    console.log(chalk.green('Running transform:'), transform);
+    const resolvedTransformPath = path.resolve(transform);
+    console.log(chalk.green('Running transform:'), resolvedTransformPath);
 
-    await jscodeshift.run(transform, paths, {
+    await jscodeshift.run(resolvedTransformPath, paths, {
       verbose: 0,
       dry: flags.dry,
       print: true,
