@@ -231,9 +231,10 @@ export default async function main(paths: string[], flags: Flags) {
   );
 
   for (const transform of transforms) {
-    console.log(chalk.green('Running transform:'), transform);
+    const resolvedTransformPath = path.resolve(transform);
+    console.log(chalk.green('Running transform:'), resolvedTransformPath);
 
-    await jscodeshift.run(transform, paths, {
+    await jscodeshift.run(resolvedTransformPath, paths, {
       verbose: flags.verbose,
       dry: flags.dry,
       print: true,
