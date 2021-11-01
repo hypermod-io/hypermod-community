@@ -113,7 +113,7 @@ export function initDirectory(
   const transformPath = `${basePath}${!isReduced ? '/src/' : ''}/${transform}`;
   const configPath = `${basePath}${
     !isReduced ? '/src' : ''
-  }/codeshift.config.ts`;
+  }/codeshift.config.js`;
 
   if (fs.existsSync(transformPath)) {
     throw new Error(`Codemod for ${type} "${transform}" already exists`);
