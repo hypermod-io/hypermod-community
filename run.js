@@ -6,7 +6,7 @@
  */
 
 const helpMsg = `
-run.js parser=flow codemodsToRun filesOrDirectoriesToModify extensions="js,jsx,ts,tsx"
+run.js parser=flow codemodsToRun fileOrDirectoryToModify extensions="js,jsx,ts,tsx"
 
 codemodsToRun - paths to codemods which have a codeshift.config.js file.
                 separated by spaces.
@@ -38,8 +38,8 @@ const parseArgv = () => (
   shouldPrintHelp() && process.exit(1),
   {
     parser: eatNextArg() || 'flow',
-    transformsToRun: eatNextArg() || '',
-    filesOrDirectoriesToModify: eatNextArg() || '',
+    transformsToRun: parseArrayFromCsv(eatNextArg() || ''),
+    fileOrDirectoryToModify: eatNextArg() || '',
     extensions: eatNextArg() || 'js,jsx,ts,tsx',
   }
 );
@@ -50,14 +50,14 @@ function run() {
   let {
     parser, //
     transformsToRun,
-    filesOrDirectoriesToModify,
+    fileOrDirectoryToModify,
     extensions,
   } = parseArgv();
 
   const shorthands = require(path.join(__dirname, './shorthands.json'));
   console.log({ shorthands });
 
-  transformsToRun = parseArrayFromCsv(transformsToRun)
+  transformsToRun = transformsToRun
     .map(t => {
       if (t in shorthands) {
         return resolveTransformsFromShorthand(shorthands[t]);
@@ -71,11 +71,9 @@ function run() {
     })
     .flat();
 
-  filesOrDirectoriesToModify = parseArrayFromCsv(filesOrDirectoriesToModify);
-
   const cliPath = path.join(__dirname, './packages/cli/bin/codeshift-cli.js');
 
-  const cmdToExec = `${cliPath} --parser ${parser} -e ${extensions} -t ${transformsToRun} ${filesOrDirectoriesToModify}`;
+  const cmdToExec = `${cliPath} --parser ${parser} -e ${extensions} -t ${transformsToRun} ${fileOrDirectoryToModify}`;
   console.log({ cmdToExec });
 
   cp.exec(cmdToExec, (err, stdout, stderr) => {
