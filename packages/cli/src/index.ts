@@ -16,7 +16,7 @@ program
   .usage('[global options] <file-paths>...')
   .option(
     '-t, --transform <value>',
-    'The transform to run, will prompt for a transform if not provided and no module is passed',
+    'The transform(s) to run, will prompt for a transform if not provided and no module is passed\nTo provide multiple transforms, separate them with commas (e.g. "-t t1,t2,t3")',
   )
   .option(
     '--packages <value>',
