@@ -44,6 +44,21 @@ const parseArgv = () => (
   }
 );
 
+/**
+ * will pipe stdio as if we were running the command ourselves!
+ *
+ * see https://stackoverflow.com/a/47338488/9285308
+ *
+ * usage:
+ *
+ * ```js
+ * const command = "ls -la";
+ * require("child_process").execSync(command, { ...pipeStdioOpts() });
+ * ```
+ *
+ */
+const pipeStdioOpts = (cwd = process.cwd()) => ({ cwd, stdio: 'inherit' });
+
 run();
 
 function run() {
@@ -65,7 +80,7 @@ function run() {
         const dir = path.dirname(t);
         const cmd = `yarn --cwd ${dir} build`;
         console.log('transform to run, build cmd', { cmd });
-        cp.execSync(cmd);
+        cp.execSync(cmd, { ...pipeStdioOpts() });
         return t;
       }
     })
@@ -77,17 +92,7 @@ function run() {
   const cmdToExec = `${cliPath} --parser ${parser} -e ${extensions} -t ${transformsToRun} ${fileOrDirectoryToModify}`;
   console.log({ cmdToExec });
 
-  cp.exec(cmdToExec, (err, stdout, stderr) => {
-    if (err) {
-      console.error(stderr);
-      return process.exit(1);
-    }
-
-    console.log(stdout);
-
-    console.log('succ');
-    process.exit(0);
-  });
+  cp.execSync(cmdToExec, { ...pipeStdioOpts() });
 }
 
 function parseArrayFromCsv(csv = '') {
@@ -99,7 +104,7 @@ function parseArrayFromCsv(csv = '') {
 }
 
 function resolveTransformsFromShorthand([pathToCodemodPkg, transformVersion]) {
-  cp.execSync(`yarn --cwd ${pathToCodemodPkg} build`);
+  cp.execSync(`yarn --cwd ${pathToCodemodPkg} build`, { ...pipeStdioOpts() });
   console.log('built');
 
   const pathToCodemodConfig = path.join(
