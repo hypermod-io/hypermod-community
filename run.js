@@ -69,7 +69,8 @@ function run() {
         return t;
       }
     })
-    .flat();
+    .flat()
+    .join(',');
 
   const cliPath = path.join(__dirname, './packages/cli/bin/codeshift-cli.js');
 
