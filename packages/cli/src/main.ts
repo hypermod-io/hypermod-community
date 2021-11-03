@@ -24,7 +24,11 @@ export default async function main(paths: string[], flags: Flags) {
   }
 
   if (flags.transform) {
-    transforms.push(flags.transform);
+    if (flags.transform.includes(',')) {
+      flags.transform.split(',').forEach(t => transforms.push(t.trim()));
+    } else {
+      transforms.push(flags.transform);
+    }
   }
 
   const packageManager = new PluginManager();
