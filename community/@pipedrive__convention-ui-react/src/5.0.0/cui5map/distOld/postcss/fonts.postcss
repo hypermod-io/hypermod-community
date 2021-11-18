@@ -1,0 +1,62 @@
+/* Common rules */
+$font-family: 'Source Sans Pro', sans-serif;
+$font-family-monospace: 'Menlo', 'Consolas', 'Courier', monospace;
+$font-weight-normal: 400;
+$font-weight-semi: 600;
+$font-weight-bold: $font-weight-semi; /* will be deprecated in 5.0 */
+
+$font-size-xxl: 27px;
+$font-size-xl: 23px;
+$font-size-l: 18px;
+$font-size-m: 15px;
+$font-size-s: 13px;
+$font-size-xs: 11px;
+
+$line-height-xxl: 32px;
+$line-height-xl: 28px;
+$line-height-l: 24px;
+$line-height-m: 20px;
+$line-height-s: 16px;
+$line-height-xs: 16px;
+
+/* stylelint-disable */
+$letter-spacing-l: .04em;
+$letter-spacing-m: .03em;
+/* stylelint-enable */
+/* 1. Titles */
+/*
+  Usage example:
+  h1 {
+    font: $font-title-xxl;
+  }
+*/
+/* 1.1 H1 - XXL */
+$font-title-xxl: $font-weight-normal $font-size-xxl/$line-height-xxl $font-family;
+/* 1.2 H2 - XL */
+$font-title-xl: $font-weight-normal $font-size-xl/$line-height-xl $font-family;
+/* 1.3 H3 - L */
+$font-title-l: $font-weight-semi $font-size-l/$line-height-l $font-family;
+/* 1.4 H4,H5,H5 - M */
+$font-title-m: $font-weight-semi $font-size-m/$line-height-m $font-family;
+/* 2. Body */
+/* 2.1 Large */
+$font-body-l: $font-weight-normal $font-size-l/$line-height-l $font-family;
+/* 2.1 Normal */
+$font-body: $font-weight-normal $font-size-m/$line-height-m $font-family;
+/* 2.2 Small */
+$font-body-s: $font-weight-normal $font-size-s/$line-height-s $font-family;
+/* 3. Other */
+/* 3.1 Button */
+/* 3.1.1 Normal */
+$font-button: $font-weight-semi $font-size-m/$line-height-m $font-family;
+/* 3.1.2 Small */
+$font-button-s: $font-weight-semi $font-size-s/$line-height-s $font-family;
+/* 3.5 Caption */
+/* 3.5.1 Normal (add text-transform: uppercase manually) */
+$font-caption: $font-weight-semi $font-size-m/$line-height-m $font-family;
+/* 3.5.2 Small (add text-transform: uppercase manually) */
+$font-caption-s: $font-weight-semi $font-size-s/$line-height-s $font-family;
+/* 3.6 Badge (add text-transform: uppercase manually) */
+$font-badge: $font-weight-semi $font-size-xs/$line-height-xs $font-family;
+/* Monospace font - use to style code, samp, kbd, pre, tt elements */
+$font-monospace: $font-weight-normal $font-size-s/$line-height-s $font-family-monospace;

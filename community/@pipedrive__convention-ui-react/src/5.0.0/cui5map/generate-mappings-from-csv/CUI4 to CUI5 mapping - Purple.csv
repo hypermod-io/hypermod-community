@@ -1,0 +1,15 @@
+CUI4 token,Corresponding CUI5 tokens,,CUI4 token (RGBA),Corresponding CUI5 tokens,Comments
+"$color-purple-hex-shade-16
+",--pd-color-learn-strong,,"$color-purple-rgba-shade-16
+",,
+$color-purple-hex,"--pd-color-text-learn
+--pd-color-icon-learn
+--pd-color-learn-default",,$color-purple-rgba,,
+$color-purple-hex-88,,,$color-purple-rgba-88,,
+$color-purple-hex-64,,,$color-purple-rgba-64,,
+$color-purple-hex-32,--pd-color-learn-border,,$color-purple-rgba-32,,
+$color-purple-hex-24,,,$color-purple-rgba-24,,
+$color-purple-hex-16,--pd-color-learn-background,,$color-purple-rgba-16,,
+$color-purple-hex-12,,,$color-purple-rgba-12,,
+$color-purple-hex-8,--pd-color-learn-background-light,,$color-purple-rgba-8,,
+$color-purple-hex-4,,,$color-purple-rgba-4,,

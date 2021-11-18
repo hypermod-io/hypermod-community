@@ -1,0 +1,16 @@
+{
+  "size0": "var(--pd-size-0)",
+  "size10": "var(--pd-size-10)",
+  "size25": "var(--pd-size-25)",
+  "size50": "var(--pd-size-50)",
+  "size75": "var(--pd-size-75)",
+  "size100": "var(--pd-size-100)",
+  "size150": "var(--pd-size-150)",
+  "size200": "var(--pd-size-200)",
+  "size300": "var(--pd-size-300)",
+  "size400": "var(--pd-size-400)",
+  "size500": "var(--pd-size-500)",
+  "size600": "var(--pd-size-600)",
+  "size700": "var(--pd-size-700)",
+  "size800": "var(--pd-size-800)"
+}

@@ -1,0 +1,6 @@
+{
+  "xs": "var(--pd-radius-xs)",
+  "s": "var(--pd-radius-s)",
+  "m": "var(--pd-radius-m)",
+  "l": "var(--pd-radius-l)"
+}

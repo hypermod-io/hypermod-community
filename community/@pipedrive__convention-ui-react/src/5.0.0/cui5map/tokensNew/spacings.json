@@ -1,0 +1,15 @@
+{
+  "spacing10": "var(--pd-spacing-10)",
+  "spacing25": "var(--pd-spacing-25)",
+  "spacing50": "var(--pd-spacing-50)",
+  "spacing75": "var(--pd-spacing-75)",
+  "spacing100": "var(--pd-spacing-100)",
+  "spacing150": "var(--pd-spacing-150)",
+  "spacing200": "var(--pd-spacing-200)",
+  "spacing300": "var(--pd-spacing-300)",
+  "spacing400": "var(--pd-spacing-400)",
+  "spacing500": "var(--pd-spacing-500)",
+  "spacing600": "var(--pd-spacing-600)",
+  "spacing700": "var(--pd-spacing-700)",
+  "spacing800": "var(--pd-spacing-800)"
+}

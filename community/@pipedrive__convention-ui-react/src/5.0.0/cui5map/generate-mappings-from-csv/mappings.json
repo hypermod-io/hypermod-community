@@ -1,0 +1,588 @@
+{
+    "$color-black-hex-shade-16": {
+        "to": [
+            "--pd-color-text-primary",
+            "--pd-color-text-black-static",
+            "--pd-color-icon-primary",
+            "--pd-color-icon-black-static",
+            "--pd-color-fill-black-static"
+        ]
+    },
+    "$color-black-rgba-shade-16": {
+        "to": []
+    },
+    "$color-black-hex": {
+        "to": [
+            "--pd-color-text-primary",
+            "--pd-color-text-black-static",
+            "--pd-color-icon-primary",
+            "--pd-color-icon-black-static",
+            "--pd-color-fill-black-static"
+        ]
+    },
+    "$color-black-rgba": {
+        "to": []
+    },
+    "$color-black-hex-88": {
+        "to": [
+            "--pd-color-fill-dark-static",
+            "--pd-color-text-primary",
+            "--pd-color-text-black-static",
+            "--pd-color-icon-primary",
+            "--pd-color-icon-black-static"
+        ]
+    },
+    "$color-black-rgba-88": {
+        "to": [
+            "--pd-color-icon-primary",
+            "--pd-color-icon-black-static"
+        ]
+    },
+    "$color-black-hex-64": {
+        "to": [
+            "--pd-color-fill-extra-strong",
+            "--pd-color-text-secondary",
+            "--pd-color-icon-secondary"
+        ]
+    },
+    "$color-black-rgba-64": {
+        "to": [
+            "--pd-color-fill-extra-strong-rgba",
+            "--pd-color-text-secondary-rgba",
+            "--pd-color-icon-secondary-rgba"
+        ]
+    },
+    "$color-black-hex-32": {
+        "to": [
+            "--pd-color-fill-strong",
+            "--pd-color-text-muted",
+            "--pd-color-icon-muted"
+        ]
+    },
+    "$color-black-rgba-32": {
+        "to": [
+            "--pd-color-fill-strong-rgba",
+            "--pd-color-text-muted-rgba",
+            "--pd-color-icon-muted-rgba"
+        ]
+    },
+    "$color-black-hex-24": {
+        "to": [
+            "--pd-color-fill-medium-strong",
+            "--pd-color-text-white-secondary-static",
+            "--pd-color-divider-strong"
+        ]
+    },
+    "$color-black-rgba-24": {
+        "to": [
+            "--pd-color-fill-medium-strong-rgba",
+            "--pd-color-text-white-secondary-static"
+        ]
+    },
+    "$color-black-hex-16": {
+        "to": [
+            "--pd-color-fill-medium"
+        ]
+    },
+    "$color-black-rgba-16": {
+        "to": [
+            "--pd-color-fill-medium-rgba"
+        ]
+    },
+    "$color-black-hex-12": {
+        "to": [
+            "--pd-color-fill-medium-light",
+            "--pd-color-divider-medium"
+        ]
+    },
+    "$color-black-rgba-12": {
+        "to": [
+            "--pd-color-fill-medium-light-rgba",
+            "--pd-color-divider-medium-rgba"
+        ]
+    },
+    "$color-black-hex-8": {
+        "to": [
+            "--pd-color-fill-light",
+            "--pd-color-fill-light-static"
+        ]
+    },
+    "$color-black-rgba-8": {
+        "to": [
+            "--pd-color-fill-light-rgba",
+            "--pd-color-divider-light-rgba",
+            ""
+        ]
+    },
+    "$color-black-hex-5": {
+        "to": [
+            "--pd-color-fill-extra-light-rgba"
+        ]
+    },
+    "$color-black-rgba-5": {
+        "to": [
+            "--pd-color-fill-extra-light-rgba"
+        ]
+    },
+    "$color-black-hex-4": {
+        "to": [
+            "--pd-color-surface-app-background",
+            "--pd-color-surface-foreground-secondary",
+            "--pd-color-fill-base-secondary"
+        ]
+    },
+    "$color-black-rgba-4": {
+        "to": []
+    },
+    "black/white\n#FFFFFF": {
+        "to": [
+            "--pd-color-surface-foreground",
+            "--pd-color-fill-base",
+            "--pd-color-fill-light-static",
+            "--pd-color-text-primary-inverted",
+            "--pd-color-text-white-static",
+            "--pd-color-icon-primary-inverted",
+            "--pd-color-icon-white-static"
+        ]
+    },
+    "": {
+        "to": []
+    },
+    "$color-blue-hex-shade-16": {
+        "to": [
+            "--pd-color-active-strong",
+            "--pd-color-info-strong",
+            "--pd-color-text-info*"
+        ]
+    },
+    "$color-blue-rgba-shade-16": {
+        "to": []
+    },
+    "$color-blue-hex": {
+        "to": [
+            "--pd-color-active-default",
+            "--pd-color-info-default",
+            "--pd-color-text-info*",
+            "--pd-color-text-active*",
+            "--pd-color-text-link",
+            "--pd-color-icon-info*",
+            "--pd-color-icon-active*",
+            "--pd-color-icon-link"
+        ]
+    },
+    "$color-blue-rgba": {
+        "to": []
+    },
+    "$color-blue-hex-88": {
+        "to": [
+            "--pd-color-active-hover"
+        ]
+    },
+    "$color-blue-rgba-88": {
+        "to": []
+    },
+    "$color-blue-hex-64": {
+        "to": [
+            "--pd-color-text-link-inverted",
+            "--pd-color-icon-link-inverted"
+        ]
+    },
+    "$color-blue-rgba-64": {
+        "to": []
+    },
+    "$color-blue-hex-32": {
+        "to": [
+            "--pd-color-active-muted",
+            "--pd-color-info-border",
+            "--pd-color-text-link-muted",
+            "--pd-color-icon-link-muted"
+        ]
+    },
+    "$color-blue-rgba-32": {
+        "to": []
+    },
+    "$color-blue-hex-24": {
+        "to": [
+            "--pd-color-active-background-strong"
+        ]
+    },
+    "$color-blue-rgba-24": {
+        "to": []
+    },
+    "$color-blue-hex-16": {
+        "to": [
+            "--pd-color-active-background",
+            "--pd-color-info-background"
+        ]
+    },
+    "$color-blue-rgba-16": {
+        "to": []
+    },
+    "$color-blue-hex-12": {
+        "to": []
+    },
+    "$color-blue-rgba-12": {
+        "to": []
+    },
+    "$color-blue-hex-8": {
+        "to": [
+            "--pd-color-active-background-light",
+            "--pd-color-info-background-light"
+        ]
+    },
+    "$color-blue-rgba-8": {
+        "to": []
+    },
+    "$color-blue-hex-4": {
+        "to": []
+    },
+    "$color-blue-rgba-4": {
+        "to": []
+    },
+    "$color-green-hex-shade-16": {
+        "to": [
+            "--pd-color-positive-strong",
+            "--pd-color-primary-strong",
+            "--pd-color-text-positive*",
+            "--pd-color-icon-positive*"
+        ]
+    },
+    "$color-green-rgba-shade-16": {
+        "to": []
+    },
+    "$color-green-hex": {
+        "to": [
+            "--pd-color-positive-default",
+            "--pd-color-primary-default",
+            "--pd-color-text-positive*",
+            "--pd-color-icon-positive*"
+        ]
+    },
+    "$color-green-rgba": {
+        "to": []
+    },
+    "$color-green-hex-88": {
+        "to": [
+            "--pd-color-positive-hover",
+            "--pd-color-primary-hover"
+        ]
+    },
+    "$color-green-rgba-88": {
+        "to": []
+    },
+    "$color-green-hex-64": {
+        "to": [
+            "--pd-color-positive-muted",
+            "--pd-color-primary-muted"
+        ]
+    },
+    "$color-green-rgba-64": {
+        "to": []
+    },
+    "$color-green-hex-32": {
+        "to": [
+            "--pd-color-positive-border",
+            "--pd-color-primary-border"
+        ]
+    },
+    "$color-green-rgba-32": {
+        "to": []
+    },
+    "$color-green-hex-24": {
+        "to": [
+            "--pd-color-positive-background-strong",
+            "--pd-color-primary-background-strong"
+        ]
+    },
+    "$color-green-rgba-24": {
+        "to": []
+    },
+    "$color-green-hex-16": {
+        "to": [
+            "--pd-color-positive-background"
+        ]
+    },
+    "$color-green-rgba-16": {
+        "to": []
+    },
+    "$color-green-hex-12": {
+        "to": [
+            "not used in CUI5"
+        ]
+    },
+    "$color-green-rgba-12": {
+        "to": []
+    },
+    "$color-green-hex-8": {
+        "to": [
+            "--pd-color-positive-background-light"
+        ]
+    },
+    "$color-green-rgba-8": {
+        "to": []
+    },
+    "$color-green-hex-4": {
+        "to": [
+            "not used in CUI5"
+        ]
+    },
+    "$color-green-rgba-4": {
+        "to": []
+    },
+    "$color-purple-hex-shade-16": {
+        "to": [
+            "--pd-color-learn-strong"
+        ]
+    },
+    "$color-purple-rgba-shade-16": {
+        "to": []
+    },
+    "$color-purple-hex": {
+        "to": [
+            "--pd-color-text-learn",
+            "--pd-color-icon-learn",
+            "--pd-color-learn-default"
+        ]
+    },
+    "$color-purple-rgba": {
+        "to": []
+    },
+    "$color-purple-hex-88": {
+        "to": []
+    },
+    "$color-purple-rgba-88": {
+        "to": []
+    },
+    "$color-purple-hex-64": {
+        "to": []
+    },
+    "$color-purple-rgba-64": {
+        "to": []
+    },
+    "$color-purple-hex-32": {
+        "to": [
+            "--pd-color-learn-border"
+        ]
+    },
+    "$color-purple-rgba-32": {
+        "to": []
+    },
+    "$color-purple-hex-24": {
+        "to": []
+    },
+    "$color-purple-rgba-24": {
+        "to": []
+    },
+    "$color-purple-hex-16": {
+        "to": [
+            "--pd-color-learn-background"
+        ]
+    },
+    "$color-purple-rgba-16": {
+        "to": []
+    },
+    "$color-purple-hex-12": {
+        "to": []
+    },
+    "$color-purple-rgba-12": {
+        "to": []
+    },
+    "$color-purple-hex-8": {
+        "to": [
+            "--pd-color-learn-background-light"
+        ]
+    },
+    "$color-purple-rgba-8": {
+        "to": []
+    },
+    "$color-purple-hex-4": {
+        "to": []
+    },
+    "$color-purple-rgba-4": {
+        "to": []
+    },
+    "$color-red-hex-shade-16": {
+        "to": [
+            "--pd-color-text-negative",
+            "--pd-color-icon-negative",
+            "--pd-color-negative-strong"
+        ]
+    },
+    "$color-red-rgba-shade-16": {
+        "to": []
+    },
+    "$color-red-hex": {
+        "to": [
+            "--pd-color-text-negative*",
+            "--pd-color-icon-negative*",
+            "--pd-color-negative-default"
+        ],
+        "comments": "Negative text and icon colors are darker in CUI5 on purpose. "
+    },
+    "$color-red-rgba": {
+        "to": [],
+        "comments": "Negative text and icon colors are darker in CUI5 on purpose. "
+    },
+    "$color-red-hex-88": {
+        "to": [
+            "--pd-color-negative-hover"
+        ]
+    },
+    "$color-red-rgba-88": {
+        "to": []
+    },
+    "$color-red-hex-64": {
+        "to": [
+            "--pd-color-negative-muted"
+        ]
+    },
+    "$color-red-rgba-64": {
+        "to": []
+    },
+    "$color-red-hex-32": {
+        "to": [
+            "--pd-color-negative-border"
+        ]
+    },
+    "$color-red-rgba-32": {
+        "to": []
+    },
+    "$color-red-hex-24": {
+        "to": [
+            "--pd-color-negative-background-strong"
+        ]
+    },
+    "$color-red-rgba-24": {
+        "to": []
+    },
+    "$color-red-hex-16": {
+        "to": [
+            "--pd-color-negative-background"
+        ]
+    },
+    "$color-red-rgba-16": {
+        "to": []
+    },
+    "$color-red-hex-12": {
+        "to": [
+            "--pd-color-warning-background"
+        ]
+    },
+    "$color-red-rgba-12": {
+        "to": []
+    },
+    "$color-red-hex-8": {
+        "to": [
+            "--pd-color-negative-background-light"
+        ]
+    },
+    "$color-red-rgba-8": {
+        "to": []
+    },
+    "$color-red-hex-4": {
+        "to": []
+    },
+    "$color-red-rgba-4": {
+        "to": []
+    },
+    "$color-yellow-hex-shade-16": {
+        "to": [
+            "--pd-color-text-warning",
+            "--pd-color-icon-warning",
+            "--pd-color-warning-strong"
+        ]
+    },
+    "$color-yellow-rgba-shade-16": {
+        "to": []
+    },
+    "$color-yellow-hex": {
+        "to": [
+            "--pd-color-text-warning*",
+            "--pd-color-icon-warning*",
+            "--pd-color-warning-default",
+            "--pd-color-warning-muted*"
+        ],
+        "comments": "Warning text and icon colors are darker in CUI5 on purpose. "
+    },
+    "$color-yellow-rgba": {
+        "to": [],
+        "comments": "Warning text and icon colors are darker in CUI5 on purpose. "
+    },
+    "$color-yellow-hex-88": {
+        "to": []
+    },
+    "$color-yellow-rgba-88": {
+        "to": []
+    },
+    "$color-yellow-hex-64": {
+        "to": [
+            "--pd-color-warning-muted",
+            "--pd-color-warning-border"
+        ]
+    },
+    "$color-yellow-rgba-64": {
+        "to": []
+    },
+    "$color-yellow-hex-32": {
+        "to": [
+            "--pd-color-warning-muted",
+            "--pd-color-warning-border"
+        ]
+    },
+    "$color-yellow-rgba-32": {
+        "to": []
+    },
+    "$color-yellow-hex-24": {
+        "to": []
+    },
+    "$color-yellow-rgba-24": {
+        "to": []
+    },
+    "$color-yellow-hex-16": {
+        "to": [
+            "--pd-color-warning-background",
+            "--pd-color-warning-background-light"
+        ]
+    },
+    "$color-yellow-rgba-16": {
+        "to": []
+    },
+    "$color-yellow-hex-12": {
+        "to": [
+            "--pd-color-warning-background"
+        ]
+    },
+    "$color-yellow-rgba-12": {
+        "to": []
+    },
+    "$color-yellow-hex-8": {
+        "to": [
+            "--pd-color-warning-background-light"
+        ]
+    },
+    "$color-yellow-rgba-8": {
+        "to": []
+    },
+    "$color-yellow-hex-4": {
+        "to": []
+    },
+    "$color-yellow-rgba-4": {
+        "to": []
+    },
+    "$color-note-yellow-hex": {
+        "to": [
+            "--pd-color-other-note"
+        ]
+    },
+    "$color-note-yellow-rgba": {
+        "to": []
+    },
+    "$color-highlight-yellow-hex": {
+        "to": [
+            "--pd-color-other-highlight"
+        ]
+    },
+    "$color-highlight-yellow-rgba": {
+        "to": []
+    }
+}

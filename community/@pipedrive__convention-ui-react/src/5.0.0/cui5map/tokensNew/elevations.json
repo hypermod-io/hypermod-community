@@ -1,0 +1,16 @@
+{
+  "webApp50": "var(--pd-elevation-web-app-50)",
+  "webApp100": "var(--pd-elevation-web-app-100)",
+  "webApp200": "var(--pd-elevation-web-app-200)",
+  "webApp300": "var(--pd-elevation-web-app-300)",
+  "webApp800": "var(--pd-elevation-web-app-800)",
+  "webApp1600": "var(--pd-elevation-web-app-1600)",
+  "webApp2400": "var(--pd-elevation-web-app-2400)",
+  "button": "var(--pd-elevation-button)",
+  "raised": "var(--pd-elevation-raised)",
+  "raisedHover": "var(--pd-elevation-raised-hover)",
+  "floating": "var(--pd-elevation-floating)",
+  "floatingHigh": "var(--pd-elevation-floating-high)",
+  "overlay": "var(--pd-elevation-overlay)",
+  "overlayHigh": "var(--pd-elevation-overlay-high)"
+}

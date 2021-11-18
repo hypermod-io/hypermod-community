@@ -1,0 +1,17 @@
+CUI4 token,Corresponding CUI5 tokens,,CUI4 token (RGBA),Corresponding CUI5 tokens,Comments
+"$color-red-hex-shade-16
+","--pd-color-text-negative
+--pd-color-icon-negative
+--pd-color-negative-strong",,"$color-red-rgba-shade-16
+",,
+$color-red-hex,"--pd-color-text-negative*
+--pd-color-icon-negative*
+--pd-color-negative-default",,$color-red-rgba,,Negative text and icon colors are darker in CUI5 on purpose. 
+$color-red-hex-88,--pd-color-negative-hover,,$color-red-rgba-88,,
+$color-red-hex-64,--pd-color-negative-muted,,$color-red-rgba-64,,
+$color-red-hex-32,--pd-color-negative-border,,$color-red-rgba-32,,
+$color-red-hex-24,--pd-color-negative-background-strong,,$color-red-rgba-24,,
+$color-red-hex-16,--pd-color-negative-background,,$color-red-rgba-16,,
+$color-red-hex-12,--pd-color-warning-background,,$color-red-rgba-12,,
+$color-red-hex-8,--pd-color-negative-background-light,,$color-red-rgba-8,,
+$color-red-hex-4,,,$color-red-rgba-4,,
