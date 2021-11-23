@@ -1,8 +1,8 @@
-import { isValidConfig, isValidPackageJson } from '@codeshift/validator';
+import { isValidConfigAtPath, isValidPackageJson } from '@codeshift/validator';
 
 export default async function validate(targetPath: string = '.') {
   try {
-    await isValidConfig(targetPath);
+    await isValidConfigAtPath(targetPath);
     await isValidPackageJson(targetPath);
   } catch (error) {
     console.warn(error);

@@ -1,13 +1,84 @@
 import semver from 'semver';
 import chalk from 'chalk';
+import path from 'path';
 import { PluginManager } from 'live-plugin-manager';
+import merge from 'lodash/merge';
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
 import * as jscodeshift from 'jscodeshift/src/Runner';
+import { isValidConfig } from '@codeshift/validator';
+import { CodeshiftConfig } from '@codeshift/types';
 
 import { Flags } from './types';
 import { InvalidUserInputError } from './errors';
 
+async function fetchCommunityPackageConfig(
+  packageName: string,
+  packageManager: PluginManager,
+) {
+  const pkgName = packageName.replace('@', '').replace('/', '__');
+  const commPackageName = `@codeshift/mod-${pkgName}`;
+
+  await packageManager.install(commPackageName);
+  const pkg = packageManager.require(commPackageName);
+  const config: CodeshiftConfig = pkg.default ? pkg.default : pkg;
+
+  if (!isValidConfig(config)) {
+    throw new Error(`Invalid config found in module ${commPackageName}`);
+  }
+
+  return config;
+}
+
+async function fetchRemotePackageConfig(
+  packageName: string,
+  packageManager: PluginManager,
+) {
+  await packageManager.install(packageName);
+  const pkg = packageManager.require(packageName);
+
+  if (pkg) {
+    const config: CodeshiftConfig = pkg.default ? pkg.default : pkg;
+
+    if (config && isValidConfig(config)) {
+      // Found a config at the main entry-point
+      return config;
+    }
+  }
+
+  const info = packageManager.getInfo(packageName);
+
+  if (info) {
+    let config: CodeshiftConfig | undefined;
+
+    [
+      path.join(info?.location, 'codeshift.config.js'),
+      path.join(info?.location, 'codeshift.config.ts'),
+      path.join(info?.location, 'src', 'codeshift.config.js'),
+      path.join(info?.location, 'src', 'codeshift.config.ts'),
+      path.join(info?.location, 'codemods', 'codeshift.config.js'),
+      path.join(info?.location, 'codemods', 'codeshift.config.ts'),
+    ].forEach(searchPath => {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const pkg = require(searchPath);
+        const searchConfig: CodeshiftConfig = pkg.default ? pkg.default : pkg;
+
+        if (isValidConfig(searchConfig)) {
+          config = searchConfig;
+        }
+      } catch (e) {}
+    });
+
+    if (config) return config;
+  }
+
+  throw new Error(
+    `Unable to locate a valid codeshift.config in package ${packageName}`,
+  );
+}
+
 export default async function main(paths: string[], flags: Flags) {
+  const packageManager = new PluginManager();
   let transforms: string[] = [];
 
   if (!flags.transform && !flags.packages) {
@@ -26,24 +97,36 @@ export default async function main(paths: string[], flags: Flags) {
     transforms.push(flags.transform);
   }
 
-  const packageManager = new PluginManager();
-
   if (flags.packages) {
     const pkgs = flags.packages.split(',').filter(pkg => !!pkg);
 
     for (const pkg of pkgs) {
-      const pkgName = pkg
-        .split(/[@#]/)
-        .filter(str => !!str)[0]
-        .replace('/', '__');
-      const packageName = `@codeshift/mod-${pkgName}`;
+      const shouldPrependAtSymbol = pkg.startsWith('@') ? '@' : '';
+      const pkgName =
+        shouldPrependAtSymbol + pkg.split(/[@#]/).filter(str => !!str)[0];
 
-      await packageManager.install(packageName);
-      const codeshiftPackage = packageManager.require(packageName);
+      let communityConfig;
+      let remoteConfig;
 
-      const config = codeshiftPackage.default
-        ? codeshiftPackage.default
-        : codeshiftPackage;
+      try {
+        communityConfig = await fetchCommunityPackageConfig(
+          pkgName,
+          packageManager,
+        );
+      } catch (error) {}
+
+      try {
+        remoteConfig = await fetchRemotePackageConfig(pkgName, packageManager);
+      } catch (error) {}
+
+      if (!communityConfig && !remoteConfig) {
+        throw new Error(
+          `Unable to locate package from the codeshift-community packages or as a standalone NPM package.
+Make sure the package name ${pkgName} has been spelled correctly and exists before trying again.`,
+        );
+      }
+
+      const config: CodeshiftConfig = merge({}, communityConfig, remoteConfig);
 
       const rawTransformIds = pkg.split(/(?=[@#])/).filter(str => !!str);
       rawTransformIds.shift();

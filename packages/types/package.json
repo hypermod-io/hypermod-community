@@ -1,0 +1,9 @@
+{
+  "name": "@codeshift/types",
+  "version": "0.0.1",
+  "main": "dist/codeshift-types.cjs.js",
+  "module": "dist/codeshift-types.esm.js",
+  "types": "dist/codeshift-types.cjs.d.ts",
+  "license": "MIT",
+  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/types"
+}
