@@ -17,7 +17,7 @@ function hasValidTransforms(transforms?: Record<string, string>) {
   return Object.entries(transforms).every(([key]) => semver.valid(key));
 }
 
-function hasValidPresets(presets?: Record<string, string>) {
+function hasValidPresets(presets?: Record<string, string>): boolean {
   if (!presets || !Object.keys(presets).length) return false;
 
   return Object.entries(presets).every(([key]) =>
@@ -25,8 +25,8 @@ function hasValidPresets(presets?: Record<string, string>) {
   );
 }
 
-export function isValidPackageName(dir: string) {
-  return dir.match(/^(@[a-z0-9-~][a-z0-9-._~]*__)?[a-z0-9-~][a-z0-9-._~]*$/);
+export function isValidPackageName(dir: string): boolean {
+  return !!dir.match(/^(@[a-z0-9-~][a-z0-9-._~]*__)?[a-z0-9-~][a-z0-9-._~]*$/);
 }
 
 export function isValidConfig(config: CodeshiftConfig) {
@@ -69,4 +69,6 @@ export async function isValidPackageJson(path: string) {
   if (!packageJson.main) {
     throw new Error('No main entrypoint provided in package.json');
   }
+
+  return true;
 }
