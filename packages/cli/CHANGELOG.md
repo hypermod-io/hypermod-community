@@ -1,5 +1,16 @@
 # @codeshift/cli
 
+## 0.6.0
+
+### Minor Changes
+
+- 30bf0cf: Codemods can now be sourced from standalone npm packages such as react as long as they provide a codeshift.config.js. This allows for greater flexibility for where codemods may be distributed
+
+### Patch Changes
+
+- Updated dependencies [30bf0cf]
+  - @codeshift/validator@0.2.0
+
 ## 0.5.0
 
 ### Minor Changes
