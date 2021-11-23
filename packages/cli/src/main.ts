@@ -11,9 +11,10 @@ import { CodeshiftConfig } from '@codeshift/types';
 import { Flags } from './types';
 import { InvalidUserInputError } from './errors';
 
-const packageManager = new PluginManager();
-
-async function fetchCommunityPackageConfig(packageName: string) {
+async function fetchCommunityPackageConfig(
+  packageName: string,
+  packageManager: PluginManager,
+) {
   const pkgName = packageName.replace('@', '').replace('/', '__');
   const commPackageName = `@codeshift/mod-${pkgName}`;
 
@@ -28,7 +29,10 @@ async function fetchCommunityPackageConfig(packageName: string) {
   return config;
 }
 
-async function fetchRemotePackageConfig(packageName: string) {
+async function fetchRemotePackageConfig(
+  packageName: string,
+  packageManager: PluginManager,
+) {
   await packageManager.install(packageName);
   const pkg = packageManager.require(packageName);
 
@@ -74,6 +78,7 @@ async function fetchRemotePackageConfig(packageName: string) {
 }
 
 export default async function main(paths: string[], flags: Flags) {
+  const packageManager = new PluginManager();
   let transforms: string[] = [];
 
   if (!flags.transform && !flags.packages) {
@@ -104,11 +109,14 @@ export default async function main(paths: string[], flags: Flags) {
       let remoteConfig;
 
       try {
-        communityConfig = await fetchCommunityPackageConfig(pkgName);
+        communityConfig = await fetchCommunityPackageConfig(
+          pkgName,
+          packageManager,
+        );
       } catch (error) {}
 
       try {
-        remoteConfig = await fetchRemotePackageConfig(pkgName);
+        remoteConfig = await fetchRemotePackageConfig(pkgName, packageManager);
       } catch (error) {}
 
       if (!communityConfig && !remoteConfig) {

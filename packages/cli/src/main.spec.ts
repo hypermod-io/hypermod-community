@@ -6,29 +6,12 @@ jest.mock('jscodeshift/src/Runner', () => ({
 // @ts-ignore
 import * as jscodeshift from 'jscodeshift/src/Runner';
 import { PluginManager } from 'live-plugin-manager';
+
 import main from './main';
 
 const mockPath = 'src/pages/home-page/';
 
 describe('main', () => {
-  beforeEach(() => {
-    (PluginManager as jest.Mock).mockReturnValue({
-      install: () => Promise.resolve(undefined),
-      require: (codemodName: string) => ({
-        transforms: {
-          '18.0.0': `${codemodName}/path/to/18.js`,
-          '19.0.0': `${codemodName}/path/to/19.js`,
-          '20.0.0': `${codemodName}/path/to/20.js`,
-        },
-        presets: {
-          'update-formatting': `${codemodName}/path/to/update-formatting.js`,
-          'update-imports': `${codemodName}/path/to/update-imports.js`,
-        },
-      }),
-      uninstallAll: () => Promise.resolve(),
-    });
-  });
-
   afterEach(() => {
     jest.resetAllMocks();
   });
@@ -134,6 +117,26 @@ describe('main', () => {
   });
 
   describe('when running transforms with the -p flag', () => {
+    beforeEach(() => {
+      (PluginManager as jest.Mock).mockImplementation(() => ({
+        install: jest.fn().mockResolvedValue(undefined),
+        require: jest.fn().mockImplementation((codemodName: string) => {
+          if (!codemodName.startsWith('@codeshift')) {
+            throw new Error('Attempted to fetch codemod from npm');
+          }
+
+          return {
+            transforms: {
+              '18.0.0': `${codemodName}/path/to/18.js`,
+              '19.0.0': `${codemodName}/path/to/19.js`,
+              '20.0.0': `${codemodName}/path/to/20.js`,
+            },
+          };
+        }),
+        uninstallAll: jest.fn().mockResolvedValue(undefined),
+      }));
+    });
+
     it('should run package transform for single version', async () => {
       await main([mockPath], {
         packages: 'mylib@18.0.0',
@@ -234,6 +237,7 @@ describe('main', () => {
         expect.any(Object),
       );
     });
+
     it('should run multiple transforms of the same package', async () => {
       await main([mockPath], {
         packages: '@myscope/mylib@20.0.0@19.0.0',
@@ -374,6 +378,25 @@ describe('main', () => {
   });
 
   describe('when running presets with the -p flag', () => {
+    beforeEach(() => {
+      (PluginManager as jest.Mock).mockImplementation(() => ({
+        install: jest.fn().mockResolvedValue(undefined),
+        require: jest.fn().mockImplementation((codemodName: string) => {
+          if (!codemodName.startsWith('@codeshift')) {
+            throw new Error('Attempted to fetch codemod from npm');
+          }
+
+          return {
+            presets: {
+              'update-formatting': `${codemodName}/path/to/update-formatting.js`,
+              'update-imports': `${codemodName}/path/to/update-imports.js`,
+            },
+          };
+        }),
+        uninstallAll: jest.fn().mockResolvedValue(undefined),
+      }));
+    });
+
     it('should run single preset', async () => {
       await main([mockPath], {
         packages: 'mylib#update-formatting',
@@ -508,18 +531,71 @@ describe('main', () => {
     });
   });
 
+  describe('when running transforms from NPM with the -p flag', () => {
+    beforeEach(() => {
+      (PluginManager as jest.Mock).mockImplementation(() => ({
+        install: jest.fn().mockResolvedValue(undefined),
+        require: jest.fn().mockImplementation((codemodName: string) => {
+          if (codemodName.startsWith('@codeshift')) {
+            throw new Error('Attempted to fetch codemod from community folder');
+          }
+
+          return {
+            transforms: {
+              '18.0.0': `${codemodName}/path/to/18.js`,
+            },
+            presets: {
+              'update-formatting': `${codemodName}/path/to/update-formatting.js`,
+            },
+          };
+        }),
+        uninstallAll: jest.fn().mockResolvedValue(undefined),
+      }));
+    });
+
+    it('should run package transform for single version', async () => {
+      await main([mockPath], {
+        packages: 'mylib@18.0.0',
+        parser: 'babel',
+        extensions: 'js',
+      });
+
+      expect(jscodeshift.run).toHaveBeenCalledTimes(1);
+      expect(jscodeshift.run).toHaveBeenCalledWith(
+        'mylib/path/to/18.js',
+        expect.arrayContaining([mockPath]),
+        expect.anything(),
+      );
+    });
+
+    it('should run single preset', async () => {
+      await main([mockPath], {
+        packages: 'mylib#update-formatting',
+        parser: 'babel',
+        extensions: 'js',
+      });
+
+      expect(jscodeshift.run).toHaveBeenCalledTimes(1);
+      expect(jscodeshift.run).toHaveBeenCalledWith(
+        'mylib/path/to/update-formatting.js',
+        expect.arrayContaining([mockPath]),
+        expect.anything(),
+      );
+    });
+  });
+
   describe('when reading configs using non-cjs exports', () => {
     it('should read configs exported with export default', async () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
         // @ts-ignore
-        require: (codemodName: string) => ({
+        require: jest.fn().mockImplementationOnce((codemodName: string) => ({
           default: {
             transforms: {
               '18.0.0': `${codemodName}/path/to/18.js`,
             },
           },
-        }),
+        })),
         uninstallAll: () => Promise.resolve(),
       });
 
