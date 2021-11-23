@@ -14,9 +14,11 @@ import { InvalidUserInputError } from './errors';
 const packageManager = new PluginManager();
 
 async function fetchCommunityPackageConfig(packageName: string) {
-  const commPackageName = `@codeshift/mod-${packageName}`;
+  const pkgName = packageName.replace('@', '').replace('/', '__');
+  const commPackageName = `@codeshift/mod-${pkgName}`;
+
   await packageManager.install(commPackageName);
-  const pkg = packageManager.require(packageName);
+  const pkg = packageManager.require(commPackageName);
   const config: CodeshiftConfig = pkg.default ? pkg.default : pkg;
 
   if (!isValidConfig(config)) {
@@ -42,7 +44,7 @@ async function fetchRemotePackageConfig(packageName: string) {
   const info = packageManager.getInfo(packageName);
 
   if (info) {
-    let config: any;
+    let config: CodeshiftConfig | undefined;
 
     [
       path.join(info?.location, 'codeshift.config.js'),
@@ -94,14 +96,29 @@ export default async function main(paths: string[], flags: Flags) {
     const pkgs = flags.packages.split(',').filter(pkg => !!pkg);
 
     for (const pkg of pkgs) {
-      const pkgName = pkg
-        .split(/[@#]/)
-        .filter(str => !!str)[0]
-        .replace('/', '__');
+      const shouldPrependAtSymbol = pkg.startsWith('@') ? '@' : '';
+      const pkgName =
+        shouldPrependAtSymbol + pkg.split(/[@#]/).filter(str => !!str)[0];
 
-      const communityConfig = await fetchCommunityPackageConfig(pkgName);
-      const remoteConfig = await fetchRemotePackageConfig(pkgName);
-      const config: CodeshiftConfig = merge(communityConfig, remoteConfig);
+      let communityConfig;
+      let remoteConfig;
+
+      try {
+        communityConfig = await fetchCommunityPackageConfig(pkgName);
+      } catch (error) {}
+
+      try {
+        remoteConfig = await fetchRemotePackageConfig(pkgName);
+      } catch (error) {}
+
+      if (!communityConfig && !remoteConfig) {
+        throw new Error(
+          `Unable to locate package from the codeshift-community packages or as a standalone NPM package.
+Make sure the package name ${pkgName} has been spelled correctly and exists before trying again.`,
+        );
+      }
+
+      const config: CodeshiftConfig = merge({}, communityConfig, remoteConfig);
 
       const rawTransformIds = pkg.split(/(?=[@#])/).filter(str => !!str);
       rawTransformIds.shift();
