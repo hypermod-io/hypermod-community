@@ -10,6 +10,10 @@ module.exports = {
   organizationName: 'CodeshiftCommunity',
   projectName: 'CodeshiftCommunity',
   themeConfig: {
+    prism: {
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/palenight'),
+    },
     navbar: {
       title: 'CodeshiftCommunity',
       logo: {
@@ -55,6 +59,22 @@ module.exports = {
             {
               label: 'Your first codemod',
               to: 'docs/your-first-codemod',
+            },
+            {
+              label: 'Authoring',
+              to: 'docs/authoring',
+            },
+            {
+              label: 'Consuming',
+              to: 'docs/consuming',
+            },
+            {
+              label: 'Testing',
+              to: 'docs/testing',
+            },
+            {
+              label: 'Publishing & contribution',
+              to: 'docs/contribution',
             },
           ],
         },
