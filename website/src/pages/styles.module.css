@@ -11,7 +11,7 @@
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
-  max-width: 960px;
+  max-width: 960px !important;
   border-radius: 3px;
   box-shadow: rgb(84 70 35 / 15%) 0px 2px 8px, rgb(84 70 35 / 15%) 0px 1px 3px;
 }
@@ -46,11 +46,11 @@
 }
 
 .heroContainer {
-  max-width: 1000px;
+  max-width: 1000px !important;
 }
 
 .heroContainerCenter {
-  max-width: 768px;
+  max-width: 768px !important;
   text-align: center;
   font-size: 20px;
 }
