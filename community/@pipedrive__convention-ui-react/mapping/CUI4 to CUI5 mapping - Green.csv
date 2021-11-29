@@ -1,0 +1,23 @@
+CUI4 token,Corresponding CUI5 tokens,,CUI4 token (RGBA),Corresponding CUI5 tokens
+"$color-green-hex-shade-16
+","--pd-color-positive-strong
+--pd-color-primary-strong
+--pd-color-text-positive*
+--pd-color-icon-positive*",,"$color-green-rgba-shade-16
+",
+$color-green-hex,"--pd-color-positive-default
+--pd-color-primary-default
+--pd-color-text-positive*
+--pd-color-icon-positive*",,$color-green-rgba,
+$color-green-hex-88,"--pd-color-positive-hover
+--pd-color-primary-hover",,$color-green-rgba-88,
+$color-green-hex-64,"--pd-color-positive-muted
+--pd-color-primary-muted",,$color-green-rgba-64,
+$color-green-hex-32,"--pd-color-positive-border
+--pd-color-primary-border",,$color-green-rgba-32,
+$color-green-hex-24,"--pd-color-positive-background-strong
+--pd-color-primary-background-strong",,$color-green-rgba-24,
+$color-green-hex-16,--pd-color-positive-background,,$color-green-rgba-16,
+$color-green-hex-12,not used in CUI5,,$color-green-rgba-12,
+$color-green-hex-8,--pd-color-positive-background-light,,$color-green-rgba-8,
+$color-green-hex-4,not used in CUI5,,$color-green-rgba-4,

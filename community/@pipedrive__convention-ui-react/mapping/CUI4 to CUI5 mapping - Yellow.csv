@@ -1,0 +1,26 @@
+CUI4 token,Corresponding CUI5 tokens,,CUI4 token (RGBA),Corresponding CUI5 tokens,Comments
+"$color-yellow-hex-shade-16
+","--pd-color-text-warning
+--pd-color-icon-warning
+--pd-color-warning-strong",,"$color-yellow-rgba-shade-16
+",,
+$color-yellow-hex,"--pd-color-text-warning*
+--pd-color-icon-warning*
+--pd-color-warning-default
+--pd-color-warning-muted*",,$color-yellow-rgba,,Warning text and icon colors are darker in CUI5 on purpose. 
+$color-yellow-hex-88,,,$color-yellow-rgba-88,,
+$color-yellow-hex-64,"--pd-color-warning-muted
+--pd-color-warning-border",,$color-yellow-rgba-64,,
+$color-yellow-hex-32,"--pd-color-warning-muted
+--pd-color-warning-border",,$color-yellow-rgba-32,,
+$color-yellow-hex-24,,,$color-yellow-rgba-24,,
+$color-yellow-hex-16,"--pd-color-warning-background
+--pd-color-warning-background-light",,$color-yellow-rgba-16,,
+$color-yellow-hex-12,--pd-color-warning-background,,$color-yellow-rgba-12,,
+$color-yellow-hex-8,--pd-color-warning-background-light,,$color-yellow-rgba-8,,
+$color-yellow-hex-4,,,$color-yellow-rgba-4,,
+,,,,,
+$color-note-yellow-hex,--pd-color-other-note,,"$color-note-yellow-rgba
+",,
+$color-highlight-yellow-hex,--pd-color-other-highlight,,"$color-highlight-yellow-rgba
+",,
