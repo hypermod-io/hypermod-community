@@ -1,5 +1,11 @@
 # @codeshift/initializer
 
+## 0.1.6
+
+### Patch Changes
+
+- 6e160cc: Additional init path releated fixes
+
 ## 0.1.5
 
 ### Patch Changes
