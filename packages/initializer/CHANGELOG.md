@@ -1,5 +1,11 @@
 # @codeshift/initializer
 
+## 0.1.5
+
+### Patch Changes
+
+- 2decf6a: Fix output dir path
+
 ## 0.1.4
 
 ### Patch Changes
