@@ -1,5 +1,14 @@
 # @codeshift/cli
 
+## 0.6.1
+
+### Patch Changes
+
+- e8cf76e: Releasing all packages to fix version mismatch
+- Updated dependencies [e8cf76e]
+  - @codeshift/initializer@0.1.4
+  - @codeshift/validator@0.2.1
+
 ## 0.6.0
 
 ### Minor Changes
