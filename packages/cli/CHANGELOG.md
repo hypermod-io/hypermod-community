@@ -1,5 +1,13 @@
 # @codeshift/cli
 
+## 0.6.3
+
+### Patch Changes
+
+- 6e160cc: Additional init path releated fixes
+- Updated dependencies [6e160cc]
+  - @codeshift/initializer@0.1.6
+
 ## 0.6.2
 
 ### Patch Changes
