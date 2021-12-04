@@ -1,5 +1,13 @@
 # @codeshift/validator
 
+## 0.2.1
+
+### Patch Changes
+
+- e8cf76e: Releasing all packages to fix version mismatch
+- Updated dependencies [e8cf76e]
+  - @codeshift/types@0.0.3
+
 ## 0.2.0
 
 ### Minor Changes
