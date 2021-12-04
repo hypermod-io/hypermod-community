@@ -100,7 +100,7 @@ export function initDirectory(
   packageName: string,
   transform: string,
   type: 'version' | 'preset',
-  path: string = './',
+  targetPath: string = './',
   isReduced: boolean = false,
 ) {
   if (type === 'version' && !semver.valid(transform)) {
@@ -109,7 +109,7 @@ export function initDirectory(
     );
   }
 
-  const basePath = `${path}/${packageName.replace('/', '__')}`;
+  const basePath = `${targetPath}/${packageName.replace('/', '__')}`;
   const transformPath = `${basePath}${!isReduced ? '/src/' : ''}/${transform}`;
   const configPath = `${basePath}${
     !isReduced ? '/src' : ''
@@ -121,7 +121,7 @@ export function initDirectory(
 
   fs.copySync(`${__dirname}/../template${isReduced ? '/src' : ''}`, basePath);
   fs.renameSync(
-    `${basePath}${!isReduced ? '/src/' : ''}/codemod`,
+    `${basePath}${!isReduced ? '/src' : ''}/codemod`,
     transformPath,
   );
 
