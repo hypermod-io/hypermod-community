@@ -1,3 +1,4 @@
+import path from 'path';
 import { initDirectory } from '@codeshift/initializer';
 
 export default async function init(
@@ -15,6 +16,6 @@ export default async function init(
   }
 
   console.log(
-    `🚚 New codemod package created at: ${targetPath}/${packageName}`,
+    `🚚 New codemod package created at: ${path.join(targetPath, packageName)}`,
   );
 }

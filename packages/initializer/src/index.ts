@@ -110,7 +110,7 @@ export function initDirectory(
   }
 
   const basePath = `${targetPath}/${packageName.replace('/', '__')}`;
-  const transformPath = `${basePath}${!isReduced ? '/src/' : ''}/${transform}`;
+  const transformPath = `${basePath}${!isReduced ? '/src' : ''}/${transform}`;
   const configPath = `${basePath}${
     !isReduced ? '/src' : ''
   }/codeshift.config.js`;
