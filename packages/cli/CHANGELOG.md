@@ -1,5 +1,12 @@
 # @codeshift/cli
 
+## 0.6.2
+
+### Patch Changes
+
+- Updated dependencies [2decf6a]
+  - @codeshift/initializer@0.1.5
+
 ## 0.6.1
 
 ### Patch Changes
