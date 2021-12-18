@@ -1,3 +1,4 @@
+import path from 'path';
 import semver from 'semver';
 import chalk from 'chalk';
 import path from 'path';
@@ -94,7 +95,11 @@ export default async function main(paths: string[], flags: Flags) {
   }
 
   if (flags.transform) {
-    transforms.push(flags.transform);
+    if (flags.transform.includes(',')) {
+      flags.transform.split(',').forEach(t => transforms.push(t.trim()));
+    } else {
+      transforms.push(flags.transform);
+    }
   }
 
   if (flags.packages) {
@@ -209,9 +214,10 @@ Make sure the package name ${pkgName} has been spelled correctly and exists befo
   );
 
   for (const transform of transforms) {
-    console.log(chalk.green('Running transform:'), transform);
+    const resolvedTransformPath = path.resolve(transform);
+    console.log(chalk.green('Running transform:'), resolvedTransformPath);
 
-    await jscodeshift.run(transform, paths, {
+    await jscodeshift.run(resolvedTransformPath, paths, {
       verbose: 0,
       dry: flags.dry,
       print: true,

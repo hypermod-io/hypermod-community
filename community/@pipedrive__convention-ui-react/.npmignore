@@ -1,0 +1,5 @@
+src/
+**/__test__
+**/*.spec.(ts|js)
+.vscode
+jest.config.js
