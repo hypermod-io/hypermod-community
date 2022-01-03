@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.7.0
+
+### Minor Changes
+
+- 2f5f72f: Adds the ability to specify a comma seperated list of transforms via the -t flag
+
 ## 0.6.3
 
 ### Patch Changes
