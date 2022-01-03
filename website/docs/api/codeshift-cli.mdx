@@ -39,12 +39,16 @@ and run with:
 
 ### --transform, -t
 
-The transform to run, transforms can be either a single file or directory with an index.
+Allows you to execute local transform file(s).
+
+- Can be provided with a comma-separated list (see example below).
+- Transforms can be either a single file or directory containing an "index" file.
 
 **example:**
 
 - `$ codeshift-cli --transform codemods/my-special-mod /project/src/file.js`
 - `$ codeshift-cli --transform codemods/my-special-mod/index.ts /project/src/file.js`
+- `$ codeshift-cli --transform path/to/transform1.ts, path/to/transform2.ts, path/to/transform3.ts /project/src/file.js`
 
 ### --packages
 
