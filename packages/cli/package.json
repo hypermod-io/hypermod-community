@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/cli",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "main": "dist/codeshift-cli.cjs.js",
   "module": "dist/codeshift-cli.esm.js",
   "types": "dist/codeshift-cli.cjs.d.ts",
