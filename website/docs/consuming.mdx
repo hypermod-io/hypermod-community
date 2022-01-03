@@ -12,31 +12,33 @@ For usage please refer to the [@codeshift/cli API reference](/docs/cli).
 
 ## How to run Community codemods
 
-To apply a codemod from the [Community folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community) install and use the `@codemod/cli` via `npx`.
+To run a codeshift package, install and use the `@codeshift/cli`.
 
-For example, say we want to run transforms for `@mylib/button` and migrate from version 13 to the latest version 14.
+- **npm:** `npm install -g @codeshift/cli` or
+- **yarn:** `yarn global add @codeshift/cli`
 
-In this case we could try:
+For example, say we want to run transforms for `@mylib/button` and migrate from version 13 to the latest version 14, we could run the following:
 
 ```
-npx codemod-cli --package @mylib/button@14.0.0 project/path/to/src
+codemod-cli --package @mylib/button@14.0.0 project/path/to/src
 ```
 
 The following sequence of events will follow:
 
-1. `npx` will download and run `@codemod/cli`
-2. `@codemod/cli` will then attempt to locate a codemod for the `@mylib/button` package matching version `14.0.0`
-3. Download the matching transform from NPM
-4. Run the transform against the path `project/path/to/src`
+1. `@codeshift/cli` will then attempt to download a codeshift package for the `@mylib/button` package matching version `14.0.0`
+1. Download the package from NPM
+1. Locate the `codeshift.config.js`
+1. Attempt to find a `transform` for `14.0.0`
+1. Run the transform against the path `project/path/to/src`
 
 ## Run codemods in sequence
 
 It's also possible to run a series of codemods, one after the other, to migrate your usage of `@mylib/button` across multiple major versions, from say v14, v15 and finally v16. Assuming codemods for those versions exist.
 
-This is done my providing the `--sequence` (or `-s`) flag to `@codemod/cli`.
+This is done my providing the `--sequence` (or `-s`) flag to `@codeshift/cli`.
 
 ```
-npx codemod-cli --package @mylib/button@14.0.0 --sequence project/path/to/src
+codemod-cli --package @mylib/button@14.0.0 --sequence project/path/to/src
 ```
 
 This time around, we use the provided version (14.0.0) as the start of a semver range between `14.0.0-@latest`.
@@ -44,15 +46,15 @@ We then fetch all codemods that match and run them one after another.
 
 ## Running local transforms
 
-For codemods not published to the community repo, you can supply your own transform the same way you would with jscodeshift.
+For local transform files, not published to the community repo, you can supply your own transform the same way you would with jscodeshift.
 
 ```
-npx codemod-cli --transform path/to/transform.ts project/path/to/src
+codemod-cli --transform path/to/transform.ts project/path/to/src
 ```
 
 ## Parsing TypeScript & Flow
 
-By default `@codemod/cli` will use `babel` as the default parser and only transform files with a `.js` extensions.
+By default `@codeshift/cli` will use `babel` as the default parser and only transform files with a `.js` extensions.
 
 If your repo depends on flow or typescript, it's important to remember to specify `ts`, `tsx` or `flow` as the `--parser` and or `jsx, ts, tsx` as `--extensions` to make sure jscodeshift can interpret the files properly.
 

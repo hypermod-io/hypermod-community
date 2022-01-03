@@ -1,0 +1,65 @@
+---
+id: configuration
+title: Configuration
+slug: /configuration
+---
+
+All codeshift packages must be coupled with a `codeshift.config.js` file.
+This file acts as the entry-point of your codeshift package and is responsible for holding all of the relevant metadata, as well as paths to the transformer functions themselves.
+
+They typically look like this:
+
+```ts
+module.exports = {
+  maintainers: ['danieldelcore'],
+  description: 'Codemods for the foobar package',
+  targets: ['foobar'],
+  transforms: {
+    '18.0.0': require.resolve('./18.0.0/transform'),
+    '19.0.0': require.resolve('./19.0.0/transform'),
+  },
+  presets: {
+    'sort-imports': require.resolve('./sort-imports/transform'),
+  },
+};
+```
+
+These files should always be in the root directory of your package to ensure `codeshift-cli` has access to it.
+It does so by pulling your package directly from NPM and searching the root directory, which by extension means you should always ensure that the config and the transform files are not ignored by npm.
+
+Config files can be written in either JavaScript or TypeScript, depending on your preference.
+
+To check if your config is valid, you can use [the validate command](cli#validate).
+
+## Properties
+
+### `maintainers`
+
+Github usernames of the people that maintain the package, they will be notified on PRs etc.
+
+### `description`
+
+A description of the package and its intended usage
+
+### `transforms`
+
+A key value pair of transforms organized by semver-compatible versions.
+
+For more information see [Guiding Principles](guiding-principles#codemods-should-target-a-version-of-package).
+
+### `presets`
+
+A key value pair of presets organized by kebab case identifiers.
+
+Presets are intended to act as a way to share generic codemods, that are either completely generic or compliment the target package but are not version specific.
+
+Some examples include: `sort-imports`, `format-props`, `remove-comments`, etc.
+
+### `targets`
+
+**Experimental**
+
+Targets list the packages that the codemod package targets.
+This is useful for codeshift packages that have codemods targeting multiple related packages at the same time, such as packages from a monorepo.
+
+For example: `targets: ['@foo/bar', '@foo/baz']`

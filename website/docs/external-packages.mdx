@@ -1,0 +1,59 @@
+---
+id: external-packages
+title: External Packages
+slug: /external-packages
+---
+
+This page covers creation of stand-alone codeshift packages and is for authors who want:
+
+- Control over where and how your codeshift package is hosted
+- Control over tooling, dependencies and techstack
+- The option to create completely generic codemods that don't target specific packages
+
+If you prefer to not to maintain a separate package, please see the [Authoring guide](authoring) for other options.
+
+## Initializing
+
+To create a standalone codeshift package automatically, install the install and use the `codeshift/cli`.
+
+- **npm:** `npm install -g @codeshift/cli` or
+- **yarn:** `yarn global add @codeshift/cli`
+
+Then given you want to initialize a new project called "foobar", with a codemod targetting version `10.0.0` you can run the following command:
+
+`$ codeshift-cli init --package-name="foobar" --version="10.0.0" ~/Desktop`
+
+This will create a new directory called "foobar" in the `~/Desktop` directory.
+
+You can then also initialize subsequent transforms and presets by running the command again:
+
+`$ codeshift-cli init --package-name="foobar" --preset="sort-imports" ~/Desktop`
+
+### File structure
+
+The file structure of your new codeshift package will look like this:
+
+```
+react-cool-library/
+  package.json
+  tsconfig.json
+  jest.config.js
+  src/
+    codeshift.config.js // main entrypoint containing configuration and references to your transforms
+    10.0.0/ // semver version
+      transform.ts // main logic (should contain a transformer)
+      transform.spec.ts // main tests
+      motions/ // utility directory
+```
+
+## Testing
+
+Now to test your transformer, run `yarn test --watch`.
+
+See the [Testing guide](testing) for help getting started with unit tests.
+
+## Publishing
+
+Since your new codeshift package can simply be treated as an NPM package you can simply run `npm version [patch\minor\major]` and `npm publish`.
+
+Your package will now be accessible via the `codeshift/cli`. Refer to the [Consuming guide](consuming) for information about how to run your new codemods.

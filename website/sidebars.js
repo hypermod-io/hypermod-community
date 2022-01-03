@@ -16,7 +16,15 @@ module.exports = {
       type: 'category',
       label: 'Docs',
       collapsed: false,
-      items: ['authoring', 'consuming', 'testing', 'contribution'],
+      items: [
+        'authoring',
+        'consuming',
+        'configuration',
+        'testing',
+        'motions',
+        'contribution',
+        'external-packages',
+      ],
     },
     {
       type: 'category',

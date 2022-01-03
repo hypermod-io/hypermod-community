@@ -4,63 +4,85 @@ title: Contribution
 slug: /contribution
 ---
 
-CodemodCommunity only works because of contributions by people like you!
+This page covers contribution to the [Community Folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community) and is for authors who want:
 
-All forms of contribution are welcome, from [issue reports](https://github.com/CodeshiftCommunity/CodeshiftCommunity/issues/new/choose) to PRs and documentation.
+- Codemods to be open source
+- Build tooling, dependency management and project setup to be handled for you
+- The community to help maintain and contribute to your codemods
+- Documentation to be automatically generated and available on the [Regisistry page](atlaskit__avatar)
 
-## Rules
-
-- **Be kind:** Treat maintainers and other contributors with respect
-- **Be the change:** If you see a problem, politely raise an issue or consider contributing
-- **Help others:** We're all learning, be patient and try to help others
+If you prefer to create codemods outside of this repo, please see the [Authoring guide](authoring) for other options.
 
 ## Getting setup
 
-First, fork this repository, clone it, install node and yarn, and run `yarn`.
+To get setup, first fork this repository and clone it to your local machine.
+Make sure you have the correct version of node and yarn(1.x) installed.
+Finally, run `yarn` to install the dependencies.
 
-## Creating a new codemod
+## Initializing
 
-1. Clone the repository onto your machine
-2. cd to the project directory `cd CodeshiftCommunity`
-3. Install dependencies `yarn`
-4. Create a new codemod with `yarn init:codemods [package name] [version]`
-5. Write your codemod. See the [authoring](authoring) guide.
-6. Test your changes
-7. Create a pull request
+Create a new codeshift package automatically by running: `yarn codeshift:init -p [package-name] -v [version]`
 
-## Editing an existing codemod
+For example: `yarn init:codemods react-cool-library 10.0.0`
 
-1. Clone the repository onto your machine
-2. cd to the project directory `cd CodeshiftCommunity`
-3. Install dependencies `yarn`
-4. Navigate to the `/community` directory
-5. Make your changes. See the [authoring](authoring) guide.
-6. Test your changes
-7. Create a pull request
+And for scoped packages: `yarn init:codemods @scope/react-cool-library 10.0.0`
 
-## Removing a package
+You should now see a new folder within the `/community` directory for you to implement your codemod(s).
 
-1. Clone the repository onto your machine
-2. cd to the project directory `cd CodeshiftCommunity`
-3. Install dependencies `yarn`
-4. Remove the codemod
-5. Create a pull request
+### File structure
 
-_Note:_ Codemods will continue to be hosted on npm even after the codemod has been removed
+The file structure of your new codeshift package will look like this:
+
+```
+community/react-cool-library/
+  codeshift.config.js // main entrypoint containing configuration and references to your transforms
+  10.0.0/ // semver version
+    transform.ts // main logic (should contain a transformer)
+    transform.spec.ts // main tests
+    motions/ // utility directory
+```
+
+## Writing a transformer
+
+The logic for your codemod should be added to the `transform.ts` file.
+
+Transformers are the main entrypoint to your codemod, they are responsible for accepting a raw file, applying the appropriate modifications to it and finally outputting the resulting AST to the original file.
+
+**Example:**
+
+```ts
+import { hasImportDeclaration } from '@codeshift/utils';
+
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  if (!hasImportDeclaration(j, source, 'my')) {
+    return file.source; // Writes original untouched file
+  }
+
+  // Do transformation logic here...
+
+  return source.toSource(options.printOptions); // Writes modified AST to file
+}
+```
+
+For a more detailed guide, please refer to the [Your First Codemod guide](your-first-codemod).
 
 ## Testing
+
+Now to test your transformer, run `yarn test:watch community/[package-name]`.
+
+See the [Testing guide](testing) for help getting started with unit tests.
 
 - Make sure to write a healthy amount of unit tests
 - This is a great opportunity for test driven development
 - Consider different edge-cases, idempotency, different languages (js, flow, typescript)
-- Before you share your improvement with the world, be sure to use it yourself.
+- Before you share your changes with the world, be sure to use it yourself
 
-See the [testing](testing) guide for help getting started with unit tests.
+## Publishing
 
-## Raising a pull request
+Once you're happy with your new package and you've tested it appropriately, it's time to raise a PR.
 
-Once you've tested your package, raise a PR!
+When the PR is reviewed and merged, your new package will automatically be published and available via the `codeshift/cli`.
 
-## Thanks
-
-Many thanks for contributing and being a part of the CodeshiftCommunity 😍
+Refer to the [Consuming guide](consuming) for information about how to run your new codemods.

@@ -1,0 +1,54 @@
+---
+id: motions
+title: Motions
+slug: /motions
+---
+
+A motion (aka migration) is what we call specific actions performed within a codemod. For example, `updateBorderWidth` or `removeDeprecatedProps`.
+They can be simply thought of as utility functions that are responsible for a single step within a complex codemod.
+It is not required to follow this pattern but they are highly recommended as a helpful design pattern to isolate more complicated parts of your codemod into discrete pieces.
+
+**Example:**
+
+```ts
+function removeDeprecatedProps(j, source) {
+  // Some logic here
+}
+```
+
+Motions can then be applied from the main transform, just like any other function.
+
+```ts
+import { hasImportDeclaration } from '@codeshift/utils';
+import removeDeprecatedProps from './motions/remove-deprecated-props';
+import restructureImports from './motions/restructure-imports';
+
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Execute individual motions
+  removeDeprecatedProps(j, source);
+  restructureImports(j, source);
+
+  return source.toSource(options.printOptions); // Writes modified AST to file
+}
+```
+
+Each motion receives a reference to the AST (`source`) which it can then manipulate as required since the source variable is passed by reference.
+
+Alternatively, you can use the utility function [applyMotions](./utils#applymotionsj-source-motions) to run motions in sequence.
+
+```ts
+import { applyMotions } from '@codeshift/utils';
+import removeDeprecatedProps from './motions/remove-deprecated-props';
+import restructureImports from './motions/restructure-imports';
+
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Execute a series of motions in order
+  applyMotions(j, source, [removeDeprecatedProps, restructureImports]);
+
+  return source.toSource(options.printOptions);
+}
+```

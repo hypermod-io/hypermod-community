@@ -24,13 +24,13 @@ Conversely, if codemods were named arbitrarily, there will be no apparent sequen
 By writing codemods that target a package and version, it should then be theoretically possible to move your consumers across multiple major versions by playing them in a sequence.
 For example, migrating from an older version of `@mylib/button` to the latest is possible by playing all available codemods in order `v14 -> v15 -> v16`.
 
-Ultimately, this is the happy-path this project strives for. But it's also important to meantion that in reality this might not always be possible depending on how your package might be consumed and how hard it might be to write a codemods for it.
-In these cases we recommend that you are aware of [when not to codemod](/docs/when-not-to-codemod) and [what to do when a codemod isn't possible](/docs/when-not-to-codemod#what-to-do-when-a-codemod-isnt-possible)
+Ultimately, this is the happy-path this project strives for. But it's also important to acknowledge that in reality this is not always be possible, depending on the migration path and how hard it might be to write a codemods for it.
+In these cases we recommend that you are aware of [when not to codemod](/docs/when-not-to-codemod) and [what to do when a codemod isn't possible](/docs/when-not-to-codemod#what-to-do-when-a-codemod-isnt-possible).
 
-## Codemods should do as much as can be safely done, automatically and prompt for human intervention when needed
+## Codemods should do as much as can be safely done automatically or prompt for human intervention
 
-Writing a codemod to completely migrate a package from one working state to another is not always feasible. Some edgecases might simply be too hard to support.
-So when this is the case, bailing out and pompting for human intervention should be your first fallback.
+Writing a codemod to completely migrate a package from one working state to another is not always feasible. Some edge cases might simply be too hard to support.
+When this is the case, bailing out and pompting for human intervention should be your first fallback.
 This gives consumers a chance to review the changes of the codemod, read the prompts containing context about the changes they need to action and make the remaining manual steps as painless and straight forward as possible.
 
 For more information, please see the [Prompting for human input](/docs/prompting-for-human-input) guide.
