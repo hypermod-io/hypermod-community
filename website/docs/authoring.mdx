@@ -4,199 +4,62 @@ title: Authoring
 slug: /authoring
 ---
 
-Before writing a codemod, please read the [contribution guide](docs/contribution) 🙏
+There are currently three approaches to authoring and publishing a codeshift package.
+Which one to use depends on your particular use case.
 
-## Initializing
+1. [Contribute to the Community Folder](#1-contribute-to-the-community-folder)
+1. [Add codeshift to an existing package](#2-add-codeshift-to-an-existing-package)
+1. [Create a stand-alone codeshift package](#3-create-a-stand-alone-codeshift-package)
 
-Create a folder structure for your new codemod by running:
+## 1. Contribute to the Community Folder
 
-`yarn codeshift:init -p [package-name] -v [version]`
+The Community Folder is the public directory of codemods hosted and published directly from this repository, [visible here](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community).
+This directory can be compared to and treated the same as the Typescript type definition regisistry: [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped).
 
-For example:
+_Please see the [Contribution guide](contribution) for more information._
 
-`yarn init:codemods react-cool-library 10.0.0`
+Use this method if you want:
 
-And for scoped packages:
+- Your codemods to be open source
+- Build tooling, dependency management and project setup to be handled for you
+- The community to help maintain and contribute to your codemods
+- Documentation to be automatically generated and available on the [Regisistry page](atlaskit__avatar)
 
-`yarn init:codemods @scope/react-cool-library 10.0.0`
+Do not use this method if:
 
-It will create a package within the `/community` subdirectory, this is for you to implement your codemod.
+- Your codemods target a closed source package/repository
+- Your codemods are generic in that they do not target any particular package
+- Your codemods should be close sourced or contain sensitive data
 
-## File structure
+## 2. Add codeshift to an existing package
 
-The file structure of your codemod will look like this:
+For existing npm packages (like react), you have the option to expose codemods directly from the package by simply creating a `codeshift.config.js` at either the root, `/src` or `/codemods` directory.
+Given that the config and codemod files are then published and available on NPM, `codeshift-cli` will be able to find and run codemods using the `--package` flag.
 
-```
-community/[package-name]/[version]
-  /codeshift.config.js // main entrypoint containing configuration and references to your transforms
-  /transform.ts // main logic (should contain a transformer)
-  /transform.spec.ts // main tests
-  /motions // different operations that make up the codemod
-    /[motion-name].ts // motion
-    /[motion-name].spec.ts // motion tests
-```
+Use this method if you want:
 
-**Example:**
+- To get up and running with an existing package with very little overhead
+- Control over where and how your codeshift package is hosted
+- Control over tooling, dependencies and techstack
+- To remove a previously created jscodeshift cli wrapper and instead use the generic codeshift-cli
 
-```
-community/react-cool-library/18.0.0
-  /codeshift.config.js
-  /transform.ts
-  /transform.spec.ts
-  /motions
-    /remove-ref-usage.ts
-    /remove-ref-usage.spec.ts
-```
+Do not use this method if:
 
-## Configuration
+- Your package is close sourced
+- You want docs to be automatically generated and available on the [Regisistry page](atlaskit__avatar)
 
-Each codemod package should be coupled with a `codeshift.config.js` file.
-The config file is the entry-point of your codemod and is responsible for holding all of the relevant
-metadata about it, as well as references to the transformer functions themselves.
+## 3. Create a stand-alone codeshift package
 
-They typically look like this:
+Codeshift packages can be created as a stand-alone package.
 
-```js
-export default {
-  maintainers: ['danieldelcore'],
-  transforms: {
-    '18.0.0': require.resolve('./18.0.0/transform'),
-    '19.0.0': require.resolve('./19.0.0/transform'),
-  },
-};
-```
+_Please see the [External Packages guide](external-packages) for more information._
 
-- `maintainers`: Github usernames of the people that maintain that codemod, they will be notified on PRs etc.
-- `transforms`: A key value pair of transforms organized by semver-compatible versions
+Use this method if you want:
 
-## Versioning
+- Control over where and how your codeshift package is hosted
+- Control over tooling, dependencies and techstack
+- The option to create completely generic codemods that don't target specific packages
 
-You might wonder why we require that codemods are named by a semver version like `react-cool-library/18.0.0`.
-We believe that codemods should aim to target specific package and versions of that package.
+Do not use this method if:
 
-This is done to:
-
-- Make it obvious what the intended purpose and scope of a codemod is
-- Make it obvious which package is being upgraded
-- Make it easy to play codemods in sequence to allow migration from v4 -> v5 -> v6
-
-But importantly, in terms of authoring, this also allows us to **retrospectivally patch published codemods**.
-Patched codemods will then be automatically published when merged to the repo, ensuring that consumers are always running the latest version.
-
-## Transformers
-
-Transformers are the main entrypoint to your codemod, they are responsible for accepting a raw file, applying the appropriate modifications to it and finally outputting the resulting AST to the original file.
-
-**Example:**
-
-```ts
-import { hasImportDeclaration } from '@codeshift/utils';
-import updateBorderWidth from './motions/update-border-width';
-
-export default function transformer(file, { jscodeshift: j }, options) {
-  const source = j(file.source);
-
-  if (!hasImportDeclaration(j, source, 'my')) {
-    return file.source; // Writes original untouched file
-  }
-
-  // Checks if the file needs to be modified
-  updateBorderWidth(j, source); // Execute individual motions
-
-  return source.toSource(options.printOptions); // Writes modified AST to file
-}
-```
-
-## Motions
-
-A motion (aka migration) is what we call specific actions performed within a codemod. For example, `updateBorderWidth` or `removeDeprecatedProps`.
-They can be simply thought of a functions that are responsible for a single action within a codemod. It is not required but they are highly recommended as
-a helpful design pattern to isolate more complicated parts of your codemod into discrete pieces.
-
-**Example:**
-
-```ts
-function removeDeprecatedProps(j, source) {
-  // Some logic here
-}
-```
-
-Motions can then be applied from the main transform, just like any other function.
-
-```ts
-import { hasImportDeclaration } from '@codeshift/utils';
-import removeDeprecatedProps from './motions/remove-deprecated-props';
-import restructureImports from './motions/restructure-imports';
-
-export default function transformer(file, { jscodeshift: j }, options) {
-  const source = j(file.source);
-
-  // Execute individual motions
-  removeDeprecatedProps(j, source);
-  restructureImports(j, source);
-
-  return source.toSource(options.printOptions); // Writes modified AST to file
-}
-```
-
-Each motion receives a reference to the AST (`source`) which it can then manipulate as required.
-
-Alternatively, you can use the utility function [applyMotions](./utils#applymotionsj-source-motions) to run motions in sequence.
-
-```ts
-import { applyMotions } from '@codeshift/utils';
-import removeDeprecatedProps from './motions/remove-deprecated-props';
-import restructureImports from './motions/restructure-imports';
-
-export default function transformer(file, { jscodeshift: j }, options) {
-  const source = j(file.source);
-
-  // Execute a series of motions in order
-  applyMotions(j, source, [removeDeprecatedProps, restructureImports]);
-
-  return source.toSource(options.printOptions);
-}
-```
-
-## Testing
-
-It's very likely that consumers will run into all sorts of edge-cases when running your transform.
-That's why it's important to start by writing some tests to assert it's behavior. Luckily, both [CodeshiftCommunity](./test-utils) & [jscodeshift](https://github.com/facebook/jscodeshift#unit-testing) provides testing utilities to help.
-
-When creating a codemod, it's best to always try to write your tests first (TDD style).
-Think about the start and end state and how you might be able to achieve that. Also, make sure to consider as many edge-cases as you possibly can.
-
-For more information, please see the [testing docs](testing).
-
-**Example:**
-
-```ts
-import { applyTransform } from '@codeshift/test-utils';
-
-import * as transformer from '../transform';
-
-describe('MyTransform', () => {
-  it('should wrap component in a tooltip if name is defined', () => {
-    const result = applyTransform(
-      transformer,
-      `
-      import MyComponent from 'my-component';
-
-      const App = () => {
-        return <MyComponent name="foo" />;
-      }
-    `,
-      { parser: 'tsx' },
-    );
-
-    expect(result).toMatchInlineSnapshot(`
-    "import Tooltip from 'my-tooltip';
-    import MyComponent from 'my-component';
-
-    const App = () => {
-      return <Tooltip content=\\"foo\\"><MyComponent name=\\"foo\\" /></Tooltip>;
-    }"
-  `);
-  });
-});
-```
+- Your codemods target a closed source package/repository
