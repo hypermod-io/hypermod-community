@@ -102,18 +102,20 @@ export function initDirectory(
   targetPath: string = './',
   isReduced: boolean = false,
 ) {
-
   const basePath = `${targetPath}/${packageName.replace('/', '__')}`;
   const configPath = `${basePath}${
     !isReduced ? '/src' : ''
   }/codeshift.config.js`;
 
   fs.copySync(`${__dirname}/../template${isReduced ? '/src' : ''}`, basePath, {
-    filter: (src) => !src.includes('src/codemod')
+    filter: src => !src.includes('src/codemod'),
   });
 
   if (!isReduced) {
-    fs.writeFileSync(path.join(basePath, 'package.json'), getPackageJson(packageName));
+    fs.writeFileSync(
+      path.join(basePath, 'package.json'),
+      getPackageJson(packageName),
+    );
   }
 
   if (!fs.existsSync(configPath)) {
@@ -121,15 +123,15 @@ export function initDirectory(
   }
 }
 
-export function initTransform(packageName: string,
+export function initTransform(
+  packageName: string,
   id: string,
   type: 'version' | 'preset',
   targetPath: string = './',
-  isReduced: boolean = false) {
-if (type === 'version' && !semver.valid(id)) {
-    throw new Error(
-      `Provided version ${id} is not a valid semver version`,
-    );
+  isReduced: boolean = false,
+) {
+  if (type === 'version' && !semver.valid(id)) {
+    throw new Error(`Provided version ${id} is not a valid semver version`);
   }
 
   const basePath = `${targetPath}/${packageName.replace('/', '__')}`;
@@ -158,7 +160,10 @@ if (type === 'version' && !semver.valid(id)) {
   fs.writeFileSync(testFilePath, testFile);
 
   if (!isReduced) {
-    fs.writeFileSync(path.join(basePath, 'package.json'), getPackageJson(packageName));
+    fs.writeFileSync(
+      path.join(basePath, 'package.json'),
+      getPackageJson(packageName),
+    );
   }
 
   fs.writeFileSync(
