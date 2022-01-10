@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/cli",
   "bin": {
-    "@codeshift/cli": "./bin/codeshift-cli.js",
+    "codeshift": "./bin/codeshift-cli.js",
     "codeshift-cli": "./bin/codeshift-cli.js"
   },
   "scripts": {

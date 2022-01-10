@@ -34,14 +34,14 @@ Do not use this method if:
 ## 2. Add codeshift to an existing package
 
 For existing npm packages (like react), you have the option to expose codemods directly from the package by simply creating a `codeshift.config.js` at either the root, `/src` or `/codemods` directory.
-Given that the config and codemod files are then published and available on NPM, `codeshift-cli` will be able to find and run codemods using the `--package` flag.
+Given that the config and codemod files are then published and available on NPM, `codeshift` will be able to find and run codemods using the `--package` flag.
 
 Use this method if you want:
 
 - To get up and running with an existing package with very little overhead
 - Control over where and how your codeshift package is hosted
 - Control over tooling, dependencies and techstack
-- To remove a previously created jscodeshift cli wrapper and instead use the generic codeshift-cli
+- To remove a previously created `jscodeshift` cli wrapper and instead use the generic `codeshift` cli
 
 Do not use this method if:
 
