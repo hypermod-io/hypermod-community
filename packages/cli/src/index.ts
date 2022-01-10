@@ -82,6 +82,9 @@ program
     'after',
     `
 Examples:
+  # Initializes an empty codeshift package at the ~/Desktop directory
+  $ codeshift-cli init --package-name foobar --transform 10.0.0 ~/Desktop
+
   # Initializes a new codeshift package with a transform for 10.0.0
   $ codeshift-cli init --package-name foobar --transform 10.0.0 ~/Desktop
 

@@ -1,4 +1,4 @@
-import { initDirectory } from '@codeshift/initializer';
+import { initDirectory, initTransform } from '@codeshift/initializer';
 
 const targetPath = `${__dirname}/../community`;
 
@@ -7,7 +7,8 @@ export function main(packageName: string, transform?: string) {
   if (!transform) throw new Error('Version was not provided');
 
   if (transform) {
-    initDirectory(packageName, transform, 'version', targetPath);
+    initDirectory(packageName, targetPath);
+    initTransform(packageName, transform, 'version', targetPath);
   }
 
   console.log(

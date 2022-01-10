@@ -1,5 +1,5 @@
 import path from 'path';
-import { initDirectory } from '@codeshift/initializer';
+import { initDirectory, initTransform } from '@codeshift/initializer';
 
 export default async function init(
   packageName: string,
@@ -7,13 +7,10 @@ export default async function init(
   preset?: string,
   targetPath: string = '.',
 ) {
-  if (transform) {
-    initDirectory(packageName, transform, 'version', targetPath);
-  }
+  initDirectory(packageName, targetPath);
 
-  if (preset) {
-    initDirectory(packageName, preset, 'preset', targetPath);
-  }
+  if (transform) initTransform(packageName, transform, 'version', targetPath);
+  if (preset) initTransform(packageName, preset, 'preset', targetPath);
 
   console.log(
     `🚚 New codemod package created at: ${path.join(targetPath, packageName)}`,
