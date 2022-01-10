@@ -108,22 +108,22 @@ Examples:
 
 program.exitOverride();
 
-try {
-  program.parse(process.argv);
-} catch (error) {
-  if (error instanceof CommanderError) {
-    console.log(error);
+(async function() {
+  try {
+    await program.parseAsync(process.argv);
+  } catch (error) {
+    if (error instanceof CommanderError) {
+      console.error(chalk.red(error.message));
+      process.exit(error.exitCode);
+    }
 
-    console.error(chalk.red(error.message));
-    process.exit(error.exitCode);
+    if (error instanceof InvalidUserInputError) {
+      console.warn(program.help());
+      console.warn(chalk.red(error.message));
+      process.exit(9);
+    }
+
+    console.error(chalk.red(error));
+    process.exit(1);
   }
-
-  if (error instanceof InvalidUserInputError) {
-    console.warn(program.help());
-    console.warn(chalk.red(error.message));
-    process.exit(9);
-  }
-
-  console.error(chalk.red(error));
-  process.exit(3);
-}
+})();
