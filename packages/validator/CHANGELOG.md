@@ -1,5 +1,13 @@
 # @codeshift/validator
 
+## 0.2.2
+
+### Patch Changes
+
+- caaaf9a: Locks version of colors.js to avoid vulnrability
+- Updated dependencies [caaaf9a]
+  - @codeshift/types@0.0.4
+
 ## 0.2.1
 
 ### Patch Changes

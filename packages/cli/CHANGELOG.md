@@ -1,5 +1,18 @@
 # @codeshift/cli
 
+## 0.7.1
+
+### Patch Changes
+
+- caaaf9a: Locks version of colors.js to avoid vulnrability
+- 728624f: Init command can now be called without the transform or preset flag and output an empty directory
+- 4781125: List CLI command no longer exits on error. Instead it will log a message
+- 450c977: Adds new primary CLI alias `codeshift` (as opposed to just `codeshift-cli`)
+- Updated dependencies [caaaf9a]
+- Updated dependencies [728624f]
+  - @codeshift/initializer@0.1.7
+  - @codeshift/validator@0.2.2
+
 ## 0.7.0
 
 ### Minor Changes

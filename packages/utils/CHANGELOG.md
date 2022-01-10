@@ -1,5 +1,11 @@
 # @codeshift/utils
 
+## 0.1.4
+
+### Patch Changes
+
+- caaaf9a: Locks version of colors.js to avoid vulnrability
+
 ## 0.1.3
 
 ### Patch Changes
