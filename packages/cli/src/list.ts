@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
-import { NoTransformsExistError } from './errors';
 
 export default async function list(packages: string[]) {
   const packageManager = new PluginManager();
@@ -13,8 +12,10 @@ export default async function list(packages: string[]) {
     try {
       await packageManager.install(codemodName);
     } catch (error) {
-      throw new NoTransformsExistError(
-        `No transforms found for package ${pkgSplit[0]}`,
+      console.log(
+        chalk.red(
+          `Unable to find codeshift package: ${chalk.bold(codemodName)}.`,
+        ),
       );
     }
 

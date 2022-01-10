@@ -3,7 +3,7 @@ import main from './main';
 import list from './list';
 import init from './init';
 import validate from './validate';
-import { NoTransformsExistError, InvalidUserInputError } from './errors';
+import { InvalidUserInputError } from './errors';
 
 import packageJson from '../package.json';
 import { Command, Option, CommanderError } from 'commander';
@@ -122,11 +122,6 @@ try {
     console.warn(program.help());
     console.warn(chalk.red(error.message));
     process.exit(9);
-  }
-
-  if (error instanceof NoTransformsExistError) {
-    console.warn(chalk.yellow(error.message));
-    process.exit(0);
   }
 
   console.error(chalk.red(error));
