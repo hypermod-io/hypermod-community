@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import path from 'path';
 import semver from 'semver';
 import * as recast from 'recast';
 import { version as utilVersion } from '@codeshift/utils/package.json';
@@ -98,25 +99,47 @@ function updateConfig(
 
 export function initDirectory(
   packageName: string,
-  transform: string,
-  type: 'version' | 'preset',
   targetPath: string = './',
   isReduced: boolean = false,
 ) {
-  if (type === 'version' && !semver.valid(transform)) {
+
+  const basePath = `${targetPath}/${packageName.replace('/', '__')}`;
+  const configPath = `${basePath}${
+    !isReduced ? '/src' : ''
+  }/codeshift.config.js`;
+
+  fs.copySync(`${__dirname}/../template${isReduced ? '/src' : ''}`, basePath, {
+    filter: (src) => !src.includes('src/codemod')
+  });
+
+  if (!isReduced) {
+    fs.writeFileSync(path.join(basePath, 'package.json'), getPackageJson(packageName));
+  }
+
+  if (!fs.existsSync(configPath)) {
+    fs.writeFileSync(configPath, getConfig(packageName));
+  }
+}
+
+export function initTransform(packageName: string,
+  id: string,
+  type: 'version' | 'preset',
+  targetPath: string = './',
+  isReduced: boolean = false) {
+if (type === 'version' && !semver.valid(id)) {
     throw new Error(
-      `Provided version ${transform} is not a valid semver version`,
+      `Provided version ${id} is not a valid semver version`,
     );
   }
 
   const basePath = `${targetPath}/${packageName.replace('/', '__')}`;
-  const transformPath = `${basePath}${!isReduced ? '/src' : ''}/${transform}`;
+  const transformPath = `${basePath}${!isReduced ? '/src' : ''}/${id}`;
   const configPath = `${basePath}${
     !isReduced ? '/src' : ''
   }/codeshift.config.js`;
 
   if (fs.existsSync(transformPath)) {
-    throw new Error(`Codemod for ${type} "${transform}" already exists`);
+    throw new Error(`Codemod for ${type} "${id}" already exists`);
   }
 
   fs.copySync(`${__dirname}/../template${isReduced ? '/src' : ''}`, basePath);
@@ -125,24 +148,21 @@ export function initDirectory(
     transformPath,
   );
 
+  const testFilePath = path.join(transformPath, 'transform.spec.ts');
   const testFile = fs
-    .readFileSync(`${transformPath}/transform.spec.ts`, 'utf8')
+    .readFileSync(testFilePath, 'utf8')
     .replace('<% packageName %>', packageName)
     .replace('<% seperator %>', type === 'version' ? '@' : '#')
-    .replace('<% transform %>', transform || '');
+    .replace('<% transform %>', id || '');
 
-  fs.writeFileSync(`${transformPath}/transform.spec.ts`, testFile);
+  fs.writeFileSync(testFilePath, testFile);
 
   if (!isReduced) {
-    fs.writeFileSync(`${basePath}/package.json`, getPackageJson(packageName));
+    fs.writeFileSync(path.join(basePath, 'package.json'), getPackageJson(packageName));
   }
 
-  if (!fs.existsSync(configPath)) {
-    fs.writeFileSync(configPath, getConfig(packageName, transform));
-  } else {
-    fs.writeFileSync(
-      configPath,
-      updateConfig(configPath, packageName, transform || '', type),
-    );
-  }
+  fs.writeFileSync(
+    configPath,
+    updateConfig(configPath, packageName, id || '', type),
+  );
 }
