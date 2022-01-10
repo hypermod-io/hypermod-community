@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.7.2
+
+### Patch Changes
+
+- 1cf710f: Fixes how the CLI renders errors to users
+
 ## 0.7.1
 
 ### Patch Changes
