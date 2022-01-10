@@ -110,11 +110,9 @@ Print all help text to the command line
 
 - `$ codeshift-cli --help`
 
-## Commands
+## list
 
-### list
-
-Lists available codemods for the provided packages
+Subcommand that lists available codemods for the provided packages
 
 **example:**
 
@@ -124,22 +122,63 @@ Print a list of available codemods for a single package
 
 Print a list of available codemods for multiple packages
 
-- `$ codeshift-cli list mylib, @material-ui/button`
+- `$ codeshift-cli list @atlaskit/avatar @emotion/monorepo`
 
-### init
+## init
 
-Generates a new codemod at your desired path
+Subcommand that generates a new codemod at your desired path
 
 **example:**
 
-Create a new codemod package called foobar with a transform for version 10
+Create a new codeshift package called foobar with a transform for version 10
 on the Desktop
 
 - `$ codeshift-cli init --package-name="foobar" --version="10.0.0" ~/Desktop`
 
-### validate
+Create an empty codeshift package called foobar on the Desktop
 
-Validates a codemod package at the desired path.
+- `$ codeshift-cli init --package-name="foobar" ~/Desktop`
+
+Create an empty codeshift package called foobar in the current directory
+
+- `$ codeshift-cli init --package-name="foobar"`
+
+### --package-name
+
+The name of the package/directory to be created.
+
+**example:**
+
+Create an empty codemod package called foobar with a transform.
+
+When `--version` and `--preset` flags are omitted no transforms will be generated.
+To generate tranforms after already generating the directory, simply rerun the command with the necessary flags.
+
+- `$ codeshift-cli init --package-name="foobar" ~/Desktop`
+
+### --version (optional)
+
+A semver-compatible string. Will be used to generate mock transform files and configuration.
+
+**example:**
+
+Create a codemod package called foobar with a versioned transform.
+
+- `$ codeshift-cli init --package-name="foobar" --version="10.0.0" ~/Desktop`
+
+### --preset (optional)
+
+A kebab-cased string. Will be used to generate mock transform files and configuration.
+
+**example:**
+
+Create a codemod package called foobar with a preset.
+
+- `$ codeshift-cli init --package-name="foobar" --preset="sort-imports" ~/Desktop`
+
+## validate
+
+Subcommand that validates a codemod package at the desired path.
 
 **example:**
 
