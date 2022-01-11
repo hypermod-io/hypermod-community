@@ -180,7 +180,7 @@ const App = () => (
               </div>
               <div className="col col--8">
                 <CodeBlock className="language-bash">
-                  $ codeshift-cli init --packageName foobar
+                  $ codeshift init --packageName foobar
                 </CodeBlock>
               </div>
             </div>
@@ -266,7 +266,7 @@ export default transformer;`}</CodeBlock>
               </div>
               <div className="col col--8">
                 <CodeBlock className="language-bash">
-                  $ codeshift-cli -p foobar@12.0.0 path/to/src
+                  $ codeshift -p foobar@12.0.0 path/to/src
                 </CodeBlock>
               </div>
             </div>
