@@ -1,5 +1,11 @@
 # @codeshift/types
 
+## 0.0.5
+
+### Patch Changes
+
+- e776f9c: Fixes colors.js vulnrability by bumping jscodeshift
+
 ## 0.0.4
 
 ### Patch Changes
