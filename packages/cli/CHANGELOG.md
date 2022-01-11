@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.7.6
+
+### Patch Changes
+
+- f6bd632: Fixes --help command. Top-level options will now be shown correctly
+
 ## 0.7.5
 
 ### Patch Changes
