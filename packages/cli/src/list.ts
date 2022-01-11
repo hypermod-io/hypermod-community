@@ -1,55 +1,53 @@
 import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
+import { CodeshiftConfig } from '@codeshift/types';
 
 export default async function list(packages: string[]) {
   const packageManager = new PluginManager();
 
-  for (const pkg of packages) {
-    const pkgSplit = pkg.split('@').filter(str => !!str);
+  for (const packageName of packages) {
+    const pkgSplit = packageName.split('@').filter(str => !!str);
     const name = pkgSplit[0].replace('/', '__');
     const codemodName = `@codeshift/mod-${name}`;
 
     try {
       await packageManager.install(codemodName);
     } catch (error) {
-      console.log(
+      console.warn(
         chalk.red(
-          `Unable to find codeshift package: ${chalk.bold(codemodName)}.`,
+          `Unable to find codeshift package: ${chalk.bold(packageName)}.`,
         ),
       );
 
-      return;
+      continue;
     }
 
     await packageManager.install(codemodName);
-    const { default: codeshiftConfig } = packageManager.require(codemodName);
+    const pkg = packageManager.require(codemodName);
+    const config: CodeshiftConfig = pkg.default ? pkg.default : pkg;
 
-    console.log(chalk.bold(pkg));
+    console.log(chalk.bold(packageName));
 
-    if (codeshiftConfig.transforms) {
+    if (config.transforms) {
       console.log(`├─ transforms`),
-        Object.keys(codeshiftConfig.transforms).forEach(
-          (transform, index, array) => {
-            if (index + 1 === array.length) {
-              console.log(`|  └─ ${transform}`);
-              return;
-            }
-            console.log(`|  ├─ ${transform}`);
-          },
-        );
+        Object.keys(config.transforms).forEach((transform, index, array) => {
+          if (index + 1 === array.length) {
+            console.log(`|  └─ ${transform}`);
+            return;
+          }
+          console.log(`|  ├─ ${transform}`);
+        });
     }
 
-    if (codeshiftConfig.presets) {
+    if (config.presets) {
       console.log(`└─ presets`),
-        Object.keys(codeshiftConfig.presets).forEach(
-          (transform, index, array) => {
-            if (index + 1 === array.length) {
-              console.log(`   └─ ${transform}`);
-              return;
-            }
-            console.log(`|  ├─ ${transform}`);
-          },
-        );
+        Object.keys(config.presets).forEach((transform, index, array) => {
+          if (index + 1 === array.length) {
+            console.log(`   └─ ${transform}`);
+            return;
+          }
+          console.log(`|  ├─ ${transform}`);
+        });
     }
   }
 }
