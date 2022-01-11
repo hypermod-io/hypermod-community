@@ -112,6 +112,8 @@ export default async function main(paths: string[], flags: Flags) {
       let communityConfig;
       let remoteConfig;
 
+      console.log(chalk.green('Attempting to download package:'), pkgName);
+
       try {
         communityConfig = await fetchCommunityPackageConfig(
           pkgName,

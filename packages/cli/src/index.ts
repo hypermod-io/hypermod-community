@@ -1,4 +1,6 @@
 import chalk from 'chalk';
+import { Command, Option, CommanderError } from 'commander';
+
 import main from './main';
 import list from './list';
 import init from './init';
@@ -6,18 +8,15 @@ import validate from './validate';
 import { InvalidUserInputError } from './errors';
 
 import packageJson from '../package.json';
-import { Command, Option, CommanderError } from 'commander';
 
 const program = new Command();
 
 program
-  .command(`codeshift/cli [path...]`, { isDefault: true })
+  .enablePositionalOptions()
   .version(packageJson.version, '-v, --version')
+  .name('codeshift')
+  .argument('[path...]')
   .usage('[global options] <file-paths>...')
-  .option(
-    '-t, --transform <value>',
-    'The transform(s) to run, will prompt for a transform if not provided and no module is passed\nTo provide multiple transforms, separate them with commas (e.g. "-t t1,t2,t3")',
-  )
   .option(
     '--packages <value>',
     'Comma separated list of packages to run transforms for, @scope/package[@version]. If version is supplied, will only run transforms for that version and above',
@@ -25,6 +24,10 @@ program
   .option(
     '-s, --sequence',
     'If the package flag is provided, runs all transforms from the provided version to the latest',
+  )
+  .option(
+    '-t, --transform <value>',
+    'The transform(s) to run, will prompt for a transform if not provided and no module is passed\nTo provide multiple transforms, separate them with commas (e.g. "-t t1,t2,t3")',
   )
   .addOption(
     new Option(
@@ -54,20 +57,30 @@ program
     `
 Examples:
   # Run a transform for "@mylib/button" version 3.0.0 only
-  $ codeshift-cli --packages @mylib/button@3.0.0 /project/src
+  $ codeshift --packages @mylib/button@3.0.0 /project/src
 
   # Run all transforms for "@mylib/button" greater than version 3.0.0 and @mylib/range greater than 4.0.0
-  $ codeshift-cli --sequence --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src
+  $ codeshift --sequence --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src
 
   # Run the "my-custom-transform" transform
-  $ codeshift-cli -t path/to/my-custom-transform /project/src`,
+  $ codeshift -t path/to/my-custom-transform /project/src`,
   )
   .action((path, options) => main(path, options));
 
 program
   .command('list <package-names...>')
   .description('list available codemods for provided packages')
-  .action(packageNames => list(packageNames));
+  .action(packageNames => list(packageNames))
+  .addHelpText(
+    'after',
+    `
+Examples:
+  # Print a list of available codemods for a single package
+  $ codeshift list mylib
+
+  # Print a list of available codemods for multiple packages
+  $ codeshift list @atlaskit/avatar @emotion/monorepo`,
+  );
 
 program
   .command('init [path]')
@@ -83,14 +96,13 @@ program
     `
 Examples:
   # Initializes an empty codeshift package at the ~/Desktop directory
-  $ codeshift-cli init --package-name foobar --transform 10.0.0 ~/Desktop
+  $ codeshift init --package-name foobar --transform 10.0.0 ~/Desktop
 
   # Initializes a new codeshift package with a transform for 10.0.0
-  $ codeshift-cli init --package-name foobar --transform 10.0.0 ~/Desktop
+  $ codeshift init --package-name foobar --transform 10.0.0 ~/Desktop
 
   # Initializes a new codeshift package with a preset "update-imports"
-  $ codeshift-cli init --package-name foobar --preset update-imports ~/Desktop
-  `,
+  $ codeshift init --package-name foobar --preset update-imports ~/Desktop`,
   );
 
 program
@@ -101,9 +113,8 @@ program
     'after',
     `
 Examples:
-  $ codeshift-cli validate
-  $ codeshift-cli validate ./codemods/my-codemods
-  `,
+  $ codeshift validate
+  $ codeshift validate ./codemods/my-codemods`,
   );
 
 program.exitOverride();
@@ -113,6 +124,10 @@ program.exitOverride();
     await program.parseAsync(process.argv);
   } catch (error) {
     if (error instanceof CommanderError) {
+      if (error.message === '(outputHelp)') {
+        return;
+      }
+
       console.error(chalk.red(error.message));
       process.exit(error.exitCode);
     }
