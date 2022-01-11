@@ -1,5 +1,12 @@
 # @codeshift/cli
 
+## 0.7.5
+
+### Patch Changes
+
+- 5133c81: Minor fix to list command
+- cee218e: Update generated project dependencies to avoid colors.js vulnrability.
+
 ## 0.7.4
 
 ### Patch Changes
