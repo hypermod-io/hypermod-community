@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/initializer",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "dist/codeshift-initializer.cjs.js",
   "types": "dist/codeshift-initializer.cjs.d.ts",
   "license": "MIT",
