@@ -3,6 +3,7 @@ import path from 'path';
 import semver from 'semver';
 import * as recast from 'recast';
 import { version as utilVersion } from '@codeshift/utils/package.json';
+import { version as testUtilVersion } from '@codeshift/test-utils/package.json';
 
 export function getPackageJson(packageName: string, version: string = '0.0.0') {
   return JSON.stringify(
@@ -18,11 +19,11 @@ export function getPackageJson(packageName: string, version: string = '0.0.0') {
       dependencies: {},
       devDependencies: {
         '@codeshift/utils': `^${utilVersion}`,
-        '@codeshift/test-utils': '*',
+        '@codeshift/test-utils': `^${testUtilVersion}`,
         '@types/node': '^16.11.0',
         '@types/jest': '^26.0.15',
         jest: '^26.6.0',
-        jscodeshift: '^0.12.0',
+        jscodeshift: '^0.13.1',
         prettier: '^1.16.4',
         'ts-jest': '^26.4.4',
         typescript: '^4.3.5',
