@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/types",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/codeshift-types.cjs.js",
   "module": "dist/codeshift-types.esm.js",
   "types": "dist/codeshift-types.cjs.d.ts",

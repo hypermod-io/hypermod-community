@@ -1,5 +1,14 @@
 # @codeshift/cli
 
+## 0.7.3
+
+### Patch Changes
+
+- e776f9c: Fixes colors.js vulnrability by bumping jscodeshift
+- Updated dependencies [e776f9c]
+  - @codeshift/initializer@0.1.8
+  - @codeshift/validator@0.2.3
+
 ## 0.7.2
 
 ### Patch Changes
