@@ -17,6 +17,8 @@ export default async function list(packages: string[]) {
           `Unable to find codeshift package: ${chalk.bold(codemodName)}.`,
         ),
       );
+
+      return;
     }
 
     await packageManager.install(codemodName);
