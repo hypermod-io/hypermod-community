@@ -537,7 +537,7 @@ describe('main', () => {
         install: jest.fn().mockResolvedValue(undefined),
         require: jest.fn().mockImplementation((codemodName: string) => {
           if (codemodName.startsWith('@codeshift')) {
-            throw new Error('Attempted to fetch codemod from community folder');
+            return {};
           }
 
           return {

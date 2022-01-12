@@ -5,7 +5,7 @@ import main from './main';
 import list from './list';
 import init from './init';
 import validate from './validate';
-import { InvalidUserInputError } from './errors';
+import { InvalidUserInputError, InvalidConfigError } from './errors';
 
 import packageJson from '../package.json';
 
@@ -136,6 +136,11 @@ program.exitOverride();
       console.warn(program.help());
       console.warn(chalk.red(error.message));
       process.exit(9);
+    }
+
+    if (error instanceof InvalidConfigError) {
+      console.warn(chalk.red(error.message));
+      process.exit(7);
     }
 
     console.error(chalk.red(error));
