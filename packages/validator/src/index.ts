@@ -4,7 +4,7 @@ import path from 'path';
 import { CodeshiftConfig } from '@codeshift/types';
 
 function getConfigFromPath(filePath: string): CodeshiftConfig {
-  const configPath = path.join(process.cwd(), filePath, 'codeshift.config.js');
+  const configPath = path.join(__dirname, filePath, 'codeshift.config.js');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const config = require(configPath);
 
@@ -12,13 +12,13 @@ function getConfigFromPath(filePath: string): CodeshiftConfig {
 }
 
 function hasValidTransforms(transforms?: Record<string, string>) {
-  if (!transforms || !Object.keys(transforms).length) return false;
+  if (!transforms) return true;
 
   return Object.entries(transforms).every(([key]) => semver.valid(key));
 }
 
 function hasValidPresets(presets?: Record<string, string>): boolean {
-  if (!presets || !Object.keys(presets).length) return false;
+  if (!presets) return true;
 
   return Object.entries(presets).every(([key]) =>
     key.match(/^[0-9a-zA-Z\-]+$/),
@@ -31,21 +31,12 @@ export function isValidPackageName(dir: string): boolean {
 
 export function isValidConfig(config: CodeshiftConfig) {
   return (
-    hasValidTransforms(config.transforms) || hasValidPresets(config.presets)
+    hasValidTransforms(config.transforms) && hasValidPresets(config.presets)
   );
 }
 
 export function isValidConfigAtPath(filePath: string) {
   const config = getConfigFromPath(filePath);
-
-  if (
-    !hasValidTransforms(config.transforms) &&
-    !hasValidPresets(config.presets)
-  ) {
-    throw new Error(
-      `At least one transform should be specified for config at "${filePath}"`,
-    );
-  }
 
   if (!hasValidTransforms(config.transforms)) {
     throw new Error(`Invalid transform ids found for config at "${filePath}".
@@ -56,10 +47,15 @@ Please make sure all transforms are identified by a valid semver version. ie 10.
     throw new Error(`Invalid preset ids found for config at "${filePath}".
 Please make sure all presets are kebab case and contain no spaces or special characters. ie sort-imports-by-scope`);
   }
+
+  return true;
 }
 
-export async function isValidPackageJson(path: string) {
-  const packageJsonRaw = await fs.readFile(path + '/package.json', 'utf8');
+export async function isValidPackageJson(targetPath: string) {
+  const packageJsonRaw = await fs.readFile(
+    path.join(targetPath, 'package.json'),
+    'utf8',
+  );
   const packageJson = JSON.parse(packageJsonRaw);
 
   if (!packageJson.name) {
