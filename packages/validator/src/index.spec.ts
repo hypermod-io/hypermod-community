@@ -1,7 +1,9 @@
 jest.mock('fs-extra');
+jest.mock('@codeshift/fetcher');
 
 import fs from 'fs-extra';
-import path from 'path';
+
+import { fetchConfig } from '@codeshift/fetcher';
 
 import {
   isValidPackageName,
@@ -112,58 +114,38 @@ describe('validator', () => {
       jest.resetModules();
     });
 
-    it('should validate config', () => {
-      jest.mock(
-        path.join(__dirname, 'path', 'to', 'codeshift.config.js'),
-        () => ({
-          __esModule: true,
-          default: {
-            transforms: {
-              '10.0.0': 'path/to/transform.js',
-            },
-          },
-        }),
-        { virtual: true },
-      );
+    it('should validate config', async () => {
+      (fetchConfig as jest.Mock).mockResolvedValue({
+        transforms: {
+          '10.0.0': 'path/to/transform.js',
+        },
+      });
 
-      expect(isValidConfigAtPath('path/to/')).toEqual(true);
+      const result = await isValidConfigAtPath('path/to/');
+      expect(result).toEqual(true);
     });
 
-    it('should error if config contains invalid transforms', () => {
-      jest.mock(
-        path.join(__dirname, 'path', 'to', 'codeshift.config.js'),
-        () => ({
-          __esModule: true,
-          default: {
-            transforms: {
-              hello: '',
-            },
-          },
-        }),
-        { virtual: true },
-      );
+    it('should error if config contains invalid transforms', async () => {
+      (fetchConfig as jest.Mock).mockResolvedValue({
+        transforms: {
+          hello: '',
+        },
+      });
 
-      expect(() => isValidConfigAtPath('path/to/')).toThrowError(
+      await expect(isValidConfigAtPath('path/to/')).rejects.toThrowError(
         `Invalid transform ids found for config at "path/to/".
 Please make sure all transforms are identified by a valid semver version. ie 10.0.0`,
       );
     });
 
-    it('should error if config contains invalid presets', () => {
-      jest.mock(
-        path.join(__dirname, 'path', 'to', 'codeshift.config.js'),
-        () => ({
-          __esModule: true,
-          default: {
-            presets: {
-              'foo bar': '',
-            },
-          },
-        }),
-        { virtual: true },
-      );
+    it('should error if config contains invalid presets', async () => {
+      (fetchConfig as jest.Mock).mockResolvedValue({
+        presets: {
+          'foo bar': '',
+        },
+      });
 
-      expect(() => isValidConfigAtPath('path/to/')).toThrowError(
+      await expect(isValidConfigAtPath('path/to/')).rejects.toThrowError(
         `Invalid preset ids found for config at "path/to/".
 Please make sure all presets are kebab case and contain no spaces or special characters. ie sort-imports-by-scope`,
       );
@@ -196,6 +178,7 @@ Please make sure all presets are kebab case and contain no spaces or special cha
         try {
           await isValidPackageJson('path/to/');
         } catch (error) {
+          // @ts-ignore
           expect(error.message).toMatch(
             'No main entrypoint provided in package.json',
           );
@@ -210,6 +193,7 @@ Please make sure all presets are kebab case and contain no spaces or special cha
         try {
           await isValidPackageJson('path/to/');
         } catch (error) {
+          // @ts-ignore
           expect(error.message).toMatch(
             'No package name provided in package.json',
           );

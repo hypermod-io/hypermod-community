@@ -59,6 +59,9 @@ export default async function main(paths: string[], flags: Flags) {
           getCodeshiftPackageName(pkgName),
           packageManager,
         );
+      } catch (error) {}
+
+      try {
         remoteConfig = await fetchRemotePackage(pkgName, packageManager);
       } catch (error) {}
 

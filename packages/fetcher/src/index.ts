@@ -1,22 +1,24 @@
 import path from 'path';
+import globby from 'globby';
 import { PluginManager } from 'live-plugin-manager';
 
 import { CodeshiftConfig } from '@codeshift/types';
 
-export function fetchConfig(filePath: string): CodeshiftConfig | undefined {
+export async function fetchConfig(
+  filePath: string,
+): Promise<CodeshiftConfig | undefined> {
   let config: CodeshiftConfig | undefined;
 
-  [
-    path.join(filePath, 'codeshift.config.js'),
-    path.join(filePath, 'codeshift.config.ts'),
-    path.join(filePath, 'src', 'codeshift.config.js'),
-    path.join(filePath, 'src', 'codeshift.config.ts'),
-    path.join(filePath, 'codemods', 'codeshift.config.js'),
-    path.join(filePath, 'codemods', 'codeshift.config.ts'),
-  ].forEach(searchPath => {
+  const matchedPaths = await globby([
+    path.join(filePath, 'codeshift.config.(js|ts|tsx)'),
+    path.join(filePath, 'src', 'codeshift.config.(js|ts|tsx)'),
+    path.join(filePath, 'codemods', 'codeshift.config.(js|ts|tsx)'),
+  ]);
+
+  matchedPaths.forEach(matchedPath => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const pkg = require(searchPath);
+      const pkg = require(matchedPath);
       const searchConfig = pkg.default ? pkg.default : pkg;
       config = searchConfig;
     } catch (e) {}
@@ -39,13 +41,11 @@ export async function fetchRemotePackage(
   packageName: string,
   packageManager: PluginManager,
 ): Promise<CodeshiftConfig | undefined> {
-  let config = await fetchPackage(packageName, packageManager);
-
+  const config = await fetchPackage(packageName, packageManager);
   if (config) return config;
 
   const info = packageManager.getInfo(packageName);
-
   if (!info) return undefined;
 
-  return fetchConfig(info.location);
+  return await fetchConfig(info.location);
 }

@@ -9,6 +9,7 @@
     "@codeshift/types": "*",
     "chalk": "^4.1.0",
     "fs-extra": "^9.1.0",
+    "globby": "^11.1.0",
     "live-plugin-manager": "^0.15.1",
     "ts-node": "^9.1.1"
   }
