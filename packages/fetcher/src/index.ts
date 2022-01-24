@@ -4,27 +4,28 @@ import { PluginManager } from 'live-plugin-manager';
 
 import { CodeshiftConfig } from '@codeshift/types';
 
+function resolveConfigExport(pkg: any): CodeshiftConfig {
+  return pkg.default ? pkg.default : pkg;
+}
+
 export async function fetchConfig(
   filePath: string,
 ): Promise<CodeshiftConfig | undefined> {
-  let config: CodeshiftConfig | undefined;
-
   const matchedPaths = await globby([
     path.join(filePath, 'codeshift.config.(js|ts|tsx)'),
     path.join(filePath, 'src', 'codeshift.config.(js|ts|tsx)'),
     path.join(filePath, 'codemods', 'codeshift.config.(js|ts|tsx)'),
   ]);
 
-  matchedPaths.forEach(matchedPath => {
+  for (const matchedPath of matchedPaths) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const pkg = require(matchedPath);
-      const searchConfig = pkg.default ? pkg.default : pkg;
-      config = searchConfig;
+      return resolveConfigExport(pkg);
     } catch (e) {}
-  });
+  }
 
-  return config;
+  return undefined;
 }
 
 export async function fetchPackage(
@@ -33,19 +34,21 @@ export async function fetchPackage(
 ): Promise<CodeshiftConfig | undefined> {
   await packageManager.install(packageName);
   const pkg = packageManager.require(packageName);
-  const config: CodeshiftConfig = pkg.default ? pkg.default : pkg;
-  return config;
+  return resolveConfigExport(pkg);
 }
 
 export async function fetchRemotePackage(
   packageName: string,
   packageManager: PluginManager,
 ): Promise<CodeshiftConfig | undefined> {
-  const config = await fetchPackage(packageName, packageManager);
-  if (config) return config;
-
+  await packageManager.install(packageName);
   const info = packageManager.getInfo(packageName);
-  if (!info) return undefined;
+
+  if (!info) {
+    throw new Error(
+      `Unable to locate package files for package: '${packageName}'`,
+    );
+  }
 
   return await fetchConfig(info.location);
 }

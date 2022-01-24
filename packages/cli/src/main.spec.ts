@@ -1,11 +1,14 @@
+jest.mock('globby');
 jest.mock('live-plugin-manager');
 jest.mock('jscodeshift/src/Runner', () => ({
   run: jest.fn().mockImplementation(() => Promise.resolve()),
 }));
 
+import path from 'path';
 // @ts-ignore
 import * as jscodeshift from 'jscodeshift/src/Runner';
 import { PluginManager } from 'live-plugin-manager';
+import globby from 'globby';
 
 import main from './main';
 
@@ -532,28 +535,45 @@ describe('main', () => {
   });
 
   describe('when running transforms from NPM with the -p flag', () => {
+    const mockMatchedPath = path.join(
+      __dirname,
+      'path',
+      'to',
+      'codeshift.config.js',
+    );
+
     beforeEach(() => {
+      ((globby as unknown) as jest.Mock).mockImplementation(() =>
+        Promise.resolve([mockMatchedPath]),
+      );
+
       (PluginManager as jest.Mock).mockImplementation(() => ({
         install: jest.fn().mockResolvedValue(undefined),
-        require: jest.fn().mockImplementation((codemodName: string) => {
-          if (codemodName.startsWith('@codeshift')) {
-            return {};
-          }
-
-          return {
-            transforms: {
-              '18.0.0': `${codemodName}/path/to/18.js`,
-            },
-            presets: {
-              'update-formatting': `${codemodName}/path/to/update-formatting.js`,
-            },
-          };
-        }),
+        require: jest.fn(),
+        getInfo: jest
+          .fn()
+          .mockReturnValue({ location: path.join(__dirname, 'path', 'to') }),
         uninstallAll: jest.fn().mockResolvedValue(undefined),
       }));
     });
 
     it('should run package transform for single version', async () => {
+      jest.mock(
+        mockMatchedPath,
+        () => ({
+          __esModule: true,
+          default: {
+            transforms: {
+              '18.0.0': 'mylib/path/to/18.js',
+            },
+            presets: {
+              'update-formatting': 'mylib/path/to/update-formatting.js',
+            },
+          },
+        }),
+        { virtual: true },
+      );
+
       await main([mockPath], {
         packages: 'mylib@18.0.0',
         parser: 'babel',
