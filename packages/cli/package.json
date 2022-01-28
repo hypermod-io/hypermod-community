@@ -15,7 +15,9 @@
     "start:dev": "ts-node src/index.ts"
   },
   "dependencies": {
+    "@codeshift/fetcher": "0.0.1",
     "@codeshift/initializer": "0.1.8",
+    "@codeshift/types": "*",
     "@codeshift/validator": "0.2.3",
     "chalk": "^4.1.0",
     "commander": "^8.2.0",

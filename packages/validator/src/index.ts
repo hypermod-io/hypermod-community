@@ -1,26 +1,20 @@
 import fs from 'fs-extra';
 import semver from 'semver';
 import path from 'path';
+
 import { CodeshiftConfig } from '@codeshift/types';
+import { fetchConfig } from '@codeshift/fetcher';
 
-function getConfigFromPath(filePath: string): CodeshiftConfig {
-  const configPath = path.join(process.cwd(), filePath, 'codeshift.config.js');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const config = require(configPath);
+function hasValidTransforms(config: CodeshiftConfig) {
+  if (!config.transforms) return true;
 
-  return !!config.default ? config.default : config;
+  return Object.entries(config.transforms).every(([key]) => semver.valid(key));
 }
 
-function hasValidTransforms(transforms?: Record<string, string>) {
-  if (!transforms || !Object.keys(transforms).length) return false;
+function hasValidPresets(config: CodeshiftConfig): boolean {
+  if (!config.presets) return true;
 
-  return Object.entries(transforms).every(([key]) => semver.valid(key));
-}
-
-function hasValidPresets(presets?: Record<string, string>): boolean {
-  if (!presets || !Object.keys(presets).length) return false;
-
-  return Object.entries(presets).every(([key]) =>
+  return Object.entries(config.presets).every(([key]) =>
     key.match(/^[0-9a-zA-Z\-]+$/),
   );
 }
@@ -30,36 +24,34 @@ export function isValidPackageName(dir: string): boolean {
 }
 
 export function isValidConfig(config: CodeshiftConfig) {
-  return (
-    hasValidTransforms(config.transforms) || hasValidPresets(config.presets)
-  );
+  return hasValidTransforms(config) && hasValidPresets(config);
 }
 
-export function isValidConfigAtPath(filePath: string) {
-  const config = getConfigFromPath(filePath);
+export async function isValidConfigAtPath(filePath: string) {
+  const config = await fetchConfig(filePath);
 
-  if (
-    !hasValidTransforms(config.transforms) &&
-    !hasValidPresets(config.presets)
-  ) {
-    throw new Error(
-      `At least one transform should be specified for config at "${filePath}"`,
-    );
+  if (!config) {
+    throw new Error('Unable to locate config file');
   }
 
-  if (!hasValidTransforms(config.transforms)) {
+  if (!hasValidTransforms(config)) {
     throw new Error(`Invalid transform ids found for config at "${filePath}".
 Please make sure all transforms are identified by a valid semver version. ie 10.0.0`);
   }
 
-  if (!hasValidPresets(config.presets)) {
+  if (!hasValidPresets(config)) {
     throw new Error(`Invalid preset ids found for config at "${filePath}".
 Please make sure all presets are kebab case and contain no spaces or special characters. ie sort-imports-by-scope`);
   }
+
+  return true;
 }
 
-export async function isValidPackageJson(path: string) {
-  const packageJsonRaw = await fs.readFile(path + '/package.json', 'utf8');
+export async function isValidPackageJson(targetPath: string) {
+  const packageJsonRaw = await fs.readFile(
+    path.join(targetPath, 'package.json'),
+    'utf8',
+  );
   const packageJson = JSON.parse(packageJsonRaw);
 
   if (!packageJson.name) {
