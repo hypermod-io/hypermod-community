@@ -124,7 +124,10 @@ program.exitOverride();
     await program.parseAsync(process.argv);
   } catch (error) {
     if (error instanceof CommanderError) {
-      if (error.message === '(outputHelp)') {
+      if (
+        error.code === 'commander.helpDisplayed' ||
+        error.code === 'commander.version'
+      ) {
         return;
       }
 
