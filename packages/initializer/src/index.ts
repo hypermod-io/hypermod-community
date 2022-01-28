@@ -34,6 +34,15 @@ export function getPackageJson(packageName: string, version: string = '0.0.0') {
   );
 }
 
+function getNpmIgnore() {
+  return `src/
+**/__test__
+**/*.spec.(ts|js)
+.vscode
+jest.config.js
+`;
+}
+
 function getConfig(packageName: string, transform?: string, preset?: string) {
   return `module.exports = {
   maintainers: [],
@@ -123,6 +132,8 @@ export function initDirectory(
       path.join(basePath, 'package.json'),
       getPackageJson(packageName),
     );
+
+    fs.writeFileSync(path.join(basePath, '.npmignore'), getNpmIgnore());
   }
 
   if (!fs.existsSync(configPath)) {
