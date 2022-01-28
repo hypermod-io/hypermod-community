@@ -1,5 +1,13 @@
 # @codeshift/validator
 
+## 0.2.4
+
+### Patch Changes
+
+- b35609d: Adds additional test coverage to the validator package
+- Updated dependencies [7e3a6d9]
+  - @codeshift/fetcher@0.0.2
+
 ## 0.2.3
 
 ### Patch Changes
