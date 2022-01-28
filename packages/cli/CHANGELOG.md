@@ -1,5 +1,15 @@
 # @codeshift/cli
 
+## 0.7.7
+
+### Patch Changes
+
+- 7e3a6d9: Internal refactor, CLI now uses fetcher package
+- Updated dependencies [b35609d]
+- Updated dependencies [7e3a6d9]
+  - @codeshift/validator@0.2.4
+  - @codeshift/fetcher@0.0.2
+
 ## 0.7.6
 
 ### Patch Changes

@@ -1,12 +1,12 @@
 {
   "name": "@codeshift/validator",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "dist/codeshift-validator.cjs.js",
   "types": "dist/codeshift-validator.cjs.d.ts",
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/validator",
   "dependencies": {
-    "@codeshift/fetcher": "^0.0.1",
+    "@codeshift/fetcher": "^0.0.2",
     "@codeshift/types": "^0.0.5",
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.21",
