@@ -103,14 +103,20 @@ export function initDirectory(
   targetPath: string = './',
   isReduced: boolean = false,
 ) {
-  const basePath = `${targetPath}/${packageName.replace('/', '__')}`;
-  const configPath = `${basePath}${
-    !isReduced ? '/src' : ''
-  }/codeshift.config.js`;
+  const basePath = path.join(targetPath, packageName.replace('/', '__'));
+  const configPath = path.join(
+    basePath,
+    !isReduced ? 'src' : '',
+    'codeshift.config.js',
+  );
 
-  fs.copySync(`${__dirname}/../template${isReduced ? '/src' : ''}`, basePath, {
-    filter: src => !src.includes('src/codemod'),
-  });
+  fs.copySync(
+    path.join(__dirname, '..', 'template', isReduced ? 'src' : ''),
+    basePath,
+    {
+      filter: src => !src.includes('src/codemod'),
+    },
+  );
 
   if (!isReduced) {
     fs.writeFileSync(
@@ -135,19 +141,24 @@ export function initTransform(
     throw new Error(`Provided version ${id} is not a valid semver version`);
   }
 
-  const basePath = `${targetPath}/${packageName.replace('/', '__')}`;
-  const transformPath = `${basePath}${!isReduced ? '/src' : ''}/${id}`;
-  const configPath = `${basePath}${
-    !isReduced ? '/src' : ''
-  }/codeshift.config.js`;
+  const basePath = path.join(targetPath, packageName.replace('/', '__'));
+  const transformPath = path.join(basePath, !isReduced ? 'src' : '', id);
+  const configPath = path.join(
+    basePath,
+    !isReduced ? 'src' : '',
+    'codeshift.config.js',
+  );
 
   if (fs.existsSync(transformPath)) {
     throw new Error(`Codemod for ${type} "${id}" already exists`);
   }
 
-  fs.copySync(`${__dirname}/../template${isReduced ? '/src' : ''}`, basePath);
+  fs.copySync(
+    path.join(__dirname, '..', 'template', isReduced ? 'src' : ''),
+    basePath,
+  );
   fs.renameSync(
-    `${basePath}${!isReduced ? '/src' : ''}/codemod`,
+    path.join(basePath, !isReduced ? 'src' : '', 'codemod'),
     transformPath,
   );
 
