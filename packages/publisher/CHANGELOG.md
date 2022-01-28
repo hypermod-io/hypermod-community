@@ -1,5 +1,13 @@
 # @codeshift/publisher
 
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies [427405c]
+- Updated dependencies [49b7bcb]
+  - @codeshift/initializer@0.1.9
+
 ## 0.1.8
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @codeshift/cli
 
+## 0.7.8
+
+### Patch Changes
+
+- d0ebfd5: Fixed bug where --version & --help are presented as errors
+- Updated dependencies [427405c]
+- Updated dependencies [49b7bcb]
+  - @codeshift/initializer@0.1.9
+
 ## 0.7.7
 
 ### Patch Changes

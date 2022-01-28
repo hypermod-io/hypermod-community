@@ -1,5 +1,12 @@
 # @codeshift/initializer
 
+## 0.1.9
+
+### Patch Changes
+
+- 427405c: Fixed a bug where npmignore in the template directory was being ignored my npm (hehe). This has now been moved into a static string as part of the main pacakge
+- 49b7bcb: Usage path module over string concatinations for better cross OS support
+
 ## 0.1.8
 
 ### Patch Changes
