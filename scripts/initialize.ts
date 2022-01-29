@@ -7,8 +7,8 @@ export function main(packageName: string, transform?: string) {
   if (!transform) throw new Error('Version was not provided');
 
   if (transform) {
-    initDirectory(packageName, targetPath);
-    initTransform(packageName, transform, 'version', targetPath);
+    initDirectory(packageName, targetPath, true);
+    initTransform(packageName, transform, 'version', targetPath, true);
   }
 
   console.log(
