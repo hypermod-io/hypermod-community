@@ -49,10 +49,18 @@ program
   )
   .option(
     '-c, --cpus <value>',
-    'start at most N child processes to process source files',
+    'Start at most N child processes to process source files',
   )
   .option('-d, --dry', 'dry run (no changes are made to files)')
   .option('--run-in-band', 'run serially in the current process')
+  .addOption(
+    new Option(
+      '--verbose <parser>',
+      'Show more information about the transform process',
+    )
+      .choices(['0', '1', '2'])
+      .default('0'),
+  )
   .addHelpText(
     'after',
     `

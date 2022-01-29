@@ -36,4 +36,5 @@ export interface Flags {
   cpus?: number;
   dry?: boolean;
   runInBand?: boolean;
+  verbose?: '0' | '1' | '2';
 }

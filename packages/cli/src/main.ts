@@ -1,6 +1,6 @@
 import semver from 'semver';
 import chalk from 'chalk';
-// import path from 'path';
+import ora from 'ora';
 import { PluginManager } from 'live-plugin-manager';
 import merge from 'lodash/merge';
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
@@ -49,38 +49,47 @@ export default async function main(paths: string[], flags: Flags) {
       const pkgName =
         shouldPrependAtSymbol + pkg.split(/[@#]/).filter(str => !!str)[0];
 
-      console.log(chalk.green('Attempting to download package:'), pkgName);
-
       let codeshiftConfig: CodeshiftConfig | undefined;
       let remoteConfig: CodeshiftConfig | undefined;
+
+      const spinner = ora(
+        `${chalk.green('Attempting to download package:')}, ${pkgName}`,
+      ).start();
 
       try {
         codeshiftConfig = await fetchPackage(
           getCodeshiftPackageName(pkgName),
           packageManager,
         );
-      } catch (error) {}
+        spinner.succeed(
+          `${chalk.green(
+            `Found CodeshiftCommunity package: `,
+          )} ${getCodeshiftPackageName(pkgName)}`,
+        );
+      } catch (error) {
+        spinner.warn(
+          `${chalk.yellow(
+            `Unable to locate CodeshiftCommunity package: `,
+          )} ${getCodeshiftPackageName(pkgName)}`,
+        );
+      }
 
       try {
         remoteConfig = await fetchRemotePackage(pkgName, packageManager);
-      } catch (error) {}
+        spinner.succeed(
+          `${chalk.green(`Found codeshift package: `)} ${pkgName}`,
+        );
+      } catch (error) {
+        spinner.warn(
+          `${chalk.yellow(`Unable to locate codeshift package: `)} ${pkgName}`,
+        );
+      }
 
       if (!codeshiftConfig && !remoteConfig) {
         throw new Error(
           `Unable to locate package from codeshift-community or NPM.
 Make sure the package name "${pkgName}" is correct and try again.`,
         );
-      }
-
-      if (codeshiftConfig) {
-        console.log(
-          chalk.green(`Found codeshift package:`),
-          getCodeshiftPackageName(pkgName),
-        );
-      }
-
-      if (remoteConfig) {
-        console.log(chalk.green(`Found codeshift package:`), pkgName);
       }
 
       const config: CodeshiftConfig = merge({}, remoteConfig, codeshiftConfig);
@@ -175,7 +184,7 @@ Make sure the package name "${pkgName}" is correct and try again.`,
     console.log(chalk.green('Running transform:'), transform);
 
     await jscodeshift.run(transform, paths, {
-      verbose: 0,
+      verbose: flags.verbose,
       dry: flags.dry,
       print: true,
       babel: true,
