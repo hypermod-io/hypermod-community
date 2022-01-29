@@ -1,5 +1,11 @@
 # @codeshift/initializer
 
+## 0.2.0
+
+### Minor Changes
+
+- 78959ae: Updates validation / init logic to be consistent across packages
+
 ## 0.1.9
 
 ### Patch Changes

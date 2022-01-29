@@ -1,5 +1,18 @@
 # @codeshift/cli
 
+## 0.8.0
+
+### Minor Changes
+
+- 0379577: Adds sensible defaults as CLI options. Affecting flags --ignore-path, --extensions and --parser
+- 3c390c1: Improves loading behaviour with spinners and status updates. Also exposes --verbose flag for more granular logging
+
+### Patch Changes
+
+- Updated dependencies [78959ae]
+  - @codeshift/initializer@0.2.0
+  - @codeshift/validator@0.3.0
+
 ## 0.7.8
 
 ### Patch Changes
