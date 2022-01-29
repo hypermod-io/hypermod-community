@@ -1,41 +1,36 @@
 import fs from 'fs-extra';
+import junk from 'junk';
+import path from 'path';
 
-const COMMUNITY_PATH = `${__dirname}/../community`;
-const DOCS_PATH = `${__dirname}/../website/docs/registry`;
+import { CodeshiftConfig } from '@codeshift/types';
+import { fetchConfig } from '@codeshift/fetcher';
 
-function cleanTargetDir(path: string) {
-  if (fs.existsSync(path)) fs.emptyDirSync(path);
-}
+const COMMUNITY_PATH = path.join(__dirname, '..', 'community');
+const DOCS_PATH = path.join(__dirname, '..', 'website', 'docs', 'registry');
 
-interface Config {
-  maintainers: string[];
-  transforms: {
-    [key: string]: any;
-  };
-  presets: {
-    [key: string]: any;
-  };
+function cleanTargetDir(targetPath: string) {
+  if (fs.existsSync(targetPath)) fs.emptyDirSync(targetPath);
 }
 
 interface DocsData {
   name: string;
-  config: Config;
+  config: CodeshiftConfig;
 }
 
-function main() {
+async function main() {
   const communityCodemods = fs.readdirSync(COMMUNITY_PATH);
   const data: DocsData[] = [];
+  const directories = communityCodemods.filter(dir => junk.not(dir));
 
-  communityCodemods.forEach(dir => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const config = require(`${COMMUNITY_PATH}/${dir}/codeshift.config.js`)
-      .default;
+  for (const dir of directories) {
+    const config = await fetchConfig(path.join(COMMUNITY_PATH, dir));
 
-    data.push({
-      name: dir,
-      config,
-    });
-  });
+    if (!config) {
+      throw new Error(`Unable to locate config for path: ${dir}`);
+    }
+
+    data.push({ name: dir, config });
+  }
 
   cleanTargetDir(DOCS_PATH);
 
@@ -48,7 +43,7 @@ function main() {
     const packageLink = `[${rawName}](https://www.npmjs.com/package/${rawName})`;
 
     fs.outputFileSync(
-      `${DOCS_PATH}/${name}.mdx`,
+      path.join(DOCS_PATH, `${name}.mdx`),
       `---
 id: ${safeName}
 title: ${safeName.replace('__', '/')}
@@ -58,10 +53,13 @@ slug: /${safeName}
 **Target package:** ${packageLink}
 
 **Maintainers:**
-${config.maintainers.map(
+${config.maintainers!.map(
   maintainer => `- [${maintainer}](https://github.com/${maintainer})`,
 )}
 
+${
+  config.transforms
+    ? `
 ## Transforms
 
 ${Object.keys(config.transforms)
@@ -80,6 +78,9 @@ $ codeshift --packages ${name}@${key} path/to/source
 `,
   )
   .join('')}
+`
+    : ''
+}
 
 ${
   config.presets

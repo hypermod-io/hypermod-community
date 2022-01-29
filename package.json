@@ -53,6 +53,7 @@
     "jest-serializer-html-string": "^1.0.1",
     "jest-watch-typeahead": "^0.4.2",
     "jscodeshift": "^0.13.1",
+    "junk": "^3.1.0",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.3",
     "semver": "^7.3.5",
@@ -61,7 +62,7 @@
     "ts-loader": "^6.2.1",
     "ts-node": "^9.1.1",
     "tslib": "^2.2.0",
-    "typescript": "^4.1.3"
+    "typescript": "^4.3.5"
   },
   "resolutions": {
     "colors": "1.4.0"

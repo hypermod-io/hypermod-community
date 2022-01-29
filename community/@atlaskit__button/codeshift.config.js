@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   maintainers: ['danieldelcore'],
   transforms: {
     '15.0.0': require.resolve('./15.0.0/transform'),

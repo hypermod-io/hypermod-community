@@ -31,7 +31,7 @@ export async function isValidConfigAtPath(filePath: string) {
   const config = await fetchConfig(filePath);
 
   if (!config) {
-    throw new Error('Unable to locate config file');
+    throw new Error(`Unable to locate config file at path: ${filePath}`);
   }
 
   if (!hasValidTransforms(config)) {
