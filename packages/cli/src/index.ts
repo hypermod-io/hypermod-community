@@ -35,16 +35,17 @@ program
       'Parser to use for parsing the source files',
     )
       .choices(['babel', 'babylon', 'flow', 'ts', 'tsx'])
-      .default('babel'),
+      .default('tsx'),
   )
   .option(
     '-e, --extensions <value>',
     'Transform files with these file extensions (comma separated list)',
-    'js',
+    'js, jsx, ts, tsx',
   )
   .option(
     '--ignore-pattern <value>',
     'Ignore files that match a provided glob expression',
+    '**/node_modules/**',
   )
   .option(
     '-c, --cpus <value>',

@@ -61,11 +61,17 @@ Parser to use for parsing the source files you are code modding.
 
 **options:**
 
-- babel (default)
-- babylon
-- flow
-- ts
-- tsx
+- `babel`
+- `babylon`
+- `flow`
+- `ts`
+- `tsx` (default)
+
+**default:**
+
+`tsx`
+
+tsx is a superset of JavaScript + JSX and should be the most sensible default for modern codebases.
 
 **example:**
 
@@ -74,7 +80,11 @@ Parser to use for parsing the source files you are code modding.
 
 ### --extensions, -e
 
-Transform files with these file extensions (comma separated list) (default: js)
+Transform files with these file extensions (comma separated list)
+
+**default:**
+
+`js, jsx, ts, tsx`
 
 **example:**
 
@@ -84,6 +94,10 @@ Transform files with these file extensions (comma separated list) (default: js)
 ### --ignore-pattern
 
 Ignore files that match a provided glob expression
+
+**default:**
+
+- `**/node_modules/**`
 
 **example:**
 
