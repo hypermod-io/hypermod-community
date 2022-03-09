@@ -16,9 +16,10 @@ export function getPackageJson(packageName: string, version: string = '0.0.0') {
         build: 'tsc --build',
         test: 'jest',
       },
-      dependencies: {},
-      devDependencies: {
+      dependencies: {
         '@codeshift/utils': `^${utilVersion}`,
+      },
+      devDependencies: {
         '@codeshift/test-utils': `^${testUtilVersion}`,
         '@types/node': '^16.11.0',
         '@types/jest': '^26.0.15',
