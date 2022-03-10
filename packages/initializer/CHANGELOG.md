@@ -1,5 +1,11 @@
 # @codeshift/initializer
 
+## 0.2.1
+
+### Patch Changes
+
+- 2437c03: codeshift/utils needs to be output as a dependency rather than a devdep
+
 ## 0.2.0
 
 ### Minor Changes
