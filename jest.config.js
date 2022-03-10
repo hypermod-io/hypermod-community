@@ -18,6 +18,7 @@ module.exports = {
     '@codeshift/(.*)$': '<rootDir>/packages/$1/src',
   },
   testPathIgnorePatterns: [
+    '.tmp/',
     '/node_modules/',
     '/plugin_packages/',
     '<rootDir>/packages/initializer/template/',

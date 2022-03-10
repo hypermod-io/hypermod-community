@@ -1,3 +1,4 @@
+import path from 'path';
 import semver from 'semver';
 import chalk from 'chalk';
 import ora from 'ora';
@@ -18,7 +19,10 @@ function getCodeshiftPackageName(packageName: string) {
 }
 
 export default async function main(paths: string[], flags: Flags) {
-  const packageManager = new PluginManager();
+  const packageManager = new PluginManager({
+    pluginsPath: path.join(__dirname, '.plugin_packages'),
+  });
+
   let transforms: string[] = [];
 
   if (!flags.transform && !flags.packages) {
