@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.9.0
+
+### Minor Changes
+
+- e491844: Codemods and dependencies are downloaded relative to the CLI package installation for consistency/stability reasons
+
 ## 0.8.0
 
 ### Minor Changes
