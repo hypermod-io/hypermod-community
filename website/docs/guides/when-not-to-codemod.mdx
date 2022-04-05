@@ -153,7 +153,7 @@ You now have to expand your transform to not only look for `Identifiers` with th
 What if we could side-step that entire part of the transform and simply alias the import instead?
 
 ```diff
-+import { Foo, Bar as Baz } from 'my-module';
++import { Foo, Baz as Bar } from 'my-module';
 -import { Foo, Bar } from 'my-module';
 
 console.log(Bar);
