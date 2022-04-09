@@ -31,4 +31,5 @@ it('should wrap avatar in a tooltip', () => {
       }"
   `);
 });
+
 ```

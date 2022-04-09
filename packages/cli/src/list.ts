@@ -12,7 +12,7 @@ export default async function list(packages: string[]) {
 
     try {
       await packageManager.install(codemodName);
-    } catch (error) {
+    } catch {
       console.warn(
         chalk.red(
           `Unable to find codeshift package: ${chalk.bold(packageName)}.`,
@@ -24,30 +24,32 @@ export default async function list(packages: string[]) {
 
     await packageManager.install(codemodName);
     const pkg = packageManager.require(codemodName);
-    const config: CodeshiftConfig = pkg.default ? pkg.default : pkg;
+    const config: CodeshiftConfig = pkg.default || pkg;
 
     console.log(chalk.bold(packageName));
 
     if (config.transforms) {
-      console.log(`├─ transforms`),
-        Object.keys(config.transforms).forEach((transform, index, array) => {
-          if (index + 1 === array.length) {
-            console.log(`|  └─ ${transform}`);
-            return;
-          }
-          console.log(`|  ├─ ${transform}`);
-        });
+      console.log(`├─ transforms`);
+
+      Object.keys(config.transforms).forEach((transform, index, array) => {
+        if (index + 1 === array.length) {
+          console.log(`|  └─ ${transform}`);
+          return;
+        }
+        console.log(`|  ├─ ${transform}`);
+      });
     }
 
     if (config.presets) {
-      console.log(`└─ presets`),
-        Object.keys(config.presets).forEach((transform, index, array) => {
-          if (index + 1 === array.length) {
-            console.log(`   └─ ${transform}`);
-            return;
-          }
-          console.log(`|  ├─ ${transform}`);
-        });
+      console.log(`└─ presets`);
+
+      Object.keys(config.presets).forEach((transform, index, array) => {
+        if (index + 1 === array.length) {
+          console.log(`   └─ ${transform}`);
+          return;
+        }
+        console.log(`|  ├─ ${transform}`);
+      });
     }
   }
 }

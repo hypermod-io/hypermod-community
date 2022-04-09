@@ -39,7 +39,7 @@ export default async function main(paths: string[], flags: Flags) {
 
   if (flags.transform) {
     if (flags.transform.includes(',')) {
-      flags.transform.split(',').forEach(t => transforms.push(t.trim()));
+      for (const t of flags.transform.split(',')) transforms.push(t.trim());
     } else {
       transforms.push(flags.transform);
     }
@@ -70,7 +70,7 @@ export default async function main(paths: string[], flags: Flags) {
             `Found CodeshiftCommunity package: `,
           )} ${getCodeshiftPackageName(pkgName)}`,
         );
-      } catch (error) {
+      } catch {
         spinner.warn(
           `${chalk.yellow(
             `Unable to locate CodeshiftCommunity package: `,
@@ -83,23 +83,21 @@ export default async function main(paths: string[], flags: Flags) {
         spinner.succeed(
           `${chalk.green(`Found codeshift package: `)} ${pkgName}`,
         );
-      } catch (error) {
+      } catch {
         spinner.warn(
           `${chalk.yellow(`Unable to locate codeshift package: `)} ${pkgName}`,
         );
       }
 
       if (!codeshiftConfig && !remoteConfig) {
-        throw new Error(
-          `Unable to locate package from codeshift-community or NPM.
-Make sure the package name "${pkgName}" is correct and try again.`,
-        );
+        throw Error(`Unable to locate package from codeshift-community or NPM.
+Make sure the package name "${pkgName}" is correct and try again.`);
       }
 
       const config: CodeshiftConfig = merge({}, remoteConfig, codeshiftConfig);
 
       if (!isValidConfig(config)) {
-        throw new Error(
+        throw Error(
           `Unable to locate a valid codeshift.config in package ${pkgName}`,
         );
       }
@@ -121,7 +119,7 @@ Make sure the package name "${pkgName}" is correct and try again.`,
         .map(id => id.substring(1));
 
       // Validate transforms/presets
-      transformIds.forEach(id => {
+      for (const id of transformIds) {
         if (!semver.valid(semver.coerce(id.substring(1)))) {
           throw new InvalidUserInputError(
             `Invalid version provided to the --packages flag. Unable to resolve version "${id}" for package "${pkgName}". Please try: "[scope]/[package]@[version]" for example @mylib/mypackage@10.0.0`,
@@ -133,15 +131,15 @@ Make sure the package name "${pkgName}" is correct and try again.`,
             `Invalid version provided to the --packages flag. Unable to resolve version "${id}" for package "${pkgName}"`,
           );
         }
-      });
+      }
 
-      presetIds.forEach(id => {
+      for (const id of presetIds) {
         if (!config.presets || !config.presets[id]) {
           throw new InvalidUserInputError(
             `Invalid preset provided to the --packages flag. Unable to resolve preset "${id}" for package "${pkgName}"`,
           );
         }
-      });
+      }
 
       // Get transform file paths
       if (config.transforms) {
@@ -150,25 +148,25 @@ Make sure the package name "${pkgName}" is correct and try again.`,
             .filter(([key]) => semver.satisfies(key, `>=${transformIds[0]}`))
             .forEach(([, path]) => transforms.push(path));
         } else {
-          Object.entries(config.transforms as Record<string, string>).forEach(
-            ([id, path]) => {
-              if (transformIds.includes(id)) {
-                transforms.push(path);
-              }
-            },
-          );
+          for (const [id, path] of Object.entries(
+            config.transforms as Record<string, string>,
+          )) {
+            if (transformIds.includes(id)) {
+              transforms.push(path);
+            }
+          }
         }
       }
 
       // Get preset file paths
       if (config.presets) {
-        Object.entries(config.presets as Record<string, string>).forEach(
-          ([id, path]) => {
-            if (presetIds.includes(id)) {
-              transforms.push(path);
-            }
-          },
-        );
+        for (const [id, path] of Object.entries(
+          config.presets as Record<string, string>,
+        )) {
+          if (presetIds.includes(id)) {
+            transforms.push(path);
+          }
+        }
       }
     }
   }

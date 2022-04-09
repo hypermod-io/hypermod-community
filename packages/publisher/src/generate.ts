@@ -1,31 +1,5 @@
-import semver from 'semver';
 import fs from 'fs-extra';
-// @ts-ignore
-import RegClient from 'npm-registry-client';
 import { getPackageJson } from '@codeshift/initializer';
-
-const client = new RegClient();
-const npmUri = 'https://registry.npmjs.org/';
-
-function getPackageVersion(packageName: string) {
-  return new Promise<string>((resolve, reject) =>
-    client.get(
-      npmUri + packageName,
-      { timeout: 2000 },
-      (
-        error: any,
-        data: { 'dist-tags': { latest: string } },
-        _raw: any,
-        res: { statusCode: number },
-      ) => {
-        if (res.statusCode === 404) return resolve('0.0.0');
-        if (error) reject(`Unexpected error when contacting NPM: ${error}`);
-
-        resolve(data['dist-tags'].latest);
-      },
-    ),
-  );
-}
 
 export default async function generatePackages(
   sourcePath: string,
@@ -43,9 +17,6 @@ export default async function generatePackages(
         const packageName = `@codeshift/mod-${dir
           .replace('@', '')
           .replace('/', '__')}`;
-        const packageVersion = await getPackageVersion(packageName);
-        // We need to manually patch bump the codemod
-        const nextPackageVersion = semver.inc(packageVersion, 'patch');
 
         const basePath = `${targetPath}/${dir}`;
         await fs.copy(`${sourcePath}/${dir}`, `${basePath}/src`);

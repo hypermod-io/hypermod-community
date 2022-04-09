@@ -14,7 +14,7 @@ export default function applyTransform(
   },
 ) {
   // Handle ES6 modules using default export for the transform
-  const transformer = transform.default ? transform.default : transform;
+  const transformer = transform.default || transform;
   const output = transformer(
     { source: input },
     {

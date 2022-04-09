@@ -10,6 +10,8 @@ import * as jscodeshift from 'jscodeshift/src/Runner';
 import { PluginManager } from 'live-plugin-manager';
 import globby from 'globby';
 
+import tryToCatch from 'try-to-catch';
+
 import main from './main';
 
 const mockPath = 'src/pages/home-page/';
@@ -23,9 +25,11 @@ describe('main', () => {
     it('should exit early if file path is not supplied', async () => {
       expect.assertions(1);
 
-      try {
-        await main([], { transform: 'path/to/transform.ts' });
-      } catch (error) {
+      const [error] = await tryToCatch(main, [], {
+        transform: 'path/to/transform.ts',
+      });
+
+      if (error) {
         // @ts-ignore
         expect(error.message).toMatch(
           'No path provided, please specify which files your codemod should modify',
@@ -36,9 +40,9 @@ describe('main', () => {
     it('should exit early if nether a package or transform is supplied', async () => {
       expect.assertions(1);
 
-      try {
-        await main([mockPath], {});
-      } catch (error) {
+      const [error] = await tryToCatch(main, [mockPath], {});
+
+      if (error) {
         // @ts-ignore
         expect(error.message).toMatch(
           'No transform provided, please specify a transform with either the --transform or --packages flags',
@@ -125,7 +129,7 @@ describe('main', () => {
         install: jest.fn().mockResolvedValue(undefined),
         require: jest.fn().mockImplementation((codemodName: string) => {
           if (!codemodName.startsWith('@codeshift')) {
-            throw new Error('Attempted to fetch codemod from npm');
+            throw Error('Attempted to fetch codemod from npm');
           }
 
           return {
@@ -279,13 +283,13 @@ describe('main', () => {
     it('should throw when package format is invalid', async () => {
       expect.assertions(1);
 
-      try {
-        await main([mockPath], {
-          packages: 'mylib@NOT_SEMVER',
-          parser: 'babel',
-          extensions: 'js',
-        });
-      } catch (error) {
+      const [error] = await tryToCatch(main, [mockPath], {
+        packages: 'mylib@NOT_SEMVER',
+        parser: 'babel',
+        extensions: 'js',
+      });
+
+      if (error) {
         // @ts-ignore
         expect(error.message).toMatch(
           'Invalid version provided to the --packages flag. Unable to resolve version "NOT_SEMVER" for package "mylib". Please try: "[scope]/[package]@[version]" for example @mylib/mypackage@10.0.0',
@@ -296,13 +300,13 @@ describe('main', () => {
     it('should throw when transform is not found', async () => {
       expect.assertions(1);
 
-      try {
-        await main([mockPath], {
-          packages: 'mylib@120.0.0',
-          parser: 'babel',
-          extensions: 'js',
-        });
-      } catch (error) {
+      const [error] = await tryToCatch(main, [mockPath], {
+        packages: 'mylib@120.0.0',
+        parser: 'babel',
+        extensions: 'js',
+      });
+
+      if (error) {
         // @ts-ignore
         expect(error.message).toMatch(
           'Invalid version provided to the --packages flag. Unable to resolve version "120.0.0" for package "mylib"',
@@ -386,7 +390,7 @@ describe('main', () => {
         install: jest.fn().mockResolvedValue(undefined),
         require: jest.fn().mockImplementation((codemodName: string) => {
           if (!codemodName.startsWith('@codeshift')) {
-            throw new Error('Attempted to fetch codemod from npm');
+            throw Error('Attempted to fetch codemod from npm');
           }
 
           return {
@@ -473,13 +477,13 @@ describe('main', () => {
     it('should throw when preset is not found', async () => {
       expect.assertions(1);
 
-      try {
-        await main([mockPath], {
-          packages: 'mylib#does-not-exist',
-          parser: 'babel',
-          extensions: 'js',
-        });
-      } catch (error) {
+      const [error] = await tryToCatch(main, [mockPath], {
+        packages: 'mylib#does-not-exist',
+        parser: 'babel',
+        extensions: 'js',
+      });
+
+      if (error) {
         // @ts-ignore
         expect(error.message).toMatch(
           'Invalid preset provided to the --packages flag. Unable to resolve preset "does-not-exist" for package "mylib"',

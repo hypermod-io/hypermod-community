@@ -1,7 +1,7 @@
 import path from 'path';
 import { initDirectory, initTransform } from '@codeshift/initializer';
 
-export default async function init(
+export default function init(
   packageName: string,
   transform?: string,
   preset?: string,

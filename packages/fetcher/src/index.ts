@@ -5,7 +5,7 @@ import { PluginManager } from 'live-plugin-manager';
 import { CodeshiftConfig } from '@codeshift/types';
 
 function resolveConfigExport(pkg: any): CodeshiftConfig {
-  return pkg.default ? pkg.default : pkg;
+  return pkg.default || pkg;
 }
 
 export async function fetchConfig(
@@ -22,7 +22,7 @@ export async function fetchConfig(
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const pkg = require(matchedPath);
       return resolveConfigExport(pkg);
-    } catch (e) {}
+    } catch {}
   }
 
   return undefined;
@@ -45,9 +45,7 @@ export async function fetchRemotePackage(
   const info = packageManager.getInfo(packageName);
 
   if (!info) {
-    throw new Error(
-      `Unable to locate package files for package: '${packageName}'`,
-    );
+    throw Error(`Unable to locate package files for package: '${packageName}'`);
   }
 
   return await fetchConfig(info.location);

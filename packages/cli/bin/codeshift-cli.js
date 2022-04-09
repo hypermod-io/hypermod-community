@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const tryCatch = require('try-catch');
+const isNumber = a => typeof a === 'number';
 /* eslint-disable */
 
 const fs = require('fs');
@@ -11,10 +13,10 @@ if (dev && !require.extensions['.ts']) {
   require('ts-node').register({ project });
 }
 
-try {
-  require(path.join('..', dev ? 'src/index' : 'dist/codeshift-cli.cjs.js'));
-} catch (error) {
-  if (typeof error === 'number') {
+const [error] = tryCatch(require, path.join('..', dev ? 'src/index' : 'dist/codeshift-cli.cjs.js'));
+
+if (error) {
+  if (isNumber(error)) {
     process.exit(error);
   }
   console.error(error);

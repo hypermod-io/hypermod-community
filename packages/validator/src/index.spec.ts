@@ -5,6 +5,8 @@ import fs from 'fs-extra';
 
 import { fetchConfig } from '@codeshift/fetcher';
 
+import tryToCatch from 'try-to-catch';
+
 import {
   isValidPackageName,
   isValidConfig,
@@ -170,34 +172,30 @@ Please make sure all presets are kebab case and contain no spaces or special cha
     it('should detect invalid package.json', async () => {
       expect.assertions(2);
 
-      {
-        (fs.readFile as jest.Mock).mockReturnValue(`{
-        "name": "codeshift-package"
-      }`);
+      (fs.readFile as jest.Mock).mockReturnValue(`{
+      "name": "codeshift-package"
+    }`);
 
-        try {
-          await isValidPackageJson('path/to/');
-        } catch (error) {
-          // @ts-ignore
-          expect(error.message).toMatch(
-            'No main entrypoint provided in package.json',
-          );
-        }
+      const [error] = await tryToCatch(isValidPackageJson, 'path/to/');
+
+      if (error) {
+        // @ts-ignore
+        expect(error.message).toMatch(
+          'No main entrypoint provided in package.json',
+        );
       }
 
-      {
-        (fs.readFile as jest.Mock).mockReturnValue(`{
-            "main": "dist/index.js"
-          }`);
+      (fs.readFile as jest.Mock).mockReturnValue(`{
+          "main": "dist/index.js"
+        }`);
 
-        try {
-          await isValidPackageJson('path/to/');
-        } catch (error) {
-          // @ts-ignore
-          expect(error.message).toMatch(
-            'No package name provided in package.json',
-          );
-        }
+      try {
+        await isValidPackageJson('path/to/');
+      } catch (error) {
+        // @ts-ignore
+        expect(error.message).toMatch(
+          'No package name provided in package.json',
+        );
       }
     });
   });
