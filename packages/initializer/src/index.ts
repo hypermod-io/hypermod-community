@@ -77,15 +77,15 @@ function updateConfig(
       // @ts-ignore
       if (path.node.key.name !== key) return false;
       // @ts-ignore
-      const properties = path.node.value.properties;
+      const { properties } = path.node.value;
       // @ts-ignore
-      properties.forEach(property => {
+      for (const property of properties) {
         if (property.key.value === transformName) {
-          throw new Error(
+          throw Error(
             `Transform for ${packageName} ${transformName} already exists`,
           );
         }
-      });
+      }
 
       properties.push(
         b.property(
@@ -150,7 +150,7 @@ export function initTransform(
   isReduced: boolean = false,
 ) {
   if (type === 'version' && !semver.valid(id)) {
-    throw new Error(`Provided version ${id} is not a valid semver version`);
+    throw Error(`Provided version ${id} is not a valid semver version`);
   }
 
   const basePath = path.join(targetPath, packageName.replace('/', '__'));
@@ -162,7 +162,7 @@ export function initTransform(
   );
 
   if (fs.existsSync(transformPath)) {
-    throw new Error(`Codemod for ${type} "${id}" already exists`);
+    throw Error(`Codemod for ${type} "${id}" already exists`);
   }
 
   fs.copySync(

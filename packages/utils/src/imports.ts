@@ -38,10 +38,8 @@ export function renameImportDeclaration(
   sourcePath: string,
   newSourcePath: string,
 ) {
-  getImportDeclaration(j, source, sourcePath).forEach(
-    importDeclaration =>
-      (importDeclaration.node.source = j.stringLiteral(newSourcePath)),
-  );
+  for (const importDeclaration of getImportDeclaration(j, source, sourcePath))
+    importDeclaration.node.source = j.stringLiteral(newSourcePath);
 }
 
 export function getDefaultImportSpecifier(

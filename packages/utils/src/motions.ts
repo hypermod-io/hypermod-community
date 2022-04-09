@@ -5,5 +5,5 @@ export function applyMotions(
   source: ReturnType<typeof j>,
   motions: Function[],
 ) {
-  motions.forEach(motionTransformer => motionTransformer(j, source));
+  for (const motionTransformer of motions) motionTransformer(j, source);
 }

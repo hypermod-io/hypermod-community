@@ -166,7 +166,7 @@ describe('fetcher', () => {
           (mockPackageManager as unknown) as PluginManager,
         ),
       ).rejects.toEqual(
-        new Error(`Unable to locate package files for package: 'fake-package'`),
+        Error(`Unable to locate package files for package: 'fake-package'`),
       );
     });
   });

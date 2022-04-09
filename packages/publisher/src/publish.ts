@@ -42,19 +42,20 @@ async function publish(
     'npm',
     ['publish', pkg.dir, '--json', ...publishOpts],
     {
-      env: Object.assign({}, process.env, envOverride),
+      env: {
+        ...process.env,
+        ...envOverride,
+      },
     },
   );
 
   const json = jsonParse(stdout.toString().replace(/[^{]*/, ''));
 
   if (json.error) {
-    throw new Error(
-      `An error occurred while publishing ${name}: ${json.error.code}
+    throw Error(`An error occurred while publishing ${name}: ${json.error.code}
 ${json.error.summary}
 ${json.error.detail ? '\n' + json.error.detail : ''}
-      `,
-    );
+    `);
   }
 }
 
@@ -81,6 +82,6 @@ export default function publishPackages(
       );
     }),
   ).catch(error => {
-    throw new Error(error);
+    throw Error(error);
   });
 }

@@ -1,3 +1,4 @@
+import tryToCatch from 'try-to-catch';
 import chalk from 'chalk';
 import { Command, Option, CommanderError } from 'commander';
 
@@ -128,34 +129,32 @@ Examples:
 
 program.exitOverride();
 
-(async function() {
-  try {
-    await program.parseAsync(process.argv);
-  } catch (error) {
-    if (error instanceof CommanderError) {
-      if (
-        error.code === 'commander.helpDisplayed' ||
-        error.code === 'commander.version'
-      ) {
-        return;
-      }
+const [error] = await tryToCatch(program.parseAsync, process.argv);
 
-      console.error(chalk.red(error.message));
-      process.exit(error.exitCode);
+if (error) {
+  if (error instanceof CommanderError) {
+    if (
+      error.code === 'commander.helpDisplayed' ||
+      error.code === 'commander.version'
+    ) {
+      return;
     }
 
-    if (error instanceof InvalidUserInputError) {
-      console.warn(program.help());
-      console.warn(chalk.red(error.message));
-      process.exit(9);
-    }
-
-    if (error instanceof InvalidConfigError) {
-      console.warn(chalk.red(error.message));
-      process.exit(7);
-    }
-
-    console.error(chalk.red(error));
-    process.exit(1);
+    console.error(chalk.red(error.message));
+    process.exit(error.exitCode);
   }
-})();
+
+  if (error instanceof InvalidUserInputError) {
+    console.warn(program.help());
+    console.warn(chalk.red(error.message));
+    process.exit(9);
+  }
+
+  if (error instanceof InvalidConfigError) {
+    console.warn(chalk.red(error.message));
+    process.exit(7);
+  }
+
+  console.error(chalk.red(error));
+  process.exit(1);
+}

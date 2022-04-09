@@ -78,7 +78,7 @@ ${chalk.bold('@foo/bar')}
   it('should return error message a package is not found', async () => {
     (PluginManager as jest.Mock).mockImplementation(() => ({
       install: jest.fn().mockImplementation(() => {
-        throw new Error('404 not found');
+        throw Error('404 not found');
       }),
     }));
 
@@ -93,7 +93,7 @@ ${chalk.bold('@foo/bar')}
   it('should return error message for multiple packages that are not found', async () => {
     (PluginManager as jest.Mock).mockImplementation(() => ({
       install: jest.fn().mockImplementation(() => {
-        throw new Error('404 not found');
+        throw Error('404 not found');
       }),
     }));
 
@@ -113,12 +113,12 @@ ${chalk.bold('@foo/bar')}
       install: jest
         .fn()
         .mockImplementationOnce(() => {
-          throw new Error('404 not found');
+          throw Error('404 not found');
         })
         .mockResolvedValueOnce(undefined)
         .mockResolvedValueOnce(undefined)
         .mockImplementationOnce(() => {
-          throw new Error('404 not found');
+          throw Error('404 not found');
         })
         .mockResolvedValueOnce(undefined)
         .mockResolvedValueOnce(undefined),

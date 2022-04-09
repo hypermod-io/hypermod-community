@@ -8,14 +8,14 @@ export function getAllPackages(path: string) {
     .map(dir => dir.name);
 }
 
-export async function getChangedPackages(sinceRef: string) {
+export async function getChangedPackages() {
   const git = simpleGit();
   const eventMeta = JSON.parse(fs.readFileSync(sinceRef!, 'utf8'));
 
   try {
     await git.revparse(['--verify', eventMeta.before]);
-  } catch (e) {
-    throw new Error(`Invalid git ref detected in ref: "${eventMeta.before}"`);
+  } catch {
+    throw Error(`Invalid git ref detected in ref: "${eventMeta.before}"`);
   }
 
   const diff = await git.diff([
@@ -26,7 +26,7 @@ export async function getChangedPackages(sinceRef: string) {
 
   return diff
     .split('\n')
-    .filter(path => !!path && path.startsWith('community/'))
+    .filter(path => path?.startsWith('community/'))
     .map(path => path.split('/')[1])
     .filter((path, i, self) => self.indexOf(path) === i);
 }
