@@ -1,5 +1,11 @@
 # @codeshift/test-utils
 
+## 0.2.0
+
+### Minor Changes
+
+- 8a8517c: applyTransfrom now returns a promise to support async transforms
+
 ## 0.1.4
 
 ### Patch Changes

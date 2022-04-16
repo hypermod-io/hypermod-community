@@ -1,5 +1,15 @@
 # @codeshift/cli
 
+## 0.9.1
+
+### Patch Changes
+
+- e5787a9: Updates validator logic to check for invalid properties in config files. Also requires configs via absolute paths to make the validation logic more robust
+- Updated dependencies [e5787a9]
+  - @codeshift/fetcher@0.0.3
+  - @codeshift/validator@0.3.1
+  - @codeshift/initializer@0.2.2
+
 ## 0.9.0
 
 ### Minor Changes
