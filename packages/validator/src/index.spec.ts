@@ -125,6 +125,28 @@ describe('validator', () => {
       expect(result).toEqual(true);
     });
 
+    it('should error if config contains an invalid property', async () => {
+      (fetchConfig as jest.Mock).mockResolvedValue({
+        invalidProperty: 'foo',
+      });
+
+      await expect(isValidConfigAtPath('path/to/')).rejects.toThrowError(
+        `Invalid transform ids found: invalidProperty`,
+      );
+    });
+
+    it('should error if config contains multiple invalid properties', async () => {
+      (fetchConfig as jest.Mock).mockResolvedValue({
+        invalidProperty: 'foo',
+        invalidProperty2: 'foo',
+        invalidProperty3: 'foo',
+      });
+
+      await expect(isValidConfigAtPath('path/to/')).rejects.toThrowError(
+        `Invalid transform ids found: invalidProperty, invalidProperty2, invalidProperty3`,
+      );
+    });
+
     it('should error if config contains invalid transforms', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
         transforms: {

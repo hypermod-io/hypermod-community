@@ -19,6 +19,18 @@ function hasValidPresets(config: CodeshiftConfig): boolean {
   );
 }
 
+function getInvalidProperties(config: CodeshiftConfig) {
+  const validProperties = [
+    'maintainers',
+    'description',
+    'targets',
+    'transforms',
+    'presets',
+  ];
+
+  return Object.keys(config).filter(key => !validProperties.includes(key));
+}
+
 export function isValidPackageName(dir: string): boolean {
   return !!dir.match(/^(@[a-z0-9-~][a-z0-9-._~]*__)?[a-z0-9-~][a-z0-9-._~]*$/);
 }
@@ -32,6 +44,13 @@ export async function isValidConfigAtPath(filePath: string) {
 
   if (!config) {
     throw new Error(`Unable to locate config file at path: ${filePath}`);
+  }
+
+  const invalidProperites = getInvalidProperties(config);
+  if (invalidProperites.length) {
+    throw new Error(
+      `Invalid transform ids found: ${invalidProperites.join(', ')}`,
+    );
   }
 
   if (!hasValidTransforms(config)) {

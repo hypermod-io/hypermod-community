@@ -1,7 +1,8 @@
 jest.mock('globby');
 
-import globby from 'globby';
+import fs from 'fs';
 import path from 'path';
+import globby from 'globby';
 import { PluginManager } from 'live-plugin-manager';
 
 import { fetchConfig, fetchPackage, fetchRemotePackage } from '.';
@@ -27,6 +28,8 @@ describe('fetcher', () => {
     ((globby as unknown) as jest.Mock).mockImplementation(() =>
       Promise.resolve(mockMatchedPaths),
     );
+
+    jest.spyOn(fs, 'existsSync').mockReturnValue(true);
   });
 
   afterEach(() => {
