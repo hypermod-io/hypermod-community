@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/fetcher",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/codeshift-fetcher.cjs.js",
   "types": "dist/codeshift-fetcher.cjs.d.ts",
   "license": "MIT",
