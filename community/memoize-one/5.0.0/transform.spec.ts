@@ -17,8 +17,8 @@ function format(source: string): string {
 }
 
 describe('memoize-one@5.0.0 transform', () => {
-  it('should not touch usages that do not use a custom equality function', () => {
-    const result = applyTransform(
+  it('should not touch usages that do not use a custom equality function', async () => {
+    const result = await applyTransform(
       transformer,
       format(`
         import memoize from 'memoize-one';
@@ -45,8 +45,8 @@ describe('memoize-one@5.0.0 transform', () => {
     );
   });
 
-  it('should wrap inline equality arrow functions', () => {
-    const result = applyTransform(
+  it('should wrap inline equality arrow functions', async () => {
+    const result = await applyTransform(
       transformer,
       format(`
         import memoize from 'memoize-one';
@@ -85,8 +85,8 @@ describe('memoize-one@5.0.0 transform', () => {
     );
   });
 
-  it('should wrap inline equality function declarations', () => {
-    const result = applyTransform(
+  it('should wrap inline equality function declarations', async () => {
+    const result = await applyTransform(
       transformer,
       format(`
         import memoize from 'memoize-one';
@@ -125,8 +125,8 @@ describe('memoize-one@5.0.0 transform', () => {
     );
   });
 
-  it('should wrap function identifiers', () => {
-    const result = applyTransform(
+  it('should wrap function identifiers', async () => {
+    const result = await applyTransform(
       transformer,
       format(`
         import memoize from 'memoize-one';
@@ -162,8 +162,8 @@ describe('memoize-one@5.0.0 transform', () => {
     );
   });
 
-  it('should add a comment when an unsupported equality fn is encountered', () => {
-    const result = applyTransform(
+  it('should add a comment when an unsupported equality fn is encountered', async () => {
+    const result = await applyTransform(
       transformer,
       format(`
         import memoize from 'memoize-one';

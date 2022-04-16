@@ -2,8 +2,8 @@ import { applyTransform } from '@codeshift/test-utils';
 import * as transformer from './transform';
 
 describe('@emotion@11.0.0 transform', () => {
-  it('should transform imports correctly', () => {
-    const result = applyTransform(
+  it('should transform imports correctly', async () => {
+    const result = await applyTransform(
       transformer,
       `
         import * as core from '@emotion/core';

@@ -36,8 +36,8 @@ In this case, you would be able to write a simple test using `jest` & `@codeshif
 import * as transformer from '../transform';
 import { applyTransform } from '@codeshift/test-utils';
 
-it('should remove all deleted props', () => {
-  const result = applyTransform(
+it('should remove all deleted props', async () => {
+  const result = await applyTransform(
     transformer,
     `
       import Foo from '@mylib/foo';

@@ -6,7 +6,7 @@ interface Options {
   parser?: Parser;
 }
 
-export default function applyTransform(
+export default async function applyTransform(
   transform: any,
   input: string,
   options: Options = {
@@ -15,7 +15,7 @@ export default function applyTransform(
 ) {
   // Handle ES6 modules using default export for the transform
   const transformer = transform.default ? transform.default : transform;
-  const output = transformer(
+  const output = await transformer(
     { source: input },
     {
       jscodeshift: jscodeshift.withParser(options.parser as string),
