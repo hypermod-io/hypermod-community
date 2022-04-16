@@ -1,5 +1,13 @@
 # @codeshift/validator
 
+## 0.3.1
+
+### Patch Changes
+
+- ac17d83: Updates validator logic to check for invalid properties in config files. Also requires configs via absolute paths to make the validation logic more robust
+- Updated dependencies [ac17d83]
+  - @codeshift/fetcher@0.0.3
+
 ## 0.3.0
 
 ### Minor Changes
