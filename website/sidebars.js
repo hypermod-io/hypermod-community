@@ -35,6 +35,7 @@ module.exports = {
         'guides/understanding-asts',
         'guides/when-not-to-codemod',
         'guides/prompting-for-human-input',
+        'guides/css-codemods',
       ],
     },
     {

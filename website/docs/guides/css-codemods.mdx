@@ -1,0 +1,111 @@
+---
+id: css-codemods
+title: CSS codemods via PostCSS
+slug: /css-codemods
+---
+
+In some cases, it's possible that you may need to write a codemod that applies changes across different programming languages JS, CSS, etc.
+It could be because the package you're writing a codemod for has an API that spans across both JS and CSS, for example a Design System or CSS-in-JS library. Where some of your consumers may be using the JS interface and some the CSS interface.
+
+In this scenario, it's possible to repurpose JSCodeshift to handle this by treating JSCodeshift purely as a "Runner", or in otherwords, as the entrypoint to the files you're looking to modify and substitute a transformation library of your choice.
+For example [PostCSS](https://postcss.org/), [Babel](https://babeljs.io/), etc.
+
+However, this does come with drawbacks, you will no longer have access to JSCodeshift parsers and transformation API. This guide will explain how to handle these yourself.
+
+As an example, We'll take the JS/CSS use-case and use the popular [PostCSS](https://postcss.org/) library as our substitute transformation library.
+
+## Step 1: Installing dependencies
+
+Get started by creating a new Codeshift package with `npx @codeshift/cli init --package-name css-codemod --preset update-css-api .`.
+
+This will create a new Codeshift package with a configuration file and empty transform file for the preset you specified.
+
+Navigate into your new directory with `cd css-codemod` and install the relevant dependencies: `npm install -s postcss`
+
+## Step 2: Parsing
+
+Now navigate to your transformer file, which should look something like this:
+
+```js
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Transformation goes here
+
+  return source.toSource(options.printOptions);
+}
+```
+
+You can remove the following lines:
+
+```diff
+export default function transformer(
+  file,
+-  { jscodeshift: j },
+-  options
+) {
+-  const source = j(file.source);
+
+  // Transformation goes here
+
+-  return source.toSource(options.printOptions);
+}
+```
+
+Now that we've removed JSCodeshift's parsing and output API, we can substitute PostCSS:
+
+```diff
++ import postcss from 'postcss';
+
+export default function transformer(file) {
++  return await postcss([plugin()]).process(file.source).css;
+}
+```
+
+Here we set up PostCSS with a `plugin()` (more on that later) and pass in the raw file `file.source` for processing.
+Once processing is complete we return the raw file back to JSCodeshift for output via `.css`.
+
+## Step 3: Transformation
+
+Now that we've setup parsing we can turn our attention to transformation. The way that can be done in PostCSS is via [their plugin system](https://github.com/postcss/postcss/blob/main/docs/writing-a-plugin.md).
+
+For example purposes, our transformation will simply reverse the names of CSS declarations like so:
+
+```diff
+.my-class {
+- background: red;
++ dnuorgkcab: red;
+}
+```
+
+Very useful. Let's create the `plugin()` function that does this now.
+
+To assist with writing PostCSS plugins, you can use [astexplorer.net](https://astexplorer.net/#/2uBU1BLuJ1).
+
+```js
+const plugin = (): Plugin => {
+  const processed = Symbol('processed');
+
+  return {
+    postcssPlugin: 'UsingTokens',
+    Declaration: decl => {
+      if (decl[processed]) return;
+
+      decl.prop = decl.prop
+        .split('')
+        .reverse()
+        .join('');
+
+      decl[processed] = true;
+    },
+  };
+};
+```
+
+## Step 4: Running
+
+You've created your very first CSS codemod, nice work! We can now run it against some code to verify that's it's working correctly.
+
+```
+npx @codeshift/cli -t css-codemod/src/update-css-api.ts -e css path/to/src
+```
