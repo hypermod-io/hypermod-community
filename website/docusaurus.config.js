@@ -10,6 +10,14 @@ module.exports = {
   organizationName: 'CodeshiftCommunity',
   projectName: 'CodeshiftCommunity',
   themeConfig: {
+    image: 'img/TwitterBanner.png',
+    metadata: [
+      {
+        name: 'twitter:card',
+        content:
+          'The community-owned global registry and documentation hub for codemods',
+      },
+    ],
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/palenight'),
