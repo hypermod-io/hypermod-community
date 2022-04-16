@@ -6,7 +6,13 @@ import { CodeshiftConfig } from '@codeshift/types';
 import { fetchConfig } from '@codeshift/fetcher';
 
 const COMMUNITY_PATH = path.join(__dirname, '..', 'community');
-const DOCS_PATH = path.join(__dirname, '..', 'website', 'docs', 'registry');
+const DOCS_PATH = path.join(
+  __dirname,
+  '..',
+  'website',
+  'docs',
+  'registry-generated',
+);
 
 function cleanTargetDir(targetPath: string) {
   if (fs.existsSync(targetPath)) fs.emptyDirSync(targetPath);
@@ -47,12 +53,13 @@ async function main() {
       `---
 id: ${safeName}
 title: ${safeName.replace('__', '/')}
-slug: /${safeName}
+slug: /registry/${safeName}
 ---
 
 **Target package:** ${packageLink}
 
 **Maintainers:**
+
 ${config.maintainers!.map(
   maintainer => `- [${maintainer}](https://github.com/${maintainer})`,
 )}
@@ -70,7 +77,7 @@ ${Object.keys(config.transforms)
 
 Migrates ${packageLink} to version ${key}.
 
-### Usage
+#### Usage
 
 \`\`\`
 $ codeshift --packages ${name}@${key} path/to/source
@@ -93,7 +100,7 @@ ${Object.keys(config.presets)
 
 [Source](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community/${urlSafeName}) | [Report an issue](https://github.com/CodeshiftCommunity/CodeshiftCommunity/issues/new?title=${safeName}@${key})
 
-### Usage
+#### Usage
 
 \`\`\`
 $ codeshift --packages ${name}#${key} path/to/source
