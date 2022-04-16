@@ -4,6 +4,7 @@ jest.mock('jscodeshift/src/Runner', () => ({
   run: jest.fn().mockImplementation(() => Promise.resolve()),
 }));
 
+import fs from 'fs';
 import path from 'path';
 // @ts-ignore
 import * as jscodeshift from 'jscodeshift/src/Runner';
@@ -558,6 +559,7 @@ describe('main', () => {
     });
 
     it('should run package transform for single version', async () => {
+      jest.spyOn(fs, 'existsSync').mockReturnValue(true);
       jest.mock(
         mockMatchedPath,
         () => ({
@@ -589,6 +591,7 @@ describe('main', () => {
     });
 
     it('should run single preset', async () => {
+      jest.spyOn(fs, 'existsSync').mockReturnValue(true);
       await main([mockPath], {
         packages: 'mylib#update-formatting',
         parser: 'babel',

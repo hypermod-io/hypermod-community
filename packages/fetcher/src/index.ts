@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import globby from 'globby';
 import { PluginManager } from 'live-plugin-manager';
@@ -18,11 +19,18 @@ export async function fetchConfig(
   ]);
 
   for (const matchedPath of matchedPaths) {
+    const resolvedMatchedPath = path.resolve(matchedPath);
+    const exists = fs.existsSync(resolvedMatchedPath);
+
+    if (!exists) continue;
+
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const pkg = require(matchedPath);
+      const pkg = require(resolvedMatchedPath);
       return resolveConfigExport(pkg);
-    } catch (e) {}
+    } catch (e) {
+      throw new Error(`Found config file "${matchedPath}" but was unable to parse it. This can be caused when transform or preset paths are incorrect.`)
+    }
   }
 
   return undefined;
