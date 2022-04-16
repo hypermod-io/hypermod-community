@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcodeshift_community=self.webpackChunkcodeshift_community||[]).push([[2477],{5745:function(e){e.exports=JSON.parse('{"plugin":{"name":"docusaurus-plugin-content-pages","id":"default"}}')}}]);
