@@ -91,11 +91,8 @@ const transferLinkComponentProp = (
   j: core.JSCodeshift,
   element: ASTPath<JSXElement>,
 ) => {
-  const linkComponentAttributeCollection: Collection<JSXAttribute> = getJSXAttributes(
-    j,
-    element,
-    LINK_COMPONENT_PROP_NAME,
-  );
+  const linkComponentAttributeCollection: Collection<JSXAttribute> =
+    getJSXAttributes(j, element, LINK_COMPONENT_PROP_NAME);
   const linkComponentAttribute =
     linkComponentAttributeCollection.length === 1
       ? linkComponentAttributeCollection.paths()[0]

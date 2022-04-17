@@ -128,7 +128,7 @@ Examples:
 
 program.exitOverride();
 
-(async function() {
+(async function () {
   try {
     await program.parseAsync(process.argv);
   } catch (error) {

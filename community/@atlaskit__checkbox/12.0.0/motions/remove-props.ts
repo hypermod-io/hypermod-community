@@ -5,25 +5,22 @@ import {
   getImportSpecifierName,
 } from '@codeshift/utils';
 
-const createRemoveFuncFor = (
-  importPath: string,
-  importName: string,
-  prop: string,
-  comment?: string,
-) => (j: core.JSCodeshift, source: Collection<Node>) => {
-  const specifier = getImportSpecifierName(j, source, importName, importPath);
+const createRemoveFuncFor =
+  (importPath: string, importName: string, prop: string, comment?: string) =>
+  (j: core.JSCodeshift, source: Collection<Node>) => {
+    const specifier = getImportSpecifierName(j, source, importName, importPath);
 
-  if (!specifier) return;
+    if (!specifier) return;
 
-  source.findJSXElements(specifier).forEach(element => {
-    getJSXAttributes(j, element, prop).forEach(attribute => {
-      j(attribute).remove();
-      if (comment) {
-        insertCommentToStartOfFile(j, source, comment);
-      }
+    source.findJSXElements(specifier).forEach(element => {
+      getJSXAttributes(j, element, prop).forEach(attribute => {
+        j(attribute).remove();
+        if (comment) {
+          insertCommentToStartOfFile(j, source, comment);
+        }
+      });
     });
-  });
-};
+  };
 
 export const removeFullWidth = createRemoveFuncFor(
   '@atlaskit/checkbox',

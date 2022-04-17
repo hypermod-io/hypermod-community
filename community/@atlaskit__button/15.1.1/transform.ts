@@ -36,9 +36,7 @@ function getJSXAttributes(
         .filter(identifer => {
           j(identifer).closest(j.JSXOpeningElement);
           // Checking we are on the same level as the jsx element
-          const closest = j(identifer)
-            .closest(j.JSXOpeningElement)
-            .nodes()[0];
+          const closest = j(identifer).closest(j.JSXOpeningElement).nodes()[0];
 
           if (!closest) {
             return false;

@@ -1,0 +1,27 @@
+{
+  "name": "@codeshift/eslint-plugin",
+  "version": "0.0.1",
+  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/eslint-plugin",
+  "dependencies": {
+    "eslint-codemod-utils": "latest"
+  },
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "peerDependencies": {
+    "eslint": ">=7.0.0"
+  },
+  "main": "dist/codeshift-eslint-plugin.cjs.js",
+  "types": "dist/codeshift-eslint-plugin.cjs.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/eslint": "^8.4.1",
+    "@types/estree-jsx": "^0.0.1",
+    "eslint": "^7.0.0",
+    "typescript": "^4.5.5"
+  }
+}

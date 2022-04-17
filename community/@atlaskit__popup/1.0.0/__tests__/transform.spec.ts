@@ -42,8 +42,7 @@ function check({
 
 describe('@atlaskit/popup@1.0.0 transform', () => {
   check({
-    it:
-      'should turn `boundariesElement="scrollParents"` to `boundary="clippingParents"`',
+    it: 'should turn `boundariesElement="scrollParents"` to `boundary="clippingParents"`',
     original: `
         import Popup from '@atlaskit/popup';
 
@@ -83,8 +82,7 @@ describe('@atlaskit/popup@1.0.0 transform', () => {
   });
 
   check({
-    it:
-      'should turn `boundariesElement="window"` into `rootBoundary="document"`',
+    it: 'should turn `boundariesElement="window"` into `rootBoundary="document"`',
     original: `
         import Popup from '@atlaskit/popup';
 
@@ -124,8 +122,7 @@ describe('@atlaskit/popup@1.0.0 transform', () => {
   });
 
   check({
-    it:
-      'should turn `boundariesElement="viewport"` into `rootBoundary="viewport"`',
+    it: 'should turn `boundariesElement="viewport"` into `rootBoundary="viewport"`',
     original: `
         import Popup from '@atlaskit/popup';
 

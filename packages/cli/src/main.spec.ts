@@ -544,7 +544,7 @@ describe('main', () => {
     );
 
     beforeEach(() => {
-      ((globby as unknown) as jest.Mock).mockImplementation(() =>
+      (globby as unknown as jest.Mock).mockImplementation(() =>
         Promise.resolve([mockMatchedPath]),
       );
 

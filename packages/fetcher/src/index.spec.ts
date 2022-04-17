@@ -25,7 +25,7 @@ describe('fetcher', () => {
       path.join(mockBasePath, 'codemods', 'codeshift.config.tsx'),
     ];
 
-    ((globby as unknown) as jest.Mock).mockImplementation(() =>
+    (globby as unknown as jest.Mock).mockImplementation(() =>
       Promise.resolve(mockMatchedPaths),
     );
 
@@ -100,7 +100,7 @@ describe('fetcher', () => {
 
       const config = await fetchPackage(
         'fake-package',
-        (mockPackageManager as unknown) as PluginManager,
+        mockPackageManager as unknown as PluginManager,
       );
 
       expect(config).toEqual(mockConfig);
@@ -117,7 +117,7 @@ describe('fetcher', () => {
       await expect(
         fetchPackage(
           'fake-package',
-          (mockPackageManager as unknown) as PluginManager,
+          mockPackageManager as unknown as PluginManager,
         ),
       ).rejects.toEqual('Import error');
     });
@@ -134,7 +134,7 @@ describe('fetcher', () => {
 
       const config = await fetchRemotePackage(
         'fake-package',
-        (mockPackageManager as unknown) as PluginManager,
+        mockPackageManager as unknown as PluginManager,
       );
 
       expect(config).toEqual(mockConfig);
@@ -150,7 +150,7 @@ describe('fetcher', () => {
       await expect(
         fetchRemotePackage(
           'fake-package',
-          (mockPackageManager as unknown) as PluginManager,
+          mockPackageManager as unknown as PluginManager,
         ),
       ).rejects.toEqual('Import error');
     });
@@ -166,7 +166,7 @@ describe('fetcher', () => {
       await expect(
         fetchRemotePackage(
           'fake-package',
-          (mockPackageManager as unknown) as PluginManager,
+          mockPackageManager as unknown as PluginManager,
         ),
       ).rejects.toEqual(
         new Error(`Unable to locate package files for package: 'fake-package'`),
