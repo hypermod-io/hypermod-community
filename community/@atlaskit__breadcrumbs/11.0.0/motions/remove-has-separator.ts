@@ -5,28 +5,35 @@ import {
   getImportSpecifierName,
 } from '@codeshift/utils';
 
-const createRemoveFuncFor = (
-  importSource: string,
-  importName: string,
-  prop: string,
-  predicate: (j: core.JSCodeshift, element: ASTPath<any>) => boolean = () =>
-    true,
-  comment?: string,
-) => (j: core.JSCodeshift, source: Collection<Node>) => {
-  const specifier = getImportSpecifierName(j, source, importName, importSource);
+const createRemoveFuncFor =
+  (
+    importSource: string,
+    importName: string,
+    prop: string,
+    predicate: (j: core.JSCodeshift, element: ASTPath<any>) => boolean = () =>
+      true,
+    comment?: string,
+  ) =>
+  (j: core.JSCodeshift, source: Collection<Node>) => {
+    const specifier = getImportSpecifierName(
+      j,
+      source,
+      importName,
+      importSource,
+    );
 
-  if (!specifier) return;
+    if (!specifier) return;
 
-  source.findJSXElements(specifier).forEach(element => {
-    if (predicate(j, element) && comment) {
-      insertCommentToStartOfFile(j, source, comment);
-    } else {
-      getJSXAttributes(j, element, prop).forEach(attribute => {
-        j(attribute).remove();
-      });
-    }
-  });
-};
+    source.findJSXElements(specifier).forEach(element => {
+      if (predicate(j, element) && comment) {
+        insertCommentToStartOfFile(j, source, comment);
+      } else {
+        getJSXAttributes(j, element, prop).forEach(attribute => {
+          j(attribute).remove();
+        });
+      }
+    });
+  };
 
 const removeHasSeparator = createRemoveFuncFor(
   '@atlaskit/breadcrumbs',

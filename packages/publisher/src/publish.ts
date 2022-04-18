@@ -28,7 +28,6 @@ async function publish(
   // Due to a super annoying issue in yarn, we have to manually override this env variable
   // See: https://github.com/yarnpkg/yarn/issues/2935#issuecomment-355292633
   const envOverride = {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     npm_config_registry: `//registry.npmjs.org/:_authToken=${authToken}`,
   };
 

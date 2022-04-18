@@ -19,6 +19,7 @@ export default async function applyTransform(
     { source: input },
     {
       jscodeshift: jscodeshift.withParser(options.parser as string),
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       stats: () => {},
     },
     options || {},

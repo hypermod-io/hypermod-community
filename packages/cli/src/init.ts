@@ -5,7 +5,7 @@ export default async function init(
   packageName: string,
   transform?: string,
   preset?: string,
-  targetPath: string = '.',
+  targetPath = '.',
 ) {
   initDirectory(packageName, targetPath);
 

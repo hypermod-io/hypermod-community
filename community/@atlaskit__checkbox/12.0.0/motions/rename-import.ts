@@ -34,89 +34,91 @@ function addToImport({
   );
 }
 
-const createRenameImportFor = ({
-  componentName,
-  newComponentName,
-  oldPackagePath,
-  newPackagePath,
-}: {
-  componentName: string;
-  newComponentName?: string;
-  oldPackagePath: string;
-  newPackagePath: string;
-}) => (j: core.JSCodeshift, source: Collection<Node>) => {
-  const isUsingName =
-    getImportDeclaration(j, source, oldPackagePath)
-      .find(j.ImportSpecifier)
-      .nodes()
-      .filter(
-        specifier =>
-          specifier.imported && specifier.imported.name === componentName,
-      ).length > 0;
+const createRenameImportFor =
+  ({
+    componentName,
+    newComponentName,
+    oldPackagePath,
+    newPackagePath,
+  }: {
+    componentName: string;
+    newComponentName?: string;
+    oldPackagePath: string;
+    newPackagePath: string;
+  }) =>
+  (j: core.JSCodeshift, source: Collection<Node>) => {
+    const isUsingName =
+      getImportDeclaration(j, source, oldPackagePath)
+        .find(j.ImportSpecifier)
+        .nodes()
+        .filter(
+          specifier =>
+            specifier.imported && specifier.imported.name === componentName,
+        ).length > 0;
 
-  if (!isUsingName) return;
+    if (!isUsingName) return;
 
-  const existingAlias =
-    getImportDeclaration(j, source, oldPackagePath)
-      .find(j.ImportSpecifier)
-      .nodes()
-      .map(specifier => {
-        if (specifier.imported && specifier.imported.name !== componentName) {
+    const existingAlias =
+      getImportDeclaration(j, source, oldPackagePath)
+        .find(j.ImportSpecifier)
+        .nodes()
+        .map(specifier => {
+          if (specifier.imported && specifier.imported.name !== componentName) {
+            return null;
+          }
+          // If aliased: return the alias
+          if (specifier.local && specifier.local.name !== componentName) {
+            return specifier.local.name;
+          }
+
           return null;
-        }
-        // If aliased: return the alias
-        if (specifier.local && specifier.local.name !== componentName) {
-          return specifier.local.name;
-        }
+        })
+        .filter(Boolean)[0] || null;
 
-        return null;
-      })
-      .filter(Boolean)[0] || null;
-
-  // Check to see if need to create new package path
-  // Try create an import declaration just before the old import
-  if (!hasImportDeclaration(j, source, newPackagePath)) {
-    getImportDeclaration(j, source, oldPackagePath).insertBefore(
-      j.importDeclaration([], j.literal(newPackagePath)),
-    );
-  }
-
-  const newSpecifier: ImportSpecifier | ImportDefaultSpecifier = (() => {
-    // If there's a new name use that
-    if (newComponentName) {
-      return j.importSpecifier(
-        j.identifier(newComponentName),
-        j.identifier(newComponentName),
+    // Check to see if need to create new package path
+    // Try create an import declaration just before the old import
+    if (!hasImportDeclaration(j, source, newPackagePath)) {
+      getImportDeclaration(j, source, oldPackagePath).insertBefore(
+        j.importDeclaration([], j.literal(newPackagePath)),
       );
     }
 
-    if (existingAlias) {
+    const newSpecifier: ImportSpecifier | ImportDefaultSpecifier = (() => {
+      // If there's a new name use that
+      if (newComponentName) {
+        return j.importSpecifier(
+          j.identifier(newComponentName),
+          j.identifier(newComponentName),
+        );
+      }
+
+      if (existingAlias) {
+        return j.importSpecifier(
+          j.identifier(componentName),
+          j.identifier(existingAlias),
+        );
+      }
+
+      // Add specifier
       return j.importSpecifier(
         j.identifier(componentName),
-        j.identifier(existingAlias),
+        j.identifier(componentName),
       );
-    }
+    })();
 
-    // Add specifier
-    return j.importSpecifier(
-      j.identifier(componentName),
-      j.identifier(componentName),
-    );
-  })();
+    addToImport({
+      j,
+      base: source,
+      importSpecifier: newSpecifier,
+      packageName: newPackagePath,
+    });
 
-  addToImport({
-    j,
-    base: source,
-    importSpecifier: newSpecifier,
-    packageName: newPackagePath,
-  });
-
-  // Remove old path
-  source
-    .find(j.ImportDeclaration)
-    .filter(path => path.node.source.value === oldPackagePath)
-    .remove();
-};
+    // Remove old path
+    source
+      .find(j.ImportDeclaration)
+      .filter(path => path.node.source.value === oldPackagePath)
+      .remove();
+  };
 
 // As you could access everything in Checkbox with the old entry points
 // there are a lot of possible things to fix. Having searched on SourceTree

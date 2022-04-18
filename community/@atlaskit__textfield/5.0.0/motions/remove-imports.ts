@@ -44,9 +44,7 @@ export const removeThemeImports = (
   importDeclarations
     .find(j.ImportSpecifier)
     .filter(importSpecifier => {
-      const identifier = j(importSpecifier)
-        .find(j.Identifier)
-        .get();
+      const identifier = j(importSpecifier).find(j.Identifier).get();
 
       if (
         importsToRemove.includes(identifier.value.name) ||
