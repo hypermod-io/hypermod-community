@@ -37,6 +37,13 @@ Writing codemods often feels like tribal knowledge, there might be only a handfu
 
 ## How do we solve these problems?
 
+### A standardized CLI
+
+Codeshift works by publishing every codemod to NPM as its own package or piggybacking off a pre-existing NPM package. We provide a [standardized CLI tool](cli) that can download and run the most up to date codemods from anywhere.
+With the hidden benefit of being able to publish with dependencies, currently something that is not possible with most JSCodeshift CLI implementations.
+
+Using NPM drastically lowers the adoption bar, since all one would need to do is publish an existing package with a `codemod.config.js` and you're good to go. See [Authoring with existing packages](http://localhost:3000/docs/authoring#2-add-codeshift-to-an-existing-package)
+
 ### A centralized registry
 
 [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) is a great example of how consolidating type definitions under the one roof builds familiarity and consistency for the entire typescript user base.
