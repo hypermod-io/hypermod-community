@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <Layout
       title={siteConfig.title}
-      description="The community-owned global registry and documentation hub for codemods."
+      description="Write, test, publish and consume codemods in a structured, standardized and familiar way."
     >
       <header className={clsx(styles.heroBanner)}>
         <div className={clsx(styles.container, styles.heroContainer)}>
@@ -43,7 +43,7 @@ export default function Home() {
       </header>
       <main className={clsx(styles.landingContent)}>
         <section className={clsx(styles.heroSection, styles.features)}>
-          <div className={clsx(styles.container)}>
+          <div className={clsx(styles.container, styles.containerLarge)}>
             <div className="row">
               <div className={clsx('col col--3')}>
                 <div className={clsx(styles.valueContainer)}>
@@ -111,7 +111,13 @@ export default function Home() {
           </div>
         </section>
         <section className={clsx(styles.heroSection)}>
-          <div className={clsx(styles.container, styles.heroContainer)}>
+          <div
+            className={clsx(
+              styles.container,
+              styles.heroContainer,
+              styles.containerCenter,
+            )}
+          >
             <h2 className={clsx(styles.heroHeadingBanner)}>
               Bring users with you.
             </h2>
@@ -183,7 +189,7 @@ const App = () => (
           </div>
         </section>
         <section className={clsx(styles.heroSection)}>
-          <div className={clsx(styles.container)}>
+          <div className={clsx(styles.container, styles.containerLarge)}>
             <h2 className={clsx(styles.heroHeadingBanner)}>How it works</h2>
             <ol className={clsx(styles.heroList)}>
               <li>
