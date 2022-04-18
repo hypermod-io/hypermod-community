@@ -34,8 +34,7 @@ describe('@atlaskit/spinner@13.0.0 transform', () => {
     });
 
     check({
-      name:
-        'it should rename SpinnerSizes type to Size and not impact alias values',
+      name: 'it should rename SpinnerSizes type to Size and not impact alias values',
       original: `
       import Spinner, { SpinnerSizes as MySize } from '@atlaskit/spinner'
       import { Size, SpinnerSizes } from './some-other-file';
@@ -107,8 +106,7 @@ describe('@atlaskit/spinner@13.0.0 transform', () => {
     });
 
     check({
-      name:
-        'it should not touch unrelated packages with the same component name',
+      name: 'it should not touch unrelated packages with the same component name',
       original: `
     import React from 'react';
     import Spinner from '../my-cool-spinner';

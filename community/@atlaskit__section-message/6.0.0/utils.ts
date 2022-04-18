@@ -32,10 +32,8 @@ export function getDynamicImportName(
         j(variableDeclaratorPath)
           .find(j.CallExpression)
           .filter(callExpressionPath => {
-            const {
-              callee,
-              arguments: callExpressionArguments,
-            } = callExpressionPath.node;
+            const { callee, arguments: callExpressionArguments } =
+              callExpressionPath.node;
 
             return !!(
               isCallExpressionCalleeImportType(callee) &&

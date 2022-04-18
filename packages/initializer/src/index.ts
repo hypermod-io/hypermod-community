@@ -5,7 +5,7 @@ import * as recast from 'recast';
 import { version as utilVersion } from '@codeshift/utils/package.json';
 import { version as testUtilVersion } from '@codeshift/test-utils/package.json';
 
-export function getPackageJson(packageName: string, version: string = '0.0.0') {
+export function getPackageJson(packageName: string, version = '0.0.0') {
   return JSON.stringify(
     {
       name: packageName,
@@ -110,8 +110,8 @@ function updateConfig(
 
 export function initDirectory(
   packageName: string,
-  targetPath: string = './',
-  isReduced: boolean = false,
+  targetPath = './',
+  isReduced = false,
 ) {
   const basePath = path.join(targetPath, packageName.replace('/', '__'));
   const configPath = path.join(
@@ -146,8 +146,8 @@ export function initTransform(
   packageName: string,
   id: string,
   type: 'version' | 'preset',
-  targetPath: string = './',
-  isReduced: boolean = false,
+  targetPath = './',
+  isReduced = false,
 ) {
   if (type === 'version' && !semver.valid(id)) {
     throw new Error(`Provided version ${id} is not a valid semver version`);

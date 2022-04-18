@@ -12,7 +12,7 @@ export function insertCommentBefore<NodeType = ASTNode>(
   j: core.JSCodeshift,
   path: Collection<NodeType>,
   message: string,
-  prefix: string = ` TODO: (@codeshift)`,
+  prefix = ` TODO: (@codeshift)`,
 ) {
   const content = `${prefix} ${clean(message)} `;
 
