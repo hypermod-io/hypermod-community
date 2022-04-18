@@ -16,6 +16,7 @@ module.exports = {
     },
   },
   rules: {
+    // '@typescript-eslint/indent': 'off', // https://github.com/typescript-eslint/typescript-eslint/issues/1824
     '@typescript-eslint/no-namespace': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
