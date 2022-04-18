@@ -1,22 +1,14 @@
 import path from 'path';
 import semver from 'semver';
 import chalk from 'chalk';
-import ora from 'ora';
 import { PluginManager } from 'live-plugin-manager';
-import merge from 'lodash/merge';
+
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
 import * as jscodeshift from 'jscodeshift/src/Runner';
 
-import { fetchPackage, fetchRemotePackage } from '@codeshift/fetcher';
-import { isValidConfig } from '@codeshift/validator';
-import { CodeshiftConfig } from '@codeshift/types';
-
 import { Flags } from './types';
 import { InvalidUserInputError } from './errors';
-
-function getCodeshiftPackageName(packageName: string) {
-  return `@codeshift/mod-${packageName.replace('@', '').replace('/', '__')}`;
-}
+import { fetchPackageConfig } from './fetch-package';
 
 export default async function main(paths: string[], flags: Flags) {
   const packageManager = new PluginManager({
@@ -53,56 +45,7 @@ export default async function main(paths: string[], flags: Flags) {
       const pkgName =
         shouldPrependAtSymbol + pkg.split(/[@#]/).filter(str => !!str)[0];
 
-      let codeshiftConfig: CodeshiftConfig | undefined;
-      let remoteConfig: CodeshiftConfig | undefined;
-
-      const spinner = ora(
-        `${chalk.green('Attempting to download package:')}, ${pkgName}`,
-      ).start();
-
-      try {
-        codeshiftConfig = await fetchPackage(
-          getCodeshiftPackageName(pkgName),
-          packageManager,
-        );
-        spinner.succeed(
-          `${chalk.green(
-            `Found CodeshiftCommunity package: `,
-          )} ${getCodeshiftPackageName(pkgName)}`,
-        );
-      } catch (error) {
-        spinner.warn(
-          `${chalk.yellow(
-            `Unable to locate CodeshiftCommunity package: `,
-          )} ${getCodeshiftPackageName(pkgName)}`,
-        );
-      }
-
-      try {
-        remoteConfig = await fetchRemotePackage(pkgName, packageManager);
-        spinner.succeed(
-          `${chalk.green(`Found codeshift package: `)} ${pkgName}`,
-        );
-      } catch (error) {
-        spinner.warn(
-          `${chalk.yellow(`Unable to locate codeshift package: `)} ${pkgName}`,
-        );
-      }
-
-      if (!codeshiftConfig && !remoteConfig) {
-        throw new Error(
-          `Unable to locate package from codeshift-community or NPM.
-Make sure the package name "${pkgName}" is correct and try again.`,
-        );
-      }
-
-      const config: CodeshiftConfig = merge({}, remoteConfig, codeshiftConfig);
-
-      if (!isValidConfig(config)) {
-        throw new Error(
-          `Unable to locate a valid codeshift.config in package ${pkgName}`,
-        );
-      }
+      const config = await fetchPackageConfig(pkgName, packageManager);
 
       const rawTransformIds = pkg.split(/(?=[@#])/).filter(str => !!str);
       rawTransformIds.shift();

@@ -110,18 +110,11 @@ ${chalk.bold('@foo/bar')}
 
   it('should continue if one or more packages are not found', async () => {
     (PluginManager as jest.Mock).mockImplementation(() => ({
-      install: jest
-        .fn()
-        .mockImplementationOnce(() => {
+      install: jest.fn().mockImplementation((packageName: string) => {
+        if (packageName.includes('unknown') || packageName.includes('dunno')) {
           throw new Error('404 not found');
-        })
-        .mockResolvedValueOnce(undefined)
-        .mockResolvedValueOnce(undefined)
-        .mockImplementationOnce(() => {
-          throw new Error('404 not found');
-        })
-        .mockResolvedValueOnce(undefined)
-        .mockResolvedValueOnce(undefined),
+        }
+      }),
       require: jest.fn().mockImplementation(() => ({
         transforms: {
           '18.0.0': 'path/to/18.js',
