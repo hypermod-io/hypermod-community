@@ -139,6 +139,10 @@
   width: 100%;
 }
 
+.containerLarge {
+  max-width: var(--ifm-container-width-xl);
+}
+
 .containerCenter {
   text-align: center;
 }

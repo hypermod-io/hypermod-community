@@ -121,7 +121,7 @@ export default function Home() {
               version-targetted codemods.
             </p>
           </div>
-          <div className={clsx(styles.container)}>
+          <div className={clsx(styles.container, styles.containerLarge)}>
             <div className="row">
               <div className={clsx('col col--4')}>
                 <CodeBlock className="language-diff">

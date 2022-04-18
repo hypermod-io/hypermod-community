@@ -14,7 +14,7 @@
   --ifm-color-primary-light: #9c6eec;
   --ifm-color-primary-lighter: #ad89ec;
   --ifm-color-primary-lightest: #c0a4f1;
-  --ifm-code-font-size: 95%;
+  /* --ifm-code-font-size: 95%; */
 }
 
 .docusaurus-highlight-code-line {
