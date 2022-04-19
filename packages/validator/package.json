@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/validator",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "main": "dist/codeshift-validator.cjs.js",
   "types": "dist/codeshift-validator.cjs.d.ts",
   "license": "MIT",

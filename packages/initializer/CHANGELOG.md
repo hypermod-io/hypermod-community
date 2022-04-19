@@ -1,5 +1,21 @@
 # @codeshift/initializer
 
+## 0.3.0
+
+### Minor Changes
+
+- 380ed84: Codeshift projects can now be initialized a config file only via the `init --config-only` command.
+
+  Initialized projects now contain a README with helpful getting started information.
+
+  The init command now outputs getting started tips + commands
+
+### Patch Changes
+
+- Updated dependencies [380ed84]
+- Updated dependencies [1d034ab]
+  - @codeshift/cli@0.10.0
+
 ## 0.2.2
 
 ### Patch Changes
