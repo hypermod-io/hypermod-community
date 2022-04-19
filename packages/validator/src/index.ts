@@ -1,6 +1,4 @@
-import fs from 'fs-extra';
 import semver from 'semver';
-import path from 'path';
 
 import { CodeshiftConfig } from '@codeshift/types';
 import { fetchConfig } from '@codeshift/fetcher';
@@ -61,24 +59,6 @@ Please make sure all transforms are identified by a valid semver version. ie 10.
   if (!hasValidPresets(config)) {
     throw new Error(`Invalid preset ids found for config at "${filePath}".
 Please make sure all presets are kebab case and contain no spaces or special characters. ie sort-imports-by-scope`);
-  }
-
-  return true;
-}
-
-export async function isValidPackageJson(targetPath: string) {
-  const packageJsonRaw = await fs.readFile(
-    path.join(targetPath, 'package.json'),
-    'utf8',
-  );
-  const packageJson = JSON.parse(packageJsonRaw);
-
-  if (!packageJson.name) {
-    throw new Error('No package name provided in package.json');
-  }
-
-  if (!packageJson.main) {
-    throw new Error('No main entrypoint provided in package.json');
   }
 
   return true;

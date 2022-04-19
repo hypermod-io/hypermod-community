@@ -155,28 +155,19 @@ Subcommand that generates a new codemod at your desired path
 Create a new codeshift package called foobar with a transform for version 10
 on the Desktop
 
-- `$ codeshift init --package-name="foobar" --version="10.0.0" ~/Desktop`
+- `$ codeshift init --version="10.0.0" ~/Desktop/foobar`
 
-Create an empty codeshift package called foobar on the Desktop
+Create an empty codeshift package called on the Desktop
 
-- `$ codeshift init --package-name="foobar" ~/Desktop`
+- `$ codeshift init ~/Desktop/foobar`
 
 Create an empty codeshift package called foobar in the current directory
 
-- `$ codeshift init --package-name="foobar"`
+- `$ codeshift init`
 
-### --package-name
+Create a 'config only' codeshift package in the current
 
-The name of the package/directory to be created.
-
-**example:**
-
-Create an empty codemod package called foobar with a transform.
-
-When `--version` and `--preset` flags are omitted no transforms will be generated.
-To generate tranforms after already generating the directory, simply rerun the command with the necessary flags.
-
-- `$ codeshift init --package-name="foobar" ~/Desktop`
+- `$ codeshift init --config-only`
 
 ### --version (optional)
 

@@ -47,7 +47,7 @@ jest.config.js
 function getConfig(packageName: string, transform?: string, preset?: string) {
   return `module.exports = {
   maintainers: [],
-  target: [],
+  targets: [],
   description: 'Codemods for ${packageName}',
   transforms: {${
     transform
@@ -62,22 +62,24 @@ function getConfig(packageName: string, transform?: string, preset?: string) {
 }
 
 function updateConfig(
-  path: string,
+  targetPath: string,
   packageName: string,
   transformName: string,
   type: 'version' | 'preset',
+  isReduced = false,
 ) {
-  const source = fs.readFileSync(path, 'utf8');
+  const configPath = path.join(targetPath, 'codeshift.config.js');
+  const source = fs.readFileSync(configPath, 'utf8');
   const ast = recast.parse(source);
   const b = recast.types.builders;
   const key = type === 'version' ? 'transforms' : 'presets';
 
   recast.visit(ast, {
-    visitProperty(path) {
+    visitProperty(propertyPath) {
       // @ts-ignore
-      if (path.node.key.name !== key) return false;
+      if (propertyPath.node.key.name !== key) return false;
       // @ts-ignore
-      const properties = path.node.value.properties;
+      const properties = propertyPath.node.value.properties;
       // @ts-ignore
       properties.forEach(property => {
         if (property.key.value === transformName) {
@@ -86,6 +88,10 @@ function updateConfig(
           );
         }
       });
+
+      const transformPath = `./${
+        !isReduced ? 'src/' : ''
+      }${transformName}/transform`;
 
       properties.push(
         b.property(
@@ -96,7 +102,7 @@ function updateConfig(
               b.identifier('require'),
               b.identifier('resolve'),
             ),
-            [b.stringLiteral(`./${transformName}/transform`)],
+            [b.stringLiteral(transformPath)],
           ),
         ),
       );
@@ -105,7 +111,22 @@ function updateConfig(
     },
   });
 
-  return recast.prettyPrint(ast, { quote: 'single', trailingComma: true }).code;
+  fs.writeFileSync(
+    configPath,
+    recast.prettyPrint(ast, {
+      quote: 'single',
+      trailingComma: true,
+      tabWidth: 2,
+    }).code,
+  );
+}
+
+export function initConfig(packageName: string, targetPath = './') {
+  const configPath = path.join(targetPath, 'codeshift.config.js');
+
+  if (!fs.existsSync(configPath)) {
+    fs.writeFileSync(configPath, getConfig(packageName));
+  }
 }
 
 export function initDirectory(
@@ -113,16 +134,9 @@ export function initDirectory(
   targetPath = './',
   isReduced = false,
 ) {
-  const basePath = path.join(targetPath, packageName.replace('/', '__'));
-  const configPath = path.join(
-    basePath,
-    !isReduced ? 'src' : '',
-    'codeshift.config.js',
-  );
-
   fs.copySync(
     path.join(__dirname, '..', 'template', isReduced ? 'src' : ''),
-    basePath,
+    targetPath,
     {
       filter: src => !src.includes('src/codemod'),
     },
@@ -130,16 +144,14 @@ export function initDirectory(
 
   if (!isReduced) {
     fs.writeFileSync(
-      path.join(basePath, 'package.json'),
+      path.join(targetPath, 'package.json'),
       getPackageJson(packageName),
     );
 
-    fs.writeFileSync(path.join(basePath, '.npmignore'), getNpmIgnore());
+    fs.writeFileSync(path.join(targetPath, '.npmignore'), getNpmIgnore());
   }
 
-  if (!fs.existsSync(configPath)) {
-    fs.writeFileSync(configPath, getConfig(packageName));
-  }
+  initConfig(packageName, targetPath);
 }
 
 export function initTransform(
@@ -153,26 +165,23 @@ export function initTransform(
     throw new Error(`Provided version ${id} is not a valid semver version`);
   }
 
-  const basePath = path.join(targetPath, packageName.replace('/', '__'));
-  const transformPath = path.join(basePath, !isReduced ? 'src' : '', id);
-  const configPath = path.join(
-    basePath,
-    !isReduced ? 'src' : '',
-    'codeshift.config.js',
-  );
+  const transformPath = path.join(targetPath, !isReduced ? 'src' : '', id);
 
   if (fs.existsSync(transformPath)) {
     throw new Error(`Codemod for ${type} "${id}" already exists`);
   }
 
+  const codemodTemplateDestinationPath = path.join(
+    targetPath,
+    !isReduced ? 'src' : '',
+    'codemod',
+  );
+
   fs.copySync(
-    path.join(__dirname, '..', 'template', isReduced ? 'src' : ''),
-    basePath,
+    path.join(__dirname, '..', 'template', 'src', 'codemod'),
+    codemodTemplateDestinationPath,
   );
-  fs.renameSync(
-    path.join(basePath, !isReduced ? 'src' : '', 'codemod'),
-    transformPath,
-  );
+  fs.renameSync(codemodTemplateDestinationPath, transformPath);
 
   const testFilePath = path.join(transformPath, 'transform.spec.ts');
   const testFile = fs
@@ -183,15 +192,5 @@ export function initTransform(
 
   fs.writeFileSync(testFilePath, testFile);
 
-  if (!isReduced) {
-    fs.writeFileSync(
-      path.join(basePath, 'package.json'),
-      getPackageJson(packageName),
-    );
-  }
-
-  fs.writeFileSync(
-    configPath,
-    updateConfig(configPath, packageName, id || '', type),
-  );
+  updateConfig(targetPath, packageName, id || '', type, isReduced);
 }

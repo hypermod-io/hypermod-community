@@ -1,10 +1,14 @@
+import chalk from 'chalk';
 import { initDirectory, initTransform } from '@codeshift/initializer';
+import path from 'path';
 
-const targetPath = `${__dirname}/../community`;
+const communityPath = `${__dirname}/../community`;
 
 export function main(packageName: string, transform?: string) {
   if (!packageName) throw new Error('Package name was not provided');
   if (!transform) throw new Error('Version was not provided');
+
+  const targetPath = path.join(communityPath, packageName.replace('/', '__'));
 
   if (transform) {
     initDirectory(packageName, targetPath, true);
@@ -12,7 +16,9 @@ export function main(packageName: string, transform?: string) {
   }
 
   console.log(
-    `🚚 New codemod package created at: community/${packageName}/${transform}`,
+    chalk.green(
+      `🚚 New codemod package created at: ./community/${packageName}/${transform}`,
+    ),
   );
 }
 

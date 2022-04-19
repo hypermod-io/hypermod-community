@@ -1,8 +1,9 @@
-import { isValidConfigAtPath, isValidPackageJson } from '@codeshift/validator';
+import chalk from 'chalk';
+
+import { isValidConfigAtPath } from '@codeshift/validator';
 
 export default async function validate(targetPath = '.') {
   await isValidConfigAtPath(targetPath);
-  await isValidPackageJson(targetPath);
 
-  console.log('Valid ✅');
+  console.log(chalk.green('Valid ✅'));
 }
