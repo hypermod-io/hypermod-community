@@ -205,7 +205,7 @@ const App = () => (
                   </div>
                   <div className="col col--8">
                     <CodeBlock className="language-bash">
-                      $ codeshift init --packageName foobar
+                      $ npx @codeshift/cli init --packageName foobar
                     </CodeBlock>
                   </div>
                 </div>
@@ -309,7 +309,7 @@ export default transformer;`}</CodeBlock>
                   </div>
                   <div className="col col--8">
                     <CodeBlock className="language-bash">
-                      $ codeshift -p foobar@12.0.0 path/to/src
+                      $ npx @codeshift/cli -p foobar@12.0.0 path/to/src
                     </CodeBlock>
                   </div>
                 </div>
