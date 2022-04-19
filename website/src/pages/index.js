@@ -9,8 +9,6 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import styles from './styles.module.css';
 import Logo from '@site/static/img/logo.svg';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 export default function Home() {
   const context = useDocusaurusContext();
