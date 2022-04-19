@@ -35,11 +35,11 @@ The file structure of your new codeshift package will look like this:
 
 ```
 react-cool-library/
+  codeshift.config.js // main entrypoint containing configuration and references to your transforms
   package.json
   tsconfig.json
   jest.config.js
   src/
-    codeshift.config.js // main entrypoint containing configuration and references to your transforms
     10.0.0/ // semver version
       transform.ts // main logic (should contain a transformer)
       transform.spec.ts // main tests

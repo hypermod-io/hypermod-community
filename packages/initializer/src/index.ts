@@ -2,8 +2,11 @@ import fs from 'fs-extra';
 import path from 'path';
 import semver from 'semver';
 import * as recast from 'recast';
+import { version as cliVersion } from '@codeshift/cli/package.json';
 import { version as utilVersion } from '@codeshift/utils/package.json';
 import { version as testUtilVersion } from '@codeshift/test-utils/package.json';
+
+const TEMPLATE_PATH = path.join(__dirname, '..', 'template');
 
 export function getPackageJson(packageName: string, version = '0.0.0') {
   return JSON.stringify(
@@ -13,13 +16,16 @@ export function getPackageJson(packageName: string, version = '0.0.0') {
       license: 'MIT',
       main: 'dist/codeshift.config.js',
       scripts: {
+        dev: 'codeshift',
         build: 'tsc --build',
-        test: 'jest',
+        test: 'jest --watch',
+        validate: 'codeshift validate .',
       },
       dependencies: {
         '@codeshift/utils': `^${utilVersion}`,
       },
       devDependencies: {
+        '@codeshift/cli': `^${cliVersion}`,
         '@codeshift/test-utils': `^${testUtilVersion}`,
         '@types/node': '^16.11.0',
         '@types/jest': '^26.0.15',
@@ -134,13 +140,9 @@ export function initDirectory(
   targetPath = './',
   isReduced = false,
 ) {
-  fs.copySync(
-    path.join(__dirname, '..', 'template', isReduced ? 'src' : ''),
-    targetPath,
-    {
-      filter: src => !src.includes('src/codemod'),
-    },
-  );
+  fs.copySync(path.join(TEMPLATE_PATH, isReduced ? 'src' : ''), targetPath, {
+    filter: src => !src.includes('src/codemod'),
+  });
 
   if (!isReduced) {
     fs.writeFileSync(
@@ -149,6 +151,13 @@ export function initDirectory(
     );
 
     fs.writeFileSync(path.join(targetPath, '.npmignore'), getNpmIgnore());
+
+    const readmeFilePath = path.join(targetPath, 'README.md');
+    const readmeFile = fs
+      .readFileSync(readmeFilePath, 'utf8')
+      .replace('<% packageName %>', packageName);
+
+    fs.writeFileSync(readmeFilePath, readmeFile);
   }
 
   initConfig(packageName, targetPath);
@@ -178,7 +187,7 @@ export function initTransform(
   );
 
   fs.copySync(
-    path.join(__dirname, '..', 'template', 'src', 'codemod'),
+    path.join(TEMPLATE_PATH, 'src', 'codemod'),
     codemodTemplateDestinationPath,
   );
   fs.renameSync(codemodTemplateDestinationPath, transformPath);
