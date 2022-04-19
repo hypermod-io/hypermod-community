@@ -24,6 +24,7 @@
     "monorepo:fix": "manypkg fix && preconstruct fix",
     "cli:start": "node packages/cli/bin/codeshift-cli.js",
     "cli:validate": "node packages/cli/bin/codeshift-cli.js validate",
+    "cli:list": "node packages/cli/bin/codeshift-cli.js list",
     "init:codemods": "ts-node scripts/initialize.ts",
     "validate:codemods": "ts-node scripts/validate.ts ./community",
     "release:codemods": "ts-node scripts/publish.ts ./community .tmp",

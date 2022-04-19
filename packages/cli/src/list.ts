@@ -1,17 +1,16 @@
 import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
-import { CodeshiftConfig } from '@codeshift/types';
+
+import { fetchPackageConfig } from './fetch-package';
 
 export default async function list(packages: string[]) {
   const packageManager = new PluginManager();
+  const configs = [];
 
   for (const packageName of packages) {
-    const pkgSplit = packageName.split('@').filter(str => !!str);
-    const name = pkgSplit[0].replace('/', '__');
-    const codemodName = `@codeshift/mod-${name}`;
-
     try {
-      await packageManager.install(codemodName);
+      const config = await fetchPackageConfig(packageName, packageManager);
+      configs.push({ packageName, config });
     } catch (error) {
       console.warn(
         chalk.red(
@@ -21,33 +20,31 @@ export default async function list(packages: string[]) {
 
       continue;
     }
+  }
 
-    await packageManager.install(codemodName);
-    const pkg = packageManager.require(codemodName);
-    const config: CodeshiftConfig = pkg.default ? pkg.default : pkg;
-
+  configs.forEach(({ packageName, config }) => {
     console.log(chalk.bold(packageName));
 
     if (config.transforms) {
-      console.log(`├─ transforms`),
-        Object.keys(config.transforms).forEach((transform, index, array) => {
-          if (index + 1 === array.length) {
-            console.log(`|  └─ ${transform}`);
-            return;
-          }
-          console.log(`|  ├─ ${transform}`);
-        });
+      console.log(`├─ transforms`);
+      Object.keys(config.transforms).forEach((transform, index, array) => {
+        if (index + 1 === array.length) {
+          console.log(`|  └─ ${transform}`);
+          return;
+        }
+        console.log(`|  ├─ ${transform}`);
+      });
     }
 
     if (config.presets) {
-      console.log(`└─ presets`),
-        Object.keys(config.presets).forEach((transform, index, array) => {
-          if (index + 1 === array.length) {
-            console.log(`   └─ ${transform}`);
-            return;
-          }
-          console.log(`|  ├─ ${transform}`);
-        });
+      console.log(`└─ presets`);
+      Object.keys(config.presets).forEach((transform, index, array) => {
+        if (index + 1 === array.length) {
+          console.log(`   └─ ${transform}`);
+          return;
+        }
+        console.log(`|  ├─ ${transform}`);
+      });
     }
-  }
+  });
 }
