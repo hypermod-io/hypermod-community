@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/publisher",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "main": "dist/codeshift-publisher.cjs.js",
   "types": "dist/codeshift-publisher.cjs.d.ts",
   "license": "MIT",
