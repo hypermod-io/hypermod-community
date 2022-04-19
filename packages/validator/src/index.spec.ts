@@ -1,16 +1,9 @@
 jest.mock('fs-extra');
 jest.mock('@codeshift/fetcher');
 
-import fs from 'fs-extra';
-
 import { fetchConfig } from '@codeshift/fetcher';
 
-import {
-  isValidPackageName,
-  isValidConfig,
-  isValidConfigAtPath,
-  isValidPackageJson,
-} from '.';
+import { isValidPackageName, isValidConfig, isValidConfigAtPath } from '.';
 
 describe('validator', () => {
   describe('isValidPackageName', () => {
@@ -171,56 +164,6 @@ Please make sure all transforms are identified by a valid semver version. ie 10.
         `Invalid preset ids found for config at "path/to/".
 Please make sure all presets are kebab case and contain no spaces or special characters. ie sort-imports-by-scope`,
       );
-    });
-  });
-
-  describe('isValidPackageJson', () => {
-    afterEach(() => jest.resetAllMocks());
-
-    it('should detect valid package.json', async () => {
-      (fs.readFile as jest.Mock).mockReturnValue(`{
-        "name": "codeshift-package",
-        "main": "dist/index.js",
-        "version": "0.0.1"
-      }`);
-
-      const result = await isValidPackageJson('path/to/');
-      expect(result).toEqual(true);
-      expect(fs.readFile).toHaveBeenCalledWith('path/to/package.json', 'utf8');
-    });
-
-    it('should detect invalid package.json', async () => {
-      expect.assertions(2);
-
-      {
-        (fs.readFile as jest.Mock).mockReturnValue(`{
-        "name": "codeshift-package"
-      }`);
-
-        try {
-          await isValidPackageJson('path/to/');
-        } catch (error) {
-          // @ts-ignore
-          expect(error.message).toMatch(
-            'No main entrypoint provided in package.json',
-          );
-        }
-      }
-
-      {
-        (fs.readFile as jest.Mock).mockReturnValue(`{
-            "main": "dist/index.js"
-          }`);
-
-        try {
-          await isValidPackageJson('path/to/');
-        } catch (error) {
-          // @ts-ignore
-          expect(error.message).toMatch(
-            'No package name provided in package.json',
-          );
-        }
-      }
     });
   });
 });

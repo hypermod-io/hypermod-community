@@ -94,24 +94,30 @@ Examples:
 program
   .command('init [path]')
   .description('creates a new codeshift package')
-  .requiredOption('--package-name <value>', 'Name of the package')
+  .option('-c, --config-only', 'Output only a configuration file')
   .option('-t, --transform <value>', 'Transform version')
   .option('-p, --preset <value>', 'Preset transfrom')
   .action((path, options) =>
-    init(options.packageName, options.transform, options.preset, path),
+    init(options.transform, options.preset, options.configOnly, path),
   )
   .addHelpText(
     'after',
     `
 Examples:
-  # Initializes an empty codeshift package at the ~/Desktop directory
-  $ codeshift init --package-name foobar --transform 10.0.0 ~/Desktop
+  # Initializes an empty codeshift package at the current directory
+  $ codeshift init --transform 10.0.0 my-codemod-package
 
-  # Initializes a new codeshift package with a transform for 10.0.0
-  $ codeshift init --package-name foobar --transform 10.0.0 ~/Desktop
+  # Initializes an empty codeshift package at the current directory
+  $ codeshift init --transform 10.0.0 .
+
+  # Initializes a new codeshift package with a transform for 10.0.0 at the foobar dir
+  $ codeshift init --transform 10.0.0 ~/foobar
 
   # Initializes a new codeshift package with a preset "update-imports"
-  $ codeshift init --package-name foobar --preset update-imports ~/Desktop`,
+  $ codeshift init --package-name foobar --preset update-imports foobar
+
+  # Initializes a configuration file only
+  $ codeshift init --config-only --preset update-imports path/to/src`,
   );
 
 program

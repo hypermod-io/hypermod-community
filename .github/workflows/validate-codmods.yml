@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
-      - run: yarn validate:codemods
+      - run: yarn community:validate
         env:
           CI: true
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
