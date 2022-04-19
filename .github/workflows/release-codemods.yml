@@ -24,8 +24,8 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn validate
       - run: yarn test
-      - run: yarn validate:codemods
-      - run: yarn release:codemods
+      - run: yarn community:validate
+      - run: yarn community:release
         env:
           CI: true
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
