@@ -188,7 +188,7 @@ const App = () => (
         </section>
         <section className={clsx(styles.heroSection)}>
           <div className={clsx(styles.container, styles.containerLarge)}>
-            <h2 className={clsx(styles.heroHeadingBanner)}>How it works</h2>
+            <h2 className={clsx(styles.heroHeadingBanner)}>How it works.</h2>
             <ol className={clsx(styles.heroList)}>
               <li>
                 <div className="row">
