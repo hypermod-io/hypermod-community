@@ -54,7 +54,7 @@ export default function Home() {
                   </span>{' '}
                   <h3>Publish</h3>
                   <p>
-                    Create, test and publish your own codemods for your users
+                    Create, test and publish your own codemods for your users.
                   </p>
                 </div>
               </div>
@@ -69,7 +69,7 @@ export default function Home() {
                   </span>{' '}
                   <h3>Up-skill</h3>
                   <p>
-                    Up-skill your engineering team using our guides & resources
+                    Up-skill your engineering team using our guides & resources.
                   </p>
                 </div>
               </div>
@@ -85,7 +85,7 @@ export default function Home() {
                   <h3>Go fast</h3>
                   <p>
                     Use our helpers & testing utilities to make writing codemods
-                    a breeze
+                    a breeze.
                   </p>
                 </div>
               </div>
@@ -101,7 +101,7 @@ export default function Home() {
                   <h3>Registry</h3>
                   <p>
                     Explore an extensive list of codemods contributed by the
-                    community
+                    community.
                   </p>
                 </div>
               </div>

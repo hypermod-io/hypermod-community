@@ -80,7 +80,7 @@ tsx is a superset of JavaScript + JSX and should be the most sensible default fo
 
 ### --extensions, -e
 
-Transform files with these file extensions (comma separated list)
+Transform files with these file extensions (comma separated list).
 
 **default:**
 
@@ -90,6 +90,18 @@ Transform files with these file extensions (comma separated list)
 
 - `$ codeshift --extensions ts,tsx /project/src/file.js`
 - `$ codeshift -e js /project/src/file.js`
+
+### --sequence, -s
+
+If the package flag is provided, runs all transforms from the provided version to the latest.
+
+**default:**
+
+`false`
+
+**example:**
+
+- `$ codeshift --packages @atlaskit/button@3.0.0 --sequence /project/src`
 
 ### --ignore-pattern
 
