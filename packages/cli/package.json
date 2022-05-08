@@ -15,13 +15,16 @@
     "start:dev": "ts-node src/index.ts"
   },
   "dependencies": {
+    "@codemod/cli": "^3.1.2",
     "@codeshift/fetcher": "^0.0.3",
     "@codeshift/initializer": "^0.3.0",
     "@codeshift/types": "*",
     "@codeshift/validator": "^0.4.0",
     "chalk": "^4.1.0",
     "commander": "^8.2.0",
+    "find-up": "^5.0.0",
     "fs-extra": "^9.1.0",
+    "inquirer": "^8.2.4",
     "jscodeshift": "^0.13.1",
     "live-plugin-manager": "^0.15.1",
     "lodash": "^4.17.21",

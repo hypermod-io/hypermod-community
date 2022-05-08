@@ -9,6 +9,18 @@ function resolveConfigExport(pkg: any): CodeshiftConfig {
   return pkg.default ? pkg.default : pkg;
 }
 
+function requireConfig(filePath: string, resolvedPath: string ) {
+  try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const pkg = require(resolvedPath);
+      return resolveConfigExport(pkg);
+    } catch (e) {
+      throw new Error(
+        `Found config file "${filePath}" but was unable to parse it. This can be caused when transform or preset paths are incorrect.`,
+      );
+    }
+}
+
 export async function fetchConfig(
   filePath: string,
 ): Promise<CodeshiftConfig | undefined> {
@@ -24,18 +36,25 @@ export async function fetchConfig(
 
     if (!exists) continue;
 
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const pkg = require(resolvedMatchedPath);
-      return resolveConfigExport(pkg);
-    } catch (e) {
-      throw new Error(
-        `Found config file "${matchedPath}" but was unable to parse it. This can be caused when transform or preset paths are incorrect.`,
-      );
-    }
+    return requireConfig(matchedPath, resolvedMatchedPath);
   }
 
   return undefined;
+}
+
+export async function fetchConfigAtPath(
+  filePath: string,
+): Promise<CodeshiftConfig> {
+  const resolvedFilePath = path.resolve(filePath);
+  const exists = fs.existsSync(resolvedFilePath);
+
+  if (!exists) {
+    throw new Error(
+      `Unable to find config at path: ${filePath}`,
+    );
+  };
+
+  return requireConfig(filePath, resolvedFilePath);
 }
 
 export async function fetchPackage(

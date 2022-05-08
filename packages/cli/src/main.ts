@@ -1,14 +1,18 @@
 import path from 'path';
 import semver from 'semver';
 import chalk from 'chalk';
-import { PluginManager } from 'live-plugin-manager';
+import findUp from 'find-up';
+import inquirer from 'inquirer';
 
+import { fetchConfigAtPath } from '@codeshift/fetcher';
+import { PluginManager } from 'live-plugin-manager';
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
 import * as jscodeshift from 'jscodeshift/src/Runner';
 
 import { Flags } from './types';
 import { InvalidUserInputError } from './errors';
 import { fetchPackageConfig } from './fetch-package';
+import { getTransformPrompt } from './prompt';
 
 export default async function main(paths: string[], flags: Flags) {
   const packageManager = new PluginManager({
@@ -18,9 +22,32 @@ export default async function main(paths: string[], flags: Flags) {
   let transforms: string[] = [];
 
   if (!flags.transform && !flags.packages) {
-    throw new InvalidUserInputError(
-      'No transform provided, please specify a transform with either the --transform or --packages flags',
+    console.log(
+      chalk.green(
+        'No transforms specified, attempting to find local codeshift.config file',
+      ),
     );
+
+    const configFilePath = await findUp([
+      'codeshift.config.js',
+      'codeshift.config.ts',
+      'codeshift.config.tsx',
+    ]);
+
+    if (!configFilePath) {
+      throw new InvalidUserInputError(
+        'No transform provided, please specify a transform with either the --transform or --packages flags',
+      );
+    }
+
+    console.log(
+      chalk.green('Found local codeshift.config file at:'),
+      configFilePath,
+    );
+
+    const config = await fetchConfigAtPath(configFilePath);
+    const answers = await inquirer.prompt([getTransformPrompt(config)]);
+    transforms.push(answers.transform);
   }
 
   if (paths.length === 0) {
