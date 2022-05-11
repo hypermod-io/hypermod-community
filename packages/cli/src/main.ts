@@ -47,7 +47,12 @@ export default async function main(paths: string[], flags: Flags) {
 
     const config = await fetchConfigAtPath(configFilePath);
     const answers = await inquirer.prompt([getTransformPrompt(config)]);
-    transforms.push(answers.transform);
+
+    if (config.transforms && config.transforms[answers.transform]) {
+      transforms.push(config.transforms[answers.transform]);
+    } else if (config.presets && config.presets[answers.transform]) {
+      transforms.push(config.presets[answers.transform]);
+    }
   }
 
   if (paths.length === 0) {
