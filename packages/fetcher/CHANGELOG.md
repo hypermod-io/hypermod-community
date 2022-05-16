@@ -1,5 +1,11 @@
 # @codeshift/fetcher
 
+## 0.1.0
+
+### Minor Changes
+
+- c24d9e9: CLI now prompts users with codemods from their local codeshift.config.js files.
+
 ## 0.0.3
 
 ### Patch Changes

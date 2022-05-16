@@ -1,5 +1,12 @@
 # @codeshift/validator
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [c24d9e9]
+  - @codeshift/fetcher@0.1.0
+
 ## 0.4.0
 
 ### Minor Changes
