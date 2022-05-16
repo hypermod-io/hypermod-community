@@ -1,5 +1,6 @@
 jest.mock('globby');
 jest.mock('live-plugin-manager');
+jest.mock('find-up');
 jest.mock('jscodeshift/src/Runner', () => ({
   run: jest.fn().mockImplementation(() => Promise.resolve()),
 }));
@@ -34,7 +35,7 @@ describe('main', () => {
       }
     });
 
-    it('should exit early if nether a package or transform is supplied', async () => {
+    it('should throw if nether a package or transform is supplied and unable to find local config', async () => {
       expect.assertions(1);
 
       try {

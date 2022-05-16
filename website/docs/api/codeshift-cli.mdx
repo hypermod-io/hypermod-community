@@ -31,7 +31,44 @@ and run with:
 
 `$ codeshift` or `$ codeshift-cli`
 
-## Options
+## default
+
+The default CLI command (when no subcommand is specified,) will attempt to download and run transform(s) against the specified file path.
+
+In the majority of cases you want to be sure to either provide the `--packages` flag for running remote codemods, or the `--transform, -t` flag to run a local transform file.
+
+For running codemods as an end-user it's recommend to use the `--packages` flag, which accepts the following format: `--packages [package-name]@[semver-version]`. For example, running the codemod to migrate your codebase to `react` version `18.0.0` you would specify the following `--packages react@18.0.0`.
+
+In special cases, codeshift package authors may choose to also expose codemod "presets", which can be considered as utility codemods for that package. Presets are also run via the `--packages` flag like so: `--packages react#remove-spread-props`.
+Notice that we have switched to a hash `#` here to denote that we want to run a preset.
+
+Codeshift will then attempt to locate codemods from both the [community folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community) and the primary npm package ie [React – NPM](https://www.npmjs.com/package/react).
+(Note: Some packages wont have any codemods, you can use the [list](#list) subcommand to check if they exist.)
+
+Lastly, when authoring a package, it's possible to test your transforms by omitting both the `--packages` and `--transform` flags. In this interactive mode, the `codeshift/cli` will attempt to locate
+a local `codeshift.config.js` from the current or parent directories and present an interactive prompt for you to choose from.
+
+**example:**
+
+Run a transform for "@mylib/button" version 3.0.0 only
+
+- `$ codeshift --packages @mylib/button@3.0.0 /project/src`
+
+Run a transform for "@mylib/button" preset `foo-bar` only
+
+- `$ codeshift --packages @mylib/button#foo-bar /project/src`
+
+Run all transforms for "@mylib/button" greater than version 3.0.0 and @mylib/range greater than 4.0.0
+
+- `$ codeshift --sequence --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src`
+
+Run the "my-custom-transform" transform
+
+- `$ codeshift -t path/to/my-custom-transform /project/src`
+
+Display a prompt with a list of codemods from my local `codeshift.config.js` file(s).
+
+- `$ codeshift /project/src`
 
 ### --transform, -t
 
