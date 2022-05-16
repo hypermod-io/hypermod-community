@@ -72,7 +72,10 @@ Examples:
   $ codeshift --sequence --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src
 
   # Run the "my-custom-transform" transform
-  $ codeshift -t path/to/my-custom-transform /project/src`,
+  $ codeshift -t path/to/my-custom-transform /project/src
+
+  # Display a prompt with a list of codemods from my local \`codeshift.config.js\` file(s).
+  $ codeshift /project/src`,
   )
   .action((path, options) => main(path, options));
 

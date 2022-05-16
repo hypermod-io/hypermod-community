@@ -29,13 +29,13 @@ export async function fetchPackageConfig(
     );
     spinner.succeed(
       `${chalk.green(
-        `Found CodeshiftCommunity package: `,
+        'Found CodeshiftCommunity package:',
       )} ${getCodeshiftPackageName(packageName)}`,
     );
   } catch (error) {
     spinner.warn(
       `${chalk.yellow(
-        `Unable to locate CodeshiftCommunity package: `,
+        `Unable to locate CodeshiftCommunity package:`,
       )} ${getCodeshiftPackageName(packageName)}`,
     );
   }
@@ -43,11 +43,11 @@ export async function fetchPackageConfig(
   try {
     remoteConfig = await fetchRemotePackage(packageName, packageManager);
     spinner.succeed(
-      `${chalk.green(`Found codeshift package: `)} ${packageName}`,
+      `${chalk.green('Found codeshift package:')} ${packageName}`,
     );
   } catch (error) {
     spinner.warn(
-      `${chalk.yellow(`Unable to locate codeshift package: `)} ${packageName}`,
+      `${chalk.yellow('Unable to locate codeshift package:')} ${packageName}`,
     );
   }
 
@@ -62,7 +62,7 @@ Make sure the package name "${packageName}" is correct and try again.`,
 
   if (!isValidConfig(config)) {
     throw new Error(
-      `Unable to locate a valid codeshift.config in package ${packageName}`,
+      `Unable to locate a valid codeshift.config in package: ${packageName}`,
     );
   }
 

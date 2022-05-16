@@ -15,7 +15,6 @@
     "start:dev": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@codemod/cli": "^3.1.2",
     "@codeshift/fetcher": "^0.0.3",
     "@codeshift/initializer": "^0.3.0",
     "@codeshift/types": "*",

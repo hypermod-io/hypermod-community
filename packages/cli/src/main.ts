@@ -32,6 +32,12 @@ export default async function main(paths: string[], flags: Flags) {
       'codeshift.config.js',
       'codeshift.config.ts',
       'codeshift.config.tsx',
+      'src/codeshift.config.js',
+      'src/codeshift.config.ts',
+      'src/codeshift.config.tsx',
+      'codemods/codeshift.config.js',
+      'codemods/codeshift.config.ts',
+      'codemods/codeshift.config.tsx',
     ]);
 
     if (!configFilePath) {
