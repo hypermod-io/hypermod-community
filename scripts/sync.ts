@@ -41,7 +41,7 @@ async function main() {
     {
       headers: {
         'Content-Type': 'application/json',
-        'X-Custom-PSK': process.env.WORKER_PRESHARED_KEY || '',
+        'X-Custom-PSK': process.env.WORKER_PRESHARED_KEY!,
       },
     },
   );

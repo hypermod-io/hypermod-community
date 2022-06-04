@@ -24,6 +24,8 @@ jobs:
       - run: yarn test
       - run: yarn community:validate
       - run: yarn worker:sync
+        env:
+          WORKER_PRESHARED_KEY: ${{ secrets.WORKER_PRESHARED_KEY }}
       - run: yarn community:release-all
         env:
           CI: true
