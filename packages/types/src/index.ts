@@ -1,5 +1,5 @@
 export interface CodeshiftConfig {
-  target?: string[];
+  targets?: string[];
   maintainers?: string[];
   description?: string;
   transforms?: Record<string, string>;
