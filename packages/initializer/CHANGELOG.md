@@ -1,5 +1,11 @@
 # @codeshift/initializer
 
+## 0.3.2
+
+### Patch Changes
+
+- @codeshift/cli@0.11.1
+
 ## 0.3.1
 
 ### Patch Changes
