@@ -23,8 +23,8 @@ jobs:
       - run: yarn validate
       - run: yarn test
       - run: yarn community:validate
-      - run: yarn community:release-all
       - run: yarn worker:sync
+      - run: yarn community:release-all
         env:
           CI: true
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
