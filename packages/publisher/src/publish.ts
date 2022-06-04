@@ -37,13 +37,18 @@ async function publish(
     publishOpts.push('--dry-run');
   }
 
-  const { stdout } = await spawn(
+  const { code, stdout, stderr } = await spawn(
     'npm',
     ['publish', pkg.dir, '--json', ...publishOpts],
     {
       env: Object.assign({}, process.env, envOverride),
     },
   );
+
+  if (code !== 0) {
+    console.log(chalk.cyan(stderr));
+    throw new Error(`An error occurred while publishing ${name}`);
+  }
 
   const json = jsonParse(stdout.toString().replace(/[^{]*/, ''));
 
