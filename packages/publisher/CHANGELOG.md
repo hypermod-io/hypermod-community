@@ -1,5 +1,12 @@
 # @codeshift/publisher
 
+## 0.1.15
+
+### Patch Changes
+
+- d83ca0d: Improve error logging on publish
+  - @codeshift/initializer@0.3.2
+
 ## 0.1.14
 
 ### Patch Changes

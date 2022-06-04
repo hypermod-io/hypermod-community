@@ -1,5 +1,12 @@
 # @codeshift/fetcher
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [2a116ba]
+  - @codeshift/types@0.0.6
+
 ## 0.1.0
 
 ### Minor Changes

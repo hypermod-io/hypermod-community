@@ -1,5 +1,15 @@
 # @codeshift/cli
 
+## 0.11.1
+
+### Patch Changes
+
+- Updated dependencies [2a116ba]
+  - @codeshift/types@0.0.6
+  - @codeshift/fetcher@0.1.1
+  - @codeshift/validator@0.4.2
+  - @codeshift/initializer@0.3.2
+
 ## 0.11.0
 
 ### Minor Changes

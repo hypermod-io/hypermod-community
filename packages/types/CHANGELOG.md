@@ -1,5 +1,11 @@
 # @codeshift/types
 
+## 0.0.6
+
+### Patch Changes
+
+- 2a116ba: Renames target to targets (inline with the spec)
+
 ## 0.0.5
 
 ### Patch Changes
