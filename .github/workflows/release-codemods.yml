@@ -26,7 +26,9 @@ jobs:
       - run: yarn test
       - run: yarn community:validate
       - run: yarn community:release
+      - run: yarn worker:sync
         env:
           CI: true
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          WORKER_PRESHARED_KEY: ${{ secrets.WORKER_PRESHARED_KEY }}
