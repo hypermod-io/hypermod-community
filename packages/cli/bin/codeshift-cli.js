@@ -3,12 +3,13 @@
 
 const fs = require('fs');
 const path = require('path');
+
 const project = path.join(__dirname, '../tsconfig.json');
 const dev = fs.existsSync(project);
 
-if (dev && !require.extensions['.ts']) {
+if (!require.extensions['.ts']) {
   // ts-node can only handle being registered once, see https://github.com/TypeStrong/ts-node/issues/409
-  require('ts-node').register({ project });
+  require('ts-node').register(dev ? { project } : {});
 }
 
 try {
