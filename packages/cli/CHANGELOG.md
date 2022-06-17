@@ -1,5 +1,12 @@
 # @codeshift/cli
 
+## 0.11.2
+
+### Patch Changes
+
+- aaa42ca: Registers ts-node regardless of dev/prod usage to allow for requires/require.resolve of ts files via configs
+  - @codeshift/initializer@0.3.3
+
 ## 0.11.1
 
 ### Patch Changes
