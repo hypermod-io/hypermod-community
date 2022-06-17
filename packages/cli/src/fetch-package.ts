@@ -38,6 +38,7 @@ export async function fetchPackageConfig(
         `Unable to locate CodeshiftCommunity package:`,
       )} ${getCodeshiftPackageName(packageName)}`,
     );
+    console.log(error);
   }
 
   try {
@@ -49,6 +50,7 @@ export async function fetchPackageConfig(
     spinner.warn(
       `${chalk.yellow('Unable to locate codeshift package:')} ${packageName}`,
     );
+    console.log(error);
   }
 
   if (!codeshiftConfig && !remoteConfig) {
