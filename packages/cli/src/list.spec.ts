@@ -12,6 +12,7 @@ describe('list', () => {
 
     (PluginManager as jest.Mock).mockImplementation(() => ({
       install: jest.fn().mockResolvedValue(undefined),
+      getInfo: jest.fn().mockReturnValue({ location: 'path/to/config' }),
       require: jest.fn().mockImplementation(() => ({
         transforms: {
           '18.0.0': 'path/to/18.js',
@@ -115,6 +116,7 @@ ${chalk.bold('@foo/bar')}
           throw new Error('404 not found');
         }
       }),
+      getInfo: jest.fn().mockReturnValue({ location: 'path/to/config' }),
       require: jest.fn().mockImplementation(() => ({
         transforms: {
           '18.0.0': 'path/to/18.js',
