@@ -1,5 +1,13 @@
 # @codeshift/cli
 
+## 0.11.2
+
+### Patch Changes
+
+- 4d54ea0: Emit the full stack trace when a fetch package + eval config error occurs
+- 60f1196: Registers ts-node regardless of dev/prod usage to allow for requires/require.resolve of ts files via configs
+  - @codeshift/initializer@0.3.3
+
 ## 0.11.1
 
 ### Patch Changes
