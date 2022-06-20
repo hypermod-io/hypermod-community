@@ -16,7 +16,7 @@ import { getTransformPrompt } from './prompt';
 
 export default async function main(paths: string[], flags: Flags) {
   const packageManager = new PluginManager({
-    pluginsPath: path.join(__dirname, '.plugin_packages'),
+    pluginsPath: path.join(__dirname, 'node_modules'),
   });
 
   let transforms: string[] = [];
