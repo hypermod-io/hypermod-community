@@ -1,5 +1,12 @@
 # @codeshift/cli
 
+## 0.11.3
+
+### Patch Changes
+
+- fb7c59a: dependencies installed by the CLI will now be output to a nested node_modules dir instead of .plugin_packages
+  - @codeshift/initializer@0.3.4
+
 ## 0.11.2
 
 ### Patch Changes
