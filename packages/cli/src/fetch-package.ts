@@ -15,32 +15,35 @@ export async function fetchPackageConfig(
   packageName: string,
   packageManager: PluginManager,
 ) {
+  const codeshiftPackageName = getCodeshiftPackageName(packageName);
   let codeshiftConfig: CodeshiftConfig | undefined;
   let remoteConfig: CodeshiftConfig | undefined;
 
   const spinner = ora(
-    `${chalk.green('Attempting to download package:')} ${packageName}`,
+    `${chalk.green(
+      'Attempting to download CodeshiftCommunity package:',
+    )} ${packageName}`,
   ).start();
 
   try {
-    codeshiftConfig = await fetchPackage(
-      getCodeshiftPackageName(packageName),
-      packageManager,
-    );
+    codeshiftConfig = await fetchPackage(codeshiftPackageName, packageManager);
     spinner.succeed(
       `${chalk.green(
         'Found CodeshiftCommunity package:',
-      )} ${getCodeshiftPackageName(packageName)}`,
+      )} ${codeshiftPackageName}`,
     );
   } catch (error) {
     spinner.warn(
       `${chalk.yellow(
         `Unable to locate CodeshiftCommunity package:`,
-      )} ${getCodeshiftPackageName(packageName)}`,
+      )} ${codeshiftPackageName}`,
     );
   }
 
   try {
+    spinner.info(
+      `${chalk.green(`Attempting to download npm package:`)} ${packageName}`,
+    );
     remoteConfig = await fetchRemotePackage(packageName, packageManager);
     spinner.succeed(
       `${chalk.green('Found codeshift package:')} ${packageName}`,

@@ -124,6 +124,16 @@ export default async function main(paths: string[], flags: Flags) {
         }
       });
 
+      if (presetIds.length === 0 && transformIds.length === 0) {
+        const res = await inquirer.prompt([getTransformPrompt(config)]);
+
+        if (semver.valid(semver.coerce(res.transform))) {
+          transformIds.push(res.transform);
+        } else {
+          presetIds.push(res.transform);
+        }
+      }
+
       // Get transform file paths
       if (config.transforms) {
         if (flags.sequence) {
