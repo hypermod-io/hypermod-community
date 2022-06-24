@@ -1,5 +1,11 @@
 # @codeshift/publisher
 
+## 0.1.18
+
+### Patch Changes
+
+- @codeshift/initializer@0.3.5
+
 ## 0.1.17
 
 ### Patch Changes
