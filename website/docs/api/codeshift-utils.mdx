@@ -17,7 +17,9 @@ However, it is also available for use outside of this project and compatible wit
 
 ## Imports
 
-### `hasImportDeclaration(j, source, sourcePath)`
+### `hasImportDeclaration`
+
+`hasImportDeclaration(j, source, sourcePath)`
 
 Finds an import declaration by source name
 
@@ -38,7 +40,9 @@ import { hasImportDeclaration } from '@codeshift/utils';
 hasImportDeclaration(j, source, 'react'); // True
 ```
 
-### `getImportDeclaration(j, source, sourcePath)`
+### `getImportDeclaration`
+
+`getImportDeclaration(j, source, sourcePath)`
 
 Returns an import declaration by source name
 
@@ -59,7 +63,9 @@ import { getImportDeclaration } from '@codeshift/utils';
 getImportDeclaration(j, source, 'react');
 ```
 
-### `removeImportDeclaration(j, source, sourcePath)`
+### `removeImportDeclaration`
+
+`removeImportDeclaration(j, source, sourcePath)`
 
 Removes an import declaration by source name
 
@@ -85,7 +91,9 @@ removeImportDeclaration(j, source, 'react');
 -import React, { useEffect } from 'react';
 ```
 
-### `renameImportDeclaration(j, source, sourcePath, newSourcePath)`
+### `renameImportDeclaration`
+
+`renameImportDeclaration(j, source, sourcePath, newSourcePath)`
 
 Renames an import declaration by source name
 
@@ -112,7 +120,9 @@ renameImportDeclaration(j, source, 'react', 'preact');
 +import React, { useEffect } from 'preact';
 ```
 
-### `getDefaultImportSpecifier(j, source, sourcePath)`
+### `getDefaultImportSpecifier`
+
+`getDefaultImportSpecifier(j, source, sourcePath)`
 
 Finds a default import specifier
 
@@ -133,7 +143,9 @@ import { getDefaultImportSpecifier } from '@codeshift/utils';
 getDefaultImportSpecifier(j, source, 'react'); // Collection containing 'React'
 ```
 
-### `getDefaultImportSpecifierName(j, source, sourcePath)`
+### `getDefaultImportSpecifierName`
+
+`getDefaultImportSpecifierName(j, source, sourcePath)`
 
 Finds a default import specifier and returns its name
 
@@ -154,7 +166,9 @@ import { getDefaultImportSpecifierName } from '@codeshift/utils';
 getDefaultImportSpecifierName(j, source, 'react'); // Collection containing 'React'
 ```
 
-### `hasDefaultImportSpecifier(j, source, sourcePath)`
+### `hasDefaultImportSpecifier`
+
+`hasDefaultImportSpecifier(j, source, sourcePath)`
 
 Attempts to find a default import specifier and returns a boolean result
 
@@ -175,7 +189,9 @@ import { hasDefaultImportSpecifier } from '@codeshift/utils';
 hasDefaultImportSpecifier(j, source, 'react'); // True
 ```
 
-### `removeDefaultImportSpecifier(j, source, sourcePath)`
+### `removeDefaultImportSpecifier`
+
+`removeDefaultImportSpecifier(j, source, sourcePath)`
 
 Attempts to remove a default import specifier
 
@@ -201,7 +217,9 @@ removeDefaultImportSpecifier(j, source, 'React');
 +import { useEffect } from 'react';
 ```
 
-### `hasImportSpecifier(j, source, sourcePath)`
+### `hasImportSpecifier`
+
+`hasImportSpecifier(j, source, sourcePath)`
 
 Checks for an import import specifier
 
@@ -222,7 +240,9 @@ import { hasImportSpecifier } from '@codeshift/utils';
 hasImportSpecifier(j, source, 'react', 'useEffect'); // True
 ```
 
-### `getImportSpecifier(j, specifier, source)`
+### `getImportSpecifier`
+
+`getImportSpecifier(j, specifier, source)`
 
 Finds an import specifier by name
 
@@ -243,7 +263,9 @@ import { getImportSpecifier } from '@codeshift/utils';
 getImportSpecifier(j, source, 'useEffect'); // Collection containing 'useEffect'
 ```
 
-### `getImportSpecifierName(j, specifier, source)`
+### `getImportSpecifierName`
+
+`getImportSpecifierName(j, specifier, source)`
 
 Returns the local name of an import. This is useful for cases where an import specifier is potentially aliased.
 
@@ -264,7 +286,9 @@ import { getImportSpecifierName } from '@codeshift/utils';
 getImportSpecifierName(j, source, 'useEffect', 'react'); // 'foo'
 ```
 
-### `insertImportSpecifier(j, source, specifier)`
+### `insertImportSpecifier`
+
+`insertImportSpecifier(j, source, specifier)`
 
 Inserts an import specifier
 
@@ -293,7 +317,9 @@ insertImportSpecifier(j, source, 'useMemo', 'react'); // Collection containing '
 
 ## JSX
 
-### `getJSXAttributes(j, source, attributeName)`
+### `getJSXAttributes`
+
+`getJSXAttributes(j, source, attributeName)`
 
 Finds a JSX attributeName (aka prop) by name
 
@@ -316,7 +342,9 @@ import { getJSXAttributes } from '@codeshift/utils';
 getJSXAttributes(j, source, 'primary'); // Collection containing 'primary'
 ```
 
-### `hasJSXAttributes(j, source, attributeName)`
+### `hasJSXAttributes`
+
+`hasJSXAttributes(j, source, attributeName)`
 
 Finds a JSX attributeName (aka prop) by name and returns true if found
 
@@ -341,7 +369,9 @@ hasJSXAttributes(j, source, 'primary'); // Found!
 
 ## Comments
 
-### `insertCommentBefore(j, source, message, prefix)`
+### `insertCommentBefore`
+
+`insertCommentBefore(j, source, message, prefix)`
 
 Appends a comment before the provided node
 
@@ -376,7 +406,9 @@ import React from 'react';
 const App = () => <Button primary>Say hello</Button>;
 ```
 
-### `insertCommentToStartOfFile(j, source, message)`
+### `insertCommentToStartOfFile`
+
+`insertCommentToStartOfFile(j, source, message)`
 
 Appends a comment to the start of a file
 
@@ -413,7 +445,9 @@ const App = () => <Button primary>Say hello</Button>;
 
 ## Motions
 
-### `applyMotions(j, source, motions)`
+### `applyMotions`
+
+`applyMotions(j, source, motions)`
 
 A helper function to apply an array of motions in sequence.
 
