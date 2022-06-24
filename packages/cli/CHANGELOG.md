@@ -1,5 +1,12 @@
 # @codeshift/cli
 
+## 0.11.4
+
+### Patch Changes
+
+- 1ffc6bf: Omitting transforms from the package flag will now display a prompt instead of throwing an error
+  - @codeshift/initializer@0.3.5
+
 ## 0.11.3
 
 ### Patch Changes

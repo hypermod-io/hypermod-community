@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/cli",
-  "version": "0.11.3",
+  "version": "0.11.4",
   "main": "dist/codeshift-cli.cjs.js",
   "module": "dist/codeshift-cli.esm.js",
   "types": "dist/codeshift-cli.cjs.d.ts",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@codeshift/fetcher": "^0.1.1",
-    "@codeshift/initializer": "^0.3.4",
+    "@codeshift/initializer": "^0.3.5",
     "@codeshift/types": "*",
     "@codeshift/validator": "^0.4.2",
     "chalk": "^4.1.0",
