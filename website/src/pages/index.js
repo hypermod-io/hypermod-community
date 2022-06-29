@@ -122,7 +122,7 @@ export default function Home() {
             <p>
               Don't let APIs of the past hold you back. Give users the tools
               they need to upgrade across major versions by creating
-              version-targetted codemods.
+              version-targeted codemods.
             </p>
           </div>
           <div className={clsx(styles.container, styles.containerLarge)}>
