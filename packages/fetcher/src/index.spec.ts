@@ -19,11 +19,7 @@ describe('fetcher', () => {
   let mockMatchedPaths: string[] = [];
 
   beforeEach(() => {
-    mockMatchedPaths = [
-      path.join(mockBasePath, 'codeshift.config.js'),
-      path.join(mockBasePath, 'src', 'codeshift.config.ts'),
-      path.join(mockBasePath, 'codemods', 'codeshift.config.tsx'),
-    ];
+    mockMatchedPaths = [path.join(mockBasePath, 'codeshift.config.js')];
 
     (globby as unknown as jest.Mock).mockImplementation(() =>
       Promise.resolve(mockMatchedPaths),
@@ -40,10 +36,7 @@ describe('fetcher', () => {
     it('fetches config with default export', async () => {
       jest.mock(
         `${__dirname}/path/to/codeshift.config.js`,
-        () => ({
-          __esModule: true,
-          default: mockConfig,
-        }),
+        () => ({ __esModule: true, default: mockConfig }),
         { virtual: true },
       );
 
@@ -65,10 +58,13 @@ describe('fetcher', () => {
     it('fetches first matched config when multiple are found', async () => {
       jest.mock(
         `${__dirname}/path/to/src/codeshift.config.ts`,
-        () => ({
-          __esModule: true,
-          default: mockConfig,
-        }),
+        () => ({ __esModule: true, default: mockConfig }),
+        { virtual: true },
+      );
+
+      jest.mock(
+        `${__dirname}/path/to/codemods/codeshift.config.tsx`,
+        () => ({ __esModule: true, default: mockConfig }),
         { virtual: true },
       );
 

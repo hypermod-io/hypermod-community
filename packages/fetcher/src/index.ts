@@ -15,6 +15,8 @@ function requireConfig(filePath: string, resolvedPath: string) {
     const pkg = require(resolvedPath);
     return resolveConfigExport(pkg);
   } catch (e) {
+    console.log(resolvedPath, e);
+
     throw new Error(
       `Found config file "${filePath}" but was unable to parse it. This can be caused when transform or preset paths are incorrect.`,
     );
@@ -24,11 +26,20 @@ function requireConfig(filePath: string, resolvedPath: string) {
 export async function fetchConfig(
   filePath: string,
 ): Promise<CodeshiftConfig | undefined> {
+  const configs = await fetchConfigs(filePath);
+  return configs[0]?.config || undefined;
+}
+
+export async function fetchConfigs(
+  filePath: string,
+): Promise<{ filePath: string; config: CodeshiftConfig }[]> {
   const matchedPaths = await globby([
     path.join(filePath, 'codeshift.config.(js|ts|tsx)'),
     path.join(filePath, 'src', 'codeshift.config.(js|ts|tsx)'),
     path.join(filePath, 'codemods', 'codeshift.config.(js|ts|tsx)'),
   ]);
+
+  const configs = [];
 
   for (const matchedPath of matchedPaths) {
     const resolvedMatchedPath = path.resolve(matchedPath);
@@ -36,10 +47,13 @@ export async function fetchConfig(
 
     if (!exists) continue;
 
-    return requireConfig(matchedPath, resolvedMatchedPath);
+    configs.push({
+      filePath: matchedPath,
+      config: requireConfig(matchedPath, resolvedMatchedPath),
+    });
   }
 
-  return undefined;
+  return configs;
 }
 
 export async function fetchConfigAtPath(

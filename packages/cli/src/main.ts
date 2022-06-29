@@ -1,10 +1,12 @@
 import path from 'path';
+import fs from 'fs-extra';
 import semver from 'semver';
 import chalk from 'chalk';
 import findUp from 'find-up';
 import inquirer from 'inquirer';
 
-import { fetchConfigAtPath } from '@codeshift/fetcher';
+import { CodeshiftConfig } from '@codeshift/types';
+import { fetchConfigAtPath, fetchConfigs } from '@codeshift/fetcher';
 import { PluginManager } from 'live-plugin-manager';
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
 import * as jscodeshift from 'jscodeshift/src/Runner';
@@ -12,9 +14,15 @@ import * as jscodeshift from 'jscodeshift/src/Runner';
 import { Flags } from './types';
 import { InvalidUserInputError } from './errors';
 import { fetchPackageConfig } from './fetch-package';
-import { getTransformPrompt } from './prompt';
+import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
 
 export default async function main(paths: string[], flags: Flags) {
+  if (paths.length === 0) {
+    throw new InvalidUserInputError(
+      'No path provided, please specify which files your codemod should modify',
+    );
+  }
+
   const packageManager = new PluginManager({
     pluginsPath: path.join(__dirname, 'node_modules'),
   });
@@ -24,47 +32,94 @@ export default async function main(paths: string[], flags: Flags) {
   if (!flags.transform && !flags.packages) {
     console.log(
       chalk.green(
-        'No transforms specified, attempting to find local codeshift.config file',
+        'No transforms specified, attempting to find local codeshift.config file(s)',
       ),
     );
 
-    const configFilePath = await findUp([
-      'codeshift.config.js',
-      'codeshift.config.ts',
-      'codeshift.config.tsx',
-      'src/codeshift.config.js',
-      'src/codeshift.config.ts',
-      'src/codeshift.config.tsx',
-      'codemods/codeshift.config.js',
-      'codemods/codeshift.config.ts',
-      'codemods/codeshift.config.tsx',
-    ]);
+    /**
+     * Attempt to locate a root package json with a workspaces config.
+     * If found, show a prompt with all available codemods
+     */
+    let rootPackageJson: any;
+    const packageJsonPath = await findUp('package.json');
 
-    if (!configFilePath) {
-      throw new InvalidUserInputError(
-        'No transform provided, please specify a transform with either the --transform or --packages flags',
+    if (packageJsonPath) {
+      const packageJsonRaw = await fs.readFile(packageJsonPath, 'utf8');
+      rootPackageJson = JSON.parse(packageJsonRaw);
+    }
+
+    if (rootPackageJson && rootPackageJson.workspaces) {
+      const configs = await (rootPackageJson.workspaces as any[]).reduce<
+        Promise<{ filePath: string; config: CodeshiftConfig }[]>
+      >(async (accum, filePath) => {
+        const configs = await fetchConfigs(filePath);
+        if (!configs.length) return accum;
+        const results = await accum;
+        return [...results, ...configs];
+      }, Promise.resolve([]));
+
+      const answers = await inquirer.prompt([getMultiConfigPrompt(configs)]);
+      const selectedConfig = configs.find(
+        ({ filePath }) => answers.codemod.filePath === filePath,
       );
+
+      if (!selectedConfig) {
+        throw new Error(
+          `Unable to locate config at: ${answers.codemod.filePath}`,
+        );
+      }
+
+      if (
+        selectedConfig.config.transforms &&
+        selectedConfig.config.transforms[answers.codemod.selection]
+      ) {
+        transforms.push(
+          selectedConfig.config.transforms[answers.codemod.selection],
+        );
+      } else if (
+        selectedConfig.config.presets &&
+        selectedConfig.config.presets[answers.codemod.selection]
+      ) {
+        transforms.push(
+          selectedConfig.config.presets[answers.codemod.selection],
+        );
+      }
+    } else {
+      /**
+       * Otherwise, locate any config files in parent directories
+       */
+      const configFilePath = await findUp([
+        'codeshift.config.js',
+        'codeshift.config.ts',
+        'codeshift.config.tsx',
+        'src/codeshift.config.js',
+        'src/codeshift.config.ts',
+        'src/codeshift.config.tsx',
+        'codemods/codeshift.config.js',
+        'codemods/codeshift.config.ts',
+        'codemods/codeshift.config.tsx',
+      ]);
+
+      if (!configFilePath) {
+        throw new InvalidUserInputError(
+          'No transform provided, please specify a transform with either the --transform or --packages flags',
+        );
+      }
+
+      console.log(
+        chalk.green('Found local codeshift.config file at:'),
+        configFilePath,
+      );
+
+      const config = await fetchConfigAtPath(configFilePath);
+      const answers = await inquirer.prompt([getConfigPrompt(config)]);
+
+      if (config.transforms && config.transforms[answers.codemod]) {
+        transforms.push(config.transforms[answers.codemod]);
+      } else if (config.presets && config.presets[answers.codemod]) {
+        transforms.push(config.presets[answers.codemod]);
+      }
     }
-
-    console.log(
-      chalk.green('Found local codeshift.config file at:'),
-      configFilePath,
-    );
-
-    const config = await fetchConfigAtPath(configFilePath);
-    const answers = await inquirer.prompt([getTransformPrompt(config)]);
-
-    if (config.transforms && config.transforms[answers.transform]) {
-      transforms.push(config.transforms[answers.transform]);
-    } else if (config.presets && config.presets[answers.transform]) {
-      transforms.push(config.presets[answers.transform]);
-    }
-  }
-
-  if (paths.length === 0) {
-    throw new InvalidUserInputError(
-      'No path provided, please specify which files your codemod should modify',
-    );
   }
 
   if (flags.transform) {
@@ -125,7 +180,7 @@ export default async function main(paths: string[], flags: Flags) {
       });
 
       if (presetIds.length === 0 && transformIds.length === 0) {
-        const res = await inquirer.prompt([getTransformPrompt(config)]);
+        const res = await inquirer.prompt([getConfigPrompt(config)]);
 
         if (semver.valid(semver.coerce(res.transform))) {
           transformIds.push(res.transform);
