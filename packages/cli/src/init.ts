@@ -24,7 +24,7 @@ export default async function init(
   if (transform) initTransform(packageName, transform, 'version', targetPath);
   if (preset) initTransform(packageName, preset, 'preset', targetPath);
 
-  if (targetPath !== '.') {
+  if (!configOnly) {
     console.log(
       chalk.green(`🚚 New codemod package created at: ${targetPath}`),
     );
@@ -50,11 +50,11 @@ export default async function init(
   ${chalk.blueBright(`npm install`)}
   ${chalk.blueBright(`npm start test`)}
 `);
+
+    return;
   }
 
-  if (targetPath === '.') {
-    console.log(
-      chalk.green(`🚚 New codeshift.config.js created at: ${targetPath}`),
-    );
-  }
+  console.log(
+    chalk.green(`🚚 New codeshift.config.js created at: ${targetPath}`),
+  );
 }
