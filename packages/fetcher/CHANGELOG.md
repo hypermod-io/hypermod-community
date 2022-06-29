@@ -1,5 +1,11 @@
 # @codeshift/fetcher
 
+## 0.2.0
+
+### Minor Changes
+
+- 6d624ad: Adds fetchConfigs function, which will return multiple config files if the glob matches them
+
 ## 0.1.1
 
 ### Patch Changes

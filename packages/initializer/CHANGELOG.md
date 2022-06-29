@@ -1,5 +1,17 @@
 # @codeshift/initializer
 
+## 0.4.0
+
+### Minor Changes
+
+- 25164fe: Codemods are now output to the codemods/ directory instead of src/ to be more flexible when working with both isolated packages and pre-existing packages such as monorepos etc. Tooling should continue to work as expected regardless
+
+### Patch Changes
+
+- Updated dependencies [985c0e9]
+- Updated dependencies [6d624ad]
+  - @codeshift/cli@0.12.0
+
 ## 0.3.5
 
 ### Patch Changes
