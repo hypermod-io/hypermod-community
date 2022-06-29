@@ -91,8 +91,7 @@ module.exports = {
           items: [
             {
               label: 'Stack Overflow',
-              href:
-                'https://stackoverflow.com/questions/tagged/CodeshiftCommunity',
+              href: 'https://stackoverflow.com/questions/tagged/CodeshiftCommunity',
             },
             {
               label: 'Twitter',
@@ -109,8 +108,7 @@ module.exports = {
             },
             {
               label: 'Roadmap',
-              href:
-                'https://github.com/CodeshiftCommunity/CodeshiftCommunity/projects/1',
+              href: 'https://github.com/CodeshiftCommunity/CodeshiftCommunity/projects/1',
             },
           ],
         },

@@ -1,0 +1,124 @@
+---
+id: monorepos
+title: Integrating with monorepos
+slug: /monorepos
+---
+
+Codeshift is specifically designed to play nicely with monorepos (AKA multi-package repositories, multi-project repositories, or monolithic repositories) such as [Turborepo](https://turborepo.org/), [Yarn](https://classic.yarnpkg.com/lang/en/docs/workspaces/), [npm](https://docs.npmjs.com/cli/v7/using-npm/workspaces/) and [pnpm](https://pnpm.io/workspaces) workspaces and [Lerna](https://lerna.js.org/).
+
+## Configuration
+
+Configuring Codeshift in a monorepo can be done in the exact same way as [any existing npm package](/docs/authoring#2-add-codeshift-to-an-existing-package), simply by adding `codeshift.config.js` files and codemods to your packages.
+
+Given you are using a workspace-based monorepo, it's recommended to co-locate codemods with your package source files so they can be published as part of the package, for use by both external and internal users.
+
+```diff
+packages/
+    button/
++        codemods/
++          1.0.0/
++           transform.ts
++           transform.spec.ts
++          2.0.0/
++          codeshift.config.js
+        src/
+            ...
+        package.json
+        rollup.config.json
+        jest.config.js
+    dialog/
+    modal/
+
+package.json
+```
+
+Codeshift config files can be located in either the root, `/src` or `/codemods` directory of a package.
+
+```diff
+packages/
+    button/
++        codemods/
++          1.0.0/
++          2.0.0/
+        src/
+            ...
+        package.json
+        rollup.config.json
+        jest.config.js
++       codeshift.config.js
+    dialog/
+    modal/
+
+package.json
+```
+
+The structure or use of the `/codemods` directory is entirely up to you. Codemods can be located anywhere in the package as long as the config file correctly
+points to them.
+
+See the [configuration guide](/docs/configuration) for help writing config files.
+
+## Initialization
+
+Codeshift provides a CLI to quickly codegen a working codemod package around your existing source files. To do so, run `init` with the `--config-only` flag,
+which will output a bare-bones configuration. If you provide a `--transform` or `--preset` it will also generate empty transform files in addition.
+
+`$ codeshift init --config-only --transform 10.0.0 --preset foobar packages/my-package`
+
+(Note: this script assumes you have installed `@codeshift/cli` globally)
+
+The output of this command will give you a filestructure matching the above example.
+
+## Development
+
+When writing codemod(s) it's recommended to use a [test-driven development approach](/docs/testing) before attempting to run on any real source code.
+Once you're confident that your codemod works as expected, you will likely want to manually verify against real code.
+That's where you can use the following command:
+
+`$ codeshift path/to/test/code`.
+
+When used at the root directory of your monorepo, the CLI will leverage your workspaces config located in your `package.json` to determine which codemods in the monorepo it can run.
+
+ie:
+
+```json
+{
+  "name": "monorepo",
+  "version": "1.0.0",
+  "workspaces": ["docs", "apps/*", "packages/*"]
+}
+```
+
+And show an interactive list for you to search and can choose from.
+
+## Publising
+
+The workflow to publishing your codemod enhanced packages should remain completely unchanged.
+However, it's important to verify that your `codeshift.config.js` and codemods are not ignored by npm (via `.npmignore` or similar) so that they are successfully published to the registry.
+
+In some cases you may need to add these to the `files` property of your package's `package.json` like so:
+
+```json
+{
+  "name": "@monorepo/my-package",
+  "version": "0.6.0",
+  "main": "./dist/index.js",
+  "files": ["dist", "src", "codemods", "codeshift.config.js"]
+}
+```
+
+## Running
+
+Running a codemod as a consumer can now be done via the `@codemod/cli`, assuming your package is named `@monorepo/my-package` and your codemod is `1.0.0`:
+
+`$ codeshift --packages @monorepo/my-package@1.0.0 /path/to/source`
+
+You can even omit the codemod name to be prompted with all codemods an interactive list:
+
+`$ codeshift --packages @monorepo/my-package /path/to/source`
+
+## Examples
+
+Here are some helpful example of this setup working in the wild:
+
+- [Compiled codemods](https://github.com/atlassian-labs/compiled/tree/master/packages/codemods)
+- [Webdriver.io codemods](https://github.com/webdriverio/codemod)

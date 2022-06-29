@@ -36,6 +36,7 @@ module.exports = {
         'guides/when-not-to-codemod',
         'guides/prompting-for-human-input',
         'guides/css-codemods',
+        'guides/monorepos',
       ],
     },
     {
