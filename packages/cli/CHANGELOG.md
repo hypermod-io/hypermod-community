@@ -1,5 +1,20 @@
 # @codeshift/cli
 
+## 0.12.0
+
+### Minor Changes
+
+- 6d624ad: CLI will now list all matching codeshift.config files based on your workspace configuration (To support monorepos)
+
+### Patch Changes
+
+- 985c0e9: Correctly output "next steps" logs when using the init command, based on the --config-only command
+- Updated dependencies [25164fe]
+- Updated dependencies [6d624ad]
+  - @codeshift/initializer@0.4.0
+  - @codeshift/fetcher@0.2.0
+  - @codeshift/validator@0.4.3
+
 ## 0.11.4
 
 ### Patch Changes
