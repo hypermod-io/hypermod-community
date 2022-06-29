@@ -7,7 +7,7 @@ slug: /css-codemods
 In some cases, it's possible that you may need to write a codemod that applies changes across different programming languages JS, CSS, etc.
 It could be because the package you're writing a codemod for has an API that spans across both JS and CSS, for example a Design System or CSS-in-JS library. Where some of your consumers may be using the JS interface and some the CSS interface.
 
-In this scenario, it's possible to repurpose JSCodeshift to handle this by treating JSCodeshift purely as a "Runner", or in otherwords, as the entrypoint to the files you're looking to modify and substitute a transformation library of your choice.
+In this scenario, it's possible to repurpose JSCodeshift to handle this by treating JSCodeshift purely as a "Runner", or in other words, as the entrypoint to the files you're looking to modify and substitute a transformation library of your choice.
 For example [PostCSS](https://postcss.org/), [Babel](https://babeljs.io/), etc.
 
 However, this does come with drawbacks, you will no longer have access to JSCodeshift parsers and transformation API. This guide will explain how to handle these yourself.
@@ -91,10 +91,7 @@ const plugin = (): Plugin => {
     Declaration: decl => {
       if (decl[processed]) return;
 
-      decl.prop = decl.prop
-        .split('')
-        .reverse()
-        .join('');
+      decl.prop = decl.prop.split('').reverse().join('');
 
       decl[processed] = true;
     },

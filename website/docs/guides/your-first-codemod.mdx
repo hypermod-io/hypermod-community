@@ -35,7 +35,7 @@ Our transform will look something like this.
 
 ```ts
 export default function transform(file, { jscodeshift: j }, options) {
-  const source = j(file.source); // (1) Create an AST of the fiven file
+  const source = j(file.source); // (1) Create an AST of the given file
 
   const imports = source
     .find(j.ImportDeclaration) // (2) Find all import declarations!
@@ -50,8 +50,9 @@ export default function transform(file, { jscodeshift: j }, options) {
 If you prefer a more declarative approach, you can provide a second argument to `find` describing the expected shape of the node you are looking for.
 
 ```ts
-  const imports = source
-    .find(j.ImportDeclaration, { source: { value: 'my-module' } }) // Find all import declarations that match this shape
+const imports = source.find(j.ImportDeclaration, {
+  source: { value: 'my-module' },
+}); // Find all import declarations that match this shape
 ```
 
 This behaves like a fuzzy searcher: The more details provided the more narrow the search is.
@@ -59,7 +60,7 @@ This behaves like a fuzzy searcher: The more details provided the more narrow th
 ## Modify & Insert
 
 Now let's say that we want to pull in a new import from 'my-module' called `baz`. Luckily you've already written a majority of the code above.
-All we'll need to do now is "insert" an new ImportSpecifier into the ImportDeclaration node that we've just retrieved.
+All we'll need to do now is "insert" an new `ImportSpecifier` into the `ImportDeclaration` node that we've just retrieved.
 
 Now inserting can look a little awkward at first, because what we're really doing is building a new node based on what we've found and replacing it with a modified version of itself.
 
@@ -92,7 +93,7 @@ Now there are a few moving pieces in this example, let's step through them:
 
 (1) Here we "build" a new node of type `ImportSpecifier`.
 
-You can build a node by using the camelCase variant methos of a node type.
+You can build a node by using the camelCase variant method of its node type.
 So to build an `ImportSpecifier` you use `j.importSpecifier(...)` and when you want to search for one, you use the CapitalCase variant `j.ImportSpecifier`.
 
 (2) Create a new import declaration
@@ -106,7 +107,7 @@ Here we push our new import specifier into the array of existing specifiers.
 
 (4) Replace the node
 
-Finally we replace our ImportDeclaration with our new one and the resulting output should look like this:
+Finally we replace our `ImportDeclaration` with our new one and the resulting output should look like this:
 
 ```diff
 -import { foo, bar } from 'my-module';
