@@ -1,3 +1,3 @@
 # @codeshift/initializer
 
-Initialize new codemod folders
+Codegens codeshift packages

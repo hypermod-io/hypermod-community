@@ -39,7 +39,7 @@ react-cool-library/
   package.json
   tsconfig.json
   jest.config.js
-  src/
+  codemods/
     10.0.0/ // semver version
       transform.ts // main logic (should contain a transformer)
       transform.spec.ts // main tests
@@ -57,3 +57,10 @@ See the [Testing guide](testing) for help getting started with unit tests.
 Since your new codeshift package can simply be treated as an NPM package you can simply run `npm version [patch\minor\major]` and `npm publish`.
 
 Your package will now be accessible via the `codeshift/cli`. Refer to the [Consuming guide](consuming) for information about how to run your new codemods.
+
+## Examples
+
+Here are some helpful example of this setup working in the wild:
+
+- [Compiled codemods](https://github.com/atlassian-labs/compiled/tree/master/packages/codemods)
+- [Webdriver.io codemods](https://github.com/webdriverio/codemod)

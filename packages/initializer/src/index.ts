@@ -43,6 +43,7 @@ export function getPackageJson(packageName: string, version = '0.0.0') {
 
 function getNpmIgnore() {
   return `src/
+codemods/
 **/__test__
 **/*.spec.(ts|js)
 .vscode
@@ -96,7 +97,7 @@ function updateConfig(
       });
 
       const transformPath = `./${
-        !isReduced ? 'src/' : ''
+        !isReduced ? 'codemods/' : ''
       }${transformName}/transform`;
 
       properties.push(
@@ -140,9 +141,13 @@ export function initDirectory(
   targetPath = './',
   isReduced = false,
 ) {
-  fs.copySync(path.join(TEMPLATE_PATH, isReduced ? 'src' : ''), targetPath, {
-    filter: src => !src.includes('src/codemod'),
-  });
+  fs.copySync(
+    path.join(TEMPLATE_PATH, isReduced ? 'codemods' : ''),
+    targetPath,
+    {
+      filter: src => !src.includes('codemods/codemod'),
+    },
+  );
 
   if (!isReduced) {
     fs.writeFileSync(
@@ -174,7 +179,7 @@ export function initTransform(
     throw new Error(`Provided version ${id} is not a valid semver version`);
   }
 
-  const transformPath = path.join(targetPath, !isReduced ? 'src' : '', id);
+  const transformPath = path.join(targetPath, !isReduced ? 'codemods' : '', id);
 
   if (fs.existsSync(transformPath)) {
     throw new Error(`Codemod for ${type} "${id}" already exists`);
@@ -182,12 +187,12 @@ export function initTransform(
 
   const codemodTemplateDestinationPath = path.join(
     targetPath,
-    !isReduced ? 'src' : '',
+    !isReduced ? 'codemods' : '',
     'codemod',
   );
 
   fs.copySync(
-    path.join(TEMPLATE_PATH, 'src', 'codemod'),
+    path.join(TEMPLATE_PATH, 'codemods', 'codemod'),
     codemodTemplateDestinationPath,
   );
   fs.renameSync(codemodTemplateDestinationPath, transformPath);

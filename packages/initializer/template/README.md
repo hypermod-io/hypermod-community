@@ -10,7 +10,9 @@ This project was bootstrapped with [CodeshiftCommunity 🚚](https://www.codeshi
 
 Runs the codeshift CLI useful for testing transform files as if they have been published
 
-**example:** `npm run dev -t src/10.0.0/transform.ts`
+**example:** `npm run dev -t codemods/10.0.0/transform.ts`
+
+Alternatively, you can run `npm run dev` to see an interactive list of codemods to choose from.
 
 See the [cli reference](https://www.codeshiftcommunity.com/docs/cli) for more information.
 
