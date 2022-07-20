@@ -32,3 +32,21 @@ Source for these packages are located in the [/community folder](https://github.
 - [Registry homepage](https://www.codeshiftcommunity.com/docs/contribution)
 - [Contributing to the registry](https://www.codeshiftcommunity.com/docs/contribution)
 - [Registry source files](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community)
+
+## CLI 
+
+Downloading and running codemods as well as initialising and maintaining codemod packages can all be done via the Codeshift CLI (`@codeshift/cli`).
+
+[Please see the docs for more information and examples](https://www.codeshiftcommunity.com/docs/cli)
+
+We recommend running the CLI with $ npx to ensure you always have the latest version.
+
+`$ npx @codeshift/cli --packages mylib@1.0.0 /project/src`
+
+But it can also be installed globally:
+
+`$ npm install -g @codeshift/cli or yarn global add @codeshift/cli`
+
+and run with:
+
+`$ codeshift or $ codeshift-cli`
