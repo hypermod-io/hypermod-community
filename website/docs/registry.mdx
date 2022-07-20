@@ -4,8 +4,23 @@ title: Registry
 slug: /registry
 ---
 
-Welcome to the CodeshiftCommunity Registry. Here we list community owned and maintained Codeshift packages.
+Welcome to the CodeshiftCommunity Public Registry. This registry contains community contributed codemods,
+hosted and published directly from the CodeshiftCommunity repository.
 
-Source for these packages are located in the repository [/community folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community).
+Source for these packages are located in the [/community folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community).
 
-To contribute to the Registry please see the [Contribution guide](/docs/contribution). For other publishing options, including private codemod packages, please refer to the [Authoring guide](/docs/authoring).
+## Contribution
+
+Anyone is able to contribute packages and fixes to the registry. To contribute please see the [contribution guide](/docs/contribution).
+
+For other publishing options, including private and external codemod packages, please refer to the [Authoring guide](/docs/authoring).
+
+## Running registry codemods
+
+Codemods from the registry can be run via the Codeshift CLI, for example:
+
+```
+$ npx @codeshift/cli --packages @atlaskit/button /project/src
+```
+
+See the [CLI reference](/docs/cli) for more information.

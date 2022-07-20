@@ -7,13 +7,13 @@ slug: /cli
 To download and run codemods, we provide a CLI tool called `@codeshift/cli`.
 
 `@codeshift/cli` is responsible for running the provided transform against your entire codebase.
-Under the hood, it is a wrapper of jscodeshift's cli, which provides additional functionality
+Under the hood, it is a wrapper of jscodeshift's CLI, which provides additional functionality
 
 1. Ability to run community codemods hosted on npm
 2. Runs versioned codemods in sequence
 3. Always runs the latest version of a codemod
 
-The cli allows you to run transforms either from the [community folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community) or on your local machine as per the original implementation of jscodeshift
+The CLI allows you to run transforms either from the [the public registry](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community) or on your local machine as per the original implementation of jscodeshift
 
 **Note:** Codemods will be designed to do the heavy lifting, but they'll often not be perfect so some manual work may still be required in order to successfully migrate.
 
@@ -42,7 +42,7 @@ For running codemods as an end-user it's recommend to use the `--packages` flag,
 In special cases, codeshift package authors may choose to also expose codemod "presets", which can be considered as utility codemods for that package. Presets are also run via the `--packages` flag like so: `--packages react#remove-spread-props`.
 Notice that we have switched to a hash `#` here to denote that we want to run a preset.
 
-Codeshift will then attempt to locate codemods from both the [community folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community) and the primary npm package ie [React – NPM](https://www.npmjs.com/package/react).
+Codeshift will then attempt to locate codemods from both [the public registry](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community) and the primary npm package ie [React – NPM](https://www.npmjs.com/package/react).
 (Note: Some packages wont have any codemods, you can use the [list](#list) subcommand to check if they exist.)
 
 Lastly, when authoring a package, it's possible to test your transforms by omitting both the `--packages` and `--transform` flags. In this interactive mode, the `codeshift/cli` will attempt to locate
