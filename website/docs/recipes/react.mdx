@@ -102,13 +102,23 @@ const Button = props => {
 };
 ```
 
-### Replacing props
+### Updating props
 
 **Transform:**
 
 ```javascript
 export default function transformer(file, { jscodeshift: j }, options) {
   const source = j(file.source);
+
+  source
+    .find(j.JSXElement)
+    .filter(path => path.value.openingElement.name.name === 'button') // Find all button jsx elements
+    .find(j.JSXAttribute) // Find all attributes (props) on the button
+    .filter(attribute => attribute.node.name.name === 'className') // Filter to only props called className
+    .find(j.Literal) // Narrow further to the literal value (note: This may not always be a Literal)
+    .forEach(literal => {
+      literal.node.value = literal.node.value + ' button-primary';
+    }); // Mutate the value using the current value
 
   return source.toSource();
 }
@@ -132,6 +142,50 @@ import React from 'react';
 const Button = props => {
 -  return <button className="button">Submit</button>;
 +  return <button className="button button-primary">Submit</button>;
+};
+```
+
+### Renaming props
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+    .find(j.JSXElement)
+    .filter(path => path.value.openingElement.name.name === 'button') // Find all button jsx elements
+    .find(j.JSXAttribute) // Find all attributes (props) on the button
+    .filter(attribute => attribute.node.name.name === 'data-foo') // Filter to only props called data-foo
+    .forEach(attribute =>
+      j(attribute).replaceWith(
+        j.jsxAttribute(j.jsxIdentifier('data-bar'), attribute.node.value),
+      ),
+    ); // Reconstruct the attribute, replacing the name and keeping the value
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => {
+  return <button data-foo="bar">Submit</button>;
+};
+```
+
+**Output:**
+
+```diff
+import React from 'react';
+
+const Button = props => {
+-  return <button data-foo="bar">Submit</button>;
++  return <button data-bar="bar">Submit</button>;
 };
 ```
 
