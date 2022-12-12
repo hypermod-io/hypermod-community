@@ -20,6 +20,23 @@ One important thing to note about codemods is that they are not perfect. Because
 
 In summary, codemods are a useful tool for automatically refactoring code. They can save time and help ensure that your code stays up-to-date and consistent. However, it is important to carefully review the changes made by a codemod to avoid any potential errors.
 
+For example, here is an example of a simple codemod that transforms the string "hello world" to "hello universe" using the JSCodeshift library:
+
+```js
+const jscodeshift = require('jscodeshift');
+
+module.exports = function transformer(file, api) {
+  const j = api.jscodeshift;
+  return j(file.source)
+    .find(j.Literal)
+    .filter(path => path.node.value === 'hello world')
+    .replaceWith(() => j.literal('hello universe'))
+    .toSource();
+};
+```
+
+This codemod searches the code for literal values that equal "hello world" and replaces them with "hello universe". It uses the jscodeshift library to parse and transform the code, and then returns the modified code as a string.
+
 ## Transform
 
 A transform is simply a javascript function which serves as the entry-point for your codemod.
@@ -27,7 +44,7 @@ A transform is simply a javascript function which serves as the entry-point for 
 For example:
 
 ```jsx
-export default function transform(file, { jscodeshift: j }, options) {
+module.exports = function transformer(file, api) {
   //... codemod goes here
 }
 ```
