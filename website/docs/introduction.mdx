@@ -9,15 +9,29 @@ This project provides library users & maintainers with facilities to help [write
 
 ## Why?
 
-Our overarching goal is to build a community around codemods to help normalize both authoring and consuming them, turning it into a standard development practice throughout the JavaScript ecosystem.
+Keeping JavaScript dependencies up-to-date is an important part of maintaining a healthy codebase. Outdated dependencies can introduce security vulnerabilities, cause compatibility issues, and make it difficult to use the latest features and improvements.
 
-We believe this can be achieved by making the right support, documentation and tooling available to everyone.
+One way to keep your dependencies up-to-date is by using codemods. A codemod is a tool that can automatically refactor code, which can be particularly useful when making large-scale changes to a codebase.
 
-To do this CodeshiftCommunity aims to solve three main problems.
+For example, let's say you want to update the **`lodash`** library in your codebase from version 4 to version 5. This would require updating all of the import statements, function calls, and other references to **`lodash`** in your code. Instead of manually updating each instance, you can use a codemod to do the work for you.
 
-1. Fragmentation of how codemods are written & distributed in the ecosystem
-2. Package adoption & upgrade pain
-3. Lack of documentation & familiarity
+To use a codemod for this task, you would provide it with the old and new code for **`lodash`**, as well as the files or directories that you want to update. The codemod would then scan your code and make the necessary changes. This can save you a significant amount of time and effort.
+
+Additionally, using a codemod for this task can help ensure that your code stays consistent and up-to-date. By automatically updating all of the references to **`lodash`**, you can avoid any potential issues that may arise from using a mix of old and new code.
+
+Of course, it is important to carefully review the changes made by a codemod to avoid any potential errors. However, in general, codemods can be a powerful tool for keeping your JavaScript dependencies up-to-date. They can save time, ensure consistency, and help keep your codebase healthy.
+
+## Objectives
+
+Our main aim is to create a community centered around codemods in order to promote the use of codemods as a standard development practice across the JavaScript ecosystem.
+
+We believe that providing the appropriate support, documentation, and tools can help us achieve this goal.
+
+To accomplish this, CodeshiftCommunity aims to address three key challenges:
+
+1. Fragmentation in how codemods are written and distributed within the ecosystem
+1. Difficulty adopting and upgrading packages
+1. Lack of documentation and understanding about codemods.
 
 ### Fragmentation in the ecosystem
 
