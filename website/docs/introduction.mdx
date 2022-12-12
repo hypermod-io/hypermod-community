@@ -35,28 +35,35 @@ To accomplish this, CodeshiftCommunity aims to address three key challenges:
 
 ### Fragmentation in the ecosystem
 
-Popular libraries in the ecosystem such as [React](https://github.com/reactjs/react-codemod), [material-ui](https://github.com/mui-org/material-ui/tree/master/packages/material-ui-codemod) and [next.js](https://nextjs.org/docs/advanced-features/codemods), all provide their own take on codemods, CLI and distribution services.
-These services are varied from one another and generally quite hidden from the average user.
-Providing this as an additional service to aid in upgrading their libraries is a great thing, but comes with significant overhead to those projects.
+CodeshiftCommunity offers a platform-agnostic toolchain for creating, publishing, and using codemods, centered around the @codeshift/cli. This CLI provides common infrastructure and eliminates the need for developers to constantly recreate the same tools.
+
+Some popular libraries in the ecosystem, such as [React](https://github.com/reactjs/react-codemod), [material-ui](https://github.com/mui-org/material-ui/tree/master/packages/material-ui-codemod) and [next.js](https://nextjs.org/docs/advanced-features/codemods), all offer their own solutions for codemods, CLI, and distribution services. These services are inconsistent and often difficult for the average user to access. While providing these services can be helpful for upgrading libraries, it also places a significant burden on the projects that offer them.
+
+CodeshiftCommunity aims to address this issue by providing a standardized platform for codemod authoring, publishing, and consumption. This will help to reduce fragmentation and make it easier for developers to access the tools they need.
 
 ### Package adoption & upgrade pain
 
-When publishing packages via semver, it is too easy to push the upgrade pain onto users.
-Users will likely then have to go digging in either your changelog or (worst case) your code to find out how to safely migrate to the latest and greatest.
-Often the solution is just to avoid upgrading entirely or migrate to a new library.
+When publishing API changes, it is easy to shift the burden of upgrading onto your users. This can lead to users having to search through your changelog or even your code to figure out how to migrate to the latest version safely. In many cases, users will simply avoid upgrading or switch to a different library altogether.
+
+CodeshiftCommunity offers a standardized versioning scheme that presents codemods in a user-friendly way. By following our guiding principles, your codemods will be idempotent, atomic, and reusable for years to come.
+
+Writing a changelog and constantly answering the same questions about how to migrate can be time-consuming and frustrating. By distilling all of the necessary changes into a codemod, you can provide users with a repeatable, updatable solution that can be improved and perfected, with the help of the community. This allows you to focus on more important tasks and avoid the headache of supporting users through the upgrade process.
 
 ### Lack of documentation & familiarity
 
-Writing codemods often feels like tribal knowledge, there might be only a handfull of people in your company that have written one or know how to write one. This needs to change!
+Writing codemods can often feel like a specialized skill that only a few people in a company know how to do. CodeshiftCommunity aims to change this by providing a hub for documentation and guidance.
 
-## How do we solve these problems?
+By offering guides, recipes, and reference materials, we hope to demystify codemods and make them more accessible to everyone. With the right documentation in place, it will be easier to normalize the use of codemods and reduce their learning curve.
+
+Our goal is to remove the stigma that codemods are difficult or time-consuming to write, and encourage everyone to adopt the practice of writing them. This will help to increase the number of contributors to codemods and ultimately improve the adoption of new technologies in the JavaScript ecosystem.
+
+## What we offer
 
 ### A standardized CLI
 
-Codeshift works by publishing every codemod to NPM as its own package or piggybacking off a pre-existing NPM package. We provide a [standardized CLI tool](cli) that can download and run the most up to date codemods from anywhere.
-With the hidden benefit of being able to publish with dependencies, currently something that is not possible with most JSCodeshift CLI implementations.
+Codeshift allows developers to publish codemods as their own NPM packages or as part of an existing NPM package. We provide a [standardized CLI tool](cli) that can download and run the latest codemods from any location. This approach has the added benefit of allowing codemods to be published with dependencies, which is not currently possible with most JSCodeshift CLI implementations.
 
-Using NPM drastically lowers the adoption bar, since all one would need to do is publish an existing package with a `codemod.config.js` and you're good to go. See [Authoring with existing packages](http://localhost:3000/docs/authoring#2-add-codeshift-to-an-existing-package)
+By using NPM, we aim to make it easy for developers to adopt codemods. All they need to do is publish an existing package with a codemod.config.js file and they are ready to go. For more information, see our guide on [authoring with existing packages](authoring#2-add-codeshift-to-an-existing-package).
 
 ### A centralized registry
 
