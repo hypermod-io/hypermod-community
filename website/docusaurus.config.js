@@ -15,7 +15,17 @@ module.exports = {
       {
         name: 'twitter:card',
         content:
-          'The community-owned global registry and documentation hub for codemods',
+          'Discover the power of codemods for your development workflow. Our tools and resources allow you to easily manage dependencies, automate refactoring, and transform your codebase. With support for code migration and evolution, you can modernize your code and keep it up-to-date with the latest best practices. Try our tools today and improve your development process.',
+      },
+      {
+        name: 'og:description',
+        content:
+          'Discover the power of codemods for your development workflow. Our tools and resources allow you to easily manage dependencies, automate refactoring, and transform your codebase. With support for code migration and evolution, you can modernize your code and keep it up-to-date with the latest best practices. Try our tools today and improve your development process.',
+      },
+      {
+        name: 'keywords',
+        content:
+          'codemods, code migration, code evolution, dependency management, automated refactoring, code transformation, development tools, code modernization, source code modification',
       },
     ],
     prism: {

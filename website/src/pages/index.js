@@ -15,8 +15,10 @@ export default function Home() {
   const { siteConfig = {} } = context;
   return (
     <Layout
-      title={siteConfig.title}
-      description="Write, test, publish and consume codemods in a structured, standardized and familiar way."
+      title={
+        'Codemods for Improved Development Workflow - Automate Refactoring, Manage Dependencies, and Modernize Your Code'
+      }
+      description="Discover the power of codemods for your development workflow. Our tools and resources allow you to easily manage dependencies, automate refactoring, and transform your codebase. With support for code migration and evolution, you can modernize your code and keep it up-to-date with the latest best practices. Try our tools today and improve your development process."
     >
       <header className={clsx(styles.heroBanner)}>
         <div className={clsx(styles.container, styles.heroContainer)}>
@@ -24,8 +26,16 @@ export default function Home() {
             The community-owned codemod registry.
           </h1>
           <p className="hero__subtitle">
-            Write, test, publish and consume codemods in a structured,
-            standardized and familiar way.
+            Discover the power of codemods for your development workflow. Our
+            tools and resources allow you to easily manage dependencies,
+            automate refactoring, and transform your codebase.
+          </p>
+          <p className="hero__subtitle">
+            With support for code migration and evolution, you can modernize
+            your code and keep it up-to-date with the latest best practices.
+          </p>
+          <p className="hero__subtitle">
+            Try our tools today and improve your development process.
           </p>
           <p></p>
           <Link
