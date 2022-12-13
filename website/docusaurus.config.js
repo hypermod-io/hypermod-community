@@ -48,6 +48,12 @@ module.exports = {
           position: 'left',
         },
         {
+          type: 'doc',
+          docId: 'codeshiftbot',
+          label: 'CodeshiftBot',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/CodeshiftCommunity/CodeshiftCommunity',
           label: 'GitHub',
           position: 'right',
