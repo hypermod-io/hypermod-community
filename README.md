@@ -8,6 +8,8 @@ CodeshiftCommunity is a community-owned global registry and documentation hub fo
 
 _Inspired and built on Facebook's [jscodeshift](https://github.com/facebook/jscodeshift)_
 
+[💬 Join our community on Slack](https://join.slack.com/t/codeshiftcommunity/shared_invite/zt-1myeqzivo-c~xBLyrb~bFNKHp1CfwYMA)
+
 ## Features
 
 - 🔭 Explore an extensive list of codemods contributed by the community.
