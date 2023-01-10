@@ -106,6 +106,10 @@ module.exports = {
           title: 'Community',
           items: [
             {
+              label: 'Slack',
+              href: 'https://join.slack.com/t/codeshiftcommunity/shared_invite/zt-1myeqzivo-c~xBLyrb~bFNKHp1CfwYMA',
+            },
+            {
               label: 'Stack Overflow',
               href: 'https://stackoverflow.com/questions/tagged/CodeshiftCommunity',
             },
