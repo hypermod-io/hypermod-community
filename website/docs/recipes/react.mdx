@@ -71,6 +71,17 @@ export default function transformer(file, { jscodeshift: j }, options) {
     .filter(path => path.value.openingElement.name.name === 'button') // Find all button jsx elements
     .find(j.JSXAttribute) // Find all attributes (props) on the button
     .filter(path => path.node.name.name === 'onClick') // Filter to only props called onClick
+    .filter(path => {
+      // Verrify the attribute is not associated to a nested component
+      const attributeParent = attribute.parentPath.parentPath;
+      if (
+        attributeParent.value.type === 'JSXOpeningElement' &&
+        componentNames.includes(attributeParent.value.name.name)
+      ) {
+        return true;
+      }
+      return false;
+     })
     .remove(); // Remove everything that matched
 
   return source.toSource();
