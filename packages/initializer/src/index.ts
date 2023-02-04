@@ -200,11 +200,20 @@ export function initTransform(
   const testFilePath = path.join(transformPath, 'transform.spec.ts');
   const testFile = fs
     .readFileSync(testFilePath, 'utf8')
-    .replace('<% packageName %>', packageName)
-    .replace('<% seperator %>', type === 'version' ? '@' : '#')
-    .replace('<% transform %>', id || '');
+    .replace(new RegExp('<% packageName %>', 'g'), packageName)
+    .replace(new RegExp('<% seperator %>', 'g'), type === 'version' ? '@' : '#')
+    .replace(new RegExp('<% transform %>', 'g'), id || '');
 
   fs.writeFileSync(testFilePath, testFile);
+
+  const readmeFilePath = path.join(transformPath, 'README.md');
+  const readmeFile = fs
+    .readFileSync(readmeFilePath, 'utf8')
+    .replace(new RegExp('<% packageName %>', 'g'), packageName)
+    .replace(new RegExp('<% seperator %>', 'g'), type === 'version' ? '@' : '#')
+    .replace(new RegExp('<% transform %>', 'g'), id || '');
+
+  fs.writeFileSync(readmeFilePath, readmeFile);
 
   updateConfig(targetPath, packageName, id || '', type, isReduced);
 }
