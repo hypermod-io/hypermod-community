@@ -27,6 +27,7 @@
     "cli:init": "ts-node packages/cli/bin/codeshift-cli.js init",
     "cli:list": "ts-node packages/cli/bin/codeshift-cli.js list",
     "community:init": "ts-node scripts/initialize.ts",
+    "community:init:preset": "ts-node scripts/initialize-preset.ts",
     "community:validate": "ts-node scripts/validate.ts ./community",
     "community:release": "ts-node scripts/publish.ts ./community .tmp",
     "community:release-all": "ts-node scripts/publish-all.ts ./community .tmp",
