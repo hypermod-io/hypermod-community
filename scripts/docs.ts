@@ -18,6 +18,46 @@ function cleanTargetDir(targetPath: string) {
   if (fs.existsSync(targetPath)) fs.emptyDirSync(targetPath);
 }
 
+function getReadme(transformId: string) {
+  const readmeFilePath = path.join(COMMUNITY_PATH, transformId, 'README.md');
+
+  const readmeRaw = fs.existsSync(readmeFilePath)
+    ? fs.readFileSync(readmeFilePath, 'utf-8')
+    : '';
+
+  // remove first line
+  const readme = readmeRaw.trim().split('\n');
+  readme.shift();
+  return readme.join('\n').trim();
+}
+
+function renderTransform(
+  id: string,
+  packageName: string,
+  type: 'transform' | 'preset',
+  safePackageName: string,
+  urlSafePackageName: string,
+  packageLink: string,
+) {
+  const seperator = type === 'transform' ? '@' : '#';
+  const readme = getReadme(`${packageName}/${id}`);
+  const fallback =
+    type === 'transform'
+      ? `A codemod which facilitates the migration of the ${packageLink} package to version ${id}.`
+      : '';
+
+  return `### ${id}
+
+:::info
+[Source](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community/${urlSafePackageName}) | [Report an issue](https://github.com/CodeshiftCommunity/CodeshiftCommunity/issues/new?title=${safePackageName}@${id})
+
+**Usage** \`$ codeshift --packages ${packageName}${seperator}${id} path/to/source\`
+:::
+
+${readme ? readme : fallback}
+`;
+}
+
 interface DocsData {
   name: string;
   config: CodeshiftConfig;
@@ -58,31 +98,25 @@ slug: /registry/${safeName}
 
 **Target package:** ${packageLink}
 
-**Maintainers:**
+${
+  config.maintainers?.length
+    ? `**Maintainers:**
 
 ${config.maintainers!.map(
   maintainer => `- [${maintainer}](https://github.com/${maintainer})`,
 )}
 
+`
+    : ''
+}
 ${
-  config.transforms
+  config.transforms && Object.keys(config.transforms).length
     ? `
 ## Transforms
 
 ${Object.keys(config.transforms)
-  .map(
-    key => `### ${key}
-
-[Source](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community/${urlSafeName}) | [Report an issue](https://github.com/CodeshiftCommunity/CodeshiftCommunity/issues/new?title=${safeName}@${key})
-
-Migrates ${packageLink} to version ${key}.
-
-#### Usage
-
-\`\`\`
-$ codeshift --packages ${name}@${key} path/to/source
-\`\`\`
-`,
+  .map(key =>
+    renderTransform(key, name, 'transform', safeName, urlSafeName, packageLink),
   )
   .join('')}
 `
@@ -90,22 +124,13 @@ $ codeshift --packages ${name}@${key} path/to/source
 }
 
 ${
-  config.presets
+  config.presets && Object.keys(config.presets).length
     ? `
 ## Presets
 
 ${Object.keys(config.presets)
-  .map(
-    key => `### ${key}
-
-[Source](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community/${urlSafeName}) | [Report an issue](https://github.com/CodeshiftCommunity/CodeshiftCommunity/issues/new?title=${safeName}@${key})
-
-#### Usage
-
-\`\`\`
-$ codeshift --packages ${name}#${key} path/to/source
-\`\`\`
-`,
+  .map(key =>
+    renderTransform(key, name, 'preset', safeName, urlSafeName, packageLink),
   )
   .join('')}
 `
