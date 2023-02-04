@@ -84,6 +84,7 @@ async function main() {
 
   data.forEach(({ name, config }) => {
     const safeName = name.replace('@', '');
+    const safeRawName = safeName.replace('__', '/');
     const rawName = name.replace('__', '/');
     const urlSafeName = encodeURIComponent(name);
     const packageLink = `[${rawName}](https://www.npmjs.com/package/${rawName})`;
@@ -92,19 +93,34 @@ async function main() {
       path.join(DOCS_PATH, `${name}.mdx`),
       `---
 id: ${safeName}
-title: ${safeName.replace('__', '/')}
+title: ${safeRawName}
 slug: /registry/${safeName}
+keywords: [codemods, ${safeRawName}, code evolution, code migration, package updates, automated code updates]
+description: Explore codemods for ${rawName}.
 ---
 
-**Target package:** ${packageLink}
+${
+  config.targets?.length
+    ? `**Target package(s):**
+
+${config
+  .targets!.map(
+    target => `- [${target}](https://www.npmjs.com/package/${target})`,
+  )
+  .join('\n')}
+`
+    : ''
+}
 
 ${
   config.maintainers?.length
     ? `**Maintainers:**
 
-${config.maintainers!.map(
-  maintainer => `- [${maintainer}](https://github.com/${maintainer})`,
-)}
+${config
+  .maintainers!.map(
+    maintainer => `- [${maintainer}](https://github.com/${maintainer})`,
+  )
+  .join('\n')}
 
 `
     : ''

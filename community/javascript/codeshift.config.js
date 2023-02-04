@@ -1,5 +1,5 @@
 module.exports = {
-  maintainers: [],
+  maintainers: ['danieldelcore'],
   targets: [],
   description: 'Codemods for javascript',
   transforms: {},
