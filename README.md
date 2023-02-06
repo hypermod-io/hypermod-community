@@ -1,8 +1,8 @@
-# CodeshiftCommunity
-
 <p align="center">
-  <img width="700" src="assets/github-banner.png" alt="CodeshiftCommunity Logo">
+  <img width="1000" src="assets/github-banner.png" alt="CodeshiftCommunity Logo">
 </p>
+
+# CodeshiftCommunity
 
 CodeshiftCommunity is a community-owned global registry and documentation hub for codemods. Providing library maintainers & users with facilities to help write, test, publish and consume codemods in a structured, standardized and familiar way.
 
