@@ -12,10 +12,17 @@ _Inspired and built on Facebook's [jscodeshift](https://github.com/facebook/jsco
 
 ## Features
 
-- 🔭 Explore an extensive list of codemods contributed by the community.
-- 🚛 Create, test and publish codemods for your users.
-- ⚡️ Use our helpers & testing utilities to make writing codemods a breeze.
-- 📖 Up-skill your engineering team using our guides & resources.
+🔭 Explore an extensive list of codemods [contributed by the community](https://www.codeshiftcommunity.com/docs/registry).
+
+✨ [Create](https://www.codeshiftcommunity.com/docs/authoring), [test](https://www.codeshiftcommunity.com/docs/testing) and [publish](https://www.codeshiftcommunity.com/docs/consuming) codemods from anywhere.
+
+⚡️ Use our [helpers & testing utilities](https://www.codeshiftcommunity.com/docs/utils) to make writing codemods a breeze.
+
+🧠 Up-skill your engineering team using our [guides & resources](https://www.codeshiftcommunity.com/docs/your-first-codemod).
+
+🎨 Perfect for [Design Systems & Monorepos](https://www.codeshiftcommunity.com/docs/monorepos).
+
+🦄 Bring your own [AST transformer](https://www.codeshiftcommunity.com/docs/css-codemods).
 
 ## Getting started
 
