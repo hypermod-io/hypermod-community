@@ -1,5 +1,13 @@
 # @codeshift/initializer
 
+## 0.4.1
+
+### Patch Changes
+
+- 9c02149: Fixes test output template to ensure async methods are output
+- Updated dependencies [9c02149]
+  - @codeshift/utils@0.2.0
+
 ## 0.4.0
 
 ### Minor Changes
