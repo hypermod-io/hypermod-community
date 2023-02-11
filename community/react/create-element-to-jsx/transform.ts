@@ -1,5 +1,26 @@
-import { API, FileInfo, Options } from 'jscodeshift';
-import ReactUtils from '../utils/ReactUtils';
+import { API, FileInfo, Options, Collection } from 'jscodeshift';
+
+const hasModule = (j: any, path: Collection, module: string) =>
+  path
+    .findVariableDeclarators()
+    .filter(j.filters.VariableDeclarator.requiresModule(module))
+    .size() === 1 ||
+  path
+    .find(j.ImportDeclaration, {
+      type: 'ImportDeclaration',
+      source: {
+        type: 'Literal',
+      },
+    })
+    // @ts-expect-error
+    .filter(declarator => declarator.value.source.value === module)
+    .size() === 1;
+
+const hasReact = (j: any, path: Collection) =>
+  hasModule(j, path, 'React') ||
+  hasModule(j, path, 'react') ||
+  hasModule(j, path, 'react/addons') ||
+  hasModule(j, path, 'react-native');
 
 export default function transformer(
   file: FileInfo,
@@ -8,7 +29,6 @@ export default function transformer(
 ) {
   const root = j(file.source);
   const printOptions = options.printOptions || {};
-  const reactUtils = ReactUtils(j);
 
   const encodeJSXTextValue = (value: string) =>
     value.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -234,7 +254,7 @@ export default function transformer(
     }
   };
 
-  if (options['explicit-require'] === false || reactUtils.hasReact(root)) {
+  if (options['explicit-require'] === false || hasReact(j, root)) {
     const mutations = root
       .find(j.CallExpression, {
         callee: {
