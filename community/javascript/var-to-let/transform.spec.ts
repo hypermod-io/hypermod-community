@@ -1,17 +1,12 @@
 import { applyTransform } from '@codeshift/test-utils';
 import * as transformer from './transform';
 
-describe('react@1.0.0 transform', () => {
-  it('should transform correctly', () => {
-    const result = applyTransform(
-      transformer,
-      `
-        import foo from '<% packageName %>';
-        console.log(foo);
-      `,
-      { parser: 'tsx' },
-    );
+describe('javascript#var-to-let transform', () => {
+  it('should replace var with let', async () => {
+    const result = await applyTransform(transformer, `var foo = 'foo'`, {
+      parser: 'tsx',
+    });
 
-    expect(result).toMatchInlineSnapshot();
+    expect(result).toMatchInlineSnapshot(`"let foo = 'foo';"`);
   });
 });

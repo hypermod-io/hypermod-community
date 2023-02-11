@@ -5,28 +5,31 @@ export default function transformer(
   { jscodeshift: j }: API,
   options: Options,
 ) {
-  const isSpreadElement = prop => prop && prop.type === 'JSXSpreadAttribute';
-  const isValue = prop => prop && prop.type !== 'JSXSpreadAttribute';
-  const getPropName = jsxAttribute =>
+  const isSpreadElement = (prop: any) =>
+    prop && prop.type === 'JSXSpreadAttribute';
+  const isValue = (prop: any) => prop && prop.type !== 'JSXSpreadAttribute';
+  const getPropName = (jsxAttribute: any) =>
     jsxAttribute.name ? jsxAttribute.name.name : '...spread';
-  const sortByPropName = (a, b) => {
+  const sortByPropName = (a: string, b: string) => {
     if (a < b) return -1;
     if (a > b) return 1;
     return 0;
   };
 
-  const sortProps = props => {
-    props.sort((a, b) => sortByPropName(getPropName(a), getPropName(b)));
+  const sortProps = (props: any) => {
+    props.sort((a: any, b: any) =>
+      sortByPropName(getPropName(a), getPropName(b)),
+    );
   };
 
   return j(file.source)
-    .find(api.jscodeshift.JSXOpeningElement)
+    .find(j.JSXOpeningElement)
     .forEach(path => {
-      const chunks = [];
-      const nextAttributes = [];
+      const chunks: any[] = [];
+      const nextAttributes: any[] = [];
       const jSXOpeningElement = path.value;
 
-      jSXOpeningElement.attributes.forEach((prop, i, props) => {
+      jSXOpeningElement.attributes!.forEach((prop, i, props) => {
         if (isValue(prop)) {
           const prev = props[i - 1];
           const next = props[i + 1];

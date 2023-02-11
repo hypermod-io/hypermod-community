@@ -5,8 +5,8 @@ export default function transformer(
   { jscodeshift: j }: API,
   options: Options,
 ) {
-  const removePath = path => j(path).remove();
-  const isAssigningDefaultProps = e =>
+  const removePath = (path: any) => j(path).remove();
+  const isAssigningDefaultProps = (e: any) =>
     e.node.left &&
     e.node.left.property &&
     e.node.left.property.name === 'defaultProps';

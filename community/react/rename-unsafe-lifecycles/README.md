@@ -2,6 +2,8 @@
 
 Adds `UNSAFE_` prefix for deprecated lifecycle hooks. (For more information about this codemod, see [React RFC #6](https://github.com/reactjs/rfcs/pull/6))
 
+_Credit_: [https://github.com/reactjs/react-codemod](https://github.com/reactjs/react-codemod)
+
 ```js
 /* INPUT */
 class ExampleComponent extends React.Component {

@@ -1,17 +1,17 @@
 import { applyTransform } from '@codeshift/test-utils';
 import * as transformer from './transform';
 
-describe('react@1.0.0 transform', () => {
-  it('should transform correctly', () => {
-    const result = applyTransform(
+describe('react#add-react-import transform', () => {
+  it('insert react import when JSX is used', async () => {
+    const result = await applyTransform(
       transformer,
-      `
-        import foo from '<% packageName %>';
-        console.log(foo);
-      `,
+      `export const Component = () => <div />`,
       { parser: 'tsx' },
     );
 
-    expect(result).toMatchInlineSnapshot();
+    expect(result).toMatchInlineSnapshot(`
+      import React from "react"; export const Component = () =>
+      <div />
+    `);
   });
 });

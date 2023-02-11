@@ -1,17 +1,54 @@
 import { applyTransform } from '@codeshift/test-utils';
 import * as transformer from './transform';
 
-describe('react@1.0.0 transform', () => {
-  it('should transform correctly', () => {
-    const result = applyTransform(
+describe('react#sort-jsx-props transform', () => {
+  it('should sort props correctly', async () => {
+    const result = await applyTransform(
       transformer,
       `
-        import foo from '<% packageName %>';
-        console.log(foo);
+<Music
+  zootWoman={true}
+  alpha
+  rickJames={true}
+  zapp={true}
+/>
       `,
       { parser: 'tsx' },
     );
 
-    expect(result).toMatchInlineSnapshot();
+    expect(result).toMatchInlineSnapshot(`
+      "<Music
+        alpha
+        rickJames={true}
+        zapp={true}
+        zootWoman={true}
+      />"
+    `);
+  });
+
+  it('should leave spread props in place to avoid breaking overrides', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+<Music
+  zootWoman={true}
+  alpha
+  {...foo}
+  zapp={true}
+  rickJames={true}
+/>
+      `,
+      { parser: 'tsx' },
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      "<Music
+        alpha
+        zootWoman={true}
+        {...foo}
+        rickJames={true}
+        zapp={true}
+      />"
+    `);
   });
 });

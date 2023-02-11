@@ -5,27 +5,27 @@ export default function transformer(
   { jscodeshift: j }: API,
   options: Options,
 ) {
-  const removePath = path => j(path).remove();
+  const removePath = (path: any) => j(path).remove();
 
   // Obj.proptypes = { ... };
-  const isAssigningPropTypes = e =>
+  const isAssigningPropTypes = (e: any) =>
     e.node.left &&
     e.node.left.property &&
     e.node.left.property.name === 'propTypes';
 
   // import PropTypes from 'prop-types';
-  const isImportingFromPropTypes = e =>
+  const isImportingFromPropTypes = (e: any) =>
     e.node.source && e.node.source.value === 'prop-types';
 
   // require('prop-types');
-  const isRequiringFromPropTypes = e =>
+  const isRequiringFromPropTypes = (e: any) =>
     e.node.init &&
     e.node.init.callee &&
     e.node.init.callee.name === 'require' &&
     e.node.init.arguments[0].value === 'prop-types';
 
   // _defineProperty(obj, 'propTypes', { ... });
-  const isDefiningPropType = e =>
+  const isDefiningPropType = (e: any) =>
     e.node.expression &&
     e.node.expression.callee &&
     e.node.expression.callee.name === '_defineProperty' &&
@@ -35,7 +35,7 @@ export default function transformer(
     e.node.expression.arguments[1].original.value === 'propTypes';
 
   // { propTypes: { foo: PropTypes.string } };
-  const isObjectProperty = e =>
+  const isObjectProperty = (e: any) =>
     e.node.key &&
     e.node.key.name === 'propTypes' &&
     e.node.value &&

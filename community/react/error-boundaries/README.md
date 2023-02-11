@@ -2,6 +2,8 @@
 
 Renames the experimental `unstable_handleError` lifecycle hook to `componentDidCatch`.
 
+_Credit_: [https://github.com/reactjs/react-codemod](https://github.com/reactjs/react-codemod)
+
 ```js
 /* INPUT */
 import React from "react";

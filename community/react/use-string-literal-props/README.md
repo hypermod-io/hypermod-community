@@ -2,6 +2,8 @@
 
 Convert JSX props which are expressions for a string literal, into just a string literal.
 
+_Credit_: [https://github.com/reactjs/react-codemod](https://github.com/reactjs/react-codemod)
+
 ```jsx
 /* INPUT */
 const SomeComponent = () => (

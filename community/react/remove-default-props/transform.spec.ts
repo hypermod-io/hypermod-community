@@ -1,17 +1,22 @@
 import { applyTransform } from '@codeshift/test-utils';
 import * as transformer from './transform';
 
-describe('react@1.0.0 transform', () => {
-  it('should transform correctly', () => {
-    const result = applyTransform(
+describe('react#remove-default-props transform', () => {
+  it('should remove default props', async () => {
+    const result = await applyTransform(
       transformer,
       `
-        import foo from '<% packageName %>';
-        console.log(foo);
+import React from 'react';
+
+export const Greet = ({ name }) => <span>Hi {name}</span>;
+Greet.defaultProps = { name: 'Stranger' };
       `,
       { parser: 'tsx' },
     );
 
-    expect(result).toMatchInlineSnapshot();
+    expect(result).toMatchInlineSnapshot(`
+      import React from 'react'; export const Greet = ({ name }) =>
+      <span>Hi {name}</span>;
+    `);
   });
 });

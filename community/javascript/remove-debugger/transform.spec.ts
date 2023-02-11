@@ -1,33 +1,41 @@
 import { applyTransform } from '@codeshift/test-utils';
 import * as transformer from './transform';
 
-describe('react@1.0.0 transform', () => {
-  it('should not modify files with no debugger statements', () => {
-    const result = applyTransform(transformer, `console.log('foooo');`, {
+describe('javascript#remove-debugger transform', () => {
+  it('should not modify files with no debugger statements', async () => {
+    const result = await applyTransform(transformer, `console.log('foooo');`, {
       parser: 'tsx',
     });
 
-    expect(result).toMatchInlineSnapshot();
+    expect(result).toMatchInlineSnapshot(`"console.log('foooo');"`);
   });
 
-  it('should remove top-level debugger statement', () => {
-    const result = applyTransform(transformer, 'debugger;', { parser: 'tsx' });
+  it('should remove top-level debugger statement', async () => {
+    const result = await applyTransform(transformer, 'debugger;', {
+      parser: 'tsx',
+    });
 
-    expect(result).toMatchInlineSnapshot();
+    expect(result).toMatchInlineSnapshot(`""`);
   });
 
-  it('should debuggers in function statements', () => {
-    const result = applyTransform(
+  it('should debuggers in function statements', async () => {
+    const result = await applyTransform(
       transformer,
       `
-      function foo () {
-        debugger;
-        setTimeout(() => { debugger; console.log('foo') });debugger;
-      }
+function foo () {
+  debugger;
+  setTimeout(() => { debugger; console.log('foo') });debugger;
+}
     `,
       { parser: 'tsx' },
     );
 
-    expect(result).toMatchInlineSnapshot();
+    expect(result).toMatchInlineSnapshot(`
+      "function foo () {
+        setTimeout(() => {
+          console.log('foo')
+        });
+      }"
+    `);
   });
 });

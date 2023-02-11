@@ -5,36 +5,48 @@ export default function transformer(
   { jscodeshift: j }: API,
   options: Options,
 ) {
-  const isDefaultImport = specifier =>
-    specifier.type === 'ImportDefaultSpecifier';
-  const getDefaultImport = importDeclaration =>
-    importDeclaration.specifiers.find(isDefaultImport);
-  const hasDefaultImport = importDeclaration =>
-    Boolean(getDefaultImport(importDeclaration));
-  const isRelativeImport = importDeclaration =>
-    importDeclaration.source.value.startsWith('.');
-  const isScriptImport = importDeclaration =>
-    !['.json', '.md', '.css', '.svg'].some(ext =>
-      importDeclaration.source.value.endsWith(ext),
-    );
-
-  return j(file.source)
-    .find(j.ImportDeclaration)
-    .filter(path => hasDefaultImport(path.value))
-    .filter(path => isRelativeImport(path.value))
-    .filter(path => isScriptImport(path.value))
+  const withoutStringLiterals = j(file.source)
+    .find(j.JSXAttribute)
+    .filter(
+      path =>
+        path.value &&
+        path.value.value &&
+        // @ts-expect-error
+        path.value.value.expression &&
+        path.value.value.type === 'JSXExpressionContainer' &&
+        path.value.value.expression.type === 'StringLiteral',
+    )
     .forEach(path => {
-      const importDeclaration = path.value;
-      importDeclaration.specifiers = importDeclaration.specifiers.map(
-        specifier => {
-          if (isDefaultImport(specifier)) {
-            const name = specifier.local.name;
-            const namedImport = j.importSpecifier(j.identifier(name));
-            return namedImport;
-          }
-          return specifier;
-        },
+      // @ts-expect-error
+      path.value.value = j.stringLiteral(path.value.value.expression.value);
+    })
+    .toSource(options.printOptions);
+
+  const withoutTemplateLiterals = j(withoutStringLiterals)
+    .find(j.JSXAttribute)
+    .filter(path => {
+      return (
+        path.value &&
+        path.value.value &&
+        // @ts-expect-error
+        path.value.value.expression &&
+        path.value.value.type === 'JSXExpressionContainer' &&
+        path.value.value.expression &&
+        path.value.value.expression.type === 'TemplateLiteral' &&
+        path.value.value.expression.expressions &&
+        path.value.value.expression.expressions.length === 0 &&
+        path.value.value.expression.quasis &&
+        path.value.value.expression.quasis[0] &&
+        path.value.value.expression.quasis[0].value
+      );
+    })
+    .forEach(path => {
+      path.value.value = j.stringLiteral(
+        // @ts-expect-error
+        path.value.value.expression.quasis[0].value.raw,
       );
     })
     .toSource(options.printOptions);
+
+  return withoutTemplateLiterals;
 }
