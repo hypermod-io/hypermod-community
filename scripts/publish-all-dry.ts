@@ -22,6 +22,6 @@ async function main(sourcePath: string, targetPath: string) {
 }
 
 main(process.argv[2], process.argv[3]).catch(error => {
-  console.error('Publishing error:', error.message);
+  console.error('Publishing error:', error);
   process.exit(1);
 });
