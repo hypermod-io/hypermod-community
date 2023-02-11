@@ -1,5 +1,11 @@
 # @codeshift/utils
 
+## 0.2.0
+
+### Minor Changes
+
+- 9c02149: Adds new node utils including `isNodeOfType` method
+
 ## 0.1.5
 
 ### Patch Changes
