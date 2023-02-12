@@ -3,7 +3,6 @@ module.exports = {
   targets: ['react', 'react-dom'],
   description: 'Codemods for react',
   transforms: {},
-
   presets: {
     'add-react-import': require.resolve('./add-react-import/transform'),
     'create-element-to-jsx': require.resolve(

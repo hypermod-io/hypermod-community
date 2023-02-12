@@ -1,6 +1,7 @@
 # Repo
 .tmp/
 plugin_packages/
+.vscode/
 
 # Generated website pages
 website/docs/registry-generated/*

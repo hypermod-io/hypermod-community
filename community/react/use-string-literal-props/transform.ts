@@ -24,11 +24,10 @@ export default function transformer(
 
   const withoutTemplateLiterals = j(withoutStringLiterals)
     .find(j.JSXAttribute)
-    .filter(path => {
+    .filter((path: any) => {
       return (
         path.value &&
         path.value.value &&
-        // @ts-expect-error
         path.value.value.expression &&
         path.value.value.type === 'JSXExpressionContainer' &&
         path.value.value.expression &&
