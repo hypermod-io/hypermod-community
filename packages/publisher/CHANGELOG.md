@@ -1,5 +1,11 @@
 # @codeshift/publisher
 
+## 0.1.21
+
+### Patch Changes
+
+- 5407604: Minor adjustments to build script
+
 ## 0.1.20
 
 ### Patch Changes
