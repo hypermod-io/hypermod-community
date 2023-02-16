@@ -213,7 +213,7 @@ const App = () => (
                   </div>
                   <div className="col col--8">
                     <CodeBlock className="language-bash">
-                      $ npx @codeshift/cli init --packageName foobar
+                      $ npx @codeshift/cli init foobar
                     </CodeBlock>
                   </div>
                 </div>
