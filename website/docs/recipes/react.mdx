@@ -16,7 +16,17 @@ With the help of these techniques, you can make changes to your codebase with ea
 
 ## Props
 
-### Inserting props
+Props in jscodeshift are represented by the `j.JSXAttribute` node type, these can be as a simple array on JSX elememts (`j.JSXElement`).
+
+It's important to remember props can be represented an a few different forms, their AST counterparts will change to match.
+
+- [Boolean props](https://reactjs.org/docs/jsx-in-depth.html#props-default-to-true): `isDisabled`
+- [String props](https://reactjs.org/docs/jsx-in-depth.html#string-literals): `className="hello"`
+- [Expression props](https://reactjs.org/docs/jsx-in-depth.html#javascript-expressions-as-props): `counter={5+4}`
+
+### Inserting a boolean prop
+
+Insert a new boolean prop `isDisabled`.
 
 **Transform:**
 
@@ -29,18 +39,11 @@ export default function transformer(file, { jscodeshift: j }, options) {
     // Find all components called button
     .filter(path => path.value.openingElement.name.name === 'button')
     .forEach(element => {
-      const newComponent = j.jsxElement(
-        j.jsxOpeningElement(element.node.openingElement.name, [
-          ...element.node.openingElement.attributes,
-          // build and insert our new prop
-          j.jsxAttribute(j.jsxIdentifier('disabled'), j.stringLiteral('true')),
-        ]),
-        element.node.closingElement,
-        element.node.children,
-      );
-
-      // Replace our original component with our modified one
-      j(element).replaceWith(newComponent);
+      element.node.openingElement.attributes = [
+        ...element.node.openingElement.attributes,
+        // build and insert our new prop
+        j.jsxAttribute(j.jsxIdentifier('isDisabled')),
+      ];
     });
 
   return source.toSource();
@@ -53,7 +56,7 @@ export default function transformer(file, { jscodeshift: j }, options) {
 import React from 'react';
 
 const Button = props => {
-  return <button className="button">Submit</button>;
+  return <button>Submit</button>;
 };
 ```
 
@@ -63,8 +66,55 @@ const Button = props => {
 import React from 'react';
 
 const Button = props => {
--  return <button className="button">Submit</button>;
-+  return <button className="button" disabled="true">Submit</button>;
+-  return <button>Submit</button>;
++  return <button isDisabled>Submit</button>;
+};
+```
+
+### Inserting a string prop
+
+Insert a new string prop `className`.
+
+**Transform:**
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+    .find(j.JSXElement)
+    // Find all components called button
+    .filter(path => path.value.openingElement.name.name === 'button')
+    .forEach(element => {
+      element.node.openingElement.attributes = [
+        ...element.node.openingElement.attributes,
+        // build and insert our new prop
+        j.jsxAttribute(j.jsxIdentifier('className'), j.stringLiteral('helloWorld')),
+      ];
+    });
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```jsx
+import React from 'react';
+
+const Button = props => {
+  return <button>Submit</button>;
+};
+```
+
+**Output:**
+
+```diff
+import React from 'react';
+
+const Button = props => {
+-  return <button>Submit</button>;
++  return <button className="helloWorld">Submit</button>;
 };
 ```
 
@@ -199,7 +249,22 @@ const Button = props => {
 };
 ```
 
-### Rest props
+### Spread props
+
+Spread props (aka [spread attributes](https://reactjs.org/docs/jsx-in-depth.html#spread-attributes)),
+allow you to pass an entire object into a jsx element as props.
+
+They are represented by the following notation:
+
+```jsx
+function App() {
+  const props = { firstName: 'Ben', lastName: 'Hector' };
+  return <Greeting {...props} />;
+}
+```
+
+As an AST, these are represented by the `j.JSXSpreadAttribute` node,
+which accepts an `j.Identifier` (name) and `j.ObjectExpression` (props).
 
 **Transform:**
 
@@ -270,6 +335,8 @@ const Button = () => {
 ```
 
 ## JSX
+
+
 
 ### Wrapping components
 

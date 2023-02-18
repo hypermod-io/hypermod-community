@@ -1,0 +1,387 @@
+---
+id: typescript
+title: TypeScript
+slug: /typescript
+---
+
+If you're looking to modify TypeScript code in bulk, jscodeshift can be incredibly helpful.
+In this guide, we'll explore how you can use jscodeshift to modify common TypeScript syntaxes.
+Whether you're looking to update the types of variables or interfaces, this guide will provide you with the knowledge and tools you need to get started.
+
+:::tip
+
+Remember to use the `ts` or `tsx` parser when modifying TypeScript files.
+
+:::
+
+## Types
+
+
+TypeScript [type aliases](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-aliases) allow you to give a name to a specific type or combination of types,
+which can be reused throughout your code. A type alias is like a shortcut that
+allows you to define a new name for a more complex type or set of types,
+making your code more concise and easier to read.
+
+In jscodeshift, these are represented by the node: `TSTypeAliasDeclaration`.
+
+### Creating a type annotation
+
+If you wanted to construct a new type, you could do so using one of the TypeScript's [primitive types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#the-primitives-string-number-and-boolean).
+
+- `j.tsBooleanKeyword()`: `boolean`
+- `j.tsStringKeyword()`: `string`
+- `j.tsNumberKeyword()`: `number`
+
+In addition, TypeScript provides a range of basic types.
+
+- `j.tsNullKeyword()`: `null`
+- `j.tsAnyKeyword()`: `any`
+- `j.tsUnknownKeyword()`: `unknown`
+- `j.tsVoidKeyword()`: `void`
+
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Build a new type
+  const newType = j.tsTypeAliasDeclaration(
+    j.identifier('Potato'), // type name "potato"
+    j.tsBooleanKeyword() // boolean type annotation
+  );
+
+  // Insert it at the top of the document
+  source.get().node.program.body.unshift(newType);
+
+  return source.toSource();
+}
+```
+
+**Output:**
+
+```ts
+type Potato = boolean;
+```
+
+### Union types
+
+As we know with TypeScript, it's possible for different type annotations to be combined using [union types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types).
+These are represented with the `j.TSUnionType` node.
+
+To construct a union type containing two arbitrary strings, you could do the following.
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Build a new type
+  const newType = j.tsTypeAliasDeclaration(
+    j.identifier('Potato'), // type name "potato"
+    // Create a union type with two components
+    j.tsUnionType([
+      j.tsLiteralType(j.stringLiteral('foo')),
+      j.tsLiteralType(j.stringLiteral('bar')),
+    ])
+  );
+
+  // Insert it at the top of the document
+  source.get().node.program.body.unshift(newType);
+
+  return source.toSource();
+}
+```
+
+**Output:**
+
+```ts
+type Potato = 'foo' | 'bar';
+```
+
+### Arrays
+
+Similary, [TypeScript arrays](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays) can be constructed
+by using the `j.tsArrayType()` and passing in one of the primitive types mentioned above.
+
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  // Build a new type
+  const newType = j.tsTypeAliasDeclaration(
+    j.identifier('Potato'), // type name "potato"
+    j.tsArrayType(j.tsStringKeyword()) // array of strings type annotation
+  );
+
+  // Insert it at the top of the document
+  source.get().node.program.body.unshift(newType);
+
+  return source.toSource();
+}
+```
+
+**Output:**
+
+```ts
+type Potato = string[];
+```
+
+## Interfaces
+
+A TypeScript `interface` is known as a `TSInterfaceDeclaration`. These can me found and modified the same as any other node.
+
+### Renaming an interface
+
+For example, if you wanted to modify the name of a particular interface you could do the following.
+
+```javascript
+const oldName = 'Lunch';
+const newName = 'Breakfast';
+
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+  	.find(j.TSInterfaceDeclaration, { id: { name: oldName }}) // Find all TSInterfacDeclarations with the name "Lunch"
+    .forEach(path => path.node.id.name = newName); // Replace it with "Breakfast"
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```ts
+interface Lunch {
+  cheese: string;
+  burger: number;
+}
+```
+
+**Output:**
+
+```diff
+-interface Lunch {
++interface Breakfast {
+  cheese: string;
+  burger: number;
+}
+```
+
+### Adding interface properties
+
+A property of interface is known as a `TSPropertySignature`, representing the individual members which make up the `interface` itself.
+`TSPropertySignatures` simply wrap a `TSTypeAnnotation` which we have already seen in above.
+
+Adding a property to an existing `interface` includes modifying the `body` array of the `InterfaceDeclaration`.
+For example, to add `icecream: string` you could do the following.
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+  	.find(j.TSInterfaceDeclaration, { id: { name: oldName }}) // Find all TSInterfacDeclarations with the name "Lunch"
+  	.forEach(path => {
+      // Insert a new property called 'icecream' with a `string` primitive type
+      path.node.body.body = [
+        ...path.node.body.body,
+        j.tsPropertySignature(j.identifier('icecream'), j.tsTypeAnnotation(j.tsStringKeyword()))
+      ];
+    });
+
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```ts
+interface Lunch {
+  cheese: string;
+  burger: number;
+}
+```
+
+**Output:**
+
+```diff
+interface Lunch {
+  cheese: string;
+  burger: number;
++ icecream: string;
+}
+```
+
+### Modifying interface properties
+
+Modifying interface properties can be a lot more straightforward since you can simply
+filter by the interface and property name, then simply replace the `typeAnnotation`.
+
+For example, if we wanted to replace the `TSTypeAnnotation` of the `icecream` property with
+a string literal type `vanilla` instead of a `string` we could do the following.
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+  	.find(j.TSInterfaceDeclaration, { id: { name: 'Lunch' }}) // Find all TSInterfacDeclarations with the name "Lunch"
+    .find(j.TSPropertySignature, { key: { name: 'icecream' }}) // Find all TSPropertySignatures with the name "icecream"
+  	.forEach(path => {
+      // Replace the type annotation with a string literal type 'vanilla'
+      path.node.typeAnnotation = j.tsTypeAnnotation(j.tsLiteralType(j.stringLiteral('vanilla')));
+    });
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```ts
+interface Lunch {
+  cheese: string;
+  burger: number;
+  icecream: string;
+}
+```
+
+**Output:**
+
+```diff
+interface Lunch {
+  cheese: string;
+  burger: number;
++ icecream: 'vanilla';
+}
+```
+
+
+### Optional properties
+
+In TypeScript, interface properties can be marked as `optional` with the `?` keyword.
+The same can be done in a codemod by setting the `optional` argument when creating the node.
+
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+  	.find(j.TSInterfaceDeclaration, { id: { name: 'Lunch' }}) // Find all TSInterfacDeclarations with the name "Lunch"
+    .forEach(path => {
+      // Insert a new property called 'icecream' with a `string` primitive type
+      path.node.body.body = [
+        ...path.node.body.body,
+        j.tsPropertySignature(
+          j.identifier('icecream'), j.tsTypeAnnotation(j.tsStringKeyword())),
+          true // specifies that the icecream property is optional
+      ];
+    });
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```ts
+interface Lunch {
+  cheese: string;
+  burger: number;
+}
+```
+
+**Output:**
+
+```diff
+interface Lunch {
+  cheese: string;
+  burger: number;
++ icecream?: string;
+}
+```
+
+### Extending other interfaces
+
+Interfaces can extend other interfaces. As an AST these are represented as
+an array of `TSExpressionWithTypeArguments` on the `extends` property of an `interface`.
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+  	.find(j.TSInterfaceDeclaration, { id: { name: oldName }}) // Find all TSInterfacDeclarations with the name "Lunch"
+    .forEach(path => path.node.extends = [ // Replace the extisting extends property
+    	j.tsExpressionWithTypeArguments(j.identifier('Snacks')), // Create a new `TSExoressionWithTypeArguments` array
+    ]);
+
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```ts
+interface Snacks {
+  fries: string;
+}
+
+interface Lunch {
+  cheese: string;
+  burger: number;
+  icecream: string;
+}
+```
+
+**Output:**
+
+```diff
+interface Snacks {
+  fries: string;
+}
+
++interface Lunch extends Snacks {
+  cheese: string;
+  burger: number;
+  icecream: 'vanilla';
+}
+```
+
+## Annotations
+
+### Adding types to variables
+
+Adding type annotations to an existing `VariableDeclarator` involves assigning a type node
+to the `typeAnnotation` property.
+
+```javascript
+export default function transformer(file, { jscodeshift: j }, options) {
+  const source = j(file.source);
+
+  source
+    .find(j.VariableDeclarator)
+    .find(j.Identifier, { name: 'dog' }) // Filter by name === 'dog'
+    // Add a typeAnnotation property to the node
+    .forEach(path => path.node.typeAnnotation = j.tsTypeAnnotation(j.tsStringKeyword()));
+
+  return source.toSource();
+}
+```
+
+**Input:**
+
+```ts
+const dog = 'Poodle';
+```
+
+**Output:**
+
+```diff
+-const dog = 'Poodle';
++const dog: string = 'Poodle';
+```

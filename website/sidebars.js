@@ -43,7 +43,11 @@ module.exports = {
       label: 'Recipes',
       type: 'category',
       collapsed: false,
-      items: ['recipes/import-manipulation', 'recipes/react'],
+      items: [
+        'recipes/import-manipulation',
+        'recipes/react',
+        'recipes/typescript',
+      ],
     },
   ],
   api: [
