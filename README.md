@@ -61,7 +61,7 @@ and run with:
 `$ codeshift or $ codeshift-cli`
 
 
-**Sponsors**
+## Sponsors
 
 Huge thanks for all of the support from our sponsors!
 
