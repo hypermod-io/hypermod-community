@@ -5,12 +5,14 @@ export function removeDefaultPropsAssignment(
   source: Collection<any>,
   j: JSCodeshift,
 ) {
-  source
-    .find(j.AssignmentExpression, {
-      left: {
-        object: { name: 'Component' },
-        property: { name: 'defaultProps' },
-      },
-    })
-    .remove();
+  const removePath = (path: any) => j(path).remove();
+  const isAssigningDefaultProps = (e: any) =>
+    e.node.left &&
+    e.node.left.property &&
+    e.node.left.property.name === 'defaultProps';
+
+  return source
+    .find(j.AssignmentExpression)
+    .filter(isAssigningDefaultProps)
+    .forEach(removePath);
 }
