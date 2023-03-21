@@ -1,0 +1,13 @@
+.tile {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid #d6d6d6;
+  display: flex;
+  aspect-ratio: 16/9;
+  width: 600px;
+}
+
+.tileContent {
+  padding: 20px;
+  background-color: white;
+}
