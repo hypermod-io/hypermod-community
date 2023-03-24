@@ -1,13 +1,13 @@
-import { JSCodeshift, FunctionDeclaration, Collection } from 'jscodeshift';
+import { JSCodeshift, Collection } from 'jscodeshift';
+import { getNewParams } from './getNewParams';
 
 export function moveDefaultPropsToFunctionDeclaration(
-  source: Collection<any>,
   j: JSCodeshift,
+  source: Collection<any>,
 ) {
   source
     .find(j.FunctionDeclaration)
     .forEach(component => {
-      // Find the defaultProps assignment expression
       const defaultProps = source.find(j.AssignmentExpression, {
         left: {
           object: { name: component.node.id?.name },
@@ -30,45 +30,13 @@ export function moveDefaultPropsToFunctionDeclaration(
           j.assignmentPattern(j.identifier(key), j.literal(value)),
         );
       });
-
-      const params = component.node.params;
-
-      const existingSingleProp = params.find(
-        param => param.type === 'Identifier',
-      );
-
-      // Destructured params
-      const destructuredProps = params.find(
-        param => param.type === 'ObjectPattern',
-      );
-
-      const noExistingProps = params.length === 0;
-
-      let newParams: FunctionDeclaration['params'] = [];
-
-      if (noExistingProps) {
-        newParams = [j.objectPattern(defaultParams)];
-      } else if (existingSingleProp) {
-        newParams = [
-          j.objectPattern([
-            // @ts-ignore
-            j.spreadProperty(existingSingleProp),
-            ...defaultParams,
-          ]),
-        ];
-      } else {
-        newParams = getNewDestructuredParams(
-          destructuredProps,
-          j,
-          defaultParams,
-        );
-      }
-
+      // Find the defaultProps assignment expression
+      const newParams = getNewParams(j, component, defaultParams);
       // Replace the original function declaration with a new one
       j(component).replaceWith(nodePath =>
         j.functionDeclaration(
           nodePath.node.id,
-          newParams,
+          newParams!,
           nodePath.node.body,
           nodePath.node.generator,
           nodePath.node.async,
@@ -82,39 +50,4 @@ export function moveDefaultPropsToFunctionDeclaration(
       },
     })
     .toSource();
-}
-
-function getNewDestructuredParams(
-  existingPropsParam: FunctionDeclaration['params'][number] | undefined,
-  j: JSCodeshift,
-  defaultParams: any,
-) {
-  if (existingPropsParam && 'properties' in existingPropsParam) {
-    const restProp = existingPropsParam.properties.find(
-      // @ts-expect-error for some reason it does not exist
-      prop => prop.type === 'RestElement',
-    );
-
-    const existingPropsDestructuredProps = existingPropsParam.properties
-      .filter(prop => prop.type !== restProp?.type)
-      .map(prop => j.property('init', (prop as any).key, (prop as any).value))
-      .filter(Boolean);
-
-    const restPropArg =
-      restProp && 'argument' in restProp
-        ? restProp.argument
-        : j.identifier('rest');
-
-    const newParams = [
-      j.objectPattern([
-        ...existingPropsDestructuredProps,
-        ...defaultParams,
-        // @ts-expect-error RestElement is not assignable as above
-        ...(restProp ? [j.restProperty(restPropArg)] : []),
-      ]),
-    ];
-    return newParams;
-  }
-
-  return [];
 }
