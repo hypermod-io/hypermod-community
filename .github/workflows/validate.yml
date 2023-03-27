@@ -23,6 +23,5 @@ jobs:
       - run: npm install -g yarn
       - run: yarn install --frozen-lockfile
       - run: yarn validate
-      - run: yarn community:release-all-dry
         env:
           CI: true
