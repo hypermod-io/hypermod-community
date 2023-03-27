@@ -1,5 +1,5 @@
 import { FileInfo, API } from 'jscodeshift';
-import { applyMotions } from '../../../packages/utils/src';
+import { applyMotions } from '@codeshift/utils';
 
 import { moveDefaultPropsToArrowFunctionExpression } from './motions/moveDefaultPropsToArrowFunctionExpression';
 import { moveDefaultPropsToFunctionDeclaration } from './motions/moveDefaultPropsToFunctionDeclaration';
