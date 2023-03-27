@@ -11,6 +11,8 @@ export default function buildPackages(path: string, packages: string[]) {
             (error, stdout, stderr) => {
               if (error) {
                 console.error(`exec error for package ${pkg}\n${error}`);
+                console.error(stdout);
+                console.error(stderr);
                 reject(`Unable to build codeshift package: ${pkg}\n${error}`);
               }
 
