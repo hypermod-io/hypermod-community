@@ -1,19 +1,19 @@
-import { API, FileInfo, Options } from 'jscodeshift';
+import { FileInfo, API } from 'jscodeshift';
+import { applyMotions } from '../../../packages/utils/src';
 
-export default function transformer(
-  file: FileInfo,
-  { jscodeshift: j }: API,
-  options: Options,
-) {
-  const removePath = (path: any) => j(path).remove();
-  const isAssigningDefaultProps = (e: any) =>
-    e.node.left &&
-    e.node.left.property &&
-    e.node.left.property.name === 'defaultProps';
+import { moveDefaultPropsToArrowFunctionExpression } from './motions/moveDefaultPropsToArrowFunctionExpression';
+import { moveDefaultPropsToFunctionDeclaration } from './motions/moveDefaultPropsToFunctionDeclaration';
+import { removeDefaultPropsAssignment } from './motions/removeDefaultPropsAssignment';
 
-  return j(file.source)
-    .find(j.AssignmentExpression)
-    .filter(isAssigningDefaultProps)
-    .forEach(removePath)
-    .toSource(options.printOptions);
+export default function transformer(file: FileInfo, api: API) {
+  const j = api.jscodeshift;
+  const source = j(file.source);
+
+  applyMotions(j, source, [
+    moveDefaultPropsToFunctionDeclaration,
+    moveDefaultPropsToArrowFunctionExpression,
+    removeDefaultPropsAssignment,
+  ]);
+
+  return source.toSource();
 }

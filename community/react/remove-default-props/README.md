@@ -6,13 +6,26 @@ _Credit_: [https://github.com/reactjs/react-codemod](https://github.com/reactjs/
 
 ```jsx
 /* INPUT */
-import React from 'react'
+import React from 'react';
 
-export const Greet = ({ name }) => <span>Hi {name}</span>
-Greet.defaultProps = { name: 'Stranger' }
+export const Greet = ({ name }) => <span>Hi {name}</span>;
+Greet.defaultProps = { text: 'Stranger' };
 
 /* OUTPUT */
-import React from 'react'
+import React from 'react';
 
-export const Greet = ({ name }) => <span>Hi {name}</span>
+export const Greet = ({ name, text = 'Stranger' }) => <span>Hi {name}</span>;
+```
+
+```jsx
+/* INPUT */
+import React from 'react';
+
+export const Greet = (props) => <span>Hi {name}</span>;
+Greet.defaultProps = { text: 'Stranger' };
+
+/* OUTPUT */
+import React from 'react';
+
+export const Greet = ({ ...props, text = 'Stranger' }) => <span>Hi {name}</span>;
 ```
