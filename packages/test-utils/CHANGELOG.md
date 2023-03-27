@@ -1,5 +1,11 @@
 # @codeshift/test-utils
 
+## 0.3.0
+
+### Minor Changes
+
+- 6e5fa3d: Allows to use an FileInfo in the applyTransform test util
+
 ## 0.2.0
 
 ### Minor Changes
