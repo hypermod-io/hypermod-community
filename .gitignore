@@ -5,6 +5,7 @@ plugin_packages/
 
 # Generated website pages
 website/docs/registry-generated/*
+.DS_Store
 
 # Logs
 logs
