@@ -73,9 +73,19 @@ export default async function main(paths: string[], flags: Flags) {
         selectedConfig.config.transforms &&
         selectedConfig.config.transforms[answers.codemod.selection]
       ) {
-        transforms.push(
-          selectedConfig.config.transforms[answers.codemod.selection],
-        );
+        if (flags.sequence) {
+          Object.entries(
+            selectedConfig.config.transforms as Record<string, string>,
+          )
+            .filter(([key]) =>
+              semver.satisfies(key, `>=${answers.codemod.selection}`),
+            )
+            .forEach(([, path]) => transforms.push(path));
+        } else {
+          transforms.push(
+            selectedConfig.config.transforms[answers.codemod.selection],
+          );
+        }
       } else if (
         selectedConfig.config.presets &&
         selectedConfig.config.presets[answers.codemod.selection]
