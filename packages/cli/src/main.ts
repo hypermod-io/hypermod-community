@@ -125,7 +125,9 @@ export default async function main(paths: string[], flags: Flags) {
       const answers = await inquirer.prompt([getConfigPrompt(config)]);
 
       if (config.transforms && config.transforms[answers.codemod]) {
-        transforms.push(config.transforms[answers.codemod]);
+        Object.entries(config.transforms)
+          .filter(([key]) => semver.satisfies(key, `>=${answers.codemod}`))
+          .forEach(([, path]) => transforms.push(path));
       } else if (config.presets && config.presets[answers.codemod]) {
         transforms.push(config.presets[answers.codemod]);
       }
