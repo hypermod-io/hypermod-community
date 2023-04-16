@@ -1,5 +1,15 @@
 # @codeshift/cli
 
+## 0.13.0
+
+### Minor Changes
+
+- 72abeaa: Allows to use the sequence flag in a monorepo development context
+
+### Patch Changes
+
+- @codeshift/initializer@0.4.3
+
 ## 0.12.0
 
 ### Minor Changes
