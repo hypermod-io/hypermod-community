@@ -36,5 +36,8 @@ export interface Flags {
   cpus?: number;
   dry?: boolean;
   runInBand?: boolean;
+
+  /** Npm registry url that will be used to fetch the packages from. */
+  registry?: string;
   verbose?: '0' | '1' | '2';
 }

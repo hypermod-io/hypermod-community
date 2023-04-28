@@ -53,6 +53,10 @@ program
   )
   .option('-d, --dry', 'dry run (no changes are made to files)')
   .option('--run-in-band', 'run serially in the current process')
+  .option(
+    '--registry <value>',
+    'Define a registry where the package should be fetched from',
+  )
   .addOption(
     new Option(
       '--verbose <parser>',

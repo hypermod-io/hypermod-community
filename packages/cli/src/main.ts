@@ -25,6 +25,7 @@ export default async function main(paths: string[], flags: Flags) {
 
   const packageManager = new PluginManager({
     pluginsPath: path.join(__dirname, 'node_modules'),
+    npmRegistryUrl: flags.registry,
   });
 
   let transforms: string[] = [];
