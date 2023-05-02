@@ -1,5 +1,12 @@
 # @codeshift/initializer
 
+## 0.4.4
+
+### Patch Changes
+
+- Updated dependencies [bbc8fb8]
+  - @codeshift/cli@0.14.0
+
 ## 0.4.3
 
 ### Patch Changes

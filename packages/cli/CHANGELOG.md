@@ -1,5 +1,15 @@
 # @codeshift/cli
 
+## 0.14.0
+
+### Minor Changes
+
+- bbc8fb8: Allow for an alternate npm registry and registryToken to be passed when calling the cli.
+
+### Patch Changes
+
+- @codeshift/initializer@0.4.4
+
 ## 0.13.0
 
 ### Minor Changes
