@@ -173,6 +173,26 @@ Get current version number
 - `$ codeshift --version`
 - `$ codeshift -v`
 
+### --registry
+
+If an alternative registry url is provided, all packages will be fetched from this registry.
+
+**default:**
+
+`https://registry.npmjs.org/`
+
+**example:**
+
+- `$ codeshift --registry https://private-registry.npmjs.org/`
+
+### --registryToken
+
+If a registry token is provided, it will be used as an authentication token for the registry.
+
+**example:**
+
+- `$ codeshift --registryToken <ACCESS_TOKEN>`
+
 ### --help
 
 Print all help text to the command line

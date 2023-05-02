@@ -36,5 +36,10 @@ export interface Flags {
   cpus?: number;
   dry?: boolean;
   runInBand?: boolean;
+
+  /** Package registry url that will be used to fetch the packages from. */
+  registry?: string;
+  /** Authentication token that will be used to fetch packages from the registry. */
+  registryToken?: string;
   verbose?: '0' | '1' | '2';
 }
