@@ -640,4 +640,64 @@ describe('main', () => {
       );
     });
   });
+
+  describe('when using an alternative registry', () => {
+    it('should use the passed registry url for the PluginManager', async () => {
+      const spy = jest.fn();
+      (PluginManager as jest.Mock).mockImplementation(
+        spy.mockReturnValue({
+          install: () => Promise.resolve(undefined),
+          // @ts-ignore
+          require: jest.fn().mockImplementationOnce((codemodName: string) => ({
+            default: {
+              transforms: {
+                '18.0.0': `${codemodName}/path/to/18.js`,
+              },
+            },
+          })),
+          uninstallAll: () => Promise.resolve(),
+        }),
+      );
+
+      await main([mockPath], {
+        packages: 'mylib@18.0.0',
+        registry: 'https://localhost:4875',
+      });
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({ npmRegistryUrl: 'https://localhost:4875' }),
+      );
+    });
+
+    it('should use the passed registryToken for the PluginManager', async () => {
+      const spy = jest.fn();
+      (PluginManager as jest.Mock).mockImplementation(
+        spy.mockReturnValue({
+          install: () => Promise.resolve(undefined),
+          // @ts-ignore
+          require: jest.fn().mockImplementationOnce((codemodName: string) => ({
+            default: {
+              transforms: {
+                '18.0.0': `${codemodName}/path/to/18.js`,
+              },
+            },
+          })),
+          uninstallAll: () => Promise.resolve(),
+        }),
+      );
+
+      await main([mockPath], {
+        packages: 'mylib@18.0.0',
+        registryToken: '1234ABCD=',
+      });
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          npmRegistryConfig: expect.objectContaining({
+            auth: expect.objectContaining({ token: '1234ABCD=' }),
+          }),
+        }),
+      );
+    });
+  });
 });

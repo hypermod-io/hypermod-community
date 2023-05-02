@@ -7,7 +7,7 @@ import inquirer from 'inquirer';
 
 import { CodeshiftConfig } from '@codeshift/types';
 import { fetchConfigAtPath, fetchConfigs } from '@codeshift/fetcher';
-import { PluginManager } from 'live-plugin-manager';
+import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
 import * as jscodeshift from 'jscodeshift/src/Runner';
 
@@ -23,10 +23,23 @@ export default async function main(paths: string[], flags: Flags) {
     );
   }
 
-  const packageManager = new PluginManager({
+  const pluginManagerConfig: Partial<PluginManagerOptions> = {
     pluginsPath: path.join(__dirname, 'node_modules'),
-    npmRegistryUrl: flags.registry,
-  });
+  };
+
+  // If a registry is provided in the CLI flags, use it for the pluginManagers configuration.
+  if (flags.registry !== undefined) {
+    pluginManagerConfig.npmRegistryUrl = flags.registry;
+  }
+
+  // If a registryToken is provided in the CLI flags, use it as an authentication token for the pluginManager
+  if (flags.registryToken !== undefined) {
+    pluginManagerConfig.npmRegistryConfig = {
+      auth: { token: flags.registryToken },
+    };
+  }
+
+  const packageManager = new PluginManager(pluginManagerConfig);
 
   let transforms: string[] = [];
 

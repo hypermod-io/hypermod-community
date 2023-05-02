@@ -37,7 +37,9 @@ export interface Flags {
   dry?: boolean;
   runInBand?: boolean;
 
-  /** Npm registry url that will be used to fetch the packages from. */
+  /** Package registry url that will be used to fetch the packages from. */
   registry?: string;
+  /** Authentication token that will be used to fetch packages from the registry. */
+  registryToken?: string;
   verbose?: '0' | '1' | '2';
 }

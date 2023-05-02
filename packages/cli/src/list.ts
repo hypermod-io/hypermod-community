@@ -4,7 +4,7 @@ import { PluginManager } from 'live-plugin-manager';
 import { fetchPackageConfig } from './fetch-package';
 
 export default async function list(packages: string[]) {
-  const packageManager = new PluginManager({});
+  const packageManager = new PluginManager();
   const configs = [];
 
   for (const packageName of packages) {

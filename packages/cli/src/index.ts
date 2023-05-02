@@ -57,6 +57,10 @@ program
     '--registry <value>',
     'Define a registry where the package should be fetched from',
   )
+  .option(
+    '--registryToken <value>',
+    'Define an authentication token to use as credentials for the registry',
+  )
   .addOption(
     new Option(
       '--verbose <parser>',
