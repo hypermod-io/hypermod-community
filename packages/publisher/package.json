@@ -4,7 +4,7 @@
   "main": "dist/codeshift-publisher.cjs.js",
   "types": "dist/codeshift-publisher.cjs.d.ts",
   "license": "MIT",
-  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/publisher",
+  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/publisher",
   "dependencies": {
     "@codeshift/initializer": "*",
     "@preconstruct/cli": "^2.0.0",

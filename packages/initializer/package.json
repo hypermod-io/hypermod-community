@@ -4,7 +4,7 @@
   "main": "dist/codeshift-initializer.cjs.js",
   "types": "dist/codeshift-initializer.cjs.d.ts",
   "license": "MIT",
-  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/initializer",
+  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/initializer",
   "dependencies": {
     "@codeshift/cli": "*",
     "@codeshift/test-utils": "*",

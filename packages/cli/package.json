@@ -5,7 +5,7 @@
   "module": "dist/codeshift-cli.esm.js",
   "types": "dist/codeshift-cli.cjs.d.ts",
   "license": "MIT",
-  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/cli",
+  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/cli",
   "bin": {
     "codeshift": "./bin/codeshift-cli.js",
     "codeshift-cli": "./bin/codeshift-cli.js"

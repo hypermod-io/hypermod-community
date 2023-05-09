@@ -4,7 +4,7 @@
   "main": "dist/codeshift-validator.cjs.js",
   "types": "dist/codeshift-validator.cjs.d.ts",
   "license": "MIT",
-  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/master/packages/validator",
+  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/validator",
   "dependencies": {
     "@codeshift/fetcher": "^0.2.0",
     "@codeshift/types": "^0.0.6",
