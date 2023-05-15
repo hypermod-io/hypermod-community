@@ -1,5 +1,11 @@
 # @codeshift/utils
 
+## 0.2.1
+
+### Patch Changes
+
+- d239ca6: InsertImportSpecifier now retains the reference to the original import declaration
+
 ## 0.2.0
 
 ### Minor Changes

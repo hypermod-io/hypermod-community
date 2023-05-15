@@ -1,5 +1,12 @@
 # @codeshift/initializer
 
+## 0.4.5
+
+### Patch Changes
+
+- Updated dependencies [d239ca6]
+  - @codeshift/utils@0.2.1
+
 ## 0.4.4
 
 ### Patch Changes
