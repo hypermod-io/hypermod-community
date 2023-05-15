@@ -551,20 +551,7 @@ describe('main', () => {
 
       (PluginManager as jest.Mock).mockImplementation(() => ({
         install: jest.fn().mockResolvedValue(undefined),
-        require: jest.fn(),
-        getInfo: jest
-          .fn()
-          .mockReturnValue({ location: path.join(__dirname, 'path', 'to') }),
-        uninstallAll: jest.fn().mockResolvedValue(undefined),
-      }));
-    });
-
-    it('should run package transform for single version', async () => {
-      jest.spyOn(fs, 'existsSync').mockReturnValue(true);
-      jest.mock(
-        mockMatchedPath,
-        () => ({
-          __esModule: true,
+        require: () => ({
           default: {
             transforms: {
               '18.0.0': 'mylib/path/to/18.js',
@@ -574,9 +561,15 @@ describe('main', () => {
             },
           },
         }),
-        { virtual: true },
-      );
+        getInfo: jest
+          .fn()
+          .mockReturnValue({ location: path.join(__dirname, 'path', 'to') }),
+        uninstallAll: jest.fn().mockResolvedValue(undefined),
+      }));
+    });
 
+    it('should run package transform for single version', async () => {
+      jest.spyOn(fs, 'existsSync').mockReturnValue(true);
       await main([mockPath], {
         packages: 'mylib@18.0.0',
         parser: 'babel',
