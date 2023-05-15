@@ -122,18 +122,9 @@ export function insertImportSpecifier(
   importSpecifier: ImportSpecifier | ImportDefaultSpecifier,
   sourcePath: string,
 ) {
-  getImportDeclaration(j, source, sourcePath).replaceWith(declaration =>
-    j.importDeclaration(
-      [
-        // we are appending to the existing specifiers
-        // We are doing a filter hear because sometimes specifiers can be removed
-        // but they hang around in the declaration
-        ...(declaration.value.specifiers || []).filter(
-          item => item.type === 'ImportSpecifier' && item.imported != null,
-        ),
-        importSpecifier,
-      ],
-      j.literal(sourcePath),
-    ),
-  );
+  const importDeclaration = getImportDeclaration(j, source, sourcePath);
+
+  if (!importDeclaration) return;
+
+  importDeclaration.get().value.specifiers.push(importSpecifier);
 }
