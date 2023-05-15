@@ -42,7 +42,7 @@
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-typescript": "^7.12.7",
     "@changesets/cli": "^2.6.2",
-    "@manypkg/cli": "^0.11.1",
+    "@manypkg/cli": "^0.20.0",
     "@preconstruct/cli": "^2.0.0",
     "@types/inquirer": "^8.2.1",
     "@types/jest": "^26.0.15",
@@ -73,6 +73,9 @@
   },
   "resolutions": {
     "colors": "1.4.0"
+  },
+  "manypkg": {
+    "defaultBranch": "main"
   },
   "workspaces": [
     "packages/*",
