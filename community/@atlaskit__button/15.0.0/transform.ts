@@ -91,12 +91,11 @@ function changeImportFor(
     .find(j.ImportDeclaration)
     .filter(path => path.node.source.value === oldPackagePath)
     .find(j.ImportSpecifier)
-    .find(j.Identifier)
-    .filter(identifier => {
-      if (identifier.value.name === currentName) {
+    .filter(specifier => {
+      if (specifier.value.imported!.name === currentName) {
         return true;
       }
-      if (identifier.value.name === existingAlias) {
+      if (specifier.value.imported!.name === existingAlias) {
         return true;
       }
       return false;

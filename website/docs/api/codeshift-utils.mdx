@@ -323,9 +323,38 @@ import React, { useEffect } from 'react';
 ```
 
 ```js
-import { getImportSpecifier } from '@codeshift/utils';
+import { insertImportSpecifier } from '@codeshift/utils';
 
 insertImportSpecifier(j, source, 'useMemo', 'react'); // Collection containing 'useEffect'
+```
+
+```diff
+// src/App.js
+-import React, { useEffect } from 'react';
++import React, { useEffect, useMemo } from 'react';
+```
+
+### `removeImportSpecifier`
+
+`removeImportSpecifier(j, source, specifier)`
+
+Removes an import specifier
+
+**Returns**
+
+`void`
+
+**Example**
+
+```jsx
+// src/App.js
+import React, { useEffect } from 'react';
+```
+
+```js
+import { removeImportSpecifier } from '@codeshift/utils';
+
+removeImportSpecifier(j, source, 'useMemo', 'react'); // Collection containing 'useEffect'
 ```
 
 ```diff

@@ -128,3 +128,12 @@ export function insertImportSpecifier(
 
   importDeclaration.get().value.specifiers.push(importSpecifier);
 }
+
+export function removeImportSpecifier(
+  j: core.JSCodeshift,
+  source: Collection<any>,
+  specifier: string,
+  sourcePath: string,
+) {
+  getImportSpecifier(j, source, specifier, sourcePath).remove();
+}
