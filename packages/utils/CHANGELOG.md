@@ -1,5 +1,11 @@
 # @codeshift/utils
 
+## 0.2.2
+
+### Patch Changes
+
+- b9a28ab: insertImportSpecifier no longer adds duplicate entries if it already exists
+
 ## 0.2.1
 
 ### Patch Changes

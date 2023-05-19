@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/utils",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "dist/codeshift-utils.cjs.js",
   "module": "dist/codeshift-utils.esm.js",
   "types": "dist/codeshift-utils.cjs.d.ts",
