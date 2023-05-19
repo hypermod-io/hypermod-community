@@ -41,6 +41,26 @@ describe('imports', () => {
       expect(result).toMatchInlineSnapshot(`"import { bar } from 'bar';"`);
     });
 
+    it('does not insert an import specifier if already exists', async () => {
+      const transform = (file: FileInfo, api: API) => {
+        const j = api.jscodeshift;
+        const source = j(file.source);
+        importUtils.insertImportSpecifier(
+          j,
+          source,
+          j.importSpecifier(j.identifier('bar')),
+          'bar',
+        );
+
+        return source.toSource();
+      };
+      const result = await applyTransform(
+        transform,
+        `import { bar } from 'bar';`,
+      );
+      expect(result).toMatchInlineSnapshot(`"import { bar } from 'bar';"`);
+    });
+
     it('maintains a reference to importDec and is able to inserts import specifier', async () => {
       const transform = (file: FileInfo, api: API) => {
         const j = api.jscodeshift;

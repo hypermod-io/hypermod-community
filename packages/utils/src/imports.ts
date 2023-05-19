@@ -119,14 +119,21 @@ export function hasImportSpecifier(
 export function insertImportSpecifier(
   j: core.JSCodeshift,
   source: Collection<any>,
-  importSpecifier: ImportSpecifier | ImportDefaultSpecifier,
+  specifier: ImportSpecifier | ImportDefaultSpecifier,
   sourcePath: string,
 ) {
   const importDeclaration = getImportDeclaration(j, source, sourcePath);
 
   if (!importDeclaration) return;
 
-  importDeclaration.get().value.specifiers.push(importSpecifier);
+  if (
+    specifier.type === 'ImportSpecifier' &&
+    hasImportSpecifier(j, source, specifier.imported.name, sourcePath)
+  ) {
+    return;
+  }
+
+  importDeclaration.get().value.specifiers.push(specifier);
 }
 
 export function removeImportSpecifier(
