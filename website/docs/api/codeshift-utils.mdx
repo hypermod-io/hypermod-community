@@ -34,6 +34,22 @@ If the check passes, the type of node is narrowed to the expected type, ensuring
 const isImportSpecifier = isNodeOfType(node, 'ImportSpecifier');
 ```
 
+### `isDecendantOfType`
+
+`isDecendantOfType(j, path, type)`
+
+The `isDecendantOfType` function traverses the AST to determind if the given path is a child of a node of the specified type.
+
+**Returns**
+
+`boolean`
+
+**Example**
+
+```jsx
+const isChildOfImportSpecifier = isDecendantOfType(j, path, j.ImportSpecifier);
+```
+
 ## Imports
 
 ### `hasImportDeclaration`

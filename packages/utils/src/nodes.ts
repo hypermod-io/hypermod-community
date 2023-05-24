@@ -1,4 +1,4 @@
-import { ASTNode } from 'jscodeshift';
+import core, { ASTNode, ASTPath } from 'jscodeshift';
 
 /**
  * The isNodeOfType function uses generics to check if a node of type ASTNode is of a specified type.
@@ -14,3 +14,22 @@ export const isNodeOfType = <Expected extends ASTNode>(
   node: ASTNode,
   type: Expected['type'],
 ): node is Expected => node.type === type;
+
+/**
+ * Determines if the current node is a decendant of a parent node of specific type
+ *
+ * Example:
+ *
+ * ```ts
+ * const isDecendantOfImportSpecifier = isDecendantOfType(node, j.ImportSpecifier);
+ * ```
+ */
+export const isDecendantOfType = (
+  j: core.JSCodeshift,
+  source: ASTPath<any>,
+  type: any,
+): boolean => {
+  const closestNodes = j(source).closest(type);
+  const count: number = closestNodes.length;
+  return count > 0;
+};
