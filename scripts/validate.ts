@@ -43,14 +43,15 @@ For example: @foo/bar => @foo__bar`,
       }
 
       const basePath = path.join(__dirname, '..', targetPath, dir);
+      const sourcePath = path.join(basePath, 'src');
       await isValidConfigAtPath(basePath);
       await isValidPackageJson(basePath);
 
-      const subDirectories = await fs.readdir(basePath);
+      const subDirectories = await fs.readdir(sourcePath);
       subDirectories
         .filter(dir => !junk.is(dir))
         .forEach(async subDir => {
-          const subPath = path.join(basePath, subDir);
+          const subPath = path.join(sourcePath, subDir);
 
           if (
             lstatSync(subPath).isDirectory() &&

@@ -1,9 +1,0 @@
-{
-  "include": ["codemods/**/*"],
-  "compilerOptions": {
-    "outDir": "dist",
-    "esModuleInterop": true,
-    "allowJs": true,
-    "types": ["jest", "node"]
-  }
-}

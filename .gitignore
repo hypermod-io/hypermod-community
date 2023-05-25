@@ -2,6 +2,7 @@
 .tmp/
 plugin_packages/
 .vscode/
+.parcel-cache/
 
 # Generated website pages
 website/docs/registry-generated/*
