@@ -20,6 +20,11 @@ If this is a scoped package, please make sure rename the folder to use the "__" 
 For example: @codeshift/mod-foo__bar`);
   }
 
+  if (pkgJson.name === 'dist/codeshift.config.js') {
+    throw new Error(`Invalid package entry point for package: ${pkgJson.name} in: ${pkgJsonPath}.
+'main' should always point to 'dist/codeshift.config.js'`);
+  }
+
   return true;
 }
 
