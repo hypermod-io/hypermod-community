@@ -1,8 +1,0 @@
-node_modules
-src/
-**/__test__
-**/*.spec.(ts|js)
-.vscode
-jest.config.js
-tsconfig.json
-yarn-error.log
