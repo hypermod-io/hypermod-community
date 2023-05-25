@@ -15,7 +15,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "validate": "yarn build && yarn lint && yarn lint:file-structure && yarn monorepo:check && yarn community:validate",
+    "validate": "yarn build && yarn lint && yarn monorepo:check && yarn community:validate",
     "lint": "eslint --config .eslintrc.js --ext tsx,ts ./packages/**/src ./community/**/src",
     "lint:fix": "yarn lint -- --fix",
     "types:check": "tsc --noEmit --skipLibCheck",

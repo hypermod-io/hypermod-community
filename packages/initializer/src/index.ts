@@ -29,8 +29,8 @@ export function getPackageJson(packageName: string, version = '0.0.0') {
       devDependencies: {
         '@codeshift/cli': `^${cliVersion}`,
         '@codeshift/test-utils': `^${testUtilVersion}`,
-        '@types/node': '^16.11.0',
         '@types/jest': '^26.0.15',
+        '@types/node': '^16.11.0',
         jest: '^26.6.0',
         parcel: '^2.8.3',
         prettier: '^2.0.0',
@@ -59,9 +59,9 @@ function getConfig(packageName: string, transform?: string, preset?: string) {
   targets: [],
   description: 'Codemods for ${packageName}',
   transforms: {${
-    transform ? `'${transform}': resolve('./${transform}/transform'),` : ''
+    transform ? `'${transform}': require('./${transform}/transform'),` : ''
   }},
-  presets: {${preset ? `'${preset}': resolve('./${preset}/transform'),` : ''}},
+  presets: {${preset ? `'${preset}': require('./${preset}/transform'),` : ''}},
 };
 `;
 }
@@ -139,20 +139,26 @@ export function initDirectory(
   targetPath = './',
   isReduced = false,
 ) {
+  const sourcePath = path.join(targetPath, 'src');
+
   fs.copySync(
     path.join(TEMPLATE_PATH, isReduced ? 'codemods' : ''),
-    targetPath,
+    sourcePath,
     {
       filter: src => !src.includes('codemods/codemod'),
     },
   );
 
-  if (!isReduced) {
-    fs.writeFileSync(
-      path.join(targetPath, 'package.json'),
-      getPackageJson(packageName),
-    );
+  fs.writeFileSync(
+    path.join(targetPath, 'package.json'),
+    getPackageJson(
+      isReduced
+        ? `@codeshift/mod-${packageName.replace('/', '__').replace('@', '')}`
+        : packageName,
+    ),
+  );
 
+  if (!isReduced) {
     fs.writeFileSync(path.join(targetPath, '.npmignore'), getNpmIgnore());
 
     const readmeFilePath = path.join(targetPath, 'README.md');
@@ -163,7 +169,7 @@ export function initDirectory(
     fs.writeFileSync(readmeFilePath, readmeFile);
   }
 
-  initConfig(packageName, targetPath);
+  initConfig(packageName, sourcePath);
 }
 
 export function initTransform(
@@ -177,7 +183,8 @@ export function initTransform(
     throw new Error(`Provided version ${id} is not a valid semver version`);
   }
 
-  const transformPath = path.join(targetPath, !isReduced ? 'codemods' : '', id);
+  const sourcePath = path.join(targetPath, 'src');
+  const transformPath = path.join(sourcePath, id);
 
   if (fs.existsSync(transformPath)) {
     throw new Error(`Codemod for ${type} "${id}" already exists`);
@@ -213,5 +220,5 @@ export function initTransform(
 
   fs.writeFileSync(readmeFilePath, readmeFile);
 
-  updateConfig(targetPath, packageName, id || '', type, isReduced);
+  updateConfig(sourcePath, packageName, id || '', type, isReduced);
 }
