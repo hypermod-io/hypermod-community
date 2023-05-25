@@ -14,15 +14,17 @@ export function getPackageJson(packageName: string, version = '0.0.0') {
       name: packageName,
       version: version,
       license: 'MIT',
+      source: 'src/codeshift.config.js',
       main: 'dist/codeshift.config.js',
       scripts: {
         dev: 'codeshift',
-        build: 'tsc --build',
+        build: 'parcel build',
         test: 'jest --watch',
         validate: 'codeshift validate .',
       },
       dependencies: {
         '@codeshift/utils': `^${utilVersion}`,
+        jscodeshift: '^0.13.1',
       },
       devDependencies: {
         '@codeshift/cli': `^${cliVersion}`,
@@ -30,10 +32,10 @@ export function getPackageJson(packageName: string, version = '0.0.0') {
         '@types/node': '^16.11.0',
         '@types/jest': '^26.0.15',
         jest: '^26.6.0',
-        jscodeshift: '^0.13.1',
-        prettier: '^1.16.4',
+        parcel: '^2.8.3',
+        prettier: '^2.0.0',
         'ts-jest': '^26.4.4',
-        typescript: '^4.3.5',
+        typescript: '^4.5.5',
       },
     },
     null,
@@ -57,13 +59,9 @@ function getConfig(packageName: string, transform?: string, preset?: string) {
   targets: [],
   description: 'Codemods for ${packageName}',
   transforms: {${
-    transform
-      ? `'${transform}': require.resolve('./${transform}/transform'),`
-      : ''
+    transform ? `'${transform}': resolve('./${transform}/transform'),` : ''
   }},
-  presets: {${
-    preset ? `'${preset}': require.resolve('./${preset}/transform'),` : ''
-  }},
+  presets: {${preset ? `'${preset}': resolve('./${preset}/transform'),` : ''}},
 };
 `;
 }
