@@ -23,7 +23,7 @@ export function main(packageName: string, preset?: string) {
 
   if (preset) {
     initDirectory(packageName, targetPath, true);
-    initTransform(packageName, preset, 'preset', targetPath, true);
+    initTransform(packageName, preset, 'preset', targetPath);
   }
 
   console.log(

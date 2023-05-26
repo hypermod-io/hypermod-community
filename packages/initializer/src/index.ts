@@ -71,7 +71,6 @@ function updateConfig(
   packageName: string,
   transformName: string,
   type: 'version' | 'preset',
-  isReduced = false,
 ) {
   const configPath = path.join(targetPath, 'codeshift.config.js');
   const source = fs.readFileSync(configPath, 'utf8');
@@ -94,21 +93,15 @@ function updateConfig(
         }
       });
 
-      const transformPath = `./${
-        !isReduced ? 'codemods/' : ''
-      }${transformName}/transform`;
+      const transformPath = `./${transformName}/transform`;
 
       properties.push(
         b.property(
           'init',
           b.stringLiteral(transformName),
-          b.callExpression(
-            b.memberExpression(
-              b.identifier('require'),
-              b.identifier('resolve'),
-            ),
-            [b.stringLiteral(transformPath)],
-          ),
+          b.callExpression(b.identifier('require'), [
+            b.stringLiteral(transformPath),
+          ]),
         ),
       );
 
@@ -130,6 +123,7 @@ export function initConfig(packageName: string, targetPath = './') {
   const configPath = path.join(targetPath, 'codeshift.config.js');
 
   if (!fs.existsSync(configPath)) {
+    fs.mkdirSync(targetPath, { recursive: true });
     fs.writeFileSync(configPath, getConfig(packageName));
   }
 }
@@ -139,15 +133,9 @@ export function initDirectory(
   targetPath = './',
   isReduced = false,
 ) {
-  const sourcePath = path.join(targetPath, 'src');
-
-  fs.copySync(
-    path.join(TEMPLATE_PATH, isReduced ? 'codemods' : ''),
-    sourcePath,
-    {
-      filter: src => !src.includes('codemods/codemod'),
-    },
-  );
+  if (!fs.existsSync(targetPath)) {
+    fs.mkdirSync(targetPath);
+  }
 
   fs.writeFileSync(
     path.join(targetPath, 'package.json'),
@@ -159,8 +147,11 @@ export function initDirectory(
   );
 
   if (!isReduced) {
-    fs.writeFileSync(path.join(targetPath, '.npmignore'), getNpmIgnore());
+    fs.copySync(path.join(TEMPLATE_PATH), targetPath, {
+      filter: src => !src.includes('/codemods'),
+    });
 
+    fs.writeFileSync(path.join(targetPath, '.npmignore'), getNpmIgnore());
     const readmeFilePath = path.join(targetPath, 'README.md');
     const readmeFile = fs
       .readFileSync(readmeFilePath, 'utf8')
@@ -169,7 +160,7 @@ export function initDirectory(
     fs.writeFileSync(readmeFilePath, readmeFile);
   }
 
-  initConfig(packageName, sourcePath);
+  initConfig(packageName, path.join(targetPath, 'src'));
 }
 
 export function initTransform(
@@ -177,7 +168,6 @@ export function initTransform(
   id: string,
   type: 'version' | 'preset',
   targetPath = './',
-  isReduced = false,
 ) {
   if (type === 'version' && !semver.valid(id)) {
     throw new Error(`Provided version ${id} is not a valid semver version`);
@@ -190,17 +180,10 @@ export function initTransform(
     throw new Error(`Codemod for ${type} "${id}" already exists`);
   }
 
-  const codemodTemplateDestinationPath = path.join(
-    targetPath,
-    !isReduced ? 'codemods' : '',
-    'codemod',
-  );
+  const destinationPath = path.join(sourcePath, 'codemod');
 
-  fs.copySync(
-    path.join(TEMPLATE_PATH, 'codemods', 'codemod'),
-    codemodTemplateDestinationPath,
-  );
-  fs.renameSync(codemodTemplateDestinationPath, transformPath);
+  fs.copySync(path.join(TEMPLATE_PATH, 'codemods', 'codemod'), destinationPath);
+  fs.renameSync(destinationPath, transformPath);
 
   const testFilePath = path.join(transformPath, 'transform.spec.ts');
   const testFile = fs
@@ -220,5 +203,5 @@ export function initTransform(
 
   fs.writeFileSync(readmeFilePath, readmeFile);
 
-  updateConfig(sourcePath, packageName, id || '', type, isReduced);
+  updateConfig(sourcePath, packageName, id || '', type);
 }

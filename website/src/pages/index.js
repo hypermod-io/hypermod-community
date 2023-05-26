@@ -240,11 +240,11 @@ const App = () => (
                     <CodeBlock className="language-js">
                       {`export.module = {
   transforms: {
-    '12.0.0': require.resolve('./18.0.0/transform'),
-    '13.0.0': require.resolve('./19.0.0/transform'),
+    '12.0.0': require('./18.0.0/transform'),
+    '13.0.0': require('./19.0.0/transform'),
   },
   presets: {
-    'format-imports': require.resolve('./format-imports/transform')
+    'format-imports': require('./format-imports/transform')
   }
 };`}
                     </CodeBlock>

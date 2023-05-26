@@ -23,7 +23,7 @@ export function main(packageName: string, transform?: string) {
 
   if (transform) {
     initDirectory(packageName, targetPath, true);
-    initTransform(packageName, transform, 'version', targetPath, true);
+    initTransform(packageName, transform, 'version', targetPath);
   }
 
   console.log(
