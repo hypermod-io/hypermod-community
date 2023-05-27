@@ -1,0 +1,48 @@
+/* https://ryanmulligan.dev/blog/css-marquee/ */
+
+.marquee {
+  display: flex;
+  gap: 20px;
+  margin: auto;
+  max-width: 100vw;
+  user-select: none;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    hsl(0 0% 0% / 0),
+    hsl(0 0% 0% / 1) 20%,
+    hsl(0 0% 0% / 1) 80%,
+    hsl(0 0% 0% / 0) );
+  mask-image: linear-gradient(
+    to right,
+    hsl(0 0% 0% / 0),
+    hsl(0 0% 0% / 1) 20%,
+    hsl(0 0% 0% / 1) 80%,
+    hsl(0 0% 0% / 0) );
+}
+
+.marqueeInner {
+  display: flex;
+  flex-shrink: 0;
+  gap: 20px;
+  align-items: center;
+  min-width: 100%;
+  justify-content: space-around;
+  animation: scroll-x 60s linear infinite;
+}
+
+@keyframes scroll-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 20px));
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .marqueeInner {
+    animation-play-state: paused;
+  }
+}

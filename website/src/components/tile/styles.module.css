@@ -1,0 +1,8 @@
+.tile {
+    position: relative;
+    background: var(--ifm-color-emphasis-100);
+    border: #eee 1px solid;
+    border-radius: 1rem;
+    padding: 1rem;
+    min-height: 500px;
+}

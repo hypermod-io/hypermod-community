@@ -33,40 +33,22 @@
   margin-bottom: 1rem;
 }
 
-.heroImage {
-  display: flex;
-  flex-flow: column nowrap;
-  width: 100%;
-  max-width: 960px !important;
-  border-radius: 3px;
-  box-shadow: rgb(84 70 35 / 15%) 0px 2px 8px, rgb(84 70 35 / 15%) 0px 1px 3px;
-}
-
 .heroBanner {
-  gap: 32px;
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  margin: 0 auto;
-  background-color: inherit;
-  padding: 10rem 2rem;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
 }
 
 .heroHeadingBanner {
-  font-size: 5rem;
+  font-size: 8rem;
   font-weight: 900;
-  color: var(--ifm-heading-color);
-  text-align: center;
   margin-bottom: 4rem;
-  background-image: linear-gradient(
-    135deg,
-    var(--ifm-color-primary-lighter),
-    var(--ifm-color-primary-dark)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
   -webkit-box-decoration-break: clone;
+}
+
+h2.heroHeadingBanner {
+  font-size: 5rem;
+  margin-bottom: 3rem;
 }
 
 .heroHeadingSecondary {
@@ -106,8 +88,32 @@
 }
 
 .heroSection {
-  padding: 0 0 10rem 0;
+  padding: 8rem 0;
   width: 100%;
+}
+
+.heroSubtitle {
+  font-weight: 800;
+  font-size: 2rem;
+  color: #808b95;
+  /* color: var(--ifm-color-primary); */
+}
+
+.chartTitle {
+  font-weight: 800;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  /* color: #808b95; */
+  /* color: var(--ifm-color-primary); */
+}
+
+.chartSubtitle {
+  font-weight: 500;
+  /* font-size: 1rem; */
+  color: #808b95;
+
+  /* color: #808b95; */
+  /* color: var(--ifm-color-primary); */
 }
 
 .heroContainer {
@@ -165,10 +171,11 @@
   justify-content: center;
 }
 
+
 @media screen and (max-width: 966px) {
-  .heroBanner {
+  /* .heroBanner {
     padding: 5rem 0;
-  }
+  } */
 
   .heroHeadingBanner {
     font-size: 2.5rem;
@@ -180,5 +187,9 @@
 
   .heroSection {
     padding: 0 0 5rem 0;
+  }
+
+  .displayImage {
+    padding: 2rem;
   }
 }
