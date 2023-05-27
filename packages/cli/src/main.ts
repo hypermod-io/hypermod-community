@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import findUp from 'find-up';
 import inquirer from 'inquirer';
 
-import { CodeshiftConfig } from '@codeshift/types';
+import { CodeshiftConfig, DefaultRunner } from '@codeshift/types';
 import { fetchConfigAtPath, fetchConfigs } from '@codeshift/fetcher';
 import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
 // @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
@@ -257,22 +257,108 @@ export default async function main(paths: string[], flags: Flags) {
   );
 
   for (const transform of transforms) {
-    console.log(chalk.green('Running transform:'), transform);
+    const resolvedTransformPath = path.resolve(transform);
+    console.log(chalk.green('Running transform:'), resolvedTransformPath);
 
-    await jscodeshift.run(transform, paths, {
-      verbose: flags.verbose,
-      dry: flags.dry,
-      print: true,
-      babel: true,
-      extensions: flags.extensions,
-      ignorePattern: flags.ignorePattern,
-      cpus: flags.cpus,
-      ignoreConfig: [],
-      runInBand: flags.runInBand,
-      silent: false,
-      parser: flags.parser,
-      stdin: false,
-    });
+    const defaultRunner: DefaultRunner = (
+      jscodeshiftOptionOverrides = {},
+      pathsToModify = paths,
+      /**
+       * ideally you'd be able to pass in either the path,
+       * or the actual transform,
+       * but jscodeshift doesn't allow this (unless we fork?)
+       */
+      transformerPath: string = resolvedTransformPath,
+      /**
+       * i think the jscodeshift.run is synchronous
+       * so the promise is not needed,
+       * but if we want to change it in the future,
+       * making it's return type a promise will help
+       * to avoid breaking changes for consumers who
+       * use the defaultRunner.
+       */
+    ): Promise<void> =>
+      jscodeshift.run(transformerPath, pathsToModify, {
+        verbose: flags.verbose,
+        dry: flags.dry,
+        print: true,
+        babel: true,
+        extensions: flags.extensions,
+        ignorePattern: flags.ignorePattern,
+        cpus: flags.cpus,
+        ignoreConfig: [],
+        runInBand: flags.runInBand,
+        silent: false,
+        parser: flags.parser,
+        stdin: false,
+        ...jscodeshiftOptionOverrides,
+      });
+
+    let transformImported: any;
+    try {
+      /**
+       * TODO MAINTAINER -- i am not confident that this will work
+       * if the transform was provided thru an npm package.
+       */
+
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      transformImported = require(resolvedTransformPath);
+    } catch (_e) {}
+
+    const transformHasCustomRunner = (
+      ti: any,
+    ): ti is {
+      /**
+       * ideally, `default` would be the type of the transformer,
+       * which would be identical to the type of the argument to
+       * `CustomTransformerConfig`,
+       *
+       * but unless we put the transformer itself into the config,
+       * we cannot ensure that the type is correct.
+       *
+       */
+      default: unknown; //
+      codeshiftConfig: CodeshiftConfig<unknown>;
+    } => {
+      if (ti && 'codeshiftConfig' in ti) {
+        return 'runner' in transformImported['codeshiftConfig'];
+      }
+      return false;
+    };
+
+    if (transformHasCustomRunner(transformImported)) {
+      console.info(
+        '\nusing CUSTOM runner for transform',
+        resolvedTransformPath,
+      );
+
+      await transformImported.codeshiftConfig.runner({
+        pathsToModify: paths,
+        defaultRunner,
+        /**
+         * providing the `transform`, `resolvedTransformPath`, etc. here
+         * is quite useless, because it's file-based,
+         * so in whichever file the config is in,
+         * that default export will be the transform,
+         * and the file's path will be the resolved path.
+         *
+         * ...unless you have a custom runner defined in a separate file,
+         * and want it to be able to access the transform,
+         * esp. if that runner does not take in a path,
+         * but rather the transform function.
+         */
+        transformInsideFileThatSpecifiesCodeshiftConfig:
+          transformImported.default,
+        // resolvedTransformPath
+      });
+    } else {
+      console.info(
+        '\nusing DEFAULT runner for transform',
+        resolvedTransformPath,
+      );
+
+      defaultRunner();
+    }
   }
 
   await packageManager.uninstallAll();
