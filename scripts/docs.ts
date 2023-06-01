@@ -18,8 +18,12 @@ function cleanTargetDir(targetPath: string) {
   if (fs.existsSync(targetPath)) fs.emptyDirSync(targetPath);
 }
 
-function getReadme(transformId: string) {
-  const readmeFilePath = path.join(COMMUNITY_PATH, transformId, 'README.md');
+function getReadme(transformSourcePath: string) {
+  const readmeFilePath = path.join(
+    COMMUNITY_PATH,
+    transformSourcePath,
+    'README.md',
+  );
 
   const readmeRaw = fs.existsSync(readmeFilePath)
     ? fs.readFileSync(readmeFilePath, 'utf-8')
@@ -40,7 +44,7 @@ function renderTransform(
   packageLink: string,
 ) {
   const seperator = type === 'transform' ? '@' : '#';
-  const readme = getReadme(`${packageName}/${id}`);
+  const readme = getReadme(`${packageName}/src/${id}`);
   const fallback =
     type === 'transform'
       ? `A codemod which facilitates the migration of the ${packageLink} package to version ${id}.`
