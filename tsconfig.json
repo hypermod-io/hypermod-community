@@ -1,29 +1,20 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "es5",
-    "module": "commonjs",
-    "lib": ["es2017"],
-    "preserveSymlinks": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "declaration": true,
-    "pretty": true,
-    "sourceMap": true,
-    "inlineSources": true,
-    "resolveJsonModule": true,
-    "noEmit": true,
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
-    "allowJs": true,
     "paths": {
       "@codeshift/*": ["../packages/*/src"]
     }
   },
-  "include": ["packages/**/*", "community/**/*", ".tmp/**/*", "scripts"],
-  "exclude": ["node_modules", "dist", "__tests__", "**/*.test*", "**/*.spec*"]
+  "include": ["packages/**/*", "community/**/*", "scripts"],
+  "exclude": [
+    "node_modules",
+    "plugin_packages",
+    "dist",
+    "__tests__",
+    "**/*.test*",
+    "**/*.spec*"
+  ]
 }

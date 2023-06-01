@@ -1,8 +1,9 @@
 {
   "name": "@codeshift/initializer",
   "version": "0.4.6",
-  "main": "dist/codeshift-initializer.cjs.js",
-  "types": "dist/codeshift-initializer.cjs.d.ts",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/initializer",
   "dependencies": {

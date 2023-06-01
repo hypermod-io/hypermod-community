@@ -1,9 +1,9 @@
 {
   "name": "@codeshift/cli",
   "version": "0.14.0",
-  "main": "dist/codeshift-cli.cjs.js",
-  "module": "dist/codeshift-cli.esm.js",
-  "types": "dist/codeshift-cli.cjs.d.ts",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/cli",
   "bin": {
@@ -15,6 +15,7 @@
     "start:dev": "ts-node src/index.ts"
   },
   "dependencies": {
+    "@codeshift/core": "^0.0.0",
     "@codeshift/fetcher": "^0.2.0",
     "@codeshift/initializer": "^0.4.4",
     "@codeshift/types": "*",

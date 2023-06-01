@@ -148,7 +148,7 @@ program.exitOverride();
 (async function () {
   try {
     await program.parseAsync(process.argv);
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof CommanderError) {
       if (
         error.code === 'commander.helpDisplayed' ||
@@ -173,6 +173,7 @@ program.exitOverride();
     }
 
     console.error(chalk.red(error));
+    console.log(error);
     process.exit(1);
   }
 })();

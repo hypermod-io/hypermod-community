@@ -4,6 +4,30 @@ import path from 'path';
 import chalk from 'chalk';
 import { isValidPackageName, isValidConfigAtPath } from '@codeshift/validator';
 
+const validPackageNameFormat =
+  /^@codeshift\/mod(-[a-zA-Z0-9]+)*(-(?!__)[a-zA-Z0-9]+)*(__([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)?)?$/;
+
+function isValidPackageJson(basePath: string) {
+  const pkgJsonPath = path.join(basePath, 'package.json');
+  const pkgJsonRaw = fs.readFileSync(pkgJsonPath, {
+    encoding: 'utf-8',
+  });
+  const pkgJson = JSON.parse(pkgJsonRaw);
+
+  if (!validPackageNameFormat.test(pkgJson.name)) {
+    throw new Error(`Invalid package name: ${pkgJson.name} in: ${pkgJsonPath}.
+If this is a scoped package, please make sure rename the folder to use the "__" characters to denote submodule.
+For example: @codeshift/mod-foo__bar`);
+  }
+
+  if (pkgJson.name === 'dist/codeshift.config.js') {
+    throw new Error(`Invalid package entry point for package: ${pkgJson.name} in: ${pkgJsonPath}.
+'main' should always point to 'dist/codeshift.config.js'`);
+  }
+
+  return true;
+}
+
 async function main(targetPath: string) {
   const directories = await fs.readdir(targetPath);
 
@@ -19,13 +43,15 @@ For example: @foo/bar => @foo__bar`,
       }
 
       const basePath = path.join(__dirname, '..', targetPath, dir);
+      const sourcePath = path.join(basePath, 'src');
       await isValidConfigAtPath(basePath);
+      await isValidPackageJson(basePath);
 
-      const subDirectories = await fs.readdir(basePath);
+      const subDirectories = await fs.readdir(sourcePath);
       subDirectories
         .filter(dir => !junk.is(dir))
         .forEach(async subDir => {
-          const subPath = path.join(basePath, subDir);
+          const subPath = path.join(sourcePath, subDir);
 
           if (
             lstatSync(subPath).isDirectory() &&
@@ -40,7 +66,7 @@ For example: @foo/bar => @foo__bar`,
     });
 }
 
-(async function() {
+(async function () {
   try {
     main(process.argv[2]);
   } catch (error) {

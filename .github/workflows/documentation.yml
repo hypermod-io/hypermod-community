@@ -18,6 +18,7 @@ jobs:
       - name: Generate docs
         run: |
           yarn install --frozen-lockfile
+          yarn build
           yarn predocs:start
       - name: Test Build
         run: |
@@ -38,6 +39,7 @@ jobs:
       - name: Generate docs
         run: |
           yarn install --frozen-lockfile
+          yarn build
           yarn predocs:start
       - name: Release to GitHub Pages
         env:

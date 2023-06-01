@@ -1,9 +1,9 @@
 {
   "name": "@codeshift/utils",
   "version": "0.2.2",
-  "main": "dist/codeshift-utils.cjs.js",
-  "module": "dist/codeshift-utils.esm.js",
-  "types": "dist/codeshift-utils.cjs.d.ts",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/utils"
 }

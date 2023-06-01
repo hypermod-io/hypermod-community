@@ -1,8 +1,9 @@
 {
   "name": "@codeshift/fetcher",
   "version": "0.2.0",
-  "main": "dist/codeshift-fetcher.cjs.js",
-  "types": "dist/codeshift-fetcher.cjs.d.ts",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/fetcher",
   "dependencies": {
