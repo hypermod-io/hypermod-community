@@ -20,15 +20,15 @@ describe('@emotion@11.0.0 transform', () => {
     );
 
     expect(result).toMatchInlineSnapshot(`
-      "import * as core from \\"@emotion/react\\";
-              import * as emotion from \\"@emotion/css\\";
-              import * as emotionTheming from \\"@emotion/react\\";
-              import * as emotionServer from \\"@emotion/server\\";
-              import * as createEmotion from \\"@emotion/css/create-instance\\";
-              import * as createEmotionServer from \\"@emotion/server/create-instance\\";
-              import * as babelPlugin from \\"@emotion/babel-plugin\\";
-              import * as eslintPlugin from \\"@emotion/eslint-plugin\\";
-              import * as jestEmotion from \\"@emotion/jest\\";"
+      "import * as core from "@emotion/react";
+              import * as emotion from "@emotion/css";
+              import * as emotionTheming from "@emotion/react";
+              import * as emotionServer from "@emotion/server";
+              import * as createEmotion from "@emotion/css/create-instance";
+              import * as createEmotionServer from "@emotion/server/create-instance";
+              import * as babelPlugin from "@emotion/babel-plugin";
+              import * as eslintPlugin from "@emotion/eslint-plugin";
+              import * as jestEmotion from "@emotion/jest";"
     `);
   });
 });

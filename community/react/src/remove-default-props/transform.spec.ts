@@ -121,7 +121,7 @@ describe('react#remove-default-props transform', () => {
         "import React from 'react';
             export const Greet = (
                 {
-                    name: name = \\"Stranger\\"
+                    name: name = "Stranger"
                 }
             ) => {}"
       `);
@@ -142,7 +142,7 @@ describe('react#remove-default-props transform', () => {
             export const Greet = (
                 {
                     text: text,
-                    name: name = \\"Stranger\\"
+                    name: name = "Stranger"
                 }
             ) => {}"
       `);
@@ -163,7 +163,7 @@ describe('react#remove-default-props transform', () => {
           export const Greet = (
             {
               text: myText,
-              name: name = \\"Stranger\\"
+              name: name = "Stranger"
             }
           ) => {}"
       `);
@@ -185,7 +185,7 @@ describe('react#remove-default-props transform', () => {
             {
               text: myText,
               props: props='amazingText',
-              name: name = \\"Stranger\\"
+              name: name = "Stranger"
             }
           ) => {}"
       `);
@@ -206,7 +206,7 @@ describe('react#remove-default-props transform', () => {
           export const Greet = (
             {
               prop1: prop1,
-              name: name = \\"Stranger\\",
+              name: name = "Stranger",
               ...someRest
             }
           ) => {}"
@@ -228,7 +228,7 @@ describe('react#remove-default-props transform', () => {
           export const Greet = (
             {
               ...props,
-              name: name = \\"Stranger\\"
+              name: name = "Stranger"
             }
           ) => {}"
       `);

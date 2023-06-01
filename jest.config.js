@@ -1,6 +1,11 @@
 module.exports = {
   transform: {
-    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.ts$': [
+      'ts-jest',
+      {
+        tsconfig: 'tsconfig.json',
+      },
+    ],
   },
   moduleFileExtensions: ['ts', 'js'],
   testRegex: '^.+\\.(spec|test)\\.(ts|js)$',
@@ -9,11 +14,6 @@ module.exports = {
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname',
   ],
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.json',
-    },
-  },
   moduleNameMapper: {
     '@codeshift/(.*)$': '<rootDir>/packages/$1/src',
   },

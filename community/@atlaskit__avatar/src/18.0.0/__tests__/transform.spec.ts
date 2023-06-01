@@ -24,7 +24,7 @@ describe('Update Avatar props', () => {
               import Avatar from '@atlaskit/avatar';
 
               const App = () => {
-                return <Tooltip content=\\"foo\\"><Avatar name=\\"foo\\" /></Tooltip>;
+                return <Tooltip content="foo"><Avatar name="foo" /></Tooltip>;
               }"
     `);
   });

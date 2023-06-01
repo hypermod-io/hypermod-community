@@ -20,8 +20,8 @@ const SomeComponent = () => (
     expect(result).toMatchInlineSnapshot(`
       "const SomeComponent = () => (
         <AnotherComponent
-          foo=\\"string\\"
-          label=\\"template with 0 substitutions\\"
+          foo="string"
+          label="template with 0 substitutions"
           whatever={\`template with \${1} substitution\`}
         />
       );"
