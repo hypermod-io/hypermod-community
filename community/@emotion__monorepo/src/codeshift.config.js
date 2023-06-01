@@ -20,9 +20,9 @@ module.exports = {
     'jest-emotion',
   ],
   transforms: {
-    '11.0.0': require.resolve('./11.0.0/transform'),
+    '11.0.0': require('./11.0.0/transform'),
   },
   presets: {
-    'styled-to-emotion-10': require.resolve('./styled-to-emotion-10/transform'),
+    'styled-to-emotion-10': require('./styled-to-emotion-10/transform'),
   },
 };
