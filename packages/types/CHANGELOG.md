@@ -1,5 +1,11 @@
 # @codeshift/types
 
+## 0.0.7
+
+### Patch Changes
+
+- 8255eb2: Packages are now built with pareljs. Entrypoints have been updated to match
+
 ## 0.0.6
 
 ### Patch Changes
