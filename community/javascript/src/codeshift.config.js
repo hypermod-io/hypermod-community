@@ -8,5 +8,6 @@ module.exports = {
     'remove-debugger': require.resolve('./remove-debugger/transform'),
     'sort-object-props': require.resolve('./sort-object-props/transform'),
     'var-to-let': require.resolve('./var-to-let/transform'),
+    'remove-unused-vars': require.resolve('./remove-unused-vars/transform'),
   },
 };

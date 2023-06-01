@@ -1,5 +1,11 @@
 # @codeshift/test-utils
 
+## 0.3.1
+
+### Patch Changes
+
+- 8255eb2: Packages are now built with pareljs. Entrypoints have been updated to match
+
 ## 0.3.0
 
 ### Minor Changes

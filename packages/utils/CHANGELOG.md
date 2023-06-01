@@ -1,5 +1,12 @@
 # @codeshift/utils
 
+## 0.2.3
+
+### Patch Changes
+
+- 26254c4: Adds isDecendantOfType as a way to ensure a node has a specific parent
+- 8255eb2: Packages are now built with pareljs. Entrypoints have been updated to match
+
 ## 0.2.2
 
 ### Patch Changes

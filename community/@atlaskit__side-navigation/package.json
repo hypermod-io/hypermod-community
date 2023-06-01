@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/mod-atlaskit__side-navigation",
-  "version": "0.0.21",
+  "version": "0.1.0",
   "license": "MIT",
   "source": "src/codeshift.config.js",
   "main": "dist/codeshift.config.js",
@@ -11,12 +11,12 @@
     "validate": "codeshift validate ."
   },
   "dependencies": {
-    "@codeshift/utils": "^0.2.2",
+    "@codeshift/utils": "^0.2.3",
     "jscodeshift": "^0.13.1"
   },
   "devDependencies": {
-    "@codeshift/cli": "^0.14.0",
-    "@codeshift/test-utils": "^0.3.0",
+    "@codeshift/cli": "^0.14.1",
+    "@codeshift/test-utils": "^0.3.1",
     "@types/jest": "^29.0.0",
     "@types/node": "^16.11.0",
     "jest": "^29.0.0",

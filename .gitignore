@@ -3,6 +3,7 @@
 plugin_packages/
 .vscode/
 .parcel-cache/
+package-lock.json
 
 # Generated website pages
 website/docs/registry-generated/*

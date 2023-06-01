@@ -1,5 +1,16 @@
 # @codeshift/initializer
 
+## 0.4.7
+
+### Patch Changes
+
+- 8255eb2: Packages are now built with pareljs. Entrypoints have been updated to match
+- Updated dependencies [26254c4]
+- Updated dependencies [8255eb2]
+  - @codeshift/utils@0.2.3
+  - @codeshift/cli@0.14.1
+  - @codeshift/test-utils@0.3.1
+
 ## 0.4.6
 
 ### Patch Changes
