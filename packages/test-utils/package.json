@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/test-utils",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

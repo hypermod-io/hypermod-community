@@ -1,5 +1,14 @@
 # @codeshift/validator
 
+## 0.4.4
+
+### Patch Changes
+
+- 8255eb2: Packages are now built with pareljs. Entrypoints have been updated to match
+- Updated dependencies [8255eb2]
+  - @codeshift/fetcher@0.2.1
+  - @codeshift/types@0.0.7
+
 ## 0.4.3
 
 ### Patch Changes

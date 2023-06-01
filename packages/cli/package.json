@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/cli",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,11 +15,11 @@
     "start:dev": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@codeshift/core": "^0.0.0",
-    "@codeshift/fetcher": "^0.2.0",
-    "@codeshift/initializer": "^0.4.4",
+    "@codeshift/core": "^0.0.1",
+    "@codeshift/fetcher": "^0.2.1",
+    "@codeshift/initializer": "^0.4.7",
     "@codeshift/types": "*",
-    "@codeshift/validator": "^0.4.3",
+    "@codeshift/validator": "^0.4.4",
     "chalk": "^4.1.0",
     "commander": "^8.2.0",
     "find-up": "^5.0.0",
