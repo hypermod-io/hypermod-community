@@ -11,7 +11,8 @@ import { CodeshiftConfig } from '@codeshift/types';
 import { fetchConfigAtPath, fetchConfigs } from '@codeshift/fetcher';
 
 import { InvalidUserInputError } from './errors';
-import { fetchPackageConfig } from './fetch-package';
+import { fetchPackages } from './utils/fetch-package';
+import { mergeConfigs } from './utils/merge-configs';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
 
 export default async function main(
@@ -165,8 +166,6 @@ export default async function main(
       const pkgName =
         shouldPrependAtSymbol + pkg.split(/[@#]/).filter(str => !!str)[0];
 
-      const config = await fetchPackageConfig(pkgName, packageManager);
-
       const rawTransformIds = pkg.split(/(?=[@#])/).filter(str => !!str);
       rawTransformIds.shift();
 
@@ -182,6 +181,13 @@ export default async function main(
       const presetIds = rawTransformIds
         .filter(id => id.startsWith('#'))
         .map(id => id.substring(1));
+
+      const { community, remote } = await fetchPackages(
+        pkgName,
+        packageManager,
+      );
+
+      const config = mergeConfigs(community, remote);
 
       // Validate transforms/presets
       transformIds.forEach(id => {

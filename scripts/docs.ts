@@ -73,7 +73,7 @@ async function main() {
   const directories = communityCodemods.filter(dir => junk.not(dir));
 
   for (const dir of directories) {
-    const config = await fetchConfig(path.join(COMMUNITY_PATH, dir));
+    const { config } = await fetchConfig(path.join(COMMUNITY_PATH, dir));
 
     if (!config) {
       throw new Error(`Unable to locate config for path: ${dir}`);
