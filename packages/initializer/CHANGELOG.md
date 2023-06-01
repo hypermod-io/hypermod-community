@@ -1,5 +1,11 @@
 # @codeshift/initializer
 
+## 0.4.8
+
+### Patch Changes
+
+- 5479243: Adds parcel-cache to generated gitignore
+
 ## 0.4.7
 
 ### Patch Changes

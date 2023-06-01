@@ -1,6 +1,13 @@
 # @codeshift/mod-javascript
 
+## 0.1.1
+
+### Patch Changes
+
+- Adds remove-unused-vars from putout as javascript preset
+
 ## 0.1.0
+
 ### Minor Changes
 
 - 8255eb2: Community codeshift packages are now built via parcel and managed via changesets
