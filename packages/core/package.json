@@ -1,0 +1,31 @@
+{
+  "name": "@codeshift/core",
+  "version": "0.0.0",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/core",
+  "dependencies": {
+    "@babel/core": "^7.13.16",
+    "@babel/parser": "^7.13.16",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
+    "@babel/preset-flow": "^7.13.13",
+    "@babel/preset-typescript": "^7.13.16",
+    "@babel/register": "^7.13.16",
+    "@types/neo-async": "^2.6.0",
+    "@types/write-file-atomic": "^4.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "chalk": "^4.1.0",
+    "graceful-fs": "^4.2.4",
+    "jscodeshift": "^0.13.1",
+    "neo-async": "^2.5.0",
+    "write-file-atomic": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/jscodeshift": "^0.11.6"
+  }
+}

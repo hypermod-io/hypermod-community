@@ -1,8 +1,20 @@
 import { FileInfo, API, Options } from 'jscodeshift';
 
+type Actions = 'status' | 'update' | 'free' | 'report';
+export type Statuses = 'error' | 'ok' | 'nochange' | 'skip';
+
+export interface Message {
+  action: Actions;
+  status: Statuses;
+  file: string;
+  msg: string;
+  name: string;
+  quantity: number;
+}
+
 export type Transform = (
   fileInfo: FileInfo,
-  { jscodeshift: j }: API,
+  { jscodeshift }: API,
   options: Options,
 ) => string;
 
@@ -41,5 +53,12 @@ export interface Flags {
   registry?: string;
   /** Authentication token that will be used to fetch packages from the registry. */
   registryToken?: string;
-  verbose?: '0' | '1' | '2';
+  babel: boolean;
+  failOnError: boolean;
+  ignoreConfig: string[];
+  parserConfig: string;
+  print: boolean;
+  silent: boolean;
+  stdin: boolean;
+  verbose?: 0 | 1 | 2;
 }

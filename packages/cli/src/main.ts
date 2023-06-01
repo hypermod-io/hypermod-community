@@ -4,19 +4,20 @@ import semver from 'semver';
 import chalk from 'chalk';
 import findUp from 'find-up';
 import inquirer from 'inquirer';
+import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
 
+import * as core from '@codeshift/core';
 import { CodeshiftConfig } from '@codeshift/types';
 import { fetchConfigAtPath, fetchConfigs } from '@codeshift/fetcher';
-import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
-// @ts-ignore Run transform(s) on path https://github.com/facebook/jscodeshift/issues/398
-import * as jscodeshift from 'jscodeshift/src/Runner';
 
-import { Flags } from './types';
 import { InvalidUserInputError } from './errors';
 import { fetchPackageConfig } from './fetch-package';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
 
-export default async function main(paths: string[], flags: Flags) {
+export default async function main(
+  paths: string[],
+  flags: Partial<core.Flags>,
+) {
   if (paths.length === 0) {
     throw new InvalidUserInputError(
       'No path provided, please specify which files your codemod should modify',
@@ -63,7 +64,7 @@ export default async function main(paths: string[], flags: Flags) {
     }
 
     if (rootPackageJson && rootPackageJson.workspaces) {
-      const configs = await (rootPackageJson.workspaces as any[]).reduce<
+      const configs = await (rootPackageJson.workspaces as string[]).reduce<
         Promise<{ filePath: string; config: CodeshiftConfig }[]>
       >(async (accum, filePath) => {
         const configs = await fetchConfigs(filePath);
@@ -206,41 +207,35 @@ export default async function main(paths: string[], flags: Flags) {
       });
 
       if (presetIds.length === 0 && transformIds.length === 0) {
-        const res = await inquirer.prompt([getConfigPrompt(config)]);
+        const res: { codemod: string } = await inquirer.prompt([
+          getConfigPrompt(config),
+        ]);
 
-        if (semver.valid(semver.coerce(res.transform))) {
-          transformIds.push(res.transform);
+        if (semver.valid(semver.coerce(res.codemod))) {
+          transformIds.push(res.codemod);
         } else {
-          presetIds.push(res.transform);
+          presetIds.push(res.codemod);
         }
       }
 
       // Get transform file paths
       if (config.transforms) {
         if (flags.sequence) {
-          Object.entries(config.transforms as Record<string, string>)
+          Object.entries(config.transforms)
             .filter(([key]) => semver.satisfies(key, `>=${transformIds[0]}`))
             .forEach(([, path]) => transforms.push(path));
         } else {
-          Object.entries(config.transforms as Record<string, string>).forEach(
-            ([id, path]) => {
-              if (transformIds.includes(id)) {
-                transforms.push(path);
-              }
-            },
-          );
+          Object.entries(config.transforms)
+            .filter(([id]) => transformIds.includes(id))
+            .forEach(([, path]) => transforms.push(path));
         }
       }
 
       // Get preset file paths
       if (config.presets) {
-        Object.entries(config.presets as Record<string, string>).forEach(
-          ([id, path]) => {
-            if (presetIds.includes(id)) {
-              transforms.push(path);
-            }
-          },
-        );
+        Object.entries(config.presets)
+          .filter(([id]) => presetIds.includes(id))
+          .forEach(([, path]) => transforms.push(path));
       }
     }
   }
@@ -259,7 +254,7 @@ export default async function main(paths: string[], flags: Flags) {
   for (const transform of transforms) {
     console.log(chalk.green('Running transform:'), transform);
 
-    await jscodeshift.run(transform, paths, {
+    await core.run(transform, paths, {
       verbose: flags.verbose,
       dry: flags.dry,
       print: true,
@@ -272,6 +267,8 @@ export default async function main(paths: string[], flags: Flags) {
       silent: false,
       parser: flags.parser,
       stdin: false,
+      parserConfig: '',
+      failOnError: false,
     });
   }
 

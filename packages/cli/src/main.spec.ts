@@ -1,16 +1,16 @@
 jest.mock('globby');
 jest.mock('live-plugin-manager');
 jest.mock('find-up');
-jest.mock('jscodeshift/src/Runner', () => ({
+jest.mock('@codeshift/core', () => ({
   run: jest.fn().mockImplementation(() => Promise.resolve()),
 }));
 
 import fs from 'fs';
 import path from 'path';
-// @ts-ignore
-import * as jscodeshift from 'jscodeshift/src/Runner';
 import { PluginManager } from 'live-plugin-manager';
 import globby from 'globby';
+
+import * as core from '@codeshift/core';
 
 import main from './main';
 
@@ -59,7 +59,7 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         mockTransformPath,
         expect.arrayContaining([mockPath, 'src/foo']),
         expect.objectContaining({
@@ -76,7 +76,7 @@ describe('main', () => {
         extensions: 'js,jsx',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         mockTransformPath,
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -93,7 +93,7 @@ describe('main', () => {
         extensions: 'ts,tsx',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         mockTransformPath,
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -110,7 +110,7 @@ describe('main', () => {
         extensions: 'js,jsx',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         mockTransformPath,
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -149,8 +149,8 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(1);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(1);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/18.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -168,8 +168,8 @@ describe('main', () => {
         sequence: true,
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(3);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(3);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/18.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -177,12 +177,12 @@ describe('main', () => {
           extensions: 'js',
         }),
       );
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/19.js',
         expect.any(Array),
         expect.any(Object),
       );
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
@@ -196,7 +196,7 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-myscope__mylib/path/to/19.js',
         expect.any(Array),
         expect.any(Object),
@@ -210,13 +210,13 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(2);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(2);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
       );
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-myotherlib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
@@ -230,13 +230,13 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(2);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(2);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-myscope__mylib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
       );
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-myotherscope__myotherlib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
@@ -250,13 +250,13 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(2);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(2);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-myscope__mylib/path/to/19.js',
         expect.any(Array),
         expect.any(Object),
       );
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-myscope__mylib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
@@ -270,8 +270,8 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(1);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(1);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/20.js',
         expect.any(Array),
         expect.any(Object),
@@ -320,8 +320,8 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(2);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(2);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/20.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -329,7 +329,7 @@ describe('main', () => {
           extensions: 'js',
         }),
       );
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         'path/to/transform.ts',
         expect.any(Array),
         expect.any(Object),
@@ -409,8 +409,8 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(1);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(1);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/update-formatting.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -427,8 +427,8 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(2);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(2);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/update-formatting.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -436,7 +436,7 @@ describe('main', () => {
           extensions: 'js',
         }),
       );
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/update-imports.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -453,8 +453,8 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(2);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(2);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/update-formatting.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -462,7 +462,7 @@ describe('main', () => {
           extensions: 'js',
         }),
       );
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/update-imports.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
@@ -576,8 +576,8 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(1);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(1);
+      expect(core.run).toHaveBeenCalledWith(
         'mylib/path/to/18.js',
         expect.arrayContaining([mockPath]),
         expect.anything(),
@@ -592,8 +592,8 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(1);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(1);
+      expect(core.run).toHaveBeenCalledWith(
         'mylib/path/to/update-formatting.js',
         expect.arrayContaining([mockPath]),
         expect.anything(),
@@ -622,8 +622,8 @@ describe('main', () => {
         extensions: 'js',
       });
 
-      expect(jscodeshift.run).toHaveBeenCalledTimes(1);
-      expect(jscodeshift.run).toHaveBeenCalledWith(
+      expect(core.run).toHaveBeenCalledTimes(1);
+      expect(core.run).toHaveBeenCalledWith(
         '@codeshift/mod-mylib/path/to/18.js',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({
