@@ -1,5 +1,11 @@
 # @codeshift/mod-javascript
 
+## 0.1.2
+
+### Patch Changes
+
+- eba85d2: moves putout deps from devDep to Dep
+
 ## 0.1.1
 
 ### Patch Changes

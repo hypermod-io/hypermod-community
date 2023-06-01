@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/mod-javascript",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "source": "src/codeshift.config.js",
   "main": "dist/codeshift.config.js",
