@@ -6,7 +6,7 @@
   "main": "dist/codeshift.config.js",
   "scripts": {
     "dev": "codeshift",
-    "build": "tsc --build",
+    "build": "parcel build",
     "test": "jest --watch",
     "validate": "codeshift validate ."
   },
