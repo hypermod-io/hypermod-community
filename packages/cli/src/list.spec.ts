@@ -33,7 +33,7 @@ describe('list', () => {
 
     const result = (console.log as jest.Mock).mock.calls.join('\n');
 
-    expect(result).toEqual(`${chalk.bold('foobar')}
+    expect(result).toEqual(`${chalk.bold('@codeshift/mod-foobar')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
@@ -47,7 +47,7 @@ describe('list', () => {
 
     const result = (console.log as jest.Mock).mock.calls.join('\n');
 
-    expect(result).toEqual(`${chalk.bold('@foo/bar')}
+    expect(result).toEqual(`${chalk.bold('@codeshift/mod-foo__bar')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
@@ -61,13 +61,13 @@ describe('list', () => {
 
     const result = (console.log as jest.Mock).mock.calls.join('\n');
 
-    expect(result).toEqual(`${chalk.bold('bar')}
+    expect(result).toEqual(`${chalk.bold('@codeshift/mod-bar')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
 └─ presets
    └─ sort-imports
-${chalk.bold('@foo/bar')}
+${chalk.bold('@codeshift/mod-foo__bar')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
@@ -132,13 +132,13 @@ ${chalk.bold('@foo/bar')}
 
     const result = (console.log as jest.Mock).mock.calls.join('\n');
 
-    expect(result).toEqual(`${chalk.bold('found1')}
+    expect(result).toEqual(`${chalk.bold('@codeshift/mod-found1')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
 └─ presets
    └─ sort-imports
-${chalk.bold('found2')}
+${chalk.bold('@codeshift/mod-found2')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0

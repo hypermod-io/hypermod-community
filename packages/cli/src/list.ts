@@ -1,7 +1,8 @@
 import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
 
-import { fetchPackageConfig } from './fetch-package';
+import { fetchPackages } from './utils/fetch-package';
+import { getCodeshiftPackageName } from './utils/package-names';
 
 export default async function list(packages: string[]) {
   const packageManager = new PluginManager();
@@ -9,8 +10,16 @@ export default async function list(packages: string[]) {
 
   for (const packageName of packages) {
     try {
-      const config = await fetchPackageConfig(packageName, packageManager);
-      configs.push({ packageName, config });
+      const { community, remote } = await fetchPackages(
+        packageName,
+        packageManager,
+      );
+      community &&
+        configs.push({
+          packageName: getCodeshiftPackageName(packageName),
+          config: community.config,
+        });
+      remote && configs.push({ packageName, config: remote.config });
     } catch (error) {
       console.warn(
         chalk.red(

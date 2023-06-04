@@ -34,25 +34,33 @@ describe('fetcher', () => {
 
   describe('fetchConfig', () => {
     it('fetches config with default export', async () => {
+      const mockFilePath = `${__dirname}/path/to/codeshift.config.js`;
+
       jest.mock(
         `${__dirname}/path/to/codeshift.config.js`,
         () => ({ __esModule: true, default: mockConfig }),
         { virtual: true },
       );
 
-      const config = await fetchConfig(mockBasePath);
+      const { filePath, config } = await fetchConfig(mockBasePath);
 
       expect(config).toEqual(mockConfig);
+      expect(filePath).toEqual(mockFilePath);
     });
 
     it('fetches config with named export', async () => {
-      jest.mock(`${__dirname}/path/to/codeshift.config.js`, () => mockConfig, {
-        virtual: true,
-      });
+      jest.mock(
+        path.join(mockBasePath, 'codeshift.config.js'),
+        () => mockConfig,
+        {
+          virtual: true,
+        },
+      );
 
-      const config = await fetchConfig(mockBasePath);
+      const { filePath, config } = await fetchConfig(mockBasePath);
 
       expect(config).toEqual(mockConfig);
+      expect(filePath).toEqual(path.join(mockBasePath, 'codeshift.config.js'));
     });
 
     it('fetches first matched config when multiple are found', async () => {
@@ -73,33 +81,39 @@ describe('fetcher', () => {
         path.join(mockBasePath, 'codemods', 'codeshift.config.tsx'),
       ];
 
-      const config = await fetchConfig(mockBasePath);
+      const { config, filePath } = await fetchConfig(mockBasePath);
 
       expect(config).toEqual(mockConfig);
+      expect(filePath).toEqual(
+        path.join(mockBasePath, 'src', 'codeshift.config.ts'),
+      );
     });
 
     it('returns undefined if no config was found', async () => {
       mockMatchedPaths = [];
 
-      const config = await fetchConfig(mockBasePath);
+      const configMeta = await fetchConfig(mockBasePath);
 
-      expect(config).toBe(undefined);
+      expect(configMeta).toBe(undefined);
     });
   });
 
   describe('fetchPackage', () => {
     it('correctly fetches package and returns a config', async () => {
+      const mockFilePath = 'path/to/config.codeshift.js';
       const mockPackageManager = {
         install: jest.fn(),
+        getInfo: jest.fn().mockReturnValue({ location: mockFilePath }),
         require: jest.fn().mockReturnValue(mockConfig),
       };
 
-      const config = await fetchPackage(
+      const { filePath, config } = await fetchPackage(
         'fake-package',
         mockPackageManager as unknown as PluginManager,
       );
 
       expect(config).toEqual(mockConfig);
+      expect(filePath).toEqual(mockFilePath);
     });
 
     it('should throw if fetching fails', async () => {
@@ -128,12 +142,13 @@ describe('fetcher', () => {
         }),
       };
 
-      const config = await fetchRemotePackage(
+      const { config, filePath } = await fetchRemotePackage(
         'fake-package',
         mockPackageManager as unknown as PluginManager,
       );
 
       expect(config).toEqual(mockConfig);
+      expect(filePath).toEqual(mockBasePath + '/codeshift.config.js');
     });
 
     it('should throw if fetching fails', async () => {

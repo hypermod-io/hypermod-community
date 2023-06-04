@@ -62,10 +62,7 @@ describe('main', () => {
       expect(core.run).toHaveBeenCalledWith(
         mockTransformPath,
         expect.arrayContaining([mockPath, 'src/foo']),
-        expect.objectContaining({
-          parser: 'babel',
-          extensions: 'js',
-        }),
+        expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
     });
 
@@ -125,16 +122,19 @@ describe('main', () => {
     beforeEach(() => {
       (PluginManager as jest.Mock).mockImplementation(() => ({
         install: jest.fn().mockResolvedValue(undefined),
-        require: jest.fn().mockImplementation((codemodName: string) => {
-          if (!codemodName.startsWith('@codeshift')) {
+        getInfo: jest.fn().mockImplementation((packageName: string) => ({
+          location: `${packageName}/path/to/source/codeshift.config.js`,
+        })),
+        require: jest.fn().mockImplementation((packageName: string) => {
+          if (!packageName.startsWith('@codeshift')) {
             throw new Error('Attempted to fetch codemod from npm');
           }
 
           return {
             transforms: {
-              '18.0.0': `${codemodName}/path/to/18.js`,
-              '19.0.0': `${codemodName}/path/to/19.js`,
-              '20.0.0': `${codemodName}/path/to/20.js`,
+              '18.0.0': jest.fn(),
+              '19.0.0': jest.fn(),
+              '20.0.0': jest.fn(),
             },
           };
         }),
@@ -151,12 +151,9 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/18.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@18.0.0',
         expect.arrayContaining([mockPath]),
-        expect.objectContaining({
-          parser: 'babel',
-          extensions: 'js',
-        }),
+        expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
     });
 
@@ -170,20 +167,17 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(3);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/18.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@18.0.0',
         expect.arrayContaining([mockPath]),
-        expect.objectContaining({
-          parser: 'babel',
-          extensions: 'js',
-        }),
+        expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/19.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@19.0.0',
         expect.any(Array),
         expect.any(Object),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/20.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -197,7 +191,7 @@ describe('main', () => {
       });
 
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myscope__mylib/path/to/19.js',
+        '@codeshift/mod-myscope__mylib/path/to/source/codeshift.config.js@19.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -212,12 +206,12 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/20.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myotherlib/path/to/20.js',
+        '@codeshift/mod-myotherlib/path/to/source/codeshift.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -232,12 +226,12 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myscope__mylib/path/to/20.js',
+        '@codeshift/mod-myscope__mylib/path/to/source/codeshift.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myotherscope__myotherlib/path/to/20.js',
+        '@codeshift/mod-myotherscope__myotherlib/path/to/source/codeshift.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -252,12 +246,12 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myscope__mylib/path/to/19.js',
+        '@codeshift/mod-myscope__mylib/path/to/source/codeshift.config.js@19.0.0',
         expect.any(Array),
         expect.any(Object),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myscope__mylib/path/to/20.js',
+        '@codeshift/mod-myscope__mylib/path/to/source/codeshift.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -272,7 +266,7 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/20.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -322,12 +316,9 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/20.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@20.0.0',
         expect.arrayContaining([mockPath]),
-        expect.objectContaining({
-          parser: 'babel',
-          extensions: 'js',
-        }),
+        expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
       expect(core.run).toHaveBeenCalledWith(
         'path/to/transform.ts',
@@ -339,9 +330,12 @@ describe('main', () => {
     it('should not throw when attempting to run transform that is not present in config', async () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
-        require: (codemodName: string) => ({
+        getInfo: jest.fn().mockImplementation((packageName: string) => ({
+          location: `${packageName}/path/to/source/codeshift.config.js`,
+        })),
+        require: () => ({
           presets: {
-            'update-formatting': `${codemodName}/path/to/update-formatting.js`,
+            'update-formatting': jest.fn(),
           },
         }),
         uninstallAll: () => Promise.resolve(),
@@ -363,10 +357,13 @@ describe('main', () => {
     it('should not throw when transform are not present in the config', async () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
+        getInfo: jest.fn().mockImplementation((packageName: string) => ({
+          location: `${packageName}/path/to/source/codeshift.config.js`,
+        })),
         // @ts-ignore
-        require: (codemodName: string) => ({
+        require: () => ({
           presets: {
-            'update-formatting': `${codemodName}/path/to/update-formatting.js`,
+            'update-formatting': jest.fn(),
           },
         }),
         uninstallAll: () => Promise.resolve(),
@@ -386,15 +383,18 @@ describe('main', () => {
     beforeEach(() => {
       (PluginManager as jest.Mock).mockImplementation(() => ({
         install: jest.fn().mockResolvedValue(undefined),
-        require: jest.fn().mockImplementation((codemodName: string) => {
-          if (!codemodName.startsWith('@codeshift')) {
+        getInfo: jest.fn().mockImplementation((packageName: string) => ({
+          location: `${packageName}/path/to/source/codeshift.config.js`,
+        })),
+        require: jest.fn().mockImplementation((packageName: string) => {
+          if (!packageName.startsWith('@codeshift')) {
             throw new Error('Attempted to fetch codemod from npm');
           }
 
           return {
             presets: {
-              'update-formatting': `${codemodName}/path/to/update-formatting.js`,
-              'update-imports': `${codemodName}/path/to/update-imports.js`,
+              'update-formatting': jest.fn(),
+              'update-imports': jest.fn(),
             },
           };
         }),
@@ -411,12 +411,9 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/update-formatting.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js#update-formatting',
         expect.arrayContaining([mockPath]),
-        expect.objectContaining({
-          parser: 'babel',
-          extensions: 'js',
-        }),
+        expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
     });
 
@@ -429,20 +426,14 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/update-formatting.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js#update-imports',
         expect.arrayContaining([mockPath]),
-        expect.objectContaining({
-          parser: 'babel',
-          extensions: 'js',
-        }),
+        expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/update-imports.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js#update-imports',
         expect.arrayContaining([mockPath]),
-        expect.objectContaining({
-          parser: 'babel',
-          extensions: 'js',
-        }),
+        expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
     });
 
@@ -455,20 +446,14 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/update-formatting.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js#update-formatting',
         expect.arrayContaining([mockPath]),
-        expect.objectContaining({
-          parser: 'babel',
-          extensions: 'js',
-        }),
+        expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/update-imports.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js#update-imports',
         expect.arrayContaining([mockPath]),
-        expect.objectContaining({
-          parser: 'babel',
-          extensions: 'js',
-        }),
+        expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
     });
 
@@ -492,10 +477,13 @@ describe('main', () => {
     it('should not throw when attempting to run preset that is not present in config', async () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
+        getInfo: jest.fn().mockImplementation((packageName: string) => ({
+          location: `${packageName}/path/to/source/codeshift.config.js`,
+        })),
         // @ts-ignore
-        require: (codemodName: string) => ({
+        require: () => ({
           transforms: {
-            '20.0.0': `${codemodName}/path/to/20.js`,
+            '20.0.0': jest.fn(),
           },
         }),
         uninstallAll: () => Promise.resolve(),
@@ -517,10 +505,13 @@ describe('main', () => {
     it('should not throw when presets are not present in the config', async () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
+        getInfo: jest.fn().mockImplementation((packageName: string) => ({
+          location: `${packageName}/path/to/source/codeshift.config.js`,
+        })),
         // @ts-ignore
-        require: (codemodName: string) => ({
+        require: () => ({
           transforms: {
-            '20.0.0': `${codemodName}/path/to/20.js`,
+            '20.0.0': jest.fn(),
           },
         }),
         uninstallAll: () => Promise.resolve(),
@@ -537,33 +528,32 @@ describe('main', () => {
   });
 
   describe('when running transforms from NPM with the -p flag', () => {
-    const mockMatchedPath = path.join(
-      __dirname,
-      'path',
-      'to',
-      'codeshift.config.js',
-    );
-
     beforeEach(() => {
+      const mockMatchedPath = path.join(
+        'mylib',
+        'path',
+        'to',
+        'source',
+        'codeshift.config.js',
+      );
+
       (globby as unknown as jest.Mock).mockImplementation(() =>
         Promise.resolve([mockMatchedPath]),
       );
 
       (PluginManager as jest.Mock).mockImplementation(() => ({
         install: jest.fn().mockResolvedValue(undefined),
+        getInfo: jest.fn().mockReturnValue({ location: mockMatchedPath }),
         require: () => ({
           default: {
             transforms: {
-              '18.0.0': 'mylib/path/to/18.js',
+              '18.0.0': jest.fn(),
             },
             presets: {
-              'update-formatting': 'mylib/path/to/update-formatting.js',
+              'update-formatting': jest.fn(),
             },
           },
         }),
-        getInfo: jest
-          .fn()
-          .mockReturnValue({ location: path.join(__dirname, 'path', 'to') }),
         uninstallAll: jest.fn().mockResolvedValue(undefined),
       }));
     });
@@ -578,7 +568,7 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        'mylib/path/to/18.js',
+        'mylib/path/to/source/codeshift.config.js@18.0.0',
         expect.arrayContaining([mockPath]),
         expect.anything(),
       );
@@ -594,7 +584,7 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        'mylib/path/to/update-formatting.js',
+        'mylib/path/to/source/codeshift.config.js#update-formatting',
         expect.arrayContaining([mockPath]),
         expect.anything(),
       );
@@ -605,11 +595,14 @@ describe('main', () => {
     it('should read configs exported with export default', async () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
+        getInfo: jest.fn().mockImplementation((packageName: string) => ({
+          location: `${packageName}/path/to/source/codeshift.config.js`,
+        })),
         // @ts-ignore
-        require: jest.fn().mockImplementationOnce((codemodName: string) => ({
+        require: jest.fn().mockImplementationOnce(() => ({
           default: {
             transforms: {
-              '18.0.0': `${codemodName}/path/to/18.js`,
+              '18.0.0': jest.fn(),
             },
           },
         })),
@@ -624,12 +617,9 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/18.js',
+        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@18.0.0',
         expect.arrayContaining([mockPath]),
-        expect.objectContaining({
-          parser: 'babel',
-          extensions: 'js',
-        }),
+        expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
     });
   });
@@ -640,11 +630,14 @@ describe('main', () => {
       (PluginManager as jest.Mock).mockImplementation(
         spy.mockReturnValue({
           install: () => Promise.resolve(undefined),
+          getInfo: jest.fn().mockImplementation((packageName: string) => ({
+            location: `${packageName}/path/to/source/codeshift.config.js`,
+          })),
           // @ts-ignore
-          require: jest.fn().mockImplementationOnce((codemodName: string) => ({
+          require: jest.fn().mockImplementationOnce(() => ({
             default: {
               transforms: {
-                '18.0.0': `${codemodName}/path/to/18.js`,
+                '18.0.0': jest.fn(),
               },
             },
           })),
@@ -667,11 +660,14 @@ describe('main', () => {
       (PluginManager as jest.Mock).mockImplementation(
         spy.mockReturnValue({
           install: () => Promise.resolve(undefined),
+          getInfo: jest.fn().mockImplementation((packageName: string) => ({
+            location: `${packageName}/path/to/source/codeshift.config.js`,
+          })),
           // @ts-ignore
-          require: jest.fn().mockImplementationOnce((codemodName: string) => ({
+          require: jest.fn().mockImplementationOnce(() => ({
             default: {
               transforms: {
-                '18.0.0': `${codemodName}/path/to/18.js`,
+                '18.0.0': jest.fn(),
               },
             },
           })),

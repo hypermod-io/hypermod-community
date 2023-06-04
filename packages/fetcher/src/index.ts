@@ -5,6 +5,11 @@ import { PluginManager } from 'live-plugin-manager';
 
 import { CodeshiftConfig } from '@codeshift/types';
 
+export interface ConfigMeta {
+  filePath: string;
+  config: CodeshiftConfig;
+}
+
 function resolveConfigExport(pkg: any): CodeshiftConfig {
   return pkg.default ? pkg.default : pkg;
 }
@@ -23,16 +28,12 @@ function requireConfig(filePath: string, resolvedPath: string) {
   }
 }
 
-export async function fetchConfig(
-  filePath: string,
-): Promise<CodeshiftConfig | undefined> {
+export async function fetchConfig(filePath: string): Promise<ConfigMeta> {
   const configs = await fetchConfigs(filePath);
-  return configs[0]?.config || undefined;
+  return configs[0];
 }
 
-export async function fetchConfigs(
-  filePath: string,
-): Promise<{ filePath: string; config: CodeshiftConfig }[]> {
+export async function fetchConfigs(filePath: string): Promise<ConfigMeta[]> {
   const matchedPaths = await globby([
     path.join(filePath, 'codeshift.config.(js|ts|tsx)'),
     path.join(filePath, 'src', 'codeshift.config.(js|ts|tsx)'),
@@ -72,16 +73,25 @@ export async function fetchConfigAtPath(
 export async function fetchPackage(
   packageName: string,
   packageManager: PluginManager,
-): Promise<CodeshiftConfig | undefined> {
+): Promise<ConfigMeta> {
   await packageManager.install(packageName);
   const pkg = packageManager.require(packageName);
-  return resolveConfigExport(pkg);
+  const info = packageManager.getInfo(packageName);
+
+  if (!info) {
+    throw new Error(`Unable to find package info for: ${packageName}`);
+  }
+
+  return {
+    filePath: info.location,
+    config: resolveConfigExport(pkg),
+  };
 }
 
 export async function fetchRemotePackage(
   packageName: string,
   packageManager: PluginManager,
-): Promise<CodeshiftConfig | undefined> {
+): Promise<ConfigMeta> {
   await packageManager.install(packageName);
   const info = packageManager.getInfo(packageName);
 

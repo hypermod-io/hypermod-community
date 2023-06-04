@@ -45,7 +45,17 @@ function prepareJscodeshift(options) {
   return jscodeshift.withParser(parser);
 }
 
-function setup(transformPath, id, babel) {
+function getTransform(entryPath) {
+  const transform = entryPath.split('@');
+  if (transform[1]) return transform[1];
+}
+
+function getPreset(entryPath) {
+  const preset = entryPath.split('#');
+  if (preset[1]) return preset[1];
+}
+
+function setup(entryPath, id, babel) {
   if (babel === 'babel') {
     const presets = [];
     if (presetEnv) {
@@ -53,7 +63,7 @@ function setup(transformPath, id, babel) {
     }
 
     presets.push(
-      /\.tsx?$/.test(transformPath)
+      /\.tsx?$/.test(entryPath)
         ? require('@babel/preset-typescript').default
         : require('@babel/preset-flow').default,
     );
@@ -81,7 +91,29 @@ function setup(transformPath, id, babel) {
     });
   }
 
-  const transformModule = require(transformPath);
+  const transformId = getTransform(entryPath);
+  const presetId = getPreset(entryPath);
+
+  let cleanEntryPath = entryPath;
+  let transformPkg;
+  let transformModule;
+
+  if (transformId) {
+    cleanEntryPath = entryPath.split('@')[0];
+    transformPkg = require(cleanEntryPath);
+    transformModule = transformPkg.transforms[transformId];
+  }
+
+  if (presetId) {
+    cleanEntryPath = entryPath.split('#')[0];
+    transformPkg = require(cleanEntryPath);
+    transformModule = transformPkg.presets[presetId];
+  }
+
+  if (!transformId && !presetId) {
+    transformModule = require(cleanEntryPath);
+  }
+
   transform =
     typeof transformModule.default === 'function'
       ? transformModule.default
