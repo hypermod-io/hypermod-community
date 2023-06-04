@@ -145,12 +145,12 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          sidebarPath: require('./sidebars.js'),
+          sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
             'https://github.com/CodeshiftCommunity/CodeshiftCommunity/edit/main/website/',
         },
         theme: {
-          customCss: require('./src/css/custom.css'),
+          customCss: require.resolve('./src/css/custom.css'),
         },
         gtag: {
           trackingID: 'G-X9RMY7JDM0',

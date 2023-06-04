@@ -26,6 +26,7 @@
     "write-file-atomic": "^2.3.0"
   },
   "devDependencies": {
-    "@types/jscodeshift": "^0.11.6"
+    "@types/jscodeshift": "^0.11.6",
+    "temp": "^0.8.4"
   }
 }

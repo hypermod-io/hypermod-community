@@ -109,8 +109,11 @@ describe('validator', () => {
 
     it('should validate config', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
-        transforms: {
-          '10.0.0': 'path/to/transform.js',
+        location: 'path/to/codeshift.config.js',
+        config: {
+          transforms: {
+            '10.0.0': jest.fn(),
+          },
         },
       });
 
@@ -120,7 +123,10 @@ describe('validator', () => {
 
     it('should error if config contains an invalid property', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
-        invalidProperty: 'foo',
+        location: 'path/to/codeshift.config.js',
+        config: {
+          invalidProperty: 'foo',
+        },
       });
 
       await expect(isValidConfigAtPath('path/to/')).rejects.toThrowError(
@@ -130,9 +136,12 @@ describe('validator', () => {
 
     it('should error if config contains multiple invalid properties', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
-        invalidProperty: 'foo',
-        invalidProperty2: 'foo',
-        invalidProperty3: 'foo',
+        location: 'path/to/codeshift.config.js',
+        config: {
+          invalidProperty: 'foo',
+          invalidProperty2: 'foo',
+          invalidProperty3: 'foo',
+        },
       });
 
       await expect(isValidConfigAtPath('path/to/')).rejects.toThrowError(
@@ -142,8 +151,11 @@ describe('validator', () => {
 
     it('should error if config contains invalid transforms', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
-        transforms: {
-          hello: '',
+        location: 'path/to/codeshift.config.js',
+        config: {
+          transforms: {
+            hello: '',
+          },
         },
       });
 
@@ -155,8 +167,11 @@ Please make sure all transforms are identified by a valid semver version. ie 10.
 
     it('should error if config contains invalid presets', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
-        presets: {
-          'foo bar': '',
+        location: 'path/to/codeshift.config.js',
+        config: {
+          presets: {
+            'foo bar': '',
+          },
         },
       });
 
