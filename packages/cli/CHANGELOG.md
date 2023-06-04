@@ -1,5 +1,19 @@
 # @codeshift/cli
 
+## 0.15.0
+
+### Minor Changes
+
+- 1a74e85: Internal refactor in order to remove the use of require.resolve in codeshift.config.js files.
+
+### Patch Changes
+
+- Updated dependencies [5416983]
+- Updated dependencies [1a74e85]
+  - @codeshift/fetcher@0.3.0
+  - @codeshift/core@0.1.0
+  - @codeshift/validator@0.5.0
+
 ## 0.14.1
 
 ### Patch Changes

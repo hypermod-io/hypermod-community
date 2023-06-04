@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/mod-emotion__monorepo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "source": "src/codeshift.config.js",
   "main": "dist/codeshift.config.js",
@@ -15,7 +15,7 @@
     "jscodeshift": "^0.13.1"
   },
   "devDependencies": {
-    "@codeshift/cli": "^0.14.1",
+    "@codeshift/cli": "^0.15.0",
     "@codeshift/test-utils": "^0.3.1",
     "@types/jest": "^29.0.0",
     "@types/node": "^16.11.0",
