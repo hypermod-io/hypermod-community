@@ -1,5 +1,12 @@
 # @codeshift/fetcher
 
+## 0.3.0
+
+### Minor Changes
+
+- 5416983: Fetcher now returns entrypoint filepath.
+- 1a74e85: Internal refactor in order to remove the use of require.resolve in codeshift.config.js files.
+
 ## 0.2.1
 
 ### Patch Changes

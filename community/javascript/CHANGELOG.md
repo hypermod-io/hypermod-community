@@ -1,5 +1,11 @@
 # @codeshift/mod-javascript
 
+## 0.2.0
+
+### Minor Changes
+
+- a9defa8: require.resolve is no longer supported and have been replaced by require statements
+
 ## 0.1.2
 
 ### Patch Changes
