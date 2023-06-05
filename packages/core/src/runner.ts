@@ -225,27 +225,15 @@ export function run(entrypointPath: string, paths: string[], options: Flags) {
       const workers = [];
 
       for (let i = 0; i < processes; i++) {
-        if (process.env.NODE_ENV !== 'production') {
-          workers.push(
-            options.runInBand
-              ? // eslint-disable-next-line @typescript-eslint/no-var-requires
-                require('./lib/Worker')(args)
-              : child_process.fork(
-                  path.join(__dirname, 'lib', 'Worker.js'),
-                  args,
-                ),
-          );
-        } else {
-          workers.push(
-            options.runInBand
-              ? // eslint-disable-next-line @typescript-eslint/no-var-requires
-                require('../lib/Worker')(args)
-              : child_process.fork(
-                  path.join(__dirname, '..', 'lib', 'Worker.js'),
-                  args,
-                ),
-          );
-        }
+        workers.push(
+          options.runInBand
+            ? // eslint-disable-next-line @typescript-eslint/no-var-requires
+              require('../lib/Worker')(args)
+            : child_process.fork(
+                path.join(__dirname, '..', 'lib', 'Worker.js'),
+                args,
+              ),
+        );
       }
 
       return workers.map(child => {
