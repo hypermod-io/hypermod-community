@@ -1,23 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable */
 
-const fs = require('fs');
-const path = require('path');
+const packageJson = require('../package.json');
 
-const project = path.join(__dirname, '../tsconfig.json');
-const dev = fs.existsSync(project);
-
-if (!require.extensions['.ts']) {
-  // ts-node can only handle being registered once, see https://github.com/TypeStrong/ts-node/issues/409
-  require('ts-node').register(dev ? { project } : {});
-}
-
-try {
-  require(path.join('..', dev ? 'src/index' : 'dist/codeshift-cli.cjs.js'));
-} catch (error) {
-  if (typeof error === 'number') {
-    process.exit(error);
-  }
-  console.error(error);
-  process.exit(1);
-}
+require('../' + packageJson.main);

@@ -143,8 +143,6 @@ Examples:
   $ codeshift validate ./codemods/my-codemods`,
   );
 
-program.exitOverride();
-
 (async function () {
   try {
     await program.parseAsync(process.argv);
