@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.15.1
+
+### Patch Changes
+
+- e3f5a15: Fixes bin entrypoint for CLI
+
 ## 0.15.0
 
 ### Minor Changes
