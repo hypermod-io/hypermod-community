@@ -8,5 +8,8 @@
   "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/test-utils",
   "dependencies": {
     "jscodeshift": "^0.13.1"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }

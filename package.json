@@ -84,8 +84,5 @@
   "workspaces": [
     "packages/*",
     "community/*"
-  ],
-  "engines": {
-    "node": ">=14"
-  }
+  ]
 }
