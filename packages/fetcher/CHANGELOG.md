@@ -1,5 +1,11 @@
 # @codeshift/fetcher
 
+## 0.3.1
+
+### Patch Changes
+
+- 4d55055: Parcel now bundles these deps with a Node target
+
 ## 0.3.0
 
 ### Minor Changes

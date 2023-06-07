@@ -1,5 +1,12 @@
 # @codeshift/core
 
+## 0.1.1
+
+### Patch Changes
+
+- 157f755: Only use a single path when importing the Worker regardless of process.env
+- 4d55055: Parcel now bundles these deps with a Node target
+
 ## 0.1.0
 
 ### Minor Changes
