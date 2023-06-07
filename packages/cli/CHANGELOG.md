@@ -1,5 +1,18 @@
 # @codeshift/cli
 
+## 0.15.2
+
+### Patch Changes
+
+- 4d55055: Parcel now bundles these deps with a Node target
+- 157f755: Removes typescript/js interop layer from the CLI in favour of just pointing to the built dist files.
+- Updated dependencies [157f755]
+- Updated dependencies [4d55055]
+  - @codeshift/core@0.1.1
+  - @codeshift/initializer@0.4.9
+  - @codeshift/validator@0.5.1
+  - @codeshift/fetcher@0.3.1
+
 ## 0.15.1
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @codeshift/initializer
 
+## 0.4.9
+
+### Patch Changes
+
+- 4d55055: Parcel now bundles these deps with a Node target
+- Updated dependencies [4d55055]
+- Updated dependencies [157f755]
+  - @codeshift/test-utils@0.3.2
+  - @codeshift/utils@0.2.4
+  - @codeshift/cli@0.15.2
+
 ## 0.4.8
 
 ### Patch Changes

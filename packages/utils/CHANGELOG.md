@@ -1,5 +1,11 @@
 # @codeshift/utils
 
+## 0.2.4
+
+### Patch Changes
+
+- 4d55055: Parcel now bundles these deps with a Node target
+
 ## 0.2.3
 
 ### Patch Changes

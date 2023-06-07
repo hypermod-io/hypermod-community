@@ -1,5 +1,13 @@
 # @codeshift/validator
 
+## 0.5.1
+
+### Patch Changes
+
+- 4d55055: Parcel now bundles these deps with a Node target
+- Updated dependencies [4d55055]
+  - @codeshift/fetcher@0.3.1
+
 ## 0.5.0
 
 ### Minor Changes
