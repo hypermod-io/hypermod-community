@@ -1,5 +1,11 @@
 # @codeshift/core
 
+## 0.1.4
+
+### Patch Changes
+
+- 4af1108: Improves module parsing to account for different import schemes
+
 ## 0.1.3
 
 ### Patch Changes
