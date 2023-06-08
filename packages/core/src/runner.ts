@@ -166,7 +166,7 @@ export function run(entrypointPath: string, paths: string[], options: Flags) {
   ignores.add(options.ignorePattern);
   ignores.addFromFile(options.ignoreConfig);
 
-  if (!fs.existsSync(entrypointPath)) {
+  if (!fs.existsSync(entrypointPath.replace(/[@#][^@#]*$/, ''))) {
     process.stderr.write(
       chalk.white.bgRed('ERROR') +
         ' Transform file ' +

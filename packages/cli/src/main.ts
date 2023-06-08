@@ -26,7 +26,7 @@ export default async function main(
   }
 
   const pluginManagerConfig: Partial<PluginManagerOptions> = {
-    pluginsPath: path.join(__dirname, 'node_modules'),
+    pluginsPath: path.join(__dirname, '..', 'node_modules'),
   };
 
   // If a registry is provided in the CLI flags, use it for the pluginManagers configuration.
@@ -277,6 +277,4 @@ export default async function main(
       failOnError: false,
     });
   }
-
-  await packageManager.uninstallAll();
 }

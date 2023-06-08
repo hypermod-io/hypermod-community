@@ -45,14 +45,15 @@ function prepareJscodeshift(options) {
   return jscodeshift.withParser(parser);
 }
 
-function getTransform(entryPath) {
-  const transform = entryPath.split('@');
-  if (transform[1]) return transform[1];
+function retrieveTransformId(str) {
+  return (str.match(/[^@]*(?:[@](?!.*[@]))(.*)$/) || [, ''])[1];
+}
+function retrievePresetId(str) {
+  return (str.match(/[^#]*(?:[#](?!.*[#]))(.*)$/) || [, ''])[1];
 }
 
-function getPreset(entryPath) {
-  const preset = entryPath.split('#');
-  if (preset[1]) return preset[1];
+function retrievePath(str) {
+  return str.replace(/[@#][^@#]*$/, '');
 }
 
 function setup(entryPath, id, babel) {
@@ -91,27 +92,24 @@ function setup(entryPath, id, babel) {
     });
   }
 
-  const transformId = getTransform(entryPath);
-  const presetId = getPreset(entryPath);
+  const transformId = retrieveTransformId(entryPath);
+  const presetId = retrievePresetId(entryPath);
 
-  let cleanEntryPath = entryPath;
   let transformPkg;
   let transformModule;
 
   if (transformId) {
-    cleanEntryPath = entryPath.split('@')[0];
-    transformPkg = require(cleanEntryPath);
+    transformPkg = require(retrievePath(entryPath));
     transformModule = transformPkg.transforms[transformId];
   }
 
   if (presetId) {
-    cleanEntryPath = entryPath.split('#')[0];
-    transformPkg = require(cleanEntryPath);
+    transformPkg = require(retrievePath(entryPath));
     transformModule = transformPkg.presets[presetId];
   }
 
   if (!transformId && !presetId) {
-    transformModule = require(cleanEntryPath);
+    transformModule = require(entryPath);
   }
 
   transform =
