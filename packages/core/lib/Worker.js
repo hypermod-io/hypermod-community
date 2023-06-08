@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 'use strict';
 
+const path = require('path');
 const { EventEmitter } = require('events');
 const async = require('neo-async');
 const fs = require('graceful-fs');
@@ -56,7 +57,7 @@ function retrievePath(str) {
   return str.replace(/[@#][^@#]*$/, '');
 }
 
-function setup(entryPath, id, babel) {
+function setup(entryPath, babel) {
   if (babel === 'babel') {
     const presets = [];
     if (presetEnv) {
@@ -109,7 +110,7 @@ function setup(entryPath, id, babel) {
   }
 
   if (!transformId && !presetId) {
-    transformModule = require(entryPath);
+    transformModule = require(path.resolve(entryPath));
   }
 
   transform =
