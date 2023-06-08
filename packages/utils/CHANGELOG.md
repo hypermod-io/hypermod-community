@@ -1,5 +1,11 @@
 # @codeshift/utils
 
+## 0.2.5
+
+### Patch Changes
+
+- 65cfe4f: Minor type update to isDecendantOfNode
+
 ## 0.2.4
 
 ### Patch Changes
