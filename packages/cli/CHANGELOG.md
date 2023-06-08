@@ -1,5 +1,13 @@
 # @codeshift/cli
 
+## 0.15.3
+
+### Patch Changes
+
+- 8cf9a4b: Fixes config path parsing
+- Updated dependencies [8cf9a4b]
+  - @codeshift/core@0.1.2
+
 ## 0.15.2
 
 ### Patch Changes

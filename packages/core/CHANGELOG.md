@@ -1,5 +1,11 @@
 # @codeshift/core
 
+## 0.1.2
+
+### Patch Changes
+
+- 8cf9a4b: Fixes config path parsing
+
 ## 0.1.1
 
 ### Patch Changes
