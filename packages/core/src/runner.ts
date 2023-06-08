@@ -166,11 +166,15 @@ export function run(entrypointPath: string, paths: string[], options: Flags) {
   ignores.add(options.ignorePattern);
   ignores.addFromFile(options.ignoreConfig);
 
-  if (!fs.existsSync(entrypointPath.replace(/[@#][^@#]*$/, ''))) {
+  const absoluteEntrypointPath = path.resolve(
+    entrypointPath.replace(/[@#][^@#]*$/, ''),
+  );
+
+  if (!fs.existsSync(absoluteEntrypointPath)) {
     process.stderr.write(
       chalk.white.bgRed('ERROR') +
         ' Transform file ' +
-        entrypointPath +
+        absoluteEntrypointPath +
         ' does not exist \n',
     );
     return;

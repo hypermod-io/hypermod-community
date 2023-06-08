@@ -57,6 +57,10 @@ function retrievePath(str) {
   return str.replace(/[@#][^@#]*$/, '');
 }
 
+function getModule(mod) {
+  return mod.hasOwnProperty('default') ? mod.default : mod;
+}
+
 function setup(entryPath, babel) {
   if (babel === 'babel') {
     const presets = [];
@@ -100,12 +104,12 @@ function setup(entryPath, babel) {
   let transformModule;
 
   if (transformId) {
-    transformPkg = require(retrievePath(entryPath));
+    transformPkg = getModule(require(path.resolve(retrievePath(entryPath))));
     transformModule = transformPkg.transforms[transformId];
   }
 
   if (presetId) {
-    transformPkg = require(retrievePath(entryPath));
+    transformPkg = getModule(require(path.resolve(retrievePath(entryPath))));
     transformModule = transformPkg.presets[presetId];
   }
 
@@ -113,10 +117,7 @@ function setup(entryPath, babel) {
     transformModule = require(path.resolve(entryPath));
   }
 
-  transform =
-    typeof transformModule.default === 'function'
-      ? transformModule.default
-      : transformModule;
+  transform = getModule(transformModule);
 
   if (transformModule.parser) {
     parserFromTransform =
