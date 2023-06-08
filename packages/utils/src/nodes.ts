@@ -24,9 +24,9 @@ export const isNodeOfType = <Expected extends ASTNode>(
  * const isDecendantOfImportSpecifier = isDecendantOfType(node, j.ImportSpecifier);
  * ```
  */
-export const isDecendantOfType = (
+export const isDecendantOfType = <Node extends ASTNode>(
   j: core.JSCodeshift,
-  source: ASTPath<any>,
+  source: ASTPath<Node>,
   type: any,
 ): boolean => {
   const closestNodes = j(source).closest(type);
