@@ -2,7 +2,7 @@
   <img width="1000" src="assets/github-banner.png" alt="CodeshiftCommunity Logo">
 </p>
 
-# hypermod-community
+# Hypermod Community
 
 **Formerly: CodeshiftCommunity**
 
