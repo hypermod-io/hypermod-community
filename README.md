@@ -2,11 +2,11 @@
   <img width="1000" src="assets/github-banner.png" alt="CodeshiftCommunity Logo">
 </p>
 
-# CodeshiftCommunity
+# hypermod-community
 
-CodeshiftCommunity is a community-owned global registry and documentation hub for codemods. Providing library maintainers & users with facilities to help write, test, publish and consume codemods in a structured, standardized and familiar way.
+**Formerly: CodeshiftCommunity**
 
-_Inspired and built on Facebook's [jscodeshift](https://github.com/facebook/jscodeshift)_
+The community-owned global registry and documentation hub for codemods. Providing library maintainers & users with facilities to help write, test, publish and consume codemods in a structured, standardized and familiar way.
 
 [💬 Join our community on Discord](https://discord.gg/XGqmKNZ8Rk)
 
