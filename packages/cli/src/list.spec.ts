@@ -24,6 +24,7 @@ describe('list', () => {
       })),
     }));
   });
+
   afterEach(() => {
     jest.resetAllMocks();
   });
@@ -38,6 +39,12 @@ describe('list', () => {
 |  ├─ 18.0.0
 |  └─ 19.0.0
 └─ presets
+   └─ sort-imports
+${chalk.bold('foobar')}
+├─ transforms
+|  ├─ 18.0.0
+|  └─ 19.0.0
+└─ presets
    └─ sort-imports`);
     expect(console.warn).not.toHaveBeenCalled();
   });
@@ -48,6 +55,12 @@ describe('list', () => {
     const result = (console.log as jest.Mock).mock.calls.join('\n');
 
     expect(result).toEqual(`${chalk.bold('@codeshift/mod-foo__bar')}
+├─ transforms
+|  ├─ 18.0.0
+|  └─ 19.0.0
+└─ presets
+   └─ sort-imports
+${chalk.bold('@foo/bar')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
@@ -67,7 +80,19 @@ describe('list', () => {
 |  └─ 19.0.0
 └─ presets
    └─ sort-imports
+${chalk.bold('bar')}
+├─ transforms
+|  ├─ 18.0.0
+|  └─ 19.0.0
+└─ presets
+   └─ sort-imports
 ${chalk.bold('@codeshift/mod-foo__bar')}
+├─ transforms
+|  ├─ 18.0.0
+|  └─ 19.0.0
+└─ presets
+   └─ sort-imports
+${chalk.bold('@foo/bar')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
@@ -138,7 +163,19 @@ ${chalk.bold('@codeshift/mod-foo__bar')}
 |  └─ 19.0.0
 └─ presets
    └─ sort-imports
+${chalk.bold('found1')}
+├─ transforms
+|  ├─ 18.0.0
+|  └─ 19.0.0
+└─ presets
+   └─ sort-imports
 ${chalk.bold('@codeshift/mod-found2')}
+├─ transforms
+|  ├─ 18.0.0
+|  └─ 19.0.0
+└─ presets
+   └─ sort-imports
+${chalk.bold('found2')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0

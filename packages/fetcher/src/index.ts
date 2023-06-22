@@ -35,6 +35,9 @@ export async function fetchConfig(filePath: string): Promise<ConfigMeta> {
 
 export async function fetchConfigs(filePath: string): Promise<ConfigMeta[]> {
   const matchedPaths = await globby([
+    path.join(filePath, 'hypermod.config.(js|ts|tsx)'),
+    path.join(filePath, 'src', 'hypermod.config.(js|ts|tsx)'),
+    path.join(filePath, 'codemods', 'hypermod.config.(js|ts|tsx)'),
     path.join(filePath, 'codeshift.config.(js|ts|tsx)'),
     path.join(filePath, 'src', 'codeshift.config.(js|ts|tsx)'),
     path.join(filePath, 'codemods', 'codeshift.config.(js|ts|tsx)'),
@@ -99,6 +102,21 @@ export async function fetchRemotePackage(
     throw new Error(
       `Unable to locate package files for package: '${packageName}'`,
     );
+  }
+
+  // Search main entrypoint for transform/presets from the default import
+  try {
+    const pkg = packageManager.require(packageName);
+    const configExport = resolveConfigExport(pkg);
+
+    if (configExport.transforms || configExport.presets) {
+      return {
+        filePath: info.location,
+        config: resolveConfigExport(pkg),
+      };
+    }
+  } catch (e) {
+    // Swallow this error
   }
 
   return await fetchConfig(info.location);
