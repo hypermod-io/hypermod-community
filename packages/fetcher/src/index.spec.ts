@@ -137,6 +137,10 @@ describe('fetcher', () => {
     it('correctly fetches package and returns a config', async () => {
       const mockPackageManager = {
         install: jest.fn(),
+        require: jest
+          .fn()
+          .mockReturnValueOnce({}) // fail the entrypoint config check
+          .mockReturnValueOnce(mockConfig),
         getInfo: jest.fn().mockReturnValue({
           location: mockBasePath,
         }),
@@ -149,6 +153,60 @@ describe('fetcher', () => {
 
       expect(config).toEqual(mockConfig);
       expect(filePath).toEqual(mockBasePath + '/codeshift.config.js');
+    });
+
+    it('should throw if fetching fails', async () => {
+      const mockPackageManager = {
+        install: jest.fn().mockRejectedValue('Import error'),
+      };
+
+      expect.assertions(1);
+
+      await expect(
+        fetchRemotePackage(
+          'fake-package',
+          mockPackageManager as unknown as PluginManager,
+        ),
+      ).rejects.toEqual('Import error');
+    });
+
+    it('correctly fetches package and returns an entrypoint-based config', async () => {
+      const mockPackageManager = {
+        install: jest.fn(),
+        require: jest.fn().mockReturnValueOnce(mockConfig),
+        getInfo: jest.fn().mockReturnValue({
+          location: mockBasePath + '/index.js',
+        }),
+      };
+
+      const { config, filePath } = await fetchRemotePackage(
+        'fake-package',
+        mockPackageManager as unknown as PluginManager,
+      );
+
+      expect(config).toEqual(mockConfig);
+      expect(filePath).toEqual(mockBasePath + '/index.js');
+    });
+
+    it('throws if entrypoint-based config does not contain a valid config (and there are no config files available elsewhere)', async () => {
+      const mockPackageManager = {
+        install: jest.fn(),
+        require: jest.fn().mockReturnValueOnce({}),
+        getInfo: jest.fn().mockReturnValue({
+          location: mockBasePath + '/index.js',
+        }),
+      };
+
+      (globby as unknown as jest.Mock).mockImplementation(() =>
+        Promise.resolve([]),
+      );
+
+      const res = await fetchRemotePackage(
+        'fake-package',
+        mockPackageManager as unknown as PluginManager,
+      );
+
+      expect(res).toBeUndefined();
     });
 
     it('should throw if fetching fails', async () => {
