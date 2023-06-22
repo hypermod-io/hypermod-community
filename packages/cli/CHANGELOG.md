@@ -1,5 +1,13 @@
 # @codeshift/cli
 
+## 0.15.4
+
+### Patch Changes
+
+- b7f614e: Correctly checks remote pacakge entrypoints for configs (as opposed to just checking for codeshift.config.js files)
+- Updated dependencies [b7f614e]
+  - @codeshift/fetcher@0.3.2
+
 ## 0.15.3
 
 ### Patch Changes
