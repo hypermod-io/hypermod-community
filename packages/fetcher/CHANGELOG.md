@@ -1,5 +1,11 @@
 # @codeshift/fetcher
 
+## 0.3.3
+
+### Patch Changes
+
+- dd4867b: Bumps live-plugin-manager to surface minor bug fixes
+
 ## 0.3.2
 
 ### Patch Changes
