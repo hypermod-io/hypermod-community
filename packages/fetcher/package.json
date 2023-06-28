@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/fetcher",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

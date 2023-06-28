@@ -1,5 +1,11 @@
 # @codeshift/fetcher
 
+## 0.3.4
+
+### Patch Changes
+
+- b9d4ba1: Bumps defective version of live-plugin-manager
+
 ## 0.3.3
 
 ### Patch Changes
