@@ -1,5 +1,11 @@
 # @codeshift/fetcher
 
+## 0.3.5
+
+### Patch Changes
+
+- 9ec0f95: Adds development logging for quick debugging
+
 ## 0.3.4
 
 ### Patch Changes
