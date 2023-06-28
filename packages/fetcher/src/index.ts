@@ -117,6 +117,10 @@ export async function fetchRemotePackage(
     }
   } catch (e) {
     // Swallow this error
+    if (process.env.NODE_ENV !== 'production') {
+      console.error('Remote package config parsing error:');
+      console.error(e);
+    }
   }
 
   return await fetchConfig(info.location);
