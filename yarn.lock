@@ -7118,10 +7118,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-live-plugin-manager@^0.18.0:
-  version "0.18.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/live-plugin-manager/-/live-plugin-manager-0.18.0.tgz#61aa7915e5c17ad416d5e509d784e9cbbd2df9e9"
-  integrity sha512-iW2/pluBWG/1v+Wyy981Y/6/s/thhFem3lhnNaq8zh00HsVBYTE02Sz4ce0qVPGcUCTde344PTiRrJ0dw4nKCg==
+live-plugin-manager@^0.18.1:
+  version "0.18.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/live-plugin-manager/-/live-plugin-manager-0.18.1.tgz#5c51ad3d6b10af1fd9d231a71690f65d98358de2"
+  integrity sha512-GvLMSaZ1Cc18o91NiHLRuPXm1z7xDiUXUGgQ6jAwGM/x0FY8vXXHa/+LMNb2zrkAV2bWULCs0FEwX9yRsmFZmw==
   dependencies:
     "@types/debug" "^4.1.7"
     "@types/fs-extra" "^9.0.13"
