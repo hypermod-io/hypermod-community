@@ -23,7 +23,7 @@ To run a codeshift package, install and use the `@codeshift/cli`.
 For example, say we want to run transforms for `@mylib/button` and migrate from version 13 to the latest version 14, we could run the following:
 
 ```
-codemod-cli --package @mylib/button@14.0.0 project/path/to/src
+codemod-cli --packages @mylib/button@14.0.0 project/path/to/src
 ```
 
 The following sequence of events will follow:
@@ -41,7 +41,7 @@ It's also possible to run a series of codemods, one after the other, to migrate 
 This is done my providing the `--sequence` (or `-s`) flag to `@codeshift/cli`.
 
 ```
-codemod-cli --package @mylib/button@14.0.0 --sequence project/path/to/src
+codemod-cli --packages @mylib/button@14.0.0 --sequence project/path/to/src
 ```
 
 This time around, we use the provided version (14.0.0) as the start of a semver range between `14.0.0-@latest`.
