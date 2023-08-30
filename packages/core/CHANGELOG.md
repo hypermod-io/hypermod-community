@@ -1,5 +1,11 @@
 # @hypermod/core
 
+## 0.2.0
+
+### Minor Changes
+
+- aa62194: This package has moved scopes from `@codeshift` to `@hypermod`. All internal `@codeshift` dependencies and references have been updated as a result.
+
 ## 0.1.4
 
 ### Patch Changes

@@ -1,5 +1,23 @@
 # @codeshift/cli
 
+## 0.16.0
+
+### Minor Changes
+
+- aa62194: This package has been renamed to `@hypermod/cli`.
+
+  No API changes were performed as part of this change, use `@hypermod/cli` as a direct replacement the package has simply been renamed.
+
+  It can now be run via `$ hypermod` or `$ hypermod-cli` or `$ npx @hypermod/cli`.
+
+  The alias package `@codeshift/cli` will continue to exist as a way for existing users to continue to receive updates **but will be removed in the future**.
+
+### Patch Changes
+
+- Updated dependencies [aa62194]
+- Updated dependencies [aa62194]
+  - @hypermod/cli@0.16.0
+
 ## 0.15.6
 
 ### Patch Changes

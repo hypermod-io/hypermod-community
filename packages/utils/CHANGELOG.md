@@ -1,5 +1,11 @@
 # @hypermod/utils
 
+## 0.3.0
+
+### Minor Changes
+
+- aa62194: This package has moved scopes from `@codeshift` to `@hypermod`. All internal `@codeshift` dependencies and references have been updated as a result.
+
 ## 0.2.5
 
 ### Patch Changes

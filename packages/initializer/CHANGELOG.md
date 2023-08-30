@@ -1,5 +1,18 @@
 # @hypermod/initializer
 
+## 0.5.0
+
+### Minor Changes
+
+- aa62194: This package has moved scopes from `@codeshift` to `@hypermod`. All internal `@codeshift` dependencies and references have been updated as a result.
+
+### Patch Changes
+
+- Updated dependencies [aa62194]
+- Updated dependencies [aa62194]
+  - @hypermod/utils@0.3.0
+  - @hypermod/cli@0.16.0
+
 ## 0.4.9
 
 ### Patch Changes

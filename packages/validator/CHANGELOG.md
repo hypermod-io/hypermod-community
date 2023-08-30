@@ -1,5 +1,17 @@
 # @hypermod/validator
 
+## 0.6.0
+
+### Minor Changes
+
+- aa62194: This package has moved scopes from `@codeshift` to `@hypermod`. All internal `@codeshift` dependencies and references have been updated as a result.
+
+### Patch Changes
+
+- Updated dependencies [aa62194]
+  - @hypermod/fetcher@0.4.0
+  - @hypermod/types@0.1.0
+
 ## 0.5.1
 
 ### Patch Changes
