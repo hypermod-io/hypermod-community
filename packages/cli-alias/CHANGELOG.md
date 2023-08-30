@@ -1,5 +1,16 @@
 # @codeshift/cli
 
+## 0.17.0
+
+### Minor Changes
+
+- d833ae4: Compiles CLI source to ESM
+
+### Patch Changes
+
+- Updated dependencies [d833ae4]
+  - @hypermod/cli@0.17.0
+
 ## 0.16.0
 
 ### Minor Changes

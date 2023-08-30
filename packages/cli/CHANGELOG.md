@@ -1,5 +1,11 @@
 # @hypermod/cli
 
+## 0.17.0
+
+### Minor Changes
+
+- d833ae4: Compiles CLI source to ESM
+
 ## 0.16.0
 
 ### Minor Changes
