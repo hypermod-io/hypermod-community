@@ -1,4 +1,4 @@
-# @codeshift/mod-memoize-one
+# @hypermod/mod-memoize-one
 
 ## 0.2.0
 

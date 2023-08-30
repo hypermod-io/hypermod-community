@@ -3,7 +3,7 @@ import {
   hasJSXAttributes,
   removeJSXAttributes,
   getJSXAttributes,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 import { NodePath } from 'ast-types/lib/node-path';
 
 function isUsingSupportedSpread(

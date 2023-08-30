@@ -2,7 +2,7 @@ import core from 'jscodeshift';
 import {
   getJSXAttributes,
   getDefaultImportSpecifierName,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 export const renameRemoveButtonText = (j: core.JSCodeshift, source: any) => {
   const defaultSpecifier = getDefaultImportSpecifierName(

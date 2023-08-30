@@ -207,13 +207,13 @@ const App = () => (
                       1. Initialize your project
                     </h3>
                     <p>
-                      Instantly create a brand new codeshift package that can be
+                      Instantly create a brand new Hypermod package that can be
                       run from anywhere.
                     </p>
                   </div>
                   <div className="col col--8">
                     <CodeBlock className="language-bash">
-                      $ npx @codeshift/cli init foobar
+                      $ npx @hypermod/cli init foobar
                     </CodeBlock>
                   </div>
                 </div>
@@ -266,7 +266,7 @@ const App = () => (
                     <CodeBlock className="language-js">{`import {
   hasImportDeclaration,
   renameImportDeclaration,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 function transformer(file, { jscodeshift: j }) {
   const source = j(file.source);
@@ -317,7 +317,7 @@ export default transformer;`}</CodeBlock>
                   </div>
                   <div className="col col--8">
                     <CodeBlock className="language-bash">
-                      $ npx @codeshift/cli -p foobar@12.0.0 path/to/src
+                      $ npx @hypermod/cli -p foobar@12.0.0 path/to/src
                     </CodeBlock>
                   </div>
                 </div>

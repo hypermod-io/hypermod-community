@@ -1,5 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import { applyMotions, hasImportDeclaration } from '@codeshift/utils';
+import { applyMotions, hasImportDeclaration } from '@hypermod/utils';
 
 import { SECTION_MESSAGE_PACKAGE_NAME } from './constants';
 import { getDynamicImportName } from './utils';

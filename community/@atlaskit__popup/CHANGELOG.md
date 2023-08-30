@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_popup
+# @hypermod/mod-atlaskit\_\_popup
 
 ## 0.2.0
 

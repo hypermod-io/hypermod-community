@@ -1,25 +1,27 @@
 {
-  "name": "@codeshift/cli",
+  "name": "@hypermod/cli",
   "version": "0.15.6",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
-  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/cli",
+  "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/cli",
   "bin": {
-    "codeshift": "./bin/codeshift-cli.js",
-    "codeshift-cli": "./bin/codeshift-cli.js"
+    "hypermod": "./bin/hypermod-cli.js",
+    "hypermod-cli": "./bin/hypermod-cli.js",
+    "codeshift": "./bin/hypermod-cli.js",
+    "codeshift-cli": "./bin/hypermod-cli.js"
   },
   "scripts": {
-    "start": "./bin/codeshift-cli.js",
+    "start": "./bin/hypermod-cli.js",
     "start:dev": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@codeshift/core": "^0.1.2",
-    "@codeshift/fetcher": "^0.3.4",
-    "@codeshift/initializer": "^0.4.9",
-    "@codeshift/types": "*",
-    "@codeshift/validator": "^0.5.1",
+    "@hypermod/core": "^0.1.2",
+    "@hypermod/fetcher": "^0.3.4",
+    "@hypermod/initializer": "^0.4.9",
+    "@hypermod/types": "*",
+    "@hypermod/validator": "^0.5.1",
     "chalk": "^4.1.0",
     "commander": "^8.2.0",
     "find-up": "^5.0.0",

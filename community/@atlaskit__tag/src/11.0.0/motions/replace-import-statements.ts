@@ -1,5 +1,5 @@
 import core from 'jscodeshift';
-import { getImportDeclaration } from '@codeshift/utils';
+import { getImportDeclaration } from '@hypermod/utils';
 
 const convertMap: Record<string, string> = {
   Tag: '@atlaskit/tag/removable-tag',

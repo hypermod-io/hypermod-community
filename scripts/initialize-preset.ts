@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import path from 'path';
 
-import { initDirectory, initTransform } from '@codeshift/initializer';
+import { initDirectory, initTransform } from '@hypermod/initializer';
 
 const communityPath = `${__dirname}/../community`;
 

@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_tag
+# @hypermod/mod-atlaskit\_\_tag
 
 ## 0.2.0
 

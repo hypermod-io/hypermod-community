@@ -64,7 +64,7 @@ module.exports = {
           position: 'right',
         },
         {
-          href: 'https://github.com/CodeshiftCommunity/CodeshiftCommunity',
+          href: 'https://github.com/hypermod-io/hypermod-community',
           label: 'GitHub',
           position: 'right',
         },
@@ -111,7 +111,7 @@ module.exports = {
             },
             {
               label: 'Discussions',
-              href: 'https://github.com/CodeshiftCommunity/CodeshiftCommunity/discussions',
+              href: 'https://github.com/hypermod-io/hypermod-community/discussions',
             },
             {
               label: 'Stack Overflow',
@@ -128,11 +128,11 @@ module.exports = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/CodeshiftCommunity/CodeshiftCommunity',
+              href: 'https://github.com/hypermod-io/hypermod-community',
             },
             {
               label: 'Roadmap',
-              href: 'https://github.com/CodeshiftCommunity/CodeshiftCommunity/projects/1',
+              href: 'https://github.com/hypermod-io/hypermod-community/projects/1',
             },
           ],
         },
@@ -147,7 +147,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/CodeshiftCommunity/CodeshiftCommunity/edit/main/website/',
+            'https://github.com/hypermod-io/hypermod-community/edit/main/website/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

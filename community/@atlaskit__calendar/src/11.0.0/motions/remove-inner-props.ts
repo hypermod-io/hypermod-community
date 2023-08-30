@@ -3,7 +3,7 @@ import {
   insertCommentToStartOfFile,
   getDefaultImportSpecifierName,
   getJSXAttributes,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 const removeInnerProps = (j: core.JSCodeshift, source: Collection<Node>) => {
   const defaultSpecifier = getDefaultImportSpecifierName(

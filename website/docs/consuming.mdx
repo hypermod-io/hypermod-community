@@ -7,18 +7,18 @@ keywords:
   [codemod, consuming, refactor, codebase, development workflow, command line]
 ---
 
-Running codemods is made simple through our CLI tool, [@codeshift/cli](/docs/cli).
+Running codemods is made simple through our CLI tool, [@hypermod/cli](/docs/cli).
 
-> @codeshift/cli is responsible for running the provided transform against your entire codebase. Under the hood, it is a wrapper of jscodeshift's cli, which provides additional functionality
+> @hypermod/cli is responsible for running the provided transform against your entire codebase. Under the hood, it is a wrapper of jscodeshift's cli, which provides additional functionality
 
-For usage please refer to the [@codeshift/cli API reference](/docs/cli).
+For usage please refer to the [@hypermod/cli API reference](/docs/cli).
 
 ## How to run Community codemods
 
-To run a codeshift package, install and use the `@codeshift/cli`.
+To run a hypermod package, install and use the `@hypermod/cli`.
 
-- **npm:** `npm install -g @codeshift/cli` or
-- **yarn:** `yarn global add @codeshift/cli`
+- **npm:** `npm install -g @hypermod/cli` or
+- **yarn:** `yarn global add @hypermod/cli`
 
 For example, say we want to run transforms for `@mylib/button` and migrate from version 13 to the latest version 14, we could run the following:
 
@@ -28,9 +28,9 @@ codemod-cli --packages @mylib/button@14.0.0 project/path/to/src
 
 The following sequence of events will follow:
 
-1. `@codeshift/cli` will then attempt to download a codeshift package for the `@mylib/button` package matching version `14.0.0`
+1. `@hypermod/cli` will then attempt to download a Hypermod package for the `@mylib/button` package matching version `14.0.0`
 1. Download the package from NPM
-1. Locate the `codeshift.config.js`
+1. Locate the `hypermod.config.js`
 1. Attempt to find a `transform` for `14.0.0`
 1. Run the transform against the path `project/path/to/src`
 
@@ -38,7 +38,7 @@ The following sequence of events will follow:
 
 It's also possible to run a series of codemods, one after the other, to migrate your usage of `@mylib/button` across multiple major versions, from say v14, v15 and finally v16. Assuming codemods for those versions exist.
 
-This is done my providing the `--sequence` (or `-s`) flag to `@codeshift/cli`.
+This is done my providing the `--sequence` (or `-s`) flag to `@hypermod/cli`.
 
 ```
 codemod-cli --packages @mylib/button@14.0.0 --sequence project/path/to/src
@@ -57,8 +57,8 @@ codemod-cli --transform path/to/transform.ts project/path/to/src
 
 ## Parsing TypeScript & Flow
 
-By default `@codeshift/cli` will use `babel` as the default parser and only transform files with a `.js` extensions.
+By default `@hypermod/cli` will use `babel` as the default parser and only transform files with a `.js` extensions.
 
 If your repo depends on flow or typescript, it's important to remember to specify `ts`, `tsx` or `flow` as the `--parser` and or `jsx, ts, tsx` as `--extensions` to make sure jscodeshift can interpret the files properly.
 
-Please refer to the [@codeshift/cli API reference](/docs/cli) for more information.
+Please refer to the [@hypermod/cli API reference](/docs/cli) for more information.

@@ -19,7 +19,7 @@ function removeDeprecatedProps(j, source) {
 Motions can then be applied from the main transform, just like any other function.
 
 ```ts
-import { hasImportDeclaration } from '@codeshift/utils';
+import { hasImportDeclaration } from '@hypermod/utils';
 import removeDeprecatedProps from './motions/remove-deprecated-props';
 import restructureImports from './motions/restructure-imports';
 
@@ -39,7 +39,7 @@ Each motion receives a reference to the AST (`source`) which it can then manipul
 Alternatively, you can use the utility function [applyMotions](./utils#applymotionsj-source-motions) to run motions in sequence.
 
 ```ts
-import { applyMotions } from '@codeshift/utils';
+import { applyMotions } from '@hypermod/utils';
 import removeDeprecatedProps from './motions/remove-deprecated-props';
 import restructureImports from './motions/restructure-imports';
 

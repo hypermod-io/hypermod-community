@@ -1,5 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import { hasImportDeclaration } from '@codeshift/utils';
+import { hasImportDeclaration } from '@hypermod/utils';
 
 import elevateStateless from './motions/elevate-stateless';
 import renameToggleStateless from './motions/rename-togglestateless';

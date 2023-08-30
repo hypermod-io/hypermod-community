@@ -1,4 +1,4 @@
-import { applyTransform } from '@codeshift/test-utils';
+import { applyTransform } from '@hypermod/utils';
 import * as transformer from './transform';
 
 describe('react#rename-unsafe-lifecycles transform', () => {

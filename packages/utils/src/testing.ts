@@ -6,7 +6,7 @@ interface Options {
   parser?: Parser;
 }
 
-export default async function applyTransform(
+export async function applyTransform(
   transform: any,
   input: string | FileInfo,
   options: Options = {

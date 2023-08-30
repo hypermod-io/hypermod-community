@@ -2,9 +2,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import semver from 'semver';
 import * as recast from 'recast';
-import { version as cliVersion } from '@codeshift/cli/package.json';
-import { version as utilVersion } from '@codeshift/utils/package.json';
-import { version as testUtilVersion } from '@codeshift/test-utils/package.json';
+import { version as cliVersion } from '@hypermod/cli/package.json';
+import { version as utilVersion } from '@hypermod/utils/package.json';
 
 const TEMPLATE_PATH = path.join(__dirname, '..', 'template');
 
@@ -14,21 +13,20 @@ export function getPackageJson(packageName: string, version = '0.0.0') {
       name: packageName,
       version: version,
       license: 'MIT',
-      source: 'src/codeshift.config.js',
-      main: 'dist/codeshift.config.js',
+      source: 'src/hypermod.config.js',
+      main: 'dist/hypermod.config.js',
       scripts: {
-        dev: 'codeshift',
+        dev: 'hypermod',
         build: 'parcel build',
         test: 'jest --watch',
-        validate: 'codeshift validate .',
+        validate: 'hypermod validate .',
       },
       dependencies: {
-        '@codeshift/utils': `^${utilVersion}`,
+        '@hypermod/utils': `^${utilVersion}`,
         jscodeshift: '^0.13.1',
       },
       devDependencies: {
-        '@codeshift/cli': `^${cliVersion}`,
-        '@codeshift/test-utils': `^${testUtilVersion}`,
+        '@hypermod/cli': `^${cliVersion}`,
         '@types/jest': '^26.0.15',
         '@types/node': '^16.11.0',
         jest: '^26.6.0',
@@ -72,7 +70,7 @@ function updateConfig(
   transformName: string,
   type: 'version' | 'preset',
 ) {
-  const configPath = path.join(targetPath, 'codeshift.config.js');
+  const configPath = path.join(targetPath, 'hypermod.config.js');
   const source = fs.readFileSync(configPath, 'utf8');
   const ast = recast.parse(source);
   const b = recast.types.builders;
@@ -120,7 +118,7 @@ function updateConfig(
 }
 
 export function initConfig(packageName: string, targetPath = './') {
-  const configPath = path.join(targetPath, 'codeshift.config.js');
+  const configPath = path.join(targetPath, 'hypermod.config.js');
 
   if (!fs.existsSync(configPath)) {
     fs.mkdirSync(targetPath, { recursive: true });
@@ -141,7 +139,7 @@ export function initDirectory(
     path.join(targetPath, 'package.json'),
     getPackageJson(
       isReduced
-        ? `@codeshift/mod-${packageName.replace('/', '__').replace('@', '')}`
+        ? `@hypermod/mod-${packageName.replace('/', '__').replace('@', '')}`
         : packageName,
     ),
   );

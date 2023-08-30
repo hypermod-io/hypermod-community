@@ -1,4 +1,4 @@
-# @codeshift/initializer
+# @hypermod/initializer
 
 ## 0.4.9
 

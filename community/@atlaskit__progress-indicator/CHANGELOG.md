@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_progress-indicator
+# @hypermod/mod-atlaskit\_\_progress-indicator
 
 ## 0.2.0
 

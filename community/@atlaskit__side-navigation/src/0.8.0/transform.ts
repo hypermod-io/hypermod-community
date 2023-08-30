@@ -5,7 +5,7 @@ import {
   getImportSpecifierName,
   hasImportDeclaration,
   getJSXAttributes,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 function insertCommentBeforeJSX(
   j: core.JSCodeshift,
@@ -18,7 +18,7 @@ function insertCommentBeforeJSX(
       .replace(/^[ \t]*/gm, '')
       .trim();
   }
-  const content = `\nTODO: (@codeshift) ${clean(message)}\n`;
+  const content = `\nTODO: (@hypermod) ${clean(message)}\n`;
   const comment = j.commentBlock(content, false, true);
 
   element.insertBefore(comment);

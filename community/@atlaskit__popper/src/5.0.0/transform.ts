@@ -1,5 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import { hasImportDeclaration, getImportSpecifierName } from '@codeshift/utils';
+import { hasImportDeclaration, getImportSpecifierName } from '@hypermod/utils';
 
 import updateRenderProps from './motions/update-render-props';
 import updateOffset from './motions/update-offset';

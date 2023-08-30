@@ -13,7 +13,7 @@ import {
   insertCommentBefore,
   getDefaultImportSpecifierName,
   getJSXAttributes,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 import {
   ACTIONS_PROP_NAME,

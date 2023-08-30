@@ -1,4 +1,4 @@
-# @codeshift/utils
+# @hypermod/utils
 
 ## 0.2.5
 

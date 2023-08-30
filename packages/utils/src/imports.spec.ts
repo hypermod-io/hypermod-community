@@ -1,5 +1,6 @@
 import { API, FileInfo } from 'jscodeshift';
-import { applyTransform } from '@codeshift/test-utils';
+import { applyTransform } from '@hypermod/utils';
+
 import * as importUtils from './imports';
 
 describe('imports', () => {

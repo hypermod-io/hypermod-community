@@ -16,7 +16,7 @@ function transformer(
 }
 
 const themeToDoComment = `
-/* TODO: (@codeshift) This file uses the @atlaskit/textfield \`theme\` prop which
+/* TODO: (@hypermod) This file uses the @atlaskit/textfield \`theme\` prop which
     has now been removed due to its poor performance characteristics. We have not replaced
     theme with an equivalent API due to minimal usage of the \`theme\` prop.
     The appearance of TextField will have likely changed. */`;

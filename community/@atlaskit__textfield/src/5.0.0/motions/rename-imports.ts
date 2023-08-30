@@ -1,5 +1,5 @@
 import core, { Collection } from 'jscodeshift';
-import { getImportDeclaration, getImportSpecifierName } from '@codeshift/utils';
+import { getImportDeclaration, getImportSpecifierName } from '@hypermod/utils';
 
 function getSafeImportName(
   j: core.JSCodeshift,

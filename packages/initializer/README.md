@@ -1,3 +1,3 @@
-# @codeshift/initializer
+# @hypermod/initializer
 
-Codegens codeshift packages
+Codegens Hypermod packages

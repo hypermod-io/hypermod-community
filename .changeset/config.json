@@ -3,5 +3,6 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "access": "public",
-  "baseBranch": "main"
+  "baseBranch": "main",
+  "fixed": [["@hypermod/cli", "@codeshift/cli"]]
 }

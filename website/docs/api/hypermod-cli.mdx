@@ -1,19 +1,19 @@
 ---
 id: cli
-title: codeshift/cli
+title: hypermod/cli
 slug: /cli
 ---
 
-To download and run codemods, we provide a CLI tool called `@codeshift/cli`.
+To download and run codemods, we provide a CLI tool called `@hypermod/cli`.
 
-`@codeshift/cli` is responsible for running the provided transform against your entire codebase.
+`@hypermod/cli` is responsible for running the provided transform against your entire codebase.
 Under the hood, it is a wrapper of jscodeshift's CLI, which provides additional functionality
 
 1. Ability to run community codemods hosted on npm
 2. Runs versioned codemods in sequence
 3. Always runs the latest version of a codemod
 
-The CLI allows you to run transforms either from the [the public registry](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community) or on your local machine as per the original implementation of jscodeshift
+The CLI allows you to run transforms either from the [the public registry](https://github.com/hypermod-io/hypermod-community/tree/main/community) or on your local machine as per the original implementation of jscodeshift
 
 **Note:** Codemods will be designed to do the heavy lifting, but they'll often not be perfect so some manual work may still be required in order to successfully migrate.
 
@@ -21,11 +21,11 @@ The CLI allows you to run transforms either from the [the public registry](https
 
 We recommend running the CLI with `$ npx` to ensure you always have the latest version.
 
-`$ npx @codeshift/cli --packages mylib@1.0.0 /project/src`
+`$ npx @hypermod/cli --packages mylib@1.0.0 /project/src`
 
 But it can also be installed globally:
 
-`$ npm install -g @codeshift/cli` or `yarn global add @codeshift/cli`
+`$ npm install -g @hypermod/cli` or `yarn global add @hypermod/cli`
 
 and run with:
 
@@ -42,7 +42,7 @@ For running codemods as an end-user it's recommend to use the `--packages` flag,
 In special cases, codeshift package authors may choose to also expose codemod "presets", which can be considered as utility codemods for that package. Presets are also run via the `--packages` flag like so: `--packages react#remove-spread-props`.
 Notice that we have switched to a hash `#` here to denote that we want to run a preset.
 
-Codeshift will then attempt to locate codemods from both [the public registry](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community) and the primary npm package ie [React – NPM](https://www.npmjs.com/package/react).
+Codeshift will then attempt to locate codemods from both [the public registry](https://github.com/hypermod-io/hypermod-community/tree/main/community) and the primary npm package ie [React – NPM](https://www.npmjs.com/package/react).
 (Note: Some packages wont have any codemods, you can use the [list](#list) subcommand to check if they exist.)
 
 Lastly, when authoring a package, it's possible to test your transforms by omitting both the `--packages` and `--transform` flags. In this interactive mode, the `codeshift/cli` will attempt to locate
@@ -79,9 +79,9 @@ Allows you to execute local transform file(s).
 
 **example:**
 
-- `$ codeshift --transform codemods/my-special-mod /project/src/file.js`
-- `$ codeshift --transform codemods/my-special-mod/index.ts /project/src/file.js`
-- `$ codeshift --transform path/to/transform1.ts,path/to/transform2.ts,path/to/transform3.ts /project/src/file.js`
+- `$ hypermod --transform codemods/my-special-mod /project/src/file.js`
+- `$ hypermod --transform codemods/my-special-mod/index.ts /project/src/file.js`
+- `$ hypermod --transform path/to/transform1.ts,path/to/transform2.ts,path/to/transform3.ts /project/src/file.js`
 
 ### --packages
 
@@ -89,8 +89,8 @@ Runs transforms for the specified comma separated list of packages, optionally i
 
 **example:**
 
-- `$ codeshift --packages @atlaskit/button /project/src`
-- `$ codeshift --packages @atlaskit/button@3.0.0,@atlaskit/range@4.0.0 /project/src`
+- `$ hypermod --packages @atlaskit/button /project/src`
+- `$ hypermod --packages @atlaskit/button@3.0.0,@atlaskit/range@4.0.0 /project/src`
 
 ### --parser, -p
 
@@ -112,8 +112,8 @@ tsx is a superset of JavaScript + JSX and should be the most sensible default fo
 
 **example:**
 
-- `$ codeshift --parser tsx /project/src/file.ts`
-- `$ codeshift -p babel /project/src/file.js`
+- `$ hypermod --parser tsx /project/src/file.ts`
+- `$ hypermod -p babel /project/src/file.js`
 
 ### --extensions, -e
 
@@ -125,8 +125,8 @@ Transform files with these file extensions (comma separated list).
 
 **example:**
 
-- `$ codeshift --extensions ts,tsx /project/src/file.js`
-- `$ codeshift -e js /project/src/file.js`
+- `$ hypermod --extensions ts,tsx /project/src/file.js`
+- `$ hypermod -e js /project/src/file.js`
 
 ### --sequence, -s
 

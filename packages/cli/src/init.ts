@@ -4,7 +4,7 @@ import {
   initConfig,
   initDirectory,
   initTransform,
-} from '@codeshift/initializer';
+} from '@hypermod/initializer';
 
 export default async function init(
   transform?: string,

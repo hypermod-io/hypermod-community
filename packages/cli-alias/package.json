@@ -1,0 +1,24 @@
+{
+  "name": "@codeshift/cli",
+  "version": "0.15.6",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/cli-alias",
+  "bin": {
+    "codeshift": "./bin/codeshift-cli.js",
+    "codeshift-cli": "./bin/codeshift-cli.js"
+  },
+  "scripts": {
+    "start": "./bin/codeshift-cli.js",
+    "start:dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "@hypermod/cli": "^0.15.6",
+    "ts-node": "^10.9.1"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

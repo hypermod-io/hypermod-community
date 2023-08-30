@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_calendar
+# @hypermod/mod-atlaskit\_\_calendar
 
 ## 0.2.0
 

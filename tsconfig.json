@@ -5,7 +5,8 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@codeshift/*": ["../packages/*/src"]
+      "@hypermod/*": ["../packages/*/src"],
+      "@hypermod/*": ["../packages/*/src"]
     }
   },
   "include": ["packages/**/*", "community/**/*", "scripts"],

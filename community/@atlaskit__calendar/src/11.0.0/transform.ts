@@ -1,5 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import { applyMotions, hasImportDeclaration } from '@codeshift/utils';
+import { applyMotions, hasImportDeclaration } from '@hypermod/utils';
 
 import flattenCertainInnerProps from './motions/flatten-certain-inner-props';
 import removeInnerProps from './motions/remove-inner-props';

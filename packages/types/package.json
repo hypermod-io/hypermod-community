@@ -1,9 +1,9 @@
 {
-  "name": "@codeshift/types",
+  "name": "@hypermod/types",
   "version": "0.0.7",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
-  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/types"
+  "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/types"
 }

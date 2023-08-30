@@ -1,6 +1,6 @@
 jest.autoMockOff();
 
-import { applyTransform } from '@codeshift/test-utils';
+import { applyTransform } from '@hypermod/utils';
 import * as transformer from '../transform';
 
 const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;

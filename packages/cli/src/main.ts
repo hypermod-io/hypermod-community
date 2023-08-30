@@ -6,9 +6,9 @@ import findUp from 'find-up';
 import inquirer from 'inquirer';
 import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
 
-import * as core from '@codeshift/core';
-import { CodeshiftConfig } from '@codeshift/types';
-import { fetchConfigAtPath, fetchConfigs } from '@codeshift/fetcher';
+import * as core from '@hypermod/core';
+import { CodeshiftConfig } from '@hypermod/types';
+import { fetchConfigAtPath, fetchConfigs } from '@hypermod/fetcher';
 
 import { InvalidUserInputError } from './errors';
 import { fetchPackages } from './utils/fetch-package';

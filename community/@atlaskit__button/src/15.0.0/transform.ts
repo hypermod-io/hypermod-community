@@ -12,7 +12,7 @@ import {
   insertImportSpecifier,
   getDefaultImportSpecifierName,
   removeDefaultImportSpecifier,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 function tryCreateImport(
   j: core.JSCodeshift,

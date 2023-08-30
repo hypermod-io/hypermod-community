@@ -1,4 +1,4 @@
-# @codeshift/mod-javascript
+# @hypermod/mod-javascript
 
 ## 0.2.0
 

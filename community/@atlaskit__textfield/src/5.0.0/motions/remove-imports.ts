@@ -3,7 +3,7 @@ import {
   insertCommentToStartOfFile,
   getImportDeclaration,
   hasImportDeclaration,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 export const removeThemeImports = (
   j: core.JSCodeshift,

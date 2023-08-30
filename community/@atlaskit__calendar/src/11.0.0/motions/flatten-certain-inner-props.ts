@@ -2,7 +2,7 @@ import core, { Collection, Node, ObjectExpression } from 'jscodeshift';
 import {
   getJSXAttributes,
   getDefaultImportSpecifierName,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 const flattenCertainChildProps = (
   j: core.JSCodeshift,

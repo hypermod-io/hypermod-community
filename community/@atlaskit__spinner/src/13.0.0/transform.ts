@@ -6,7 +6,7 @@ import {
   removeJSXAttributes,
   getImportDeclaration,
   getDefaultImportSpecifierName,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 // Changing `SpinnerSizes` type to `Size`
 function changeTypeName(j: core.JSCodeshift, source: Collection) {

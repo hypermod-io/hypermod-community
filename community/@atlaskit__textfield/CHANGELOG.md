@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_textfield
+# @hypermod/mod-atlaskit\_\_textfield
 
 ## 0.2.0
 

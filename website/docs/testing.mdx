@@ -20,7 +20,7 @@ We'll also discuss best practices for writing effective tests that can help you 
 It's very likely that consumers will run into all sorts of edge-cases when running your codemod. That's why it's important to always start by writing tests (TDD style) to assert its behavior.
 Think about a start and end state. How you might be able to achieve that? What edge-cases can potentially arise?
 
-CodeshiftCommunity (and [jscodeshift](https://github.com/facebook/jscodeshift#unit-testing)) exposes [testing utilities](/docs/test-utils) to help.
+CodeshiftCommunity (and [jscodeshift](https://github.com/facebook/jscodeshift#unit-testing)) exposes [testing utilities](/docs/utils) to help.
 
 > Codemods are a textbook example of where TDD works. You have an input file, you run the script and you get output. Thus I would really recommend using TDD for codemod projects.
 > Not only does it make codemods more stable, but having projects with test workflow setup, will help you learn.
@@ -30,7 +30,7 @@ CodeshiftCommunity (and [jscodeshift](https://github.com/facebook/jscodeshift#un
 
 ## Folder structure
 
-If you're planning to publish a codemod to [the public registry](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community), follow the [Authoring guide](/docs/authoring#initializing).
+If you're planning to publish a codemod to [the public registry](https://github.com/hypermod-io/hypermod-community/tree/main/community), follow the [Authoring guide](/docs/authoring#initializing).
 
 Once you've initialized, your file structure should look something like this:
 
@@ -43,11 +43,12 @@ community/[package-name]/[version]
 ## An example
 
 To give an example, consider you're trying to write a codemod that removes deprecated props from a component.
-In this case, you would be able to write a simple test using `jest` & `@codeshift/test-utils` like so..
+In this case, you would be able to write a simple test using `jest` & `@hypermod/utils` like so..
 
 ```jsx
+import { applyTransform } from '@hypermod/utils';
+
 import * as transformer from '../transform';
-import { applyTransform } from '@codeshift/test-utils';
 
 it('should remove all deleted props', async () => {
   const result = await applyTransform(

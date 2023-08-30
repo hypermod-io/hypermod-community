@@ -92,7 +92,10 @@ export default function transformer(file, { jscodeshift: j }, options) {
       element.node.openingElement.attributes = [
         ...element.node.openingElement.attributes,
         // build and insert our new prop
-        j.jsxAttribute(j.jsxIdentifier('className'), j.stringLiteral('helloWorld')),
+        j.jsxAttribute(
+          j.jsxIdentifier('className'),
+          j.stringLiteral('helloWorld'),
+        ),
       ];
     });
 
@@ -339,8 +342,6 @@ const Button = () => {
 
 ## JSX
 
-
-
 ### Wrapping components
 
 Wrapping react components with react components is a fairly common operation.
@@ -473,7 +474,7 @@ This might seem difficult on the surface, but think about it like every other co
 **Transform:**
 
 ```javascript
-import { getJSXAttributes } from '@codeshift/utils';
+import { getJSXAttributes } from '@hypermod/utils';
 
 export default function transformer(file, { jscodeshift: j }, options) {
   const source = j(file.source);

@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_menu
+# @hypermod/mod-atlaskit\_\_menu
 
 ## 0.2.0
 

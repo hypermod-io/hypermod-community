@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_section-message
+# @hypermod/mod-atlaskit\_\_section-message
 
 ## 0.2.0
 

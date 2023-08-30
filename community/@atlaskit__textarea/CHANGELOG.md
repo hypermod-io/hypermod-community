@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_textarea
+# @hypermod/mod-atlaskit\_\_textarea
 
 ## 0.2.0
 

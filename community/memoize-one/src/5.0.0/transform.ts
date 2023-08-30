@@ -2,7 +2,7 @@ import {
   hasImportDeclaration,
   getDefaultImportSpecifierName,
   insertCommentToStartOfFile,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
 
 export default function transformer(

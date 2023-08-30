@@ -56,7 +56,7 @@ module.exports = {
       type: 'category',
       collapsible: false,
       collapsed: false,
-      items: ['api/cli', 'api/utils', 'api/test-utils'],
+      items: ['api/cli', 'api/utils'],
     },
   ],
   registry: [

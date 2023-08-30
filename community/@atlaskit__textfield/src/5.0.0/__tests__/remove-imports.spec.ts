@@ -16,7 +16,7 @@ function transformer(
 }
 
 const importToDoComment = `
-/* TODO: (@codeshift) This file uses exports used to help theme @atlaskit/textfield which
+/* TODO: (@hypermod) This file uses exports used to help theme @atlaskit/textfield which
     has now been removed due to its poor performance characteristics. */`;
 
 describe('Remove imports', () => {

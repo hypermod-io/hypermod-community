@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 
-import { CodeshiftConfig } from '@codeshift/types';
+import { CodeshiftConfig } from '@hypermod/types';
 
 export const getConfigPrompt = (config: CodeshiftConfig) => {
   const transforms = Object.keys(config.transforms || {});

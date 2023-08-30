@@ -1,4 +1,4 @@
-import { applyTransform } from '@codeshift/test-utils';
+import { applyTransform } from '@hypermod/utils';
 import * as transformer from './transform';
 import prettier from 'prettier';
 
@@ -179,7 +179,7 @@ describe('memoize-one@5.0.0 transform', () => {
 
     expect(result).toEqual(
       format(`
-        /* TODO: (@codeshift) Unable to migrate memoize-one custom equality function.
+        /* TODO: (@hypermod) Unable to migrate memoize-one custom equality function.
 Expected a function or an identifier */
         import memoize from 'memoize-one';
 

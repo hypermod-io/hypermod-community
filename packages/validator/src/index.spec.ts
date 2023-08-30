@@ -1,7 +1,7 @@
 jest.mock('fs-extra');
-jest.mock('@codeshift/fetcher');
+jest.mock('@hypermod/fetcher');
 
-import { fetchConfig } from '@codeshift/fetcher';
+import { fetchConfig } from '@hypermod/fetcher';
 
 import { isValidPackageName, isValidConfig, isValidConfigAtPath } from '.';
 

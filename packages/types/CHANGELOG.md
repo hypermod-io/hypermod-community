@@ -1,4 +1,4 @@
-# @codeshift/types
+# @hypermod/types
 
 ## 0.0.7
 

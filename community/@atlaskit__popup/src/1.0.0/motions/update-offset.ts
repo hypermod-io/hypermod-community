@@ -1,6 +1,6 @@
 import core, { ASTPath, JSXElement, Collection } from 'jscodeshift';
 
-import { getJSXAttributes, insertCommentToStartOfFile } from '@codeshift/utils';
+import { getJSXAttributes, insertCommentToStartOfFile } from '@hypermod/utils';
 
 export default function updateOffset(
   j: core.JSCodeshift,

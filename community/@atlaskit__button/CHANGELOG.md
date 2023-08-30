@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_button
+# @hypermod/mod-atlaskit\_\_button
 
 ## 0.2.0
 

@@ -3,7 +3,7 @@ import path from 'path';
 import globby from 'globby';
 import { PluginManager } from 'live-plugin-manager';
 
-import { CodeshiftConfig } from '@codeshift/types';
+import { CodeshiftConfig } from '@hypermod/types';
 
 export interface ConfigMeta {
   filePath: string;

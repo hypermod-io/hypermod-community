@@ -5,7 +5,7 @@ import core, {
   Collection,
 } from 'jscodeshift';
 
-import { hasImportDeclaration, getImportDeclaration } from '@codeshift/utils';
+import { hasImportDeclaration, getImportDeclaration } from '@hypermod/utils';
 
 function addToImport({
   j,
