@@ -1,6 +1,6 @@
 {
   "name": "@hypermod/mod-javascript",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "source": "src/hypermod.config.js",
   "main": "dist/hypermod.config.js",
@@ -11,13 +11,13 @@
     "validate": "hypermod validate ."
   },
   "dependencies": {
-    "@hypermod/utils": "^0.2.3",
+    "@hypermod/utils": "^0.3.0",
     "@putout/plugin-remove-unused-variables": "^5.1.0",
     "jscodeshift": "^0.13.1",
     "putout": "^29.5.1"
   },
   "devDependencies": {
-    "@hypermod/cli": "^0.15.0",
+    "@hypermod/cli": "^0.16.0",
     "@types/jest": "^29.0.0",
     "@types/node": "^16.11.0",
     "jest": "^29.0.0",

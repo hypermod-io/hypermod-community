@@ -1,5 +1,27 @@
 # @hypermod/cli
 
+## 0.16.0
+
+### Minor Changes
+
+- aa62194: This package has moved scopes from `@codeshift` to `@hypermod`. All internal `@codeshift` dependencies and references have been updated as a result.
+- aa62194: This package has been renamed to `@hypermod/cli`.
+
+  No API changes were performed as part of this change, use `@hypermod/cli` as a direct replacement the package has simply been renamed.
+
+  It can now be run via `$ hypermod` or `$ hypermod-cli` or `$ npx @hypermod/cli`.
+
+  The alias package `@codeshift/cli` will continue to exist as a way for existing users to continue to receive updates **but will be removed in the future**.
+
+### Patch Changes
+
+- Updated dependencies [aa62194]
+  - @hypermod/initializer@0.5.0
+  - @hypermod/validator@0.6.0
+  - @hypermod/fetcher@0.4.0
+  - @hypermod/types@0.1.0
+  - @hypermod/core@0.2.0
+
 ## 0.15.6
 
 ### Patch Changes
