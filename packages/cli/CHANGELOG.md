@@ -1,5 +1,11 @@
 # @hypermod/cli
 
+## 0.18.1
+
+### Patch Changes
+
+- 39cbbd9: Locks verison of find-up to one that is pre-ESM migration
+
 ## 0.18.0
 
 ### Minor Changes
