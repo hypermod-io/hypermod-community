@@ -1,5 +1,16 @@
 # @codeshift/cli
 
+## 0.18.0
+
+### Minor Changes
+
+- 591915e: revert ESM migration
+
+### Patch Changes
+
+- Updated dependencies [591915e]
+  - @hypermod/cli@0.18.0
+
 ## 0.17.0
 
 ### Minor Changes
