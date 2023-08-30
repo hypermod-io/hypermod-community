@@ -1,5 +1,11 @@
 # @hypermod/cli
 
+## 0.18.0
+
+### Minor Changes
+
+- 591915e: revert ESM migration
+
 ## 0.17.0
 
 ### Minor Changes
