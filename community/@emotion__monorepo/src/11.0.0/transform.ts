@@ -1,8 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import {
-  hasImportDeclaration,
-  renameImportDeclaration,
-} from '@codeshift/utils';
+import { hasImportDeclaration, renameImportDeclaration } from '@hypermod/utils';
 
 const importMap = {
   '@emotion/core': '@emotion/react',

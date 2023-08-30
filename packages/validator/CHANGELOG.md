@@ -1,4 +1,4 @@
-# @codeshift/validator
+# @hypermod/validator
 
 ## 0.5.1
 

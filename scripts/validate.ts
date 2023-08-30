@@ -2,10 +2,10 @@ import fs, { lstatSync, existsSync } from 'fs-extra';
 import junk from 'junk';
 import path from 'path';
 import chalk from 'chalk';
-import { isValidPackageName, isValidConfigAtPath } from '@codeshift/validator';
+import { isValidPackageName, isValidConfigAtPath } from '@hypermod/validator';
 
 const validPackageNameFormat =
-  /^@codeshift\/mod(-[a-zA-Z0-9]+)*(-(?!__)[a-zA-Z0-9]+)*(__([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)?)?$/;
+  /^@hypermod\/mod(-[a-zA-Z0-9]+)*(-(?!__)[a-zA-Z0-9]+)*(__([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)?)?$/;
 
 function isValidPackageJson(basePath: string) {
   const pkgJsonPath = path.join(basePath, 'package.json');
@@ -17,7 +17,7 @@ function isValidPackageJson(basePath: string) {
   if (!validPackageNameFormat.test(pkgJson.name)) {
     throw new Error(`Invalid package name: ${pkgJson.name} in: ${pkgJsonPath}.
 If this is a scoped package, please make sure rename the folder to use the "__" characters to denote submodule.
-For example: @codeshift/mod-foo__bar`);
+For example: @hypermod/mod-foo__bar`);
   }
 
   if (pkgJson.name === 'dist/codeshift.config.js') {

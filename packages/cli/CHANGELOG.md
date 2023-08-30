@@ -1,4 +1,4 @@
-# @codeshift/cli
+# @hypermod/cli
 
 ## 0.15.6
 

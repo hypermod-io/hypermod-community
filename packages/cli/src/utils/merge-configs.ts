@@ -1,4 +1,4 @@
-import { ConfigMeta } from '@codeshift/fetcher';
+import { ConfigMeta } from '@hypermod/fetcher';
 
 interface TransformedConfig {
   transforms: Record<string, string>;

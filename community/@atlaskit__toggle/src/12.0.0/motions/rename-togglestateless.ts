@@ -2,7 +2,7 @@ import core, { ASTPath, Collection, Identifier } from 'jscodeshift';
 import {
   getImportDeclaration,
   getDefaultImportSpecifierName,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 function getSafeImportName(
   j: core.JSCodeshift,

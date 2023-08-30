@@ -1,5 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import { applyMotions, hasImportDeclaration } from '@codeshift/utils';
+import { applyMotions, hasImportDeclaration } from '@hypermod/utils';
 
 import { removeThemeImports } from './motions/remove-imports';
 import {

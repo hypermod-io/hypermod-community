@@ -2,7 +2,7 @@ import { API, FileInfo, Options } from 'jscodeshift';
 import {
   getDefaultImportSpecifierName,
   getJSXAttributes,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 export default function transformer(
   fileInfo: FileInfo,

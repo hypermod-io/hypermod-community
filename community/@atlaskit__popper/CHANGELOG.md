@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_popper
+# @hypermod/mod-atlaskit\_\_popper
 
 ## 0.2.0
 

@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_spinner
+# @hypermod/mod-atlaskit\_\_spinner
 
 ## 0.2.0
 

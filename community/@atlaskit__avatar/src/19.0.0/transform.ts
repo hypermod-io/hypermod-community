@@ -5,7 +5,7 @@ import {
   getJSXAttributes,
   hasImportDeclaration,
   getDefaultImportSpecifierName,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 function wrapChildrenProp(
   j: core.JSCodeshift,

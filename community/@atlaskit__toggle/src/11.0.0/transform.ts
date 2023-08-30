@@ -3,7 +3,7 @@ import {
   getDefaultImportSpecifierName,
   hasImportDeclaration,
   getJSXAttributes,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 function findIdentifierAndReplaceAttribute(
   j: core.JSCodeshift,

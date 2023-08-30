@@ -1,5 +1,5 @@
 import core from 'jscodeshift';
-import { getImportDeclaration } from '@codeshift/utils';
+import { getImportDeclaration } from '@hypermod/utils';
 
 const elevateStateless = (j: core.JSCodeshift, root: any) => {
   getImportDeclaration(j, root, '@atlaskit/toggle').forEach(path => {

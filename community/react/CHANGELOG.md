@@ -1,4 +1,4 @@
-# @codeshift/mod-react
+# @hypermod/mod-react
 
 ## 0.2.0
 

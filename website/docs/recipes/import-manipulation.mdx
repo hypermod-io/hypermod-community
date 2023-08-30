@@ -29,7 +29,7 @@ The anatomy of an `ImportDeclaration` includes:
   - `ImportSpecifier`: `useEffect`
 - A `source` which can either be a module name or path: `react`
 
-**Note: `@codeshift/utils` provides utilities for import manipulation, please see the docs**
+**Note: `@hypermod/utils` provides utilities for import manipulation, please see the docs**
 
 ### Finding an import declaration
 
@@ -196,17 +196,18 @@ export default function transformer(file, { jscodeshift: j }, options) {
     .find(j.ImportDeclaration) // Find all nodes that match a type of `ImportDeclaration`
     .filter(path => path.node.source.value === 'react'); // Filter imports by source equal to the target ie "react"
 
-  reactImports.forEach((
-    reactImport, // Iterate over react imports
-  ) =>
-    // Replace the existing node with a new one
-    j(reactImport).replaceWith(
-      // Build a new import declaration node based on the existing one
-      j.importDeclaration(
-        reactImport.node.specifiers, // copy over the existing import specificers
-        j.stringLiteral('hot-new-library'), // Replace the source with our new source
+  reactImports.forEach(
+    (
+      reactImport, // Iterate over react imports
+    ) =>
+      // Replace the existing node with a new one
+      j(reactImport).replaceWith(
+        // Build a new import declaration node based on the existing one
+        j.importDeclaration(
+          reactImport.node.specifiers, // copy over the existing import specificers
+          j.stringLiteral('hot-new-library'), // Replace the source with our new source
+        ),
       ),
-    ),
   );
 
   return source.toSource();

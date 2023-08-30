@@ -1,5 +1,5 @@
 import { API, FileInfo, Options } from 'jscodeshift';
-import { hasImportDeclaration, applyMotions } from '@codeshift/utils';
+import { hasImportDeclaration, applyMotions } from '@hypermod/utils';
 
 import elevateStatelessToDefault from './motions/elevate-stateless-to-default';
 import removeHasSeparator from './motions/remove-has-separator';

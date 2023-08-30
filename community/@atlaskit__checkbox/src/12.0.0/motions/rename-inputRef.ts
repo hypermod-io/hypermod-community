@@ -1,5 +1,5 @@
 import core, { Node, Collection } from 'jscodeshift';
-import { getImportSpecifierName, getJSXAttributes } from '@codeshift/utils';
+import { getImportSpecifierName, getJSXAttributes } from '@hypermod/utils';
 
 function hasVariableAssignment(
   j: core.JSCodeshift,

@@ -323,7 +323,7 @@ describe('Convert offset props', () => {
     );
     `,
     expected: `
-    /* TODO: (@codeshift) Popper.js has been upgraded from 1.14.1 to 2.4.2,
+    /* TODO: (@hypermod) Popper.js has been upgraded from 1.14.1 to 2.4.2,
     and as a result the offset prop has changed to be an array. e.g '0px 8px' -> [0, 8]
     Along with this change you cannot use vw, vh or % units or addition or multiplication
     Change the offset value to use pixel values
@@ -372,7 +372,7 @@ describe('Convert offset props', () => {
     }
     `,
     expected: `
-    /* TODO: (@codeshift) Popper.js has been upgraded from 1.14.1 to 2.4.2, and as a result the offset
+    /* TODO: (@hypermod) Popper.js has been upgraded from 1.14.1 to 2.4.2, and as a result the offset
     prop has changed to be an array. e.g '0px 8px' -> [0, 8]
     As you are using a variable, you will have change the offset prop manually
     Further details can be found in the popper docs https://popper.js.org/docs/v2/modifiers/offset/ */

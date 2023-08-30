@@ -93,7 +93,7 @@ describe('@atlaskit/checkbox@12.0.0 transform', () => {
         }
       `,
     `
-        /* TODO: (@codeshift) This file uses exports used to help theme @atlaskit/checkbox which
+        /* TODO: (@hypermod) This file uses exports used to help theme @atlaskit/checkbox which
         has now been removed due to its poor performance characteristics. We have not replaced
         theme with an equivalent API due to minimal usage of the theming.
         The appearance of Checkbox will have likely changed. */
@@ -122,7 +122,7 @@ describe('@atlaskit/checkbox@12.0.0 transform', () => {
         }
       `,
     `
-        /* TODO: (@codeshift) This file uses exports used to help theme @atlaskit/checkbox which
+        /* TODO: (@hypermod) This file uses exports used to help theme @atlaskit/checkbox which
         has now been removed due to its poor performance characteristics. We have not replaced
         theme with an equivalent API due to minimal usage of the theming.
         The appearance of Checkbox will have likely changed. */
@@ -293,7 +293,7 @@ describe('Remove props', () => {
         }
       `,
     `
-        /* TODO: (@codeshift) This file uses the @atlaskit/checkbox \`overrides\` prop
+        /* TODO: (@hypermod) This file uses the @atlaskit/checkbox \`overrides\` prop
         which has now been removed due to its poor performance characteristics. We have not
         replaced overrides with an equivalent API and the overrides pattern exposes internal
         implementation detail as public API and makes it harder for you to upgrade. The appearance
@@ -326,7 +326,7 @@ describe('Remove props', () => {
         }
       `,
     `
-        /* TODO: (@codeshift) This file uses the @atlaskit/checkbox \`theme\` prop which
+        /* TODO: (@hypermod) This file uses the @atlaskit/checkbox \`theme\` prop which
         has now been removed due to its poor performance characteristics. We have not replaced
         theme with an equivalent API due to minimal usage of the \`theme\` prop. However if you
         were using theme to customise the size of the checkbox there is now a \`size\` prop.
@@ -371,12 +371,12 @@ describe('Remove props', () => {
         }
       `,
     `
-        /* TODO: (@codeshift) This file uses the @atlaskit/checkbox \`overrides\` prop
+        /* TODO: (@hypermod) This file uses the @atlaskit/checkbox \`overrides\` prop
         which has now been removed due to its poor performance characteristics. We have not
         replaced overrides with an equivalent API and the overrides pattern exposes internal
         implementation detail as public API and makes it harder for you to upgrade. The appearance
         of Checkbox will have likely changed. */
-        /* TODO: (@codeshift) This file uses the @atlaskit/checkbox \`theme\` prop which
+        /* TODO: (@hypermod) This file uses the @atlaskit/checkbox \`theme\` prop which
         has now been removed due to its poor performance characteristics. We have not replaced
         theme with an equivalent API due to minimal usage of the \`theme\` prop. However if you
         were using theme to customise the size of the checkbox there is now a \`size\` prop.
@@ -424,16 +424,16 @@ describe('Remove props', () => {
           }
         `,
     `
-          /* TODO: (@codeshift) This file uses exports used to help theme @atlaskit/checkbox which
+          /* TODO: (@hypermod) This file uses exports used to help theme @atlaskit/checkbox which
           has now been removed due to its poor performance characteristics. We have not replaced
           theme with an equivalent API due to minimal usage of the theming.
           The appearance of Checkbox will have likely changed. */
-          /* TODO: (@codeshift) This file uses the @atlaskit/checkbox \`overrides\` prop
+          /* TODO: (@hypermod) This file uses the @atlaskit/checkbox \`overrides\` prop
           which has now been removed due to its poor performance characteristics. We have not
           replaced overrides with an equivalent API and the overrides pattern exposes internal
           implementation detail as public API and makes it harder for you to upgrade. The appearance
           of Checkbox will have likely changed. */
-          /* TODO: (@codeshift) This file uses the @atlaskit/checkbox \`theme\` prop which
+          /* TODO: (@hypermod) This file uses the @atlaskit/checkbox \`theme\` prop which
           has now been removed due to its poor performance characteristics. We have not replaced
           theme with an equivalent API due to minimal usage of the \`theme\` prop. However if you
           were using theme to customise the size of the checkbox there is now a \`size\` prop.
@@ -472,7 +472,7 @@ describe('Remove props', () => {
         }
       `,
     `
-        /* TODO: (@codeshift) This file uses the @atlaskit/checkbox \`theme\` prop which
+        /* TODO: (@hypermod) This file uses the @atlaskit/checkbox \`theme\` prop which
         has now been removed due to its poor performance characteristics. We have not replaced
         theme with an equivalent API due to minimal usage of the \`theme\` prop. However if you
         were using theme to customise the size of the checkbox there is now a \`size\` prop.
@@ -522,12 +522,12 @@ describe('Remove props', () => {
         }
       `,
     `
-        /* TODO: (@codeshift) This file uses the @atlaskit/checkbox \`overrides\` prop
+        /* TODO: (@hypermod) This file uses the @atlaskit/checkbox \`overrides\` prop
         which has now been removed due to its poor performance characteristics. We have not
         replaced overrides with an equivalent API and the overrides pattern exposes internal
         implementation detail as public API and makes it harder for you to upgrade. The appearance
         of Checkbox will have likely changed. */
-        /* TODO: (@codeshift) This file uses the @atlaskit/checkbox \`theme\` prop which
+        /* TODO: (@hypermod) This file uses the @atlaskit/checkbox \`theme\` prop which
         has now been removed due to its poor performance characteristics. We have not replaced
         theme with an equivalent API due to minimal usage of the \`theme\` prop. However if you
         were using theme to customise the size of the checkbox there is now a \`size\` prop.

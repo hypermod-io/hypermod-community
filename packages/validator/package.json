@@ -1,14 +1,14 @@
 {
-  "name": "@codeshift/validator",
+  "name": "@hypermod/validator",
   "version": "0.5.1",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
-  "repository": "https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/packages/validator",
+  "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/validator",
   "dependencies": {
-    "@codeshift/fetcher": "^0.3.1",
-    "@codeshift/types": "^0.0.7",
+    "@hypermod/fetcher": "^0.3.1",
+    "@hypermod/types": "^0.0.7",
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.21",
     "recast": "^0.20.4",

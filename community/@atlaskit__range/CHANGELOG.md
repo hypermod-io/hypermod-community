@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_range
+# @hypermod/mod-atlaskit\_\_range
 
 ## 0.2.0
 

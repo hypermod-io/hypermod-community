@@ -2,8 +2,8 @@ import fs from 'fs-extra';
 import junk from 'junk';
 import path from 'path';
 
-import { CodeshiftConfig } from '@codeshift/types';
-import { fetchConfig } from '@codeshift/fetcher';
+import { CodeshiftConfig } from '@hypermod/types';
+import { fetchConfig } from '@hypermod/fetcher';
 
 const COMMUNITY_PATH = path.join(__dirname, '..', 'community');
 const DOCS_PATH = path.join(
@@ -53,7 +53,7 @@ function renderTransform(
   return `### ${id}
 
 :::info
-[Source](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community/${urlSafePackageName}) | [Report an issue](https://github.com/CodeshiftCommunity/CodeshiftCommunity/issues/new?title=${safePackageName}@${id})
+[Source](https://github.com/hypermod-io/hypermod-community/tree/main/community/${urlSafePackageName}) | [Report an issue](https://github.com/hypermod-io/hypermod-community/issues/new?title=${safePackageName}@${id})
 
 **Usage** \`$ codeshift --packages ${packageName}${seperator}${id} path/to/source\`
 :::

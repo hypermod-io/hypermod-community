@@ -4,7 +4,7 @@ import core, {
   Collection,
   Identifier,
 } from 'jscodeshift';
-import { getDefaultImportSpecifierName } from '@codeshift/utils';
+import { getDefaultImportSpecifierName } from '@hypermod/utils';
 
 function doesIdentifierExist(
   j: core.JSCodeshift,

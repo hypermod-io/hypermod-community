@@ -148,7 +148,7 @@ describe('@atlaskit/breadcrumbs@11.0.0 motion: delete hasSeparator prop', () => 
       );
     `,
     `
-      /* TODO: (@codeshift) This file uses the @atlaskit/breadcrumbs \`hasSeparator\` prop which
+      /* TODO: (@hypermod) This file uses the @atlaskit/breadcrumbs \`hasSeparator\` prop which
       has now been removed due to its poor performance characteristics. From version 11.0.0, we changed to
       \`css\` pseudo element for the separator and consumer should not use hasSeparator directly anymore. */
       import React from "react";
@@ -186,7 +186,7 @@ describe('@atlaskit/breadcrumbs@11.0.0 motion: delete hasSeparator prop', () => 
       );
     `,
     `
-      /* TODO: (@codeshift) This file uses the @atlaskit/breadcrumbs \`hasSeparator\` prop which
+      /* TODO: (@hypermod) This file uses the @atlaskit/breadcrumbs \`hasSeparator\` prop which
       has now been removed due to its poor performance characteristics. From version 11.0.0, we changed to
       \`css\` pseudo element for the separator and consumer should not use hasSeparator directly anymore. */
       import React from "react";

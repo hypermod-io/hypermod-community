@@ -6,8 +6,8 @@ import {
   fetchPackage,
   fetchRemotePackage,
   ConfigMeta,
-} from '@codeshift/fetcher';
-import { isValidConfig } from '@codeshift/validator';
+} from '@hypermod/fetcher';
+import { isValidConfig } from '@hypermod/validator';
 
 import { getCodeshiftPackageName } from './package-names';
 

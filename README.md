@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="1000" src="assets/github-banner.png" alt="CodeshiftCommunity Logo">
+  <img width="1000" src="assets/github-banner.png" alt="Hypermod Logo">
 </p>
 
 # Hypermod Community
@@ -36,30 +36,29 @@ The community-owned global registry and documentation hub for codemods. Providin
 
 [The registry](https://www.codeshiftcommunity.com/docs/registry) contains all community contributed codemods, hosted and published directly from the CodeshiftCommunity repository.
 
-Source for these packages are located in the [/community folder](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community).
+Source for these packages are located in the [/community folder](https://github.com/hypermod-io/hypermod-community/tree/main/community).
 
 - [Registry homepage](https://www.codeshiftcommunity.com/docs/contribution)
 - [Contributing to the registry](https://www.codeshiftcommunity.com/docs/contribution)
-- [Registry source files](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community)
+- [Registry source files](https://github.com/hypermod-io/hypermod-community/tree/main/community)
 
-## CLI 
+## CLI
 
-Downloading and running codemods as well as initialising and maintaining codemod packages can all be done via the Codeshift CLI (`@codeshift/cli`).
+Downloading and running codemods as well as initialising and maintaining codemod packages can all be done via the Hypermod CLI (`@hypermod/cli`).
 
 [Please see the docs for more information and examples](https://www.codeshiftcommunity.com/docs/cli)
 
 We recommend running the CLI with $ npx to ensure you always have the latest version.
 
-`$ npx @codeshift/cli --packages mylib@1.0.0 /project/src`
+`$ npx @hypermod/cli --packages mylib@1.0.0 /project/src`
 
 But it can also be installed globally:
 
-`$ npm install -g @codeshift/cli or yarn global add @codeshift/cli`
+`$ npm install -g @hypermod/cli or yarn global add @hypermod/cli`
 
 and run with:
 
-`$ codeshift or $ codeshift-cli`
-
+`$ hypermod or $ hypermod-cli`
 
 ## Sponsors
 
@@ -95,4 +94,3 @@ Huge thanks for all of the support from our sponsors!
             alt="@PreciselyAlyss"
     /></a>
  </p>
- 

@@ -20,11 +20,11 @@ describe('@atlaskit/textfield@5.0.0 transform', () => {
       }
     `,
     `
-      /* TODO: (@codeshift) This file uses the @atlaskit/textfield \`theme\` prop which
+      /* TODO: (@hypermod) This file uses the @atlaskit/textfield \`theme\` prop which
       has now been removed due to its poor performance characteristics. We have not replaced
       theme with an equivalent API due to minimal usage of the \`theme\` prop.
       The appearance of TextField will have likely changed. */
-      /* TODO: (@codeshift) This file uses exports used to help theme @atlaskit/textfield which
+      /* TODO: (@hypermod) This file uses exports used to help theme @atlaskit/textfield which
       has now been removed due to its poor performance characteristics. */
       import Textfield, { Appearance, TextFieldColors as ColorTokens } from '@atlaskit/textfield';
       import customeTheme from './theme';
@@ -67,11 +67,11 @@ describe('@atlaskit/textfield@5.0.0 transform', () => {
       }
     `,
     `
-      /* TODO: (@codeshift) This file uses the @atlaskit/textfield \`theme\` prop which
+      /* TODO: (@hypermod) This file uses the @atlaskit/textfield \`theme\` prop which
       has now been removed due to its poor performance characteristics. We have not replaced
       theme with an equivalent API due to minimal usage of the \`theme\` prop.
       The appearance of TextField will have likely changed. */
-      /* TODO: (@codeshift) This file uses exports used to help theme @atlaskit/textfield which
+      /* TODO: (@hypermod) This file uses exports used to help theme @atlaskit/textfield which
       has now been removed due to its poor performance characteristics. */
       import Textfield from '@atlaskit/textfield';
       import React from 'react';

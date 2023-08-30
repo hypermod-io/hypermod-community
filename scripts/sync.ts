@@ -3,7 +3,7 @@ import junk from 'junk';
 import path from 'path';
 import axios from 'axios';
 
-import { fetchConfig } from '@codeshift/fetcher';
+import { fetchConfig } from '@hypermod/fetcher';
 
 const COMMUNITY_PATH = path.join(__dirname, '..', 'community');
 const CODESHIFT_WORKER_URL = 'http://codeshift.delcore.workers.dev/packages';
@@ -27,7 +27,7 @@ async function main() {
       throw new Error(`Unable to locate config for path: ${dir}`);
     }
 
-    const pkgName = `@codeshift/mod-${dir.replace('@', '').replace('/', '__')}`;
+    const pkgName = `@hypermod/mod-${dir.replace('@', '').replace('/', '__')}`;
     const rawPkgName = dir.replace('__', '/');
     data.push({
       pkgName,

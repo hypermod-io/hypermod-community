@@ -1,6 +1,5 @@
 import { API, FileInfo } from 'jscodeshift';
-import { applyTransform } from '@codeshift/test-utils';
-import { isDecendantOfType } from '@codeshift/utils';
+import { applyTransform, isDecendantOfType } from '@hypermod/utils';
 
 describe('nodes', () => {
   describe('isDecendantOfType', () => {

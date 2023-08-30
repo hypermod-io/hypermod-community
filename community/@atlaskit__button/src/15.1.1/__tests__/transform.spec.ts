@@ -185,7 +185,7 @@ describe('@atlaskit/button@15.1.1 transform', () => {
     }
   `,
     expected: `
-    /* TODO: (@codeshift) Cannot rename data-testid to testId on StandardButton.
+    /* TODO: (@hypermod) Cannot rename data-testid to testId on StandardButton.
     A StandardButton was detected with both data-testid and testId props.
     Please remove the data-testid prop and check your tests */
     import StandardButton from '@atlaskit/button';

@@ -6,7 +6,7 @@ import core, {
   Literal,
   Collection,
 } from 'jscodeshift';
-import { getJSXAttributes, insertCommentToStartOfFile } from '@codeshift/utils';
+import { getJSXAttributes, insertCommentToStartOfFile } from '@hypermod/utils';
 
 import {
   messageForUsingExpression,

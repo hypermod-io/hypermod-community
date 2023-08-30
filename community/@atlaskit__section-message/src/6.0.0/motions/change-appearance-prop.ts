@@ -5,7 +5,7 @@ import {
   insertCommentBefore,
   getDefaultImportSpecifierName,
   getJSXAttributes,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 import {
   APPEARANCE_OLD_TO_NEW_MAPPING,

@@ -34,7 +34,7 @@ describe('list', () => {
 
     const result = (console.log as jest.Mock).mock.calls.join('\n');
 
-    expect(result).toEqual(`${chalk.bold('@codeshift/mod-foobar')}
+    expect(result).toEqual(`${chalk.bold('@hypermod/mod-foobar')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
@@ -54,7 +54,7 @@ ${chalk.bold('foobar')}
 
     const result = (console.log as jest.Mock).mock.calls.join('\n');
 
-    expect(result).toEqual(`${chalk.bold('@codeshift/mod-foo__bar')}
+    expect(result).toEqual(`${chalk.bold('@hypermod/mod-foo__bar')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
@@ -74,7 +74,7 @@ ${chalk.bold('@foo/bar')}
 
     const result = (console.log as jest.Mock).mock.calls.join('\n');
 
-    expect(result).toEqual(`${chalk.bold('@codeshift/mod-bar')}
+    expect(result).toEqual(`${chalk.bold('@hypermod/mod-bar')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
@@ -86,7 +86,7 @@ ${chalk.bold('bar')}
 |  └─ 19.0.0
 └─ presets
    └─ sort-imports
-${chalk.bold('@codeshift/mod-foo__bar')}
+${chalk.bold('@hypermod/mod-foo__bar')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
@@ -157,7 +157,7 @@ ${chalk.bold('@foo/bar')}
 
     const result = (console.log as jest.Mock).mock.calls.join('\n');
 
-    expect(result).toEqual(`${chalk.bold('@codeshift/mod-found1')}
+    expect(result).toEqual(`${chalk.bold('@hypermod/mod-found1')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0
@@ -169,7 +169,7 @@ ${chalk.bold('found1')}
 |  └─ 19.0.0
 └─ presets
    └─ sort-imports
-${chalk.bold('@codeshift/mod-found2')}
+${chalk.bold('@hypermod/mod-found2')}
 ├─ transforms
 |  ├─ 18.0.0
 |  └─ 19.0.0

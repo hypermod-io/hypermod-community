@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_breadcrumbs
+# @hypermod/mod-atlaskit\_\_breadcrumbs
 
 ## 0.2.0
 

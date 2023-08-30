@@ -173,7 +173,7 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
       return (
         <ButtonItem
           /*
-          TODO: (@codeshift) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
+          TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
           The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
           For more info please reach out to #help-design-system-code.
           */
@@ -296,7 +296,7 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
       return (
         <ButtonItem
           /*
-          TODO: (@codeshift) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
+          TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
           The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
           For more info please reach out to #help-design-system-code.
           */
@@ -338,14 +338,14 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
       return (
         <ButtonItem
           /*
-          TODO: (@codeshift) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
+          TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
           The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
           For more info please reach out to #help-design-system-code.
           */
           cssFn={cssFunction}>
           <LinkItem
             /*
-            TODO: (@codeshift) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
+            TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
             The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
             For more info please reach out to #help-design-system-code.
             */

@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_checkbox
+# @hypermod/mod-atlaskit\_\_checkbox
 
 ## 0.2.0
 

@@ -420,7 +420,7 @@ describe('map actions prop to components', () => {
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
 
-      /* TODO: (@codeshift) We have added \`React.lazy\` here. Feel free to change it to \`lazy\` or other named import depending upon how you imported. */
+      /* TODO: (@hypermod) We have added \`React.lazy\` here. Feel free to change it to \`lazy\` or other named import depending upon how you imported. */
       const SectionMessageAction = React.lazy(() => import("@atlaskit/section-message/section-message-action"));
 
       const actions = [
@@ -468,7 +468,7 @@ describe('map actions prop to components', () => {
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
 
-      /* TODO: (@codeshift) We have added \`React.lazy\` here. Feel free to change it to \`lazy\` or other named import depending upon how you imported. */
+      /* TODO: (@hypermod) We have added \`React.lazy\` here. Feel free to change it to \`lazy\` or other named import depending upon how you imported. */
       const SectionMessageAction = React.lazy(() => import("@atlaskit/section-message/section-message-action"));
 
       export default () => (
@@ -520,7 +520,7 @@ describe('map actions prop to components', () => {
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
 
-      /* TODO: (@codeshift) We have added \`React.lazy\` here. Feel free to change it to \`lazy\` or other named import depending upon how you imported. */
+      /* TODO: (@hypermod) We have added \`React.lazy\` here. Feel free to change it to \`lazy\` or other named import depending upon how you imported. */
       const AtlaskitSectionMessageAction = React.lazy(() => import("@atlaskit/section-message/section-message-action"));
 
       const SectionMessageAction = () => {};

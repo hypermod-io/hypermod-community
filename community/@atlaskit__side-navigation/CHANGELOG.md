@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_side-navigation
+# @hypermod/mod-atlaskit\_\_side-navigation
 
 ## 0.2.0
 

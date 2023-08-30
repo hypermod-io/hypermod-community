@@ -1,4 +1,4 @@
-# @codeshift/core
+# @hypermod/core
 
 ## 0.1.4
 

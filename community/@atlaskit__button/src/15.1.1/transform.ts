@@ -10,7 +10,7 @@ import {
   hasImportDeclaration,
   insertCommentToStartOfFile,
   getDefaultImportSpecifierName,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 const relevantEntryPoints = [
   '@atlaskit/button',

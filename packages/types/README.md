@@ -1,1 +1,1 @@
-# @codeshift/types
+# @hypermod/types

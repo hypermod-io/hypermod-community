@@ -1,4 +1,4 @@
-# @codeshift/fetcher
+# @hypermod/fetcher
 
 ## 0.3.5
 
@@ -22,7 +22,7 @@
 
 ### Patch Changes
 
-- b7f614e: Correctly checks remote pacakge entrypoints for configs (as opposed to just checking for codeshift.config.js files)
+- b7f614e: Correctly checks remote package entrypoints for configs (as opposed to just checking for codeshift.config.js files)
 
 ## 0.3.1
 

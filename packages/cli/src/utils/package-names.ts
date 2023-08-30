@@ -1,3 +1,3 @@
 export function getCodeshiftPackageName(packageName: string) {
-  return `@codeshift/mod-${packageName.replace('@', '').replace('/', '__')}`;
+  return `@hypermod/mod-${packageName.replace('@', '').replace('/', '__')}`;
 }

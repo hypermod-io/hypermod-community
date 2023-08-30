@@ -1,4 +1,4 @@
-# @codeshift/mod-emotion\_\_monorepo
+# @hypermod/mod-emotion\_\_monorepo
 
 ## 0.2.0
 

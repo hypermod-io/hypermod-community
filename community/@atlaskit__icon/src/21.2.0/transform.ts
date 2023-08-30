@@ -7,7 +7,7 @@ import core, {
   ImportDefaultSpecifier,
   ASTPath,
 } from 'jscodeshift';
-import { hasImportDeclaration } from '@codeshift/utils';
+import { hasImportDeclaration } from '@hypermod/utils';
 
 const packageName = '@atlaskit/icon';
 

@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-import { isValidConfigAtPath } from '@codeshift/validator';
+import { isValidConfigAtPath } from '@hypermod/validator';
 
 export default async function validate(targetPath = '.') {
   await isValidConfigAtPath(targetPath);

@@ -1,7 +1,7 @@
 import semver from 'semver';
 
-import { CodeshiftConfig } from '@codeshift/types';
-import { fetchConfig } from '@codeshift/fetcher';
+import { CodeshiftConfig } from '@hypermod/types';
+import { fetchConfig } from '@hypermod/fetcher';
 
 function hasValidTransforms(config: CodeshiftConfig) {
   if (!config.transforms) return true;

@@ -1,4 +1,4 @@
-# @codeshift/mod-atlaskit\_\_icon
+# @hypermod/mod-atlaskit\_\_icon
 
 ## 0.2.0
 

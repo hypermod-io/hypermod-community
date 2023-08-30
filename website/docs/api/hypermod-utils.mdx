@@ -1,6 +1,6 @@
 ---
 id: utils
-title: codeshift/utils
+title: hypermod/utils
 slug: /utils
 ---
 
@@ -8,12 +8,12 @@ CodeshiftCommunity provides a set of utilities to help perform common codemod op
 
 ## Installation
 
-`@codeshift/utils` is pre-bundled with every codemod that is published to [the public registry](https://github.com/CodeshiftCommunity/CodeshiftCommunity/tree/main/community),
+`@hypermod/utils` is pre-bundled with every codemod that is published to [the public registry](https://github.com/hypermod-io/hypermod-community/tree/main/community),
 so there's no need to install it manually.
 
 However, it is also available for use outside of this project and compatible with jscodeshift.
 
-`npm install --save-dev @codeshift/utils` or `yarn add -D @codeshift/utils`
+`npm install --save-dev @hypermod/utils` or `yarn add -D @hypermod/utils`
 
 ## Nodes
 
@@ -70,7 +70,7 @@ import React from 'react';
 ```
 
 ```js
-import { hasImportDeclaration } from '@codeshift/utils';
+import { hasImportDeclaration } from '@hypermod/utils';
 
 hasImportDeclaration(j, source, 'react'); // True
 ```
@@ -93,7 +93,7 @@ import React from 'react';
 ```
 
 ```js
-import { getImportDeclaration } from '@codeshift/utils';
+import { getImportDeclaration } from '@hypermod/utils';
 
 getImportDeclaration(j, source, 'react');
 ```
@@ -116,7 +116,7 @@ import React from 'react';
 ```
 
 ```js
-import { removeImportDeclaration } from '@codeshift/utils';
+import { removeImportDeclaration } from '@hypermod/utils';
 
 removeImportDeclaration(j, source, 'react');
 ```
@@ -144,7 +144,7 @@ import React from 'react';
 ```
 
 ```js
-import { renameImportDeclaration } from '@codeshift/utils';
+import { renameImportDeclaration } from '@hypermod/utils';
 
 renameImportDeclaration(j, source, 'react', 'preact');
 ```
@@ -173,7 +173,7 @@ import React from 'react';
 ```
 
 ```js
-import { getDefaultImportSpecifier } from '@codeshift/utils';
+import { getDefaultImportSpecifier } from '@hypermod/utils';
 
 getDefaultImportSpecifier(j, source, 'react'); // Collection containing 'React'
 ```
@@ -196,7 +196,7 @@ import React from 'react';
 ```
 
 ```js
-import { getDefaultImportSpecifierName } from '@codeshift/utils';
+import { getDefaultImportSpecifierName } from '@hypermod/utils';
 
 getDefaultImportSpecifierName(j, source, 'react'); // Collection containing 'React'
 ```
@@ -219,7 +219,7 @@ import React from 'react';
 ```
 
 ```js
-import { hasDefaultImportSpecifier } from '@codeshift/utils';
+import { hasDefaultImportSpecifier } from '@hypermod/utils';
 
 hasDefaultImportSpecifier(j, source, 'react'); // True
 ```
@@ -242,7 +242,7 @@ import React, { useEffect } from 'react';
 ```
 
 ```js
-import { removeDefaultImportSpecifier } from '@codeshift/utils';
+import { removeDefaultImportSpecifier } from '@hypermod/utils';
 
 removeDefaultImportSpecifier(j, source, 'React');
 ```
@@ -270,7 +270,7 @@ import React, { useEffect } from 'react';
 ```
 
 ```js
-import { hasImportSpecifier } from '@codeshift/utils';
+import { hasImportSpecifier } from '@hypermod/utils';
 
 hasImportSpecifier(j, source, 'react', 'useEffect'); // True
 ```
@@ -293,7 +293,7 @@ import React, { useEffect } from 'react';
 ```
 
 ```js
-import { getImportSpecifier } from '@codeshift/utils';
+import { getImportSpecifier } from '@hypermod/utils';
 
 getImportSpecifier(j, source, 'useEffect'); // Collection containing 'useEffect'
 ```
@@ -316,7 +316,7 @@ import React, { useEffect as foo } from 'react';
 ```
 
 ```js
-import { getImportSpecifierName } from '@codeshift/utils';
+import { getImportSpecifierName } from '@hypermod/utils';
 
 getImportSpecifierName(j, source, 'useEffect', 'react'); // 'foo'
 ```
@@ -339,7 +339,7 @@ import React, { useEffect } from 'react';
 ```
 
 ```js
-import { insertImportSpecifier } from '@codeshift/utils';
+import { insertImportSpecifier } from '@hypermod/utils';
 
 insertImportSpecifier(j, source, 'useMemo', 'react'); // Collection containing 'useEffect'
 ```
@@ -368,7 +368,7 @@ import React, { useEffect } from 'react';
 ```
 
 ```js
-import { removeImportSpecifier } from '@codeshift/utils';
+import { removeImportSpecifier } from '@hypermod/utils';
 
 removeImportSpecifier(j, source, 'useMemo', 'react'); // Collection containing 'useEffect'
 ```
@@ -401,7 +401,7 @@ const App = () => <Button primary>Say hello</Button>;
 ```
 
 ```js
-import { getJSXAttributes } from '@codeshift/utils';
+import { getJSXAttributes } from '@hypermod/utils';
 
 getJSXAttributes(j, source, 'primary'); // Collection containing 'primary'
 ```
@@ -426,7 +426,7 @@ const App = () => <Button primary>Say hello</Button>;
 ```
 
 ```js
-import { hasJSXAttributes } from '@codeshift/utils';
+import { hasJSXAttributes } from '@hypermod/utils';
 
 hasJSXAttributes(j, source, 'primary'); // Found!
 ```
@@ -453,7 +453,7 @@ const App = () => <Button primary>Say hello</Button>;
 ```
 
 ```js
-import { insertCommentBefore } from '@codeshift/utils';
+import { insertCommentBefore } from '@hypermod/utils';
 
 insertCommentBefore(
   j,
@@ -466,7 +466,7 @@ insertCommentBefore(
 // src/App.js
 import React from 'react';
 
-// TODO: (@codeshift) This should be removed in favour of mylib
+// TODO: (@hypermod) This should be removed in favour of mylib
 const App = () => <Button primary>Say hello</Button>;
 ```
 
@@ -490,7 +490,7 @@ const App = () => <Button primary>Say hello</Button>;
 ```
 
 ```js
-import { insertCommentToStartOfFile } from '@codeshift/utils';
+import { insertCommentToStartOfFile } from '@hypermod/utils';
 
 insertCommentToStartOfFile(
   j,
@@ -522,8 +522,52 @@ A helper function to apply an array of motions in sequence.
 **Example**
 
 ```js
-import { applyMotions } from '@codeshift/utils';
+import { applyMotions } from '@hypermod/utils';
 import { sortImports } from './motions';
 
 applyMotions(j, j(fileInfo.source), [sortImports, removeVar]);
+```
+
+## Testing
+
+### `applyTransform`
+
+`applyTransform(transform, input, options = { parser: 'babel' })`
+
+Runs a transform against the provided code and returns the resulting file.
+
+We provide this method as opposed to [jscodeshift's test utils](https://github.com/facebook/jscodeshift#unit-testing) to maintain jest's skip/only and snapshot features
+
+**Returns**
+
+`Promise<string>`: Resulting file after transform has been applied
+
+**Example**
+
+```jsx
+import * as transformer from '../transform';
+import { applyTransform } from '@hypermod/utils';
+
+it('should wrap avatar in a tooltip if name is defined', async () => {
+  const result = await applyTransform(
+    transformer,
+    `
+      import Avatar from 'avatar';
+
+      const App = () => {
+        return <Avatar name="foo" />;
+      }
+    `,
+    { parser: 'tsx' },
+  );
+
+  expect(result).toMatchInlineSnapshot(`
+    "import Tooltip from 'tooltip';
+    import Avatar from 'avatar';
+
+    const App = () => {
+      return <Tooltip content=\\"foo\\"><Avatar name=\\"foo\\" /></Tooltip>;
+    }"
+  `);
+});
 ```

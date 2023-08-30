@@ -1,7 +1,7 @@
 jest.mock('globby');
 jest.mock('live-plugin-manager');
 jest.mock('find-up');
-jest.mock('@codeshift/core', () => ({
+jest.mock('@hypermod/core', () => ({
   run: jest.fn().mockImplementation(() => Promise.resolve()),
 }));
 
@@ -10,7 +10,7 @@ import path from 'path';
 import { PluginManager } from 'live-plugin-manager';
 import globby from 'globby';
 
-import * as core from '@codeshift/core';
+import * as core from '@hypermod/core';
 
 import main from './main';
 
@@ -123,10 +123,10 @@ describe('main', () => {
       (PluginManager as jest.Mock).mockImplementation(() => ({
         install: jest.fn().mockResolvedValue(undefined),
         getInfo: jest.fn().mockImplementation((packageName: string) => ({
-          location: `${packageName}/path/to/source/codeshift.config.js`,
+          location: `${packageName}/path/to/source/hypermod.config.js`,
         })),
         require: jest.fn().mockImplementation((packageName: string) => {
-          if (!packageName.startsWith('@codeshift')) {
+          if (!packageName.startsWith('@hypermod')) {
             throw new Error('Attempted to fetch codemod from npm');
           }
 
@@ -151,7 +151,7 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@18.0.0',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js@18.0.0',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
@@ -167,17 +167,17 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(3);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@18.0.0',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js@18.0.0',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@19.0.0',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js@19.0.0',
         expect.any(Array),
         expect.any(Object),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@20.0.0',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -191,7 +191,7 @@ describe('main', () => {
       });
 
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myscope__mylib/path/to/source/codeshift.config.js@19.0.0',
+        '@hypermod/mod-myscope__mylib/path/to/source/hypermod.config.js@19.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -206,12 +206,12 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@20.0.0',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myotherlib/path/to/source/codeshift.config.js@20.0.0',
+        '@hypermod/mod-myotherlib/path/to/source/hypermod.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -226,12 +226,12 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myscope__mylib/path/to/source/codeshift.config.js@20.0.0',
+        '@hypermod/mod-myscope__mylib/path/to/source/hypermod.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myotherscope__myotherlib/path/to/source/codeshift.config.js@20.0.0',
+        '@hypermod/mod-myotherscope__myotherlib/path/to/source/hypermod.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -246,12 +246,12 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myscope__mylib/path/to/source/codeshift.config.js@19.0.0',
+        '@hypermod/mod-myscope__mylib/path/to/source/hypermod.config.js@19.0.0',
         expect.any(Array),
         expect.any(Object),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-myscope__mylib/path/to/source/codeshift.config.js@20.0.0',
+        '@hypermod/mod-myscope__mylib/path/to/source/hypermod.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -266,7 +266,7 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@20.0.0',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js@20.0.0',
         expect.any(Array),
         expect.any(Object),
       );
@@ -316,7 +316,7 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@20.0.0',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js@20.0.0',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
@@ -331,7 +331,7 @@ describe('main', () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
         getInfo: jest.fn().mockImplementation((packageName: string) => ({
-          location: `${packageName}/path/to/source/codeshift.config.js`,
+          location: `${packageName}/path/to/source/hypermod.config.js`,
         })),
         require: () => ({
           presets: {
@@ -358,7 +358,7 @@ describe('main', () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
         getInfo: jest.fn().mockImplementation((packageName: string) => ({
-          location: `${packageName}/path/to/source/codeshift.config.js`,
+          location: `${packageName}/path/to/source/hypermod.config.js`,
         })),
         // @ts-ignore
         require: () => ({
@@ -384,10 +384,10 @@ describe('main', () => {
       (PluginManager as jest.Mock).mockImplementation(() => ({
         install: jest.fn().mockResolvedValue(undefined),
         getInfo: jest.fn().mockImplementation((packageName: string) => ({
-          location: `${packageName}/path/to/source/codeshift.config.js`,
+          location: `${packageName}/path/to/source/hypermod.config.js`,
         })),
         require: jest.fn().mockImplementation((packageName: string) => {
-          if (!packageName.startsWith('@codeshift')) {
+          if (!packageName.startsWith('@hypermod')) {
             throw new Error('Attempted to fetch codemod from npm');
           }
 
@@ -411,7 +411,7 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js#update-formatting',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js#update-formatting',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
@@ -426,12 +426,12 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js#update-imports',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js#update-imports',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js#update-imports',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js#update-imports',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
@@ -446,12 +446,12 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(2);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js#update-formatting',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js#update-formatting',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js#update-imports',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js#update-imports',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
@@ -478,7 +478,7 @@ describe('main', () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
         getInfo: jest.fn().mockImplementation((packageName: string) => ({
-          location: `${packageName}/path/to/source/codeshift.config.js`,
+          location: `${packageName}/path/to/source/hypermod.config.js`,
         })),
         // @ts-ignore
         require: () => ({
@@ -506,7 +506,7 @@ describe('main', () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
         getInfo: jest.fn().mockImplementation((packageName: string) => ({
-          location: `${packageName}/path/to/source/codeshift.config.js`,
+          location: `${packageName}/path/to/source/hypermod.config.js`,
         })),
         // @ts-ignore
         require: () => ({
@@ -534,7 +534,7 @@ describe('main', () => {
         'path',
         'to',
         'source',
-        'codeshift.config.js',
+        'hypermod.config.js',
       );
 
       (globby as unknown as jest.Mock).mockImplementation(() =>
@@ -568,7 +568,7 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        'mylib/path/to/source/codeshift.config.js@18.0.0',
+        'mylib/path/to/source/hypermod.config.js@18.0.0',
         expect.arrayContaining([mockPath]),
         expect.anything(),
       );
@@ -584,7 +584,7 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        'mylib/path/to/source/codeshift.config.js#update-formatting',
+        'mylib/path/to/source/hypermod.config.js#update-formatting',
         expect.arrayContaining([mockPath]),
         expect.anything(),
       );
@@ -596,7 +596,7 @@ describe('main', () => {
       (PluginManager as jest.Mock).mockReturnValue({
         install: () => Promise.resolve(undefined),
         getInfo: jest.fn().mockImplementation((packageName: string) => ({
-          location: `${packageName}/path/to/source/codeshift.config.js`,
+          location: `${packageName}/path/to/source/hypermod.config.js`,
         })),
         // @ts-ignore
         require: jest.fn().mockImplementationOnce(() => ({
@@ -617,7 +617,7 @@ describe('main', () => {
 
       expect(core.run).toHaveBeenCalledTimes(1);
       expect(core.run).toHaveBeenCalledWith(
-        '@codeshift/mod-mylib/path/to/source/codeshift.config.js@18.0.0',
+        '@hypermod/mod-mylib/path/to/source/hypermod.config.js@18.0.0',
         expect.arrayContaining([mockPath]),
         expect.objectContaining({ parser: 'babel', extensions: 'js' }),
       );
@@ -631,7 +631,7 @@ describe('main', () => {
         spy.mockReturnValue({
           install: () => Promise.resolve(undefined),
           getInfo: jest.fn().mockImplementation((packageName: string) => ({
-            location: `${packageName}/path/to/source/codeshift.config.js`,
+            location: `${packageName}/path/to/source/hypermod.config.js`,
           })),
           // @ts-ignore
           require: jest.fn().mockImplementationOnce(() => ({
@@ -661,7 +661,7 @@ describe('main', () => {
         spy.mockReturnValue({
           install: () => Promise.resolve(undefined),
           getInfo: jest.fn().mockImplementation((packageName: string) => ({
-            location: `${packageName}/path/to/source/codeshift.config.js`,
+            location: `${packageName}/path/to/source/hypermod.config.js`,
           })),
           // @ts-ignore
           require: jest.fn().mockImplementationOnce(() => ({

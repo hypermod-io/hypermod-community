@@ -301,7 +301,7 @@ describe('SectionMessage code-mods', () => {
       const { appearanceValue } = props;
       return (
         <SectionMessage
-          /* TODO: (@codeshift) We have added this temporary appearance mapping here to make things work. Feel free to change it accordingly. We have also added @ts-ignore for typescript files.
+          /* TODO: (@hypermod) We have added this temporary appearance mapping here to make things work. Feel free to change it accordingly. We have also added @ts-ignore for typescript files.
           @ts-ignore */
           appearance={{
             info: "information",
@@ -348,7 +348,7 @@ describe('SectionMessage code-mods', () => {
       const { appearanceValue } = props;
       return (
         <SectionMessage
-          /* TODO: (@codeshift) We have added this temporary appearance mapping here to make things work. Feel free to change it accordingly. We have also added @ts-ignore for typescript files.
+          /* TODO: (@hypermod) We have added this temporary appearance mapping here to make things work. Feel free to change it accordingly. We have also added @ts-ignore for typescript files.
           @ts-ignore */
           appearance={{
             info: "information",
@@ -394,7 +394,7 @@ describe('SectionMessage code-mods', () => {
     const App = () => {
       return (
         <SectionMessage
-          /* TODO: (@codeshift) We have added this temporary appearance mapping here to make things work. Feel free to change it accordingly. We have also added @ts-ignore for typescript files.
+          /* TODO: (@hypermod) We have added this temporary appearance mapping here to make things work. Feel free to change it accordingly. We have also added @ts-ignore for typescript files.
           @ts-ignore */
           appearance={{
             info: "information",

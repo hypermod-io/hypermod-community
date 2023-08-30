@@ -3,7 +3,7 @@ import {
   insertCommentToStartOfFile,
   getJSXAttributes,
   getImportSpecifierName,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 const createRemoveFuncFor =
   (

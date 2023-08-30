@@ -3,7 +3,7 @@ import {
   hasImportDeclaration,
   getDefaultImportSpecifierName,
   getImportSpecifierName,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 import updateBoundariesProps from './motions/update-boundaries-props';
 import updateOffset from './motions/update-offset';

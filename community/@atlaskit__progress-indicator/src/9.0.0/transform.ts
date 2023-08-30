@@ -1,5 +1,5 @@
 import core, { API, FileInfo, Options } from 'jscodeshift';
-import { hasImportDeclaration, hasImportSpecifier } from '@codeshift/utils';
+import { hasImportDeclaration, hasImportSpecifier } from '@hypermod/utils';
 
 function hasVariableAlreadyDeclared(
   j: core.JSCodeshift,

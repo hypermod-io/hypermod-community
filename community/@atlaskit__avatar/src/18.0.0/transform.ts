@@ -12,7 +12,7 @@ import {
   getImportSpecifierName,
   getImportDeclaration,
   getJSXAttributes,
-} from '@codeshift/utils';
+} from '@hypermod/utils';
 
 function updateAvatarProps(j: core.JSCodeshift, source: ReturnType<typeof j>) {
   const defaultSpecifier = getDefaultImportSpecifierName(
