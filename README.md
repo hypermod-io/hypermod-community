@@ -1,6 +1,8 @@
-<p align="center">
-  <img width="1000" src="assets/github-banner.png" alt="Hypermod Logo">
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/hypermod-io/hypermod-community/assets/3030010/f4ec415a-b320-4949-b352-0be9b1666f97">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/hypermod-io/hypermod-community/assets/3030010/9deed89f-1b24-4914-8007-74551abf40b2">
+  <img alt="Hypermod – App repository banner" src="https://github.com/hypermod-io/hypermod-community/assets/3030010/9deed89f-1b24-4914-8007-74551abf40b2">
+</picture>
 
 # Hypermod Community
 
