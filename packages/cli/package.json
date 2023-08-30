@@ -24,7 +24,7 @@
     "@hypermod/validator": "^0.6.0",
     "chalk": "^4.1.0",
     "commander": "^8.2.0",
-    "find-up": "^5.0.0",
+    "find-up": "5.0.0",
     "fs-extra": "^9.1.0",
     "inquirer": "^8.2.4",
     "jscodeshift": "^0.13.1",
