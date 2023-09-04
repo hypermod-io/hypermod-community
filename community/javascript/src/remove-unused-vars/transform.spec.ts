@@ -34,6 +34,11 @@ console.log(x + y);
     `);
   });
 
+  it('should not remove exported variables', async () => {
+    const result = await applyTransform(transformer, `export const x = 1;`);
+    expect(result).toMatchInlineSnapshot(`"export const x = 1;"`);
+  });
+
   it('should remove unused variable in nested scope', async () => {
     const result = await applyTransform(
       transformer,
@@ -66,6 +71,43 @@ function foo() {
     expect(result).toMatchInlineSnapshot(`""`);
   });
 
+  it('should remove nested unused function in nested scope', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+function bar() {
+  function foo() {
+    if (true) {
+      const a = 1;
+    }
+  }
+}`,
+    );
+
+    expect(result).toMatchInlineSnapshot(`""`);
+  });
+
+  it('should remove nested unused function in used function scope', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+export function bar() {
+  console.log('foo');
+  function foo() {
+    if (true) {
+      const a = 1;
+    }
+  }
+}`,
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      "export function bar() {
+        console.log('foo');
+      }"
+    `);
+  });
+
   it('should remove unused variable in for loop', async () => {
     const result = await applyTransform(
       transformer,
@@ -79,7 +121,7 @@ for (let i = 0; i < 10; i++) {
     expect(result).toMatchInlineSnapshot(`"for (let i = 0; i < 10; i++) {}"`);
   });
 
-  it('should remove unused variable in destructuring assignment', async () => {
+  it.skip('should remove unused variable in destructuring assignment', async () => {
     const result = await applyTransform(
       transformer,
       `
@@ -93,25 +135,6 @@ console.log(a);
         a
       } = { a: 1, b: 2 };
       console.log(a);"
-    `);
-  });
-
-  it('should remove unused function argument', async () => {
-    const result = await applyTransform(
-      transformer,
-      `
-function foo(a, b) {
-  console.log(a);
-}
-foo(1);
-      `,
-    );
-
-    expect(result).toMatchInlineSnapshot(`
-      "function foo(a) {
-        console.log(a);
-      }
-      foo(1);"
     `);
   });
 

@@ -28,8 +28,9 @@ export const isDecendantOfType = <Node extends ASTNode>(
   j: core.JSCodeshift,
   source: ASTPath<Node>,
   type: any,
+  filter?: any,
 ): boolean => {
-  const closestNodes = j(source).closest(type);
+  const closestNodes = j(source).closest(type, filter);
   const count: number = closestNodes.length;
   return count > 0;
 };
