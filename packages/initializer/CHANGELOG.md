@@ -1,5 +1,13 @@
 # @hypermod/initializer
 
+## 0.5.1
+
+### Patch Changes
+
+- e3a648f3: Remove references to Codeshift
+- Updated dependencies [e3a648f3]
+  - @hypermod/cli@0.18.2
+
 ## 0.5.0
 
 ### Minor Changes
