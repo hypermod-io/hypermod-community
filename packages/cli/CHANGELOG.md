@@ -1,5 +1,15 @@
 # @hypermod/cli
 
+## 0.18.2
+
+### Patch Changes
+
+- e3a648f3: Remove references to Codeshift
+- Updated dependencies [e3a648f3]
+  - @hypermod/initializer@0.5.1
+  - @hypermod/validator@0.6.1
+  - @hypermod/fetcher@0.4.1
+
 ## 0.18.1
 
 ### Patch Changes

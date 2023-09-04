@@ -1,5 +1,13 @@
 # @hypermod/validator
 
+## 0.6.1
+
+### Patch Changes
+
+- e3a648f3: Remove references to Codeshift
+- Updated dependencies [e3a648f3]
+  - @hypermod/fetcher@0.4.1
+
 ## 0.6.0
 
 ### Minor Changes

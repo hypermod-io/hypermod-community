@@ -1,5 +1,11 @@
 # @hypermod/fetcher
 
+## 0.4.1
+
+### Patch Changes
+
+- e3a648f3: Remove references to Codeshift
+
 ## 0.4.0
 
 ### Minor Changes
