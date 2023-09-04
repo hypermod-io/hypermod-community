@@ -1,6 +1,6 @@
 {
   "name": "@hypermod/mod-atlaskit__avatar",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
   "source": "src/hypermod.config.js",
   "main": "dist/hypermod.config.js",
@@ -11,7 +11,7 @@
     "validate": "hypermod validate ."
   },
   "dependencies": {
-    "@hypermod/utils": "^0.3.0",
+    "@hypermod/utils": "^0.4.0",
     "jscodeshift": "^0.13.1"
   },
   "devDependencies": {
