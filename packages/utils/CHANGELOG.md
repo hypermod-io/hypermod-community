@@ -1,5 +1,11 @@
 # @hypermod/utils
 
+## 0.4.0
+
+### Minor Changes
+
+- be24d0c5: Exposes filter argument to isDescendentOfNode function
+
 ## 0.3.0
 
 ### Minor Changes

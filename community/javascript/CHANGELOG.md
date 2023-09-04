@@ -1,5 +1,16 @@
 # @hypermod/mod-javascript
 
+## 0.4.0
+
+### Minor Changes
+
+- be24d0c5: Replaces putout with jscodeshift for the remove-unused-vars transform
+
+### Patch Changes
+
+- Updated dependencies [be24d0c5]
+  - @hypermod/utils@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes

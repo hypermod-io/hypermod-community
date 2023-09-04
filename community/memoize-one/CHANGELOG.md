@@ -1,5 +1,12 @@
 # @hypermod/mod-memoize-one
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [be24d0c5]
+  - @hypermod/utils@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes
