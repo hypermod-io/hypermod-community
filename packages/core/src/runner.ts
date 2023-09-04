@@ -153,7 +153,11 @@ function getAllFiles(paths: string[], filter: (name: string) => boolean) {
   });
 }
 
-export function run(entrypointPath: string, paths: string[], options: Flags) {
+export function run(
+  entrypointPath: string,
+  paths: string[],
+  options: Omit<Flags, 'experimentalLoader'>,
+) {
   const cpus = options.cpus
     ? Math.min(availableCpus, options.cpus)
     : availableCpus;

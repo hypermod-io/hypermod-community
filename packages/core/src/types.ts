@@ -61,4 +61,5 @@ export interface Flags {
   silent: boolean;
   stdin: boolean;
   verbose?: 0 | 1 | 2;
+  experimentalLoader: boolean;
 }
