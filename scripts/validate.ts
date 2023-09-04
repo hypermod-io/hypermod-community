@@ -20,9 +20,9 @@ If this is a scoped package, please make sure rename the folder to use the "__" 
 For example: @hypermod/mod-foo__bar`);
   }
 
-  if (pkgJson.name === 'dist/codeshift.config.js') {
+  if (pkgJson.name === 'dist/hypermod.config.js') {
     throw new Error(`Invalid package entry point for package: ${pkgJson.name} in: ${pkgJsonPath}.
-'main' should always point to 'dist/codeshift.config.js'`);
+'main' should always point to 'dist/hypermod.config.js'`);
   }
 
   return true;

@@ -331,8 +331,8 @@ export default transformer;`}</CodeBlock>
               Help make the JS ecosystem a better place.
             </h2>
             <p>
-              CodeshiftCommunity exists to make dependency management feel less
-              of a juggling act. But it's a team effort...
+              Hypermod exists to make dependency management feel less of a
+              juggling act. But it's a team effort...
             </p>
             <div className={styles.buttons}>
               <Link
@@ -347,7 +347,7 @@ export default transformer;`}</CodeBlock>
         <section className={clsx(styles.logoBanner)}>
           <div className={clsx(styles.containerCenter)}>
             <Logo
-              title="CodeshiftCommunity logo"
+              title="Hypermod logo"
               style={{ maxWidth: '160px', width: '100%' }}
             />
           </div>

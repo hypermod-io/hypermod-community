@@ -2,11 +2,11 @@
 id: introduction
 title: Introduction
 slug: /
-description: 'Welcome to the codeshiftcommunity. This is a community of developers who use Hypermod to automatically refactor their codebase. Join us to learn more about Hypermod, share your own codemods, and collaborate with others.'
+description: 'Welcome to Hypermod. This is a community of developers who use Hypermod to automatically refactor their codebase. Join us to learn more about Hypermod, share your own codemods, and collaborate with others.'
 keywords: [codeshift, getting started, best practices]
 ---
 
-CodeshiftCommunity is a community-owned global registry and documentation hub for codemods. This project provides users and maintainers of libraries with tools and resources to help them [write](authoring), [test](testing), [publish](contribution) and [use](consuming) codemods in a structured and familiar way. By providing a standardized platform for codemod authoring, publishing, and consumption, CodeshiftCommunity aims to promote the use of codemods as a standard development practice and reduce the learning curve for these tools.
+Hypermod (prev CodeshiftCommunity) is a community-owned global registry and documentation hub for codemods. This project provides users and maintainers of libraries with tools and resources to help them [write](authoring), [test](testing), [publish](contribution) and [use](consuming) codemods in a structured and familiar way. By providing a standardized platform for codemod authoring, publishing, and consumption, Hypermod aims to promote the use of codemods as a standard development practice and reduce the learning curve for these tools.
 
 ## Why?
 
@@ -28,7 +28,7 @@ Our main aim is to create a community centered around codemods in order to promo
 
 We believe that providing the appropriate support, documentation, and tools can help us achieve this goal.
 
-To accomplish this, CodeshiftCommunity aims to address three key challenges:
+To accomplish this, Hypermod aims to address three key challenges:
 
 1. Fragmentation in how codemods are written and distributed within the ecosystem
 1. Difficulty adopting and upgrading packages
@@ -36,17 +36,17 @@ To accomplish this, CodeshiftCommunity aims to address three key challenges:
 
 ### Fragmentation in the ecosystem
 
-CodeshiftCommunity offers a platform-agnostic toolchain for creating, publishing, and using codemods, centered around the @hypermod/cli. This CLI provides common infrastructure and eliminates the need for developers to constantly recreate the same tools.
+Hypermod offers a platform-agnostic toolchain for creating, publishing, and using codemods, centered around the @hypermod/cli. This CLI provides common infrastructure and eliminates the need for developers to constantly recreate the same tools.
 
 Some popular libraries in the ecosystem, such as [React](https://github.com/reactjs/react-codemod), [material-ui](https://github.com/mui-org/material-ui/tree/master/packages/material-ui-codemod) and [next.js](https://nextjs.org/docs/advanced-features/codemods), all offer their own solutions for codemods, CLI, and distribution services. These services are inconsistent and often difficult for the average user to access. While providing these services can be helpful for upgrading libraries, it also places a significant burden on the projects that offer them.
 
-CodeshiftCommunity aims to address this issue by providing a standardized platform for codemod authoring, publishing, and consumption. This will help to reduce fragmentation and make it easier for developers to access the tools they need.
+Hypermod aims to address this issue by providing a standardized platform for codemod authoring, publishing, and consumption. This will help to reduce fragmentation and make it easier for developers to access the tools they need.
 
 ### Package adoption & upgrade pain
 
 When publishing API changes, it is easy to shift the burden of upgrading onto your users. This can lead to users having to search through your changelog or even your code to figure out how to migrate to the latest version safely. In many cases, users will simply avoid upgrading or switch to a different library altogether.
 
-CodeshiftCommunity offers a standardized versioning scheme that presents codemods in a user-friendly way. By following our guiding principles, your codemods will be idempotent, atomic, and reusable for years to come.
+Hypermod offers a standardized versioning scheme that presents codemods in a user-friendly way. By following our guiding principles, your codemods will be idempotent, atomic, and reusable for years to come.
 
 Writing a changelog and constantly answering the same questions about how to migrate can be time-consuming and frustrating. By distilling all of the necessary changes into a codemod, you can provide users with a repeatable, updatable solution that can be improved and perfected, with the help of the community. This allows you to focus on more important tasks and avoid the headache of supporting users through the upgrade process.
 
@@ -62,9 +62,9 @@ Our goal is to remove the stigma that codemods are difficult or time-consuming t
 
 ### A standardized CLI
 
-Codeshift allows developers to publish codemods as their own NPM packages or as part of an existing NPM package. We provide a [standardized CLI tool](cli) that can download and run the latest codemods from any location. This approach has the added benefit of allowing codemods to be published with dependencies, which is not currently possible with most JSCodeshift CLI implementations.
+Hypermod allows developers to publish codemods as their own NPM packages or as part of an existing NPM package. We provide a [standardized CLI tool](cli) that can download and run the latest codemods from any location. This approach has the added benefit of allowing codemods to be published with dependencies, which is not currently possible with most JSCodeshift CLI implementations.
 
-By using NPM, we aim to make it easy for developers to adopt codemods. All they need to do is publish an existing package with a codemod.config.js file and they are ready to go. For more information, see our guide on [authoring with existing packages](authoring#2-add-codeshift-to-an-existing-package).
+By using NPM, we aim to make it easy for developers to adopt codemods. All they need to do is publish an existing package with a codemod.config.js file and they are ready to go. For more information, see our guide on [authoring with existing packages](authoring#2-add-hypermod-to-an-existing-package).
 
 ### A centralized registry
 
@@ -76,19 +76,13 @@ By using NPM, we aim to make it easy for developers to adopt codemods. All they 
 
 Our goal is to achieve broad coverage of common JS dependencies, such as React, Jest, and Chalk, by collaborating with the wider JS community to produce high-quality, versioned codemods.
 
-CodeshiftCommunity offers a registry that hosts and automatically publishes codemods under the [/community directory](https://github.com/hypermod-io/hypermod-community/tree/main/community). This directory organizes codemods by package name and version, and publishes them to npm as modules that can be updated or improved. This ensures that users who run codemods always have access to the latest version.
+Hypermod offers a registry that hosts and automatically publishes codemods under the [/community directory](https://github.com/hypermod-io/hypermod-community/tree/main/community). This directory organizes codemods by package name and version, and publishes them to npm as modules that can be updated or improved. This ensures that users who run codemods always have access to the latest version.
 
 ### Rich documentation
 
-CodeshiftCommunity is focused on providing documentation, guides, recipes, and reference materials to demystify codemods and make them more accessible. By offering this guidance, we hope to make it easier for developers to use codemods and reduce the learning curve.
+Hypermod is focused on providing documentation, guides, recipes, and reference materials to demystify codemods and make them more accessible. By offering this guidance, we hope to make it easier for developers to use codemods and reduce the learning curve.
 
 We want to remove the perception that codemods are difficult or time-consuming to write, and encourage everyone to adopt the practice of using them. By doing so, we aim to increase the number of contributors to codemods and ultimately improve the adoption of new technologies in the JavaScript ecosystem.
-
-### CodeshiftCommunityBot
-
-Introducing [CodeShiftCommunityBot](codeshiftbot), a GitHub app that automatically runs CodeShift codemods in your repository, ensuring that your dependencies are always up-to-date! With CodeShiftCommunityBot, you can easily keep your codebase in line with the latest best practices, without worrying about manually updating your dependencies.
-
-Stay tuned for more information about CodeshiftCommunityBot and how it can help you maintain your repository. We can't wait to share this new tool with you!
 
 ## Getting started
 

@@ -55,7 +55,7 @@ function renderTransform(
 :::info
 [Source](https://github.com/hypermod-io/hypermod-community/tree/main/community/${urlSafePackageName}) | [Report an issue](https://github.com/hypermod-io/hypermod-community/issues/new?title=${safePackageName}@${id})
 
-**Usage** \`$ codeshift --packages ${packageName}${seperator}${id} path/to/source\`
+**Usage** \`$ hypermod --packages ${packageName}${seperator}${id} path/to/source\`
 :::
 
 ${readme ? readme : fallback}

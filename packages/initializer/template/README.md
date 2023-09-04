@@ -1,14 +1,14 @@
 # <% packageName %>
 
-This project was bootstrapped with [CodeshiftCommunity 🚚](https://www.codeshiftcommunity.com/). Please see the [external packages guide](https://www.codeshiftcommunity.com/docs/external-packages) for more information on how to work with this repo.
+This project was bootstrapped with [Hypermod 🚚](https://www.codeshiftcommunity.com/). Please see the [external packages guide](https://www.codeshiftcommunity.com/docs/external-packages) for more information on how to work with this repo.
 
-![CodeshiftCommunity logo](https://www.codeshiftcommunity.com/img/logo.svg)
+![Hypermod logo](https://www.codeshiftcommunity.com/img/logo.svg)
 
 ## Scripts
 
 ### `npm run dev`
 
-Runs the codeshift CLI useful for testing transform files as if they have been published
+Runs the Hypermod CLI useful for testing transform files as if they have been published
 
 **example:** `npm run dev -t codemods/10.0.0/transform.ts`
 
@@ -24,7 +24,7 @@ See the [testing guide](https://www.codeshiftcommunity.com/docs/testing) for mor
 
 ### `npm run validate`
 
-Checks the validity of your `codeshift.config.js` file.
+Checks the validity of your `hypermod.config.js` file.
 
 See the [configuration options](https://www.codeshiftcommunity.com/docs/configuration) for more information.
 
@@ -38,4 +38,4 @@ This package can be published to npm via the normal commands `npm version` and `
 
 ## Build tooling
 
-Feel free to replace the preinstalled build tooling & dependencies to suit your needs. The only requirement is that there is a valid `codeshift.config.js` in your project root, `/src` or `/codemods` directories.
+Feel free to replace the preinstalled build tooling & dependencies to suit your needs. The only requirement is that there is a valid `hypermod.config.js` in your project root, `/src` or `/codemods` directories.

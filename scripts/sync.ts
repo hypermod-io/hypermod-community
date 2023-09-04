@@ -14,7 +14,7 @@ interface DocsData {
 }
 
 async function main() {
-  console.log('🚚 Syncing community packages with the codeshift worker');
+  console.log('🚚 Syncing community packages with the hypermod worker');
 
   const communityCodemods = fs.readdirSync(COMMUNITY_PATH);
   const data: DocsData[] = [];

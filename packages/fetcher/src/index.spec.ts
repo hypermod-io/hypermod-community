@@ -19,7 +19,7 @@ describe('fetcher', () => {
   let mockMatchedPaths: string[] = [];
 
   beforeEach(() => {
-    mockMatchedPaths = [path.join(mockBasePath, 'codeshift.config.js')];
+    mockMatchedPaths = [path.join(mockBasePath, 'hypermod.config.js')];
 
     (globby as unknown as jest.Mock).mockImplementation(() =>
       Promise.resolve(mockMatchedPaths),
@@ -34,10 +34,10 @@ describe('fetcher', () => {
 
   describe('fetchConfig', () => {
     it('fetches config with default export', async () => {
-      const mockFilePath = `${__dirname}/path/to/codeshift.config.js`;
+      const mockFilePath = `${__dirname}/path/to/hypermod.config.js`;
 
       jest.mock(
-        `${__dirname}/path/to/codeshift.config.js`,
+        `${__dirname}/path/to/hypermod.config.js`,
         () => ({ __esModule: true, default: mockConfig }),
         { virtual: true },
       );
@@ -50,7 +50,7 @@ describe('fetcher', () => {
 
     it('fetches config with named export', async () => {
       jest.mock(
-        path.join(mockBasePath, 'codeshift.config.js'),
+        path.join(mockBasePath, 'hypermod.config.js'),
         () => mockConfig,
         {
           virtual: true,
@@ -60,32 +60,32 @@ describe('fetcher', () => {
       const { filePath, config } = await fetchConfig(mockBasePath);
 
       expect(config).toEqual(mockConfig);
-      expect(filePath).toEqual(path.join(mockBasePath, 'codeshift.config.js'));
+      expect(filePath).toEqual(path.join(mockBasePath, 'hypermod.config.js'));
     });
 
     it('fetches first matched config when multiple are found', async () => {
       jest.mock(
-        `${__dirname}/path/to/src/codeshift.config.ts`,
+        `${__dirname}/path/to/src/hypermod.config.ts`,
         () => ({ __esModule: true, default: mockConfig }),
         { virtual: true },
       );
 
       jest.mock(
-        `${__dirname}/path/to/codemods/codeshift.config.tsx`,
+        `${__dirname}/path/to/codemods/hypermod.config.tsx`,
         () => ({ __esModule: true, default: mockConfig }),
         { virtual: true },
       );
 
       mockMatchedPaths = [
-        path.join(mockBasePath, 'src', 'codeshift.config.ts'),
-        path.join(mockBasePath, 'codemods', 'codeshift.config.tsx'),
+        path.join(mockBasePath, 'src', 'hypermod.config.ts'),
+        path.join(mockBasePath, 'codemods', 'hypermod.config.tsx'),
       ];
 
       const { config, filePath } = await fetchConfig(mockBasePath);
 
       expect(config).toEqual(mockConfig);
       expect(filePath).toEqual(
-        path.join(mockBasePath, 'src', 'codeshift.config.ts'),
+        path.join(mockBasePath, 'src', 'hypermod.config.ts'),
       );
     });
 
@@ -100,7 +100,7 @@ describe('fetcher', () => {
 
   describe('fetchPackage', () => {
     it('correctly fetches package and returns a config', async () => {
-      const mockFilePath = 'path/to/config.codeshift.js';
+      const mockFilePath = 'path/to/config.hypermod.js';
       const mockPackageManager = {
         install: jest.fn(),
         getInfo: jest.fn().mockReturnValue({ location: mockFilePath }),
@@ -152,7 +152,7 @@ describe('fetcher', () => {
       );
 
       expect(config).toEqual(mockConfig);
-      expect(filePath).toEqual(mockBasePath + '/codeshift.config.js');
+      expect(filePath).toEqual(mockBasePath + '/hypermod.config.js');
     });
 
     it('should throw if fetching fails', async () => {

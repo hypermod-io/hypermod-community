@@ -25,7 +25,7 @@ Finally, run `yarn` to install the dependencies.
 
 ## Initializing
 
-Create a new codeshift package automatically by running: `yarn codeshift:init -p [package-name] -v [version]`
+Create a new hypermod package automatically by running: `yarn hypermod:init -p [package-name] -v [version]`
 
 For example: `yarn community:init react-cool-library 10.0.0`
 
@@ -35,11 +35,11 @@ You should now see a new folder within the `/community` directory for you to imp
 
 ### File structure
 
-The file structure of your new codeshift package will look like this:
+The file structure of your new hypermod package will look like this:
 
 ```
 community/react-cool-library/
-  codeshift.config.js // main entrypoint containing configuration and references to your transforms
+  hypermod.config.js // main entrypoint containing configuration and references to your transforms
   10.0.0/ // semver version
     transform.ts // main logic (should contain a transformer)
     transform.spec.ts // main tests
@@ -87,6 +87,6 @@ See the [Testing guide](testing) for help getting started with unit tests.
 
 Once you're happy with your new package and you've tested it appropriately, it's time to raise a PR.
 
-When the PR is reviewed and merged, your new package will automatically be published and available via the `codeshift/cli`.
+When the PR is reviewed and merged, your new package will automatically be published and available via the `hypermod/cli`.
 
 Refer to the [Consuming guide](consuming) for information about how to run your new codemods.

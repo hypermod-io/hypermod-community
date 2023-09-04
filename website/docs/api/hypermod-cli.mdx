@@ -29,7 +29,7 @@ But it can also be installed globally:
 
 and run with:
 
-`$ codeshift` or `$ codeshift-cli`
+`$ hypermod` or `$ hypermod-cli`
 
 ## default
 
@@ -39,36 +39,36 @@ In the majority of cases you want to be sure to either provide the `--packages` 
 
 For running codemods as an end-user it's recommend to use the `--packages` flag, which accepts the following format: `--packages [package-name]@[semver-version]`. For example, running the codemod to migrate your codebase to `react` version `18.0.0` you would specify the following `--packages react@18.0.0`.
 
-In special cases, codeshift package authors may choose to also expose codemod "presets", which can be considered as utility codemods for that package. Presets are also run via the `--packages` flag like so: `--packages react#remove-spread-props`.
+In special cases, Hypermod package authors may choose to also expose codemod "presets", which can be considered as utility codemods for that package. Presets are also run via the `--packages` flag like so: `--packages react#remove-spread-props`.
 Notice that we have switched to a hash `#` here to denote that we want to run a preset.
 
-Codeshift will then attempt to locate codemods from both [the public registry](https://github.com/hypermod-io/hypermod-community/tree/main/community) and the primary npm package ie [React – NPM](https://www.npmjs.com/package/react).
+Hypermod will then attempt to locate codemods from both [the public registry](https://github.com/hypermod-io/hypermod-community/tree/main/community) and the primary npm package ie [React – NPM](https://www.npmjs.com/package/react).
 (Note: Some packages wont have any codemods, you can use the [list](#list) subcommand to check if they exist.)
 
-Lastly, when authoring a package, it's possible to test your transforms by omitting both the `--packages` and `--transform` flags. In this interactive mode, the `codeshift/cli` will attempt to locate
-a local `codeshift.config.js` from the current or parent directories and present an interactive prompt for you to choose from.
+Lastly, when authoring a package, it's possible to test your transforms by omitting both the `--packages` and `--transform` flags. In this interactive mode, the `hypermod/cli` will attempt to locate
+a local `hypermod.config.js` from the current or parent directories and present an interactive prompt for you to choose from.
 
 **example:**
 
 Run a transform for "@mylib/button" version 3.0.0 only
 
-- `$ codeshift --packages @mylib/button@3.0.0 /project/src`
+- `$ hypermod --packages @mylib/button@3.0.0 /project/src`
 
 Run a transform for "@mylib/button" preset `foo-bar` only
 
-- `$ codeshift --packages @mylib/button#foo-bar /project/src`
+- `$ hypermod --packages @mylib/button#foo-bar /project/src`
 
 Run all transforms for "@mylib/button" greater than version 3.0.0 and @mylib/range greater than 4.0.0
 
-- `$ codeshift --sequence --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src`
+- `$ hypermod --sequence --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src`
 
 Run the "my-custom-transform" transform
 
-- `$ codeshift -t path/to/my-custom-transform /project/src`
+- `$ hypermod -t path/to/my-custom-transform /project/src`
 
-Display a prompt with a list of codemods from my local `codeshift.config.js` file(s).
+Display a prompt with a list of codemods from my local `hypermod.config.js` file(s).
 
-- `$ codeshift /project/src`
+- `$ hypermod /project/src`
 
 ### --transform, -t
 
@@ -138,7 +138,7 @@ If the package flag is provided, runs all transforms from the provided version t
 
 **example:**
 
-- `$ codeshift --packages @atlaskit/button@3.0.0 --sequence /project/src`
+- `$ hypermod --packages @atlaskit/button@3.0.0 --sequence /project/src`
 
 ### --ignore-pattern
 
@@ -150,7 +150,7 @@ Ignore files that match a provided glob expression
 
 **example:**
 
-- `$ codeshift --ignore-pattern node_modules /project/src/file.js`
+- `$ hypermod --ignore-pattern node_modules /project/src/file.js`
 
 ### --verbose
 
@@ -162,7 +162,7 @@ Show more information about the transform process
 
 **example:**
 
-- `$ codeshift --verbose 2 /project/src/file.js`
+- `$ hypermod --verbose 2 /project/src/file.js`
 
 ### --version, -v
 
@@ -170,8 +170,8 @@ Get current version number
 
 **example:**
 
-- `$ codeshift --version`
-- `$ codeshift -v`
+- `$ hypermod --version`
+- `$ hypermod -v`
 
 ### --registry
 
@@ -183,7 +183,7 @@ If an alternative registry url is provided, all packages will be fetched from th
 
 **example:**
 
-- `$ codeshift --registry https://private-registry.npmjs.org/`
+- `$ hypermod --registry https://private-registry.npmjs.org/`
 
 ### --registryToken
 
@@ -191,7 +191,7 @@ If a registry token is provided, it will be used as an authentication token for 
 
 **example:**
 
-- `$ codeshift --registryToken <ACCESS_TOKEN>`
+- `$ hypermod --registryToken <ACCESS_TOKEN>`
 
 ### --help
 
@@ -199,7 +199,7 @@ Print all help text to the command line
 
 **example:**
 
-- `$ codeshift --help`
+- `$ hypermod --help`
 
 ## list
 
@@ -209,11 +209,11 @@ Subcommand that lists available codemods for the provided packages
 
 Print a list of available codemods for a single package
 
-- `$ codeshift list mylib`
+- `$ hypermod list mylib`
 
 Print a list of available codemods for multiple packages
 
-- `$ codeshift list @atlaskit/avatar @emotion/monorepo`
+- `$ hypermod list @atlaskit/avatar @emotion/monorepo`
 
 ## init
 
@@ -221,22 +221,22 @@ Subcommand that generates a new codemod at your desired path
 
 **example:**
 
-Create a new codeshift package called foobar with a transform for version 10
+Create a new Hypermod package called foobar with a transform for version 10
 on the Desktop
 
-- `$ codeshift init --version="10.0.0" ~/Desktop/foobar`
+- `$ hypermod init --version="10.0.0" ~/Desktop/foobar`
 
-Create an empty codeshift package called on the Desktop
+Create an empty hypermod package called on the Desktop
 
-- `$ codeshift init ~/Desktop/foobar`
+- `$ hypermod init ~/Desktop/foobar`
 
-Create an empty codeshift package called foobar in the current directory
+Create an empty hypermod package called foobar in the current directory
 
-- `$ codeshift init`
+- `$ hypermod init`
 
-Create a 'config only' codeshift package in the current directory
+Create a 'config only' hypermod package in the current directory
 
-- `$ codeshift init --config-only .`
+- `$ hypermod init --config-only .`
 
 ### --config-only (optional)
 
@@ -246,11 +246,11 @@ Only output a configuration file.
 
 Initializes a configuration file only
 
-- `$ codeshift init --config-only path/to/src``
+- `$ hypermod init --config-only path/to/src``
 
 Initializes a configuration file and preset source code
 
-- `$ codeshift init --config-only --preset update-imports path/to/src``
+- `$ hypermod init --config-only --preset update-imports path/to/src``
 
 ### --version (optional)
 
@@ -260,7 +260,7 @@ A semver-compatible string. Will be used to generate mock transform files and co
 
 Create a codemod package called foobar with a versioned transform.
 
-- `$ codeshift init --package-name="foobar" --version="10.0.0" ~/Desktop`
+- `$ hypermod init --package-name="foobar" --version="10.0.0" ~/Desktop`
 
 ### --preset (optional)
 
@@ -270,7 +270,7 @@ A kebab-cased string. Will be used to generate mock transform files and configur
 
 Create a codemod package called foobar with a preset.
 
-- `$ codeshift init --package-name="foobar" --preset="sort-imports" ~/Desktop`
+- `$ hypermod init --package-name="foobar" --preset="sort-imports" ~/Desktop`
 
 ## validate
 
@@ -280,8 +280,8 @@ Subcommand that validates a codemod package at the desired path.
 
 Validate a codemod package called "my-codemods".
 
-- `$ codeshift validate ./codemods/my-codemods`
+- `$ hypermod validate ./codemods/my-codemods`
 
 Validate a codemod package from the current working directory
 
-- `$ codeshift validate`
+- `$ hypermod validate`

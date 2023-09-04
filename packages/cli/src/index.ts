@@ -14,7 +14,7 @@ const program = new Command();
 program
   .enablePositionalOptions()
   .version(packageJson.version, '-v, --version')
-  .name('codeshift')
+  .name('hypermod')
   .argument('[path...]')
   .usage('[global options] <file-paths>...')
   .option(
@@ -74,16 +74,16 @@ program
     `
 Examples:
   # Run a transform for "@mylib/button" version 3.0.0 only
-  $ codeshift --packages @mylib/button@3.0.0 /project/src
+  $ hypermod --packages @mylib/button@3.0.0 /project/src
 
   # Run all transforms for "@mylib/button" greater than version 3.0.0 and @mylib/range greater than 4.0.0
-  $ codeshift --sequence --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src
+  $ hypermod --sequence --packages @mylib/button@3.0.0,@mylib/range@4.0.0 /project/src
 
   # Run the "my-custom-transform" transform
-  $ codeshift -t path/to/my-custom-transform /project/src
+  $ hypermod -t path/to/my-custom-transform /project/src
 
-  # Display a prompt with a list of codemods from my local \`codeshift.config.js\` file(s).
-  $ codeshift /project/src`,
+  # Display a prompt with a list of codemods from my local \`hypermod.config.js\` file(s).
+  $ hypermod /project/src`,
   )
   .action((path, options) => main(path, options));
 
@@ -96,15 +96,15 @@ program
     `
 Examples:
   # Print a list of available codemods for a single package
-  $ codeshift list mylib
+  $ hypermod list mylib
 
   # Print a list of available codemods for multiple packages
-  $ codeshift list @atlaskit/avatar @emotion/monorepo`,
+  $ hypermod list @atlaskit/avatar @emotion/monorepo`,
   );
 
 program
   .command('init [path]')
-  .description('creates a new codeshift package')
+  .description('creates a new hypermod package')
   .option('-c, --config-only', 'Output only a configuration file')
   .option('-t, --transform <value>', 'Transform version')
   .option('-p, --preset <value>', 'Preset transfrom')
@@ -115,32 +115,32 @@ program
     'after',
     `
 Examples:
-  # Initializes an empty codeshift package at the current directory
-  $ codeshift init --transform 10.0.0 my-codemod-package
+  # Initializes an empty hypermod package at the current directory
+  $ hypermod init --transform 10.0.0 my-codemod-package
 
-  # Initializes an empty codeshift package at the current directory
-  $ codeshift init --transform 10.0.0 .
+  # Initializes an empty hypermod package at the current directory
+  $ hypermod init --transform 10.0.0 .
 
-  # Initializes a new codeshift package with a transform for 10.0.0 at the foobar dir
-  $ codeshift init --transform 10.0.0 ~/foobar
+  # Initializes a new hypermod package with a transform for 10.0.0 at the foobar dir
+  $ hypermod init --transform 10.0.0 ~/foobar
 
-  # Initializes a new codeshift package with a preset "update-imports"
-  $ codeshift init --package-name foobar --preset update-imports foobar
+  # Initializes a new hypermod package with a preset "update-imports"
+  $ hypermod init --package-name foobar --preset update-imports foobar
 
   # Initializes a configuration file only
-  $ codeshift init --config-only --preset update-imports path/to/src`,
+  $ hypermod init --config-only --preset update-imports path/to/src`,
   );
 
 program
   .command('validate [path]')
-  .description('validates if a codeshift package is publishable')
+  .description('validates if a hypermod package is publishable')
   .action(path => validate(path))
   .addHelpText(
     'after',
     `
 Examples:
-  $ codeshift validate
-  $ codeshift validate ./codemods/my-codemods`,
+  $ hypermod validate
+  $ hypermod validate ./codemods/my-codemods`,
   );
 
 (async function () {

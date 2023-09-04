@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
 
 import { fetchPackages } from './utils/fetch-package';
-import { getCodeshiftPackageName } from './utils/package-names';
+import { getHypermodPackageName } from './utils/package-names';
 
 export default async function list(packages: string[]) {
   const packageManager = new PluginManager();
@@ -16,14 +16,14 @@ export default async function list(packages: string[]) {
       );
       community &&
         configs.push({
-          packageName: getCodeshiftPackageName(packageName),
+          packageName: getHypermodPackageName(packageName),
           config: community.config,
         });
       remote && configs.push({ packageName, config: remote.config });
     } catch (error) {
       console.warn(
         chalk.red(
-          `Unable to find codeshift package: ${chalk.bold(packageName)}.`,
+          `Unable to find Hypermod package: ${chalk.bold(packageName)}.`,
         ),
       );
 

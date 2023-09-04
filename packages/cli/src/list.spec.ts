@@ -111,7 +111,7 @@ ${chalk.bold('@foo/bar')}
     await list(['bar']);
 
     expect(console.warn).toHaveBeenCalledWith(
-      chalk.red(`Unable to find codeshift package: ${chalk.bold('bar')}.`),
+      chalk.red(`Unable to find Hypermod package: ${chalk.bold('bar')}.`),
     );
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
@@ -126,10 +126,10 @@ ${chalk.bold('@foo/bar')}
     await list(['bar', '@foo/bar']);
 
     expect(console.warn).toHaveBeenCalledWith(
-      chalk.red(`Unable to find codeshift package: ${chalk.bold('bar')}.`),
+      chalk.red(`Unable to find Hypermod package: ${chalk.bold('bar')}.`),
     );
     expect(console.warn).toHaveBeenCalledWith(
-      chalk.red(`Unable to find codeshift package: ${chalk.bold('@foo/bar')}.`),
+      chalk.red(`Unable to find Hypermod package: ${chalk.bold('@foo/bar')}.`),
     );
     expect(console.warn).toHaveBeenCalledTimes(2);
   });
@@ -183,10 +183,10 @@ ${chalk.bold('found2')}
    └─ sort-imports`);
 
     expect(console.warn).toHaveBeenCalledWith(
-      chalk.red(`Unable to find codeshift package: ${chalk.bold('unknown')}.`),
+      chalk.red(`Unable to find Hypermod package: ${chalk.bold('unknown')}.`),
     );
     expect(console.warn).toHaveBeenCalledWith(
-      chalk.red(`Unable to find codeshift package: ${chalk.bold('dunno')}.`),
+      chalk.red(`Unable to find Hypermod package: ${chalk.bold('dunno')}.`),
     );
     expect(console.warn).toHaveBeenCalledTimes(2);
   });

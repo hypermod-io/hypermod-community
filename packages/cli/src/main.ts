@@ -48,7 +48,7 @@ export default async function main(
   if (!flags.transform && !flags.packages) {
     console.log(
       chalk.green(
-        'No transforms specified, attempting to find local codeshift.config file(s)',
+        'No transforms specified, attempting to find local hypermod.config file(s)',
       ),
     );
 
@@ -115,6 +115,15 @@ export default async function main(
        * Otherwise, locate any config files in parent directories
        */
       const configFilePath = await findUp([
+        'hypermod.config.js',
+        'hypermod.config.ts',
+        'hypermod.config.tsx',
+        'src/hypermod.config.js',
+        'src/hypermod.config.ts',
+        'src/hypermod.config.tsx',
+        'codemods/hypermod.config.js',
+        'codemods/hypermod.config.ts',
+        'codemods/hypermod.config.tsx',
         'codeshift.config.js',
         'codeshift.config.ts',
         'codeshift.config.tsx',
@@ -133,7 +142,7 @@ export default async function main(
       }
 
       console.log(
-        chalk.green('Found local codeshift.config file at:'),
+        chalk.green('Found local hypermod.config file at:'),
         configFilePath,
       );
 

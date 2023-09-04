@@ -9,40 +9,36 @@ import {
 } from '@hypermod/fetcher';
 import { isValidConfig } from '@hypermod/validator';
 
-import { getCodeshiftPackageName } from './package-names';
+import { getHypermodPackageName } from './package-names';
 
 export async function fetchPackages(
   packageName: string,
   packageManager: PluginManager,
 ) {
-  const codeshiftPackageName = getCodeshiftPackageName(packageName);
-  let codeshiftPackage: ConfigMeta | undefined;
+  const hypermodPackageName = getHypermodPackageName(packageName);
+  let hypermodPackage: ConfigMeta | undefined;
   let remotePackage: ConfigMeta | undefined;
 
   const spinner = ora(
-    `${chalk.green(
-      'Attempting to download CodeshiftCommunity package:',
-    )} ${packageName}`,
+    `${chalk.green('Attempting to download Hypermod package:')} ${packageName}`,
   ).start();
 
   try {
-    codeshiftPackage = await fetchPackage(codeshiftPackageName, packageManager);
+    hypermodPackage = await fetchPackage(hypermodPackageName, packageManager);
     spinner.succeed(
-      `${chalk.green(
-        'Found CodeshiftCommunity package:',
-      )} ${codeshiftPackageName}`,
+      `${chalk.green('Found Hypermod package:')} ${hypermodPackageName}`,
     );
   } catch (error) {
     spinner.warn(
       `${chalk.yellow(
-        `Unable to locate CodeshiftCommunity package:`,
-      )} ${codeshiftPackageName}`,
+        `Unable to locate Hypermod package:`,
+      )} ${hypermodPackageName}`,
     );
   }
 
-  if (codeshiftPackage && !isValidConfig(codeshiftPackage.config)) {
+  if (hypermodPackage && !isValidConfig(hypermodPackage.config)) {
     throw new Error(
-      `Unable to locate a valid codeshift.config for Community package: ${packageName}`,
+      `Unable to locate a valid hypermod.config for community package: ${packageName}`,
     );
   }
 
@@ -51,30 +47,28 @@ export async function fetchPackages(
       `${chalk.green(`Attempting to download npm package:`)} ${packageName}`,
     );
     remotePackage = await fetchRemotePackage(packageName, packageManager);
-    spinner.succeed(
-      `${chalk.green('Found codeshift package:')} ${packageName}`,
-    );
+    spinner.succeed(`${chalk.green('Found hypermod package:')} ${packageName}`);
   } catch (error) {
     spinner.warn(
-      `${chalk.yellow('Unable to locate codeshift package:')} ${packageName}`,
+      `${chalk.yellow('Unable to locate hypermod package:')} ${packageName}`,
     );
   }
 
   if (remotePackage && !isValidConfig(remotePackage.config)) {
     throw new Error(
-      `Unable to locate a valid codeshift.config for remote package: ${packageName}`,
+      `Unable to locate a valid hypermod.config for remote package: ${packageName}`,
     );
   }
 
-  if (!codeshiftPackage && !remotePackage) {
+  if (!hypermodPackage && !remotePackage) {
     throw new Error(
-      `Unable to locate package from codeshift-community or NPM.
+      `Unable to locate package from Hypermod community or NPM.
 Make sure the package name "${packageName}" is correct and try again.`,
     );
   }
 
   return {
-    community: codeshiftPackage,
+    community: hypermodPackage,
     remote: remotePackage,
   };
 }

@@ -109,7 +109,7 @@ describe('validator', () => {
 
     it('should validate config', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
-        location: 'path/to/codeshift.config.js',
+        location: 'path/to/hypermod.config.js',
         config: {
           transforms: {
             '10.0.0': jest.fn(),
@@ -123,7 +123,7 @@ describe('validator', () => {
 
     it('should error if config contains an invalid property', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
-        location: 'path/to/codeshift.config.js',
+        location: 'path/to/hypermod.config.js',
         config: {
           invalidProperty: 'foo',
         },
@@ -136,7 +136,7 @@ describe('validator', () => {
 
     it('should error if config contains multiple invalid properties', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
-        location: 'path/to/codeshift.config.js',
+        location: 'path/to/hypermod.config.js',
         config: {
           invalidProperty: 'foo',
           invalidProperty2: 'foo',
@@ -151,7 +151,7 @@ describe('validator', () => {
 
     it('should error if config contains invalid transforms', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
-        location: 'path/to/codeshift.config.js',
+        location: 'path/to/hypermod.config.js',
         config: {
           transforms: {
             hello: '',
@@ -167,7 +167,7 @@ Please make sure all transforms are identified by a valid semver version. ie 10.
 
     it('should error if config contains invalid presets', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
-        location: 'path/to/codeshift.config.js',
+        location: 'path/to/hypermod.config.js',
         config: {
           presets: {
             'foo bar': '',

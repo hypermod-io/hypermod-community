@@ -13,7 +13,7 @@ export default async function init(
   targetPath = '.',
 ) {
   const packageName =
-    targetPath !== '.' ? path.basename(targetPath) : 'codeshift-community';
+    targetPath !== '.' ? path.basename(targetPath) : 'Hypermod';
 
   if (configOnly) {
     initConfig(packageName, targetPath);
@@ -33,13 +33,13 @@ export default async function init(
   Inside that directory, you can run the following commands:
 
   ${chalk.blueBright('npm run dev')}
-  Starts the Codeshift cli
+  Starts the Hypermod CLI
 
   ${chalk.blueBright('npm run test')}
   Launches the test runner in watch mode.
 
   ${chalk.blueBright('npm run validate')}
-  Checks the validity of your \`codeshift.config.js\` file
+  Checks the validity of your \`hypermod.config.js\` file
 
   ${chalk.blueBright('npm run build')}
   Builds the app for production to the \`dist\` folder.
@@ -55,6 +55,6 @@ export default async function init(
   }
 
   console.log(
-    chalk.green(`🚚 New codeshift.config.js created at: ${targetPath}`),
+    chalk.green(`🚚 New hypermod.config.js created at: ${targetPath}`),
   );
 }
