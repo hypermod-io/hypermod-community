@@ -1,5 +1,15 @@
 # @hypermod/cli
 
+## 0.18.3
+
+### Patch Changes
+
+- Updated dependencies [671072a7]
+- Updated dependencies [671072a7]
+  - @hypermod/fetcher@0.5.0
+  - @hypermod/initializer@0.5.2
+  - @hypermod/validator@0.6.2
+
 ## 0.18.2
 
 ### Patch Changes
