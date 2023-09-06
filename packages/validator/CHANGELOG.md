@@ -1,5 +1,14 @@
 # @hypermod/validator
 
+## 0.6.2
+
+### Patch Changes
+
+- 671072a7: Removes unused dependencies
+- Updated dependencies [671072a7]
+- Updated dependencies [671072a7]
+  - @hypermod/fetcher@0.5.0
+
 ## 0.6.1
 
 ### Patch Changes

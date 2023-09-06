@@ -1,5 +1,12 @@
 # @hypermod/initializer
 
+## 0.5.2
+
+### Patch Changes
+
+- 671072a7: Removes unused dependencies
+  - @hypermod/cli@0.18.3
+
 ## 0.5.1
 
 ### Patch Changes

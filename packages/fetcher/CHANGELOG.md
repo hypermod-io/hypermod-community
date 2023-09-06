@@ -1,5 +1,15 @@
 # @hypermod/fetcher
 
+## 0.5.0
+
+### Minor Changes
+
+- 671072a7: Added blacklist to remote package fetcher to ensure dependencies such as `javascript` aren't downloaded since they will never contain a hypermod.config file.
+
+### Patch Changes
+
+- 671072a7: Removes unused dependencies
+
 ## 0.4.1
 
 ### Patch Changes

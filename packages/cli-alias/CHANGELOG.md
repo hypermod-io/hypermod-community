@@ -1,5 +1,11 @@
 # @codeshift/cli
 
+## 0.18.3
+
+### Patch Changes
+
+- @hypermod/cli@0.18.3
+
 ## 0.18.2
 
 ### Patch Changes
