@@ -2,6 +2,8 @@ import fs from 'fs-extra';
 import path from 'path';
 import semver from 'semver';
 import * as recast from 'recast';
+import { version as cliVersion } from '@hypermod/cli/package.json';
+import { version as utilVersion } from '@hypermod/utils/package.json';
 
 const TEMPLATE_PATH = path.join(__dirname, '..', 'template');
 
@@ -20,11 +22,11 @@ export function getPackageJson(packageName: string, version = '0.0.0') {
         validate: 'hypermod validate .',
       },
       dependencies: {
-        '@hypermod/utils': `^0.3.0`,
+        '@hypermod/utils': `^${utilVersion}`,
         jscodeshift: '^0.13.1',
       },
       devDependencies: {
-        '@hypermod/cli': 'latest',
+        '@hypermod/cli': `^${cliVersion}`,
         '@types/jest': '^26.0.15',
         '@types/node': '^16.11.0',
         jest: '^26.6.0',
