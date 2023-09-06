@@ -95,6 +95,10 @@ export async function fetchRemotePackage(
   packageName: string,
   packageManager: PluginManager,
 ): Promise<ConfigMeta> {
+  if (['javascript', 'typescript'].includes(packageName)) {
+    throw new Error(`'${packageName}' is ignored as a remote package.`);
+  }
+
   await packageManager.install(packageName);
   const info = packageManager.getInfo(packageName);
 
