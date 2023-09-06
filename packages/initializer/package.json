@@ -11,8 +11,7 @@
     "@hypermod/utils": "*",
     "fs-extra": "^9.1.0",
     "recast": "^0.20.4",
-    "semver": "^7.3.5",
-    "ts-node": "^10.9.1"
+    "semver": "^7.3.5"
   },
   "engines": {
     "node": ">=14"
