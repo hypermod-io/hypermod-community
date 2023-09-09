@@ -2,20 +2,22 @@
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
+    "moduleResolution": "node",
+    "target": "es6",
+    "module": "CommonJS",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "paths": {
-      "@hypermod/*": ["../packages/*/src"],
-      "@hypermod/*": ["../packages/*/src"]
-    }
+    "lib": [
+      "es5",
+      "scripthost",
+      "es2015.core",
+      "es2015.collection",
+      "es2015.symbol",
+      "es2015.iterable",
+      "es2015.promise",
+      "es2016",
+      "es2017"
+    ]
   },
-  "include": ["packages/**/*", "community/**/*", "scripts"],
-  "exclude": [
-    "node_modules",
-    "plugin_packages",
-    "dist",
-    "__tests__",
-    "**/*.test*",
-    "**/*.spec*"
-  ]
+  "exclude": ["node_modules", "plugin_packages", "dist"]
 }

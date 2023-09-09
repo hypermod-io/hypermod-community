@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true
+  },
+  "exclude": [
+    "node_modules",
+    "plugin_packages",
+    "dist",
+    "__tests__",
+    "**/*.test*",
+    "**/*.spec*"
+  ],
+  "references": [
+    { "path": "./packages/cli" },
+    { "path": "./packages/cli-alias" },
+    { "path": "./packages/core" },
+    { "path": "./packages/validator" },
+    { "path": "./packages/initializer" },
+    { "path": "./packages/fetcher" },
+    { "path": "./packages/utils" },
+    { "path": "./packages/types" }
+  ]
+}
