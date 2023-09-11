@@ -1,4 +1,9 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["packages/**/*.ts", "community/**/*.ts", "scripts"]
+  "include": [
+    "packages/**/*.ts",
+    "community/**/*.ts",
+    "community/**/hypermod.config.js",
+    "scripts"
+  ]
 }

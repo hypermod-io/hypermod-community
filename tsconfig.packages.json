@@ -4,6 +4,8 @@
     "composite": true
   },
   "exclude": [
+    "./community",
+    "./scripts",
     "node_modules",
     "plugin_packages",
     "dist",
