@@ -1,5 +1,11 @@
 # @hypermod/core
 
+## 0.2.1
+
+### Patch Changes
+
+- b74b0a27: Bumps typescript to 5.2.2
+
 ## 0.2.0
 
 ### Minor Changes
