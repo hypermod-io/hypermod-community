@@ -47,10 +47,14 @@ export async function fetchPackages(
       `${chalk.green(`Attempting to download npm package:`)} ${packageName}`,
     );
     remotePackage = await fetchRemotePackage(packageName, packageManager);
-    spinner.succeed(`${chalk.green('Found hypermod package:')} ${packageName}`);
+    spinner.succeed(
+      `${chalk.green('Found remote Hypermod package:')} ${packageName}`,
+    );
   } catch (error) {
     spinner.warn(
-      `${chalk.yellow('Unable to locate hypermod package:')} ${packageName}`,
+      `${chalk.yellow(
+        'Unable to locate remote Hypermod package:',
+      )} ${packageName}`,
     );
   }
 
@@ -62,7 +66,7 @@ export async function fetchPackages(
 
   if (!hypermodPackage && !remotePackage) {
     throw new Error(
-      `Unable to locate package from Hypermod community or NPM.
+      `Unable to locate package from Hypermod Community or NPM.
 Make sure the package name "${packageName}" is correct and try again.`,
     );
   }

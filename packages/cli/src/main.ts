@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import findUp from 'find-up';
 import inquirer from 'inquirer';
 import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
+import { installPackage } from '@antfu/install-pkg';
 
 import * as core from '@hypermod/core';
 import { CodeshiftConfig } from '@hypermod/types';
@@ -14,6 +15,14 @@ import { InvalidUserInputError } from './errors';
 import { fetchPackages } from './utils/fetch-package';
 import { mergeConfigs } from './utils/merge-configs';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
+
+const ExperimentalModuleLoader = () => ({
+  install: async (packageName: string) => await installPackage(packageName),
+  require: (packageName: string) => require(packageName),
+  getInfo: (packageName: string) => ({
+    location: require.resolve(packageName),
+  }),
+});
 
 export default async function main(
   paths: string[],
@@ -41,7 +50,9 @@ export default async function main(
     };
   }
 
-  const packageManager = new PluginManager(pluginManagerConfig);
+  const packageManager = flags.experimentalLoader
+    ? ExperimentalModuleLoader()
+    : new PluginManager(pluginManagerConfig);
 
   let transforms: string[] = [];
 
@@ -193,6 +204,7 @@ export default async function main(
 
       const { community, remote } = await fetchPackages(
         pkgName,
+        // @ts-expect-error Experimental loader
         packageManager,
       );
 

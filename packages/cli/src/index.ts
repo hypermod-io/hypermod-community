@@ -1,3 +1,5 @@
+import path from 'path';
+import { readFileSync } from 'fs';
 import chalk from 'chalk';
 import { Command, Option, CommanderError } from 'commander';
 
@@ -7,13 +9,16 @@ import init from './init';
 import validate from './validate';
 import { InvalidUserInputError, InvalidConfigError } from './errors';
 
-// import packageJson from '../package.json';
+const packageJson = readFileSync(
+  path.join(__dirname, '..', 'package.json'),
+  'utf-8',
+);
 
 const program = new Command();
 
 program
   .enablePositionalOptions()
-  .version('packageJson.version', '-v, --version')
+  .version(JSON.parse(packageJson).version, '-v, --version')
   .name('hypermod')
   .argument('[path...]')
   .usage('[global options] <file-paths>...')
@@ -60,6 +65,10 @@ program
   .option(
     '--registryToken <value>',
     'Define an authentication token to use as credentials for the registry',
+  )
+  .option(
+    '--experimental-loader',
+    'Enables the experimental package downloader',
   )
   .addOption(
     new Option(
