@@ -1,6 +1,6 @@
 {
   "name": "@hypermod/mod-atlaskit__calendar",
-  "version": "0.3.2",
+  "version": "0.3.1",
   "license": "MIT",
   "source": "src/hypermod.config.js",
   "main": "dist/hypermod.config.js",
@@ -11,11 +11,11 @@
     "validate": "hypermod validate ."
   },
   "dependencies": {
-    "@hypermod/utils": "^0.4.1",
+    "@hypermod/utils": "^0.4.0",
     "jscodeshift": "^0.13.1"
   },
   "devDependencies": {
-    "@hypermod/cli": "^0.19.0",
+    "@hypermod/cli": "^0.18.0",
     "@types/jest": "^29.0.0",
     "@types/node": "^16.11.0",
     "jest": "^29.0.0",
