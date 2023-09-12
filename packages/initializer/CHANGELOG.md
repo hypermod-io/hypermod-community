@@ -1,15 +1,5 @@
 # @hypermod/initializer
 
-## 0.5.3
-
-### Patch Changes
-
-- b74b0a27: Bumps typescript to 5.2.2
-- Updated dependencies [b74b0a27]
-- Updated dependencies [10277241]
-  - @hypermod/utils@0.4.1
-  - @hypermod/cli@0.19.0
-
 ## 0.5.2
 
 ### Patch Changes

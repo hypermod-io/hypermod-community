@@ -1,6 +1,6 @@
 {
   "name": "@hypermod/initializer",
-  "version": "0.5.3",
+  "version": "0.5.2",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
