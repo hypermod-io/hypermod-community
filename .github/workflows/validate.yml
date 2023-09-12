@@ -23,6 +23,13 @@ jobs:
       - run: npm install -g yarn
       - run: yarn install --frozen-lockfile
       - run: yarn build
+      - run: git status
+      - name: Check for changes
+        run: |
+          if [ $(git status --porcelain | wc -l) -ne 0 ]; then
+            echo "::error::Changes detected (modified or added files)"
+            exit 1
+          fi
       - run: yarn validate
         env:
           CI: true

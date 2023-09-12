@@ -1,0 +1,26 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true
+  },
+  // https://github.com/microsoft/TypeScript/issues/55717#issuecomment-1715003394
+  "files": [],
+  "include": [],
+  "exclude": [
+    "./community",
+    "./scripts",
+    "__tests__",
+    "**/*.test*",
+    "**/*.spec*"
+  ],
+  "references": [
+    { "path": "./packages/cli" },
+    { "path": "./packages/cli-alias" },
+    { "path": "./packages/core" },
+    { "path": "./packages/validator" },
+    { "path": "./packages/initializer" },
+    { "path": "./packages/fetcher" },
+    { "path": "./packages/utils" },
+    { "path": "./packages/types" }
+  ]
+}

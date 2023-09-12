@@ -7,13 +7,13 @@ import init from './init';
 import validate from './validate';
 import { InvalidUserInputError, InvalidConfigError } from './errors';
 
-import packageJson from '../package.json';
+// import packageJson from '../package.json';
 
 const program = new Command();
 
 program
   .enablePositionalOptions()
-  .version(packageJson.version, '-v, --version')
+  .version('packageJson.version', '-v, --version')
   .name('hypermod')
   .argument('[path...]')
   .usage('[global options] <file-paths>...')

@@ -33,7 +33,7 @@ export function getPackageJson(packageName: string, version = '0.0.0') {
         parcel: '^2.8.3',
         prettier: '^2.0.0',
         'ts-jest': '^26.4.4',
-        typescript: '^4.5.5',
+        typescript: '^5.2.2',
       },
     },
     null,
