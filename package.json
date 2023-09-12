@@ -33,7 +33,7 @@
     "community:init:preset": "ts-node scripts/initialize-preset.ts",
     "community:validate": "ts-node scripts/validate.ts ./community",
     "worker:sync": "ts-node scripts/sync.ts",
-    "prerelease": "yarn validate && yarn test",
+    "prerelease": "yarn build && yarn validate && yarn test",
     "release": "yarn changeset publish"
   },
   "dependencies": {
