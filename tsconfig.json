@@ -19,5 +19,6 @@
       "es2017"
     ]
   },
-  "exclude": ["node_modules", "plugin_packages", "dist"]
+  "include": ["packages/**/*", "community/**/*", "scripts"],
+  "exclude": ["./node_modules", "./plugin_packages"]
 }

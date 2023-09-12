@@ -2,8 +2,10 @@
   "extends": "../../tsconfig.packages.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "baseUrl": "."
   },
+  "include": ["src"],
   "references": [
     { "path": "../types" },
     { "path": "../core" },

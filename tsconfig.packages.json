@@ -3,12 +3,12 @@
   "compilerOptions": {
     "composite": true
   },
+  // https://github.com/microsoft/TypeScript/issues/55717#issuecomment-1715003394
+  "files": [],
+  "include": [],
   "exclude": [
     "./community",
     "./scripts",
-    "node_modules",
-    "plugin_packages",
-    "dist",
     "__tests__",
     "**/*.test*",
     "**/*.spec*"

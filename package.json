@@ -11,7 +11,7 @@
     "docs:start": "cd website && yarn start",
     "postinstall": "yarn monorepo:check",
     "build": "yarn build:pkgs && yarn build:community",
-    "build:pkgs": "yarn clean && tsc --build tsconfig.packages.json",
+    "build:pkgs": "tsc --build tsconfig.packages.json",
     "build:pkgs:watch": "tsc --build --watch tsconfig.packages.json",
     "build:community": "parcel build community/*",
     "build:community:watch": "parcel watch community/*",
