@@ -1,5 +1,18 @@
 # @codeshift/cli
 
+## 0.19.0
+
+### Minor Changes
+
+- 10277241: Implements alternate dependency downloader which is available via the --experimental-loader flag
+
+### Patch Changes
+
+- b74b0a27: Bumps typescript to 5.2.2
+- Updated dependencies [b74b0a27]
+- Updated dependencies [10277241]
+  - @hypermod/cli@0.19.0
+
 ## 0.18.3
 
 ### Patch Changes

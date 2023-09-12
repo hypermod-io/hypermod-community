@@ -1,5 +1,21 @@
 # @hypermod/cli
 
+## 0.19.0
+
+### Minor Changes
+
+- 10277241: Implements alternate dependency downloader which is available via the --experimental-loader flag
+
+### Patch Changes
+
+- b74b0a27: Bumps typescript to 5.2.2
+- Updated dependencies [b74b0a27]
+  - @hypermod/initializer@0.5.3
+  - @hypermod/validator@0.6.3
+  - @hypermod/fetcher@0.5.1
+  - @hypermod/types@0.1.1
+  - @hypermod/core@0.2.1
+
 ## 0.18.3
 
 ### Patch Changes

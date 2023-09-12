@@ -1,5 +1,14 @@
 # @hypermod/validator
 
+## 0.6.3
+
+### Patch Changes
+
+- b74b0a27: Bumps typescript to 5.2.2
+- Updated dependencies [b74b0a27]
+  - @hypermod/fetcher@0.5.1
+  - @hypermod/types@0.1.1
+
 ## 0.6.2
 
 ### Patch Changes
