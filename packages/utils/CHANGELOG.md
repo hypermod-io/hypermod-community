@@ -1,5 +1,11 @@
 # @hypermod/utils
 
+## 0.4.1
+
+### Patch Changes
+
+- 4a89dd20: Bumps typescript to 5.2.2
+
 ## 0.4.0
 
 ### Minor Changes

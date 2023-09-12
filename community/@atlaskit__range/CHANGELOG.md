@@ -1,5 +1,13 @@
 # @hypermod/mod-atlaskit\_\_range
 
+## 0.3.2
+
+### Patch Changes
+
+- 4a89dd20: Bumps typescript to 5.2.2
+- Updated dependencies [4a89dd20]
+  - @hypermod/utils@0.4.1
+
 ## 0.3.1
 
 ### Patch Changes
