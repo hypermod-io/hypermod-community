@@ -17,7 +17,8 @@ import { mergeConfigs } from './utils/merge-configs';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
 
 const ExperimentalModuleLoader = () => ({
-  install: async (packageName: string) => await installPackage(packageName),
+  install: async (packageName: string) =>
+    await installPackage(packageName, { cwd: __dirname }),
   require: (packageName: string) => require(packageName),
   getInfo: (packageName: string) => ({
     location: require.resolve(packageName),
