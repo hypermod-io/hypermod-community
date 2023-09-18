@@ -284,7 +284,7 @@ export default async function main(
     await core.run(transform, paths, {
       verbose: flags.verbose,
       dry: flags.dry,
-      print: true,
+      print: false,
       babel: true,
       extensions: flags.extensions,
       ignorePattern: flags.ignorePattern,
