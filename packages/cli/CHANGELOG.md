@@ -1,5 +1,11 @@
 # @hypermod/cli
 
+## 0.19.2
+
+### Patch Changes
+
+- 61c95968: Experimental loader will now install deps relative to the CLI source files
+
 ## 0.19.1
 
 ### Patch Changes
