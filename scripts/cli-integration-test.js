@@ -27,7 +27,10 @@ function main() {
 
   {
     const targetFilePath = path.join(__dirname, 'remove-unused-vars-test2.ts');
-    writeFileSync(targetFilePath, `function hello() { var a = 1; debugger; }`);
+    writeFileSync(
+      targetFilePath,
+      `export function hello() { var a = 1; debugger; }`,
+    );
 
     execSync(
       `npx --yes @hypermod/cli@latest --packages javascript#remove-unused-vars --experimental-loader ${targetFilePath}`,
@@ -35,7 +38,9 @@ function main() {
     );
 
     const targetFileOutput = readFileSync(targetFilePath, 'utf-8');
-    const expectedFileOutput = `function hello() { debugger; }`;
+    const expectedFileOutput = `export function hello() {
+  debugger;
+}`;
 
     if (targetFileOutput !== expectedFileOutput) {
       throw new Error(

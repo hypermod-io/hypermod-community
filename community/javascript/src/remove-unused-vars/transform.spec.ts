@@ -18,6 +18,19 @@ console.log(y);
     `);
   });
 
+  it('should remove unused variables in function declaration', async () => {
+    const result = await applyTransform(
+      transformer,
+      `export function hello() { var a = 1; debugger; }`,
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      "export function hello() {
+        debugger;
+      }"
+    `);
+  });
+
   it('should not remove used variables', async () => {
     const result = await applyTransform(
       transformer,
