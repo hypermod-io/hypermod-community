@@ -1,5 +1,13 @@
 # @hypermod/cli
 
+## 0.19.1
+
+### Patch Changes
+
+- fba0b75d: Fixes missing lib files
+- Updated dependencies [fba0b75d]
+  - @hypermod/core@0.2.2
+
 ## 0.19.0
 
 ### Minor Changes
