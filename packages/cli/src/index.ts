@@ -169,8 +169,8 @@ Examples:
     }
 
     if (error instanceof InvalidUserInputError) {
-      console.warn(program.help());
       console.warn(chalk.red(error.message));
+      console.warn(program.help());
       process.exit(9);
     }
 
