@@ -1,5 +1,11 @@
 # @hypermod/cli
 
+## 0.19.3
+
+### Patch Changes
+
+- fa37fe1d: Correctly report invalid user input errors
+
 ## 0.19.2
 
 ### Patch Changes
