@@ -8,7 +8,7 @@ function main() {
     writeFileSync(targetFilePath, `function hello() { debugger; }`);
 
     execSync(
-      `npx --yes @hypermod/cli@latest --packages javascript#remove-debugger --verbose ${targetFilePath}`,
+      `npx --yes @hypermod/cli@latest --packages javascript#remove-debugger --verbose="0" ${targetFilePath}`,
       { stdio: 'inherit' },
     );
 
@@ -33,7 +33,7 @@ function main() {
     );
 
     execSync(
-      `npx --yes @hypermod/cli@latest --packages javascript#remove-unused-vars --experimental-loader --verbose ${targetFilePath}`,
+      `npx --yes @hypermod/cli@latest --packages javascript#remove-unused-vars --experimental-loader --verbose="0" ${targetFilePath}`,
       { stdio: 'inherit' },
     );
 
