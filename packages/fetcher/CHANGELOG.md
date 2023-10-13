@@ -1,5 +1,11 @@
 # @hypermod/fetcher
 
+## 0.5.2
+
+### Patch Changes
+
+- ecdf9cb0: Remove src dir from npm
+
 ## 0.5.1
 
 ### Patch Changes
