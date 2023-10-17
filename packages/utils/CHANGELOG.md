@@ -1,5 +1,11 @@
 # @hypermod/utils
 
+## 0.4.2
+
+### Patch Changes
+
+- ecdf9cb0: Remove src dir from npm
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @hypermod/initializer
 
+## 0.5.4
+
+### Patch Changes
+
+- ecdf9cb0: Remove src dir from npm
+- Updated dependencies [ecdf9cb0]
+  - @hypermod/utils@0.4.2
+
 ## 0.5.3
 
 ### Patch Changes

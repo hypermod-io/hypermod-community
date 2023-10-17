@@ -1,5 +1,13 @@
 # @hypermod/validator
 
+## 0.6.4
+
+### Patch Changes
+
+- ecdf9cb0: Remove src dir from npm
+- Updated dependencies [ecdf9cb0]
+  - @hypermod/fetcher@0.5.2
+
 ## 0.6.3
 
 ### Patch Changes
