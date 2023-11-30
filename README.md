@@ -62,6 +62,12 @@ and run with:
 
 `$ hypermod or $ hypermod-cli`
 
+## Used by
+- [Algolia](https://www.algolia.com/doc/guides/building-search-ui/upgrade-guides/react/)
+- [Compiled CSS-in-JS](https://github.com/atlassian-labs/compiled/tree/master/packages/codemods)
+- [react-resource-router](https://github.com/atlassian-labs/react-resource-router/tree/master/codemods)
+- [Webdriver.io](https://github.com/webdriverio/codemod)
+
 ## Sponsors
 
 Huge thanks for all of the support from our sponsors!
