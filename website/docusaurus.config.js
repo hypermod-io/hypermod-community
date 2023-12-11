@@ -121,6 +121,10 @@ module.exports = {
           title: 'More',
           items: [
             {
+              label: 'Hypermod GPT',
+              href: 'https://chat.openai.com/g/g-RK2euIGZ5-hypermod-gpt',
+            },
+            {
               label: 'GitHub',
               href: 'https://github.com/hypermod-io/hypermod-community',
             },
