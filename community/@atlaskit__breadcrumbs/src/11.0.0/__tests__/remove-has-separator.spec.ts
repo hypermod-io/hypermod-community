@@ -1,3 +1,4 @@
+import { applyTransform } from '@hypermod/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
 import removeHasSeparator from '../motions/remove-has-separator';
 
@@ -13,13 +14,11 @@ function transformer(
   return source.toSource(options.printOptions);
 }
 
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
-
 describe('@atlaskit/breadcrumbs@11.0.0 motion: delete hasSeparator prop', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('should change nothing when hasSeparator is not used ', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React from "react";
       import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
 
@@ -30,24 +29,28 @@ describe('@atlaskit/breadcrumbs@11.0.0 motion: delete hasSeparator prop', () => 
       </Breadcrumbs>
       );
     `,
-    `
-      import React from "react";
-      import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
+      {
+        parser: 'tsx',
+      },
+    );
 
-      export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId">
-        <BreadcrumbsItem href="/page" text="item 1" />
-        <BreadcrumbsItem href="/page" text="item 2" />
-      </Breadcrumbs>
-      );
-    `,
-    'should change nothing when hasSeparator is not used ',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+            import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+            export default () => (
+            <Breadcrumbs testId="BreadcrumbsTestId">
+              <BreadcrumbsItem href="/page" text="item 1" />
+              <BreadcrumbsItem href="/page" text="item 2" />
+            </Breadcrumbs>
+            );"
+    `);
+  });
+
+  it('should delete hasSeparator when found it', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React from "react";
       import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
 
@@ -58,24 +61,28 @@ describe('@atlaskit/breadcrumbs@11.0.0 motion: delete hasSeparator prop', () => 
       </Breadcrumbs>
       );
     `,
-    `
-      import React from "react";
-      import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
+      {
+        parser: 'tsx',
+      },
+    );
 
-      export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId">
-        <BreadcrumbsItem href="/page" text="item 1" />
-        <BreadcrumbsItem href="/page" text="item 2" />
-      </Breadcrumbs>
-      );
-    `,
-    'should delete hasSeparator when found it',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+            import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+            export default () => (
+            <Breadcrumbs testId="BreadcrumbsTestId">
+              <BreadcrumbsItem href="/page" text="item 1" />
+              <BreadcrumbsItem href="/page" text="item 2" />
+            </Breadcrumbs>
+            );"
+    `);
+  });
+
+  it('should delete hasSeparator when found it - named import', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React from "react";
       import Breadcrumbs, {BreadcrumbsItem as Item} from "@atlaskit/breadcrumbs";
 
@@ -86,71 +93,62 @@ describe('@atlaskit/breadcrumbs@11.0.0 motion: delete hasSeparator prop', () => 
       </Breadcrumbs>
       );
     `,
-    `
-      import React from "react";
-      import Breadcrumbs, {BreadcrumbsItem as Item} from "@atlaskit/breadcrumbs";
+      {
+        parser: 'tsx',
+      },
+    );
 
-      export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId">
-        <Item href="/page" text="item 1" />
-        <Item href="/page" text="item 2" />
-      </Breadcrumbs>
-      );
-    `,
-    'should delete hasSeparator when found it - named import',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+            import Breadcrumbs, {BreadcrumbsItem as Item} from "@atlaskit/breadcrumbs";
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import Breadcrumbs from "@atlaskit/breadcrumbs";
-      import BreadcrumbsItem from "@facebook/breadcrumbs";
+            export default () => (
+            <Breadcrumbs testId="BreadcrumbsTestId">
+              <Item href="/page" text="item 1" />
+              <Item href="/page" text="item 2" />
+            </Breadcrumbs>
+            );"
+    `);
+  });
 
-      export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId">
-        <BreadcrumbsItem href="/page" text="item 1" hasSeparator />
-        <BreadcrumbsItem href="/page" text="item 2" hasSeparator={false} />
-      </Breadcrumbs>
-      );
-    `,
-    `
-      import React from "react";
-      import Breadcrumbs from "@atlaskit/breadcrumbs";
-      import BreadcrumbsItem from "@facebook/breadcrumbs";
+  it('should not delete hasSeparator when they come from other library', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+        import React from "react";
+        import Breadcrumbs from "@atlaskit/breadcrumbs";
+        import BreadcrumbsItem from "@facebook/breadcrumbs";
 
-      export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId">
-        <BreadcrumbsItem href="/page" text="item 1" hasSeparator />
-        <BreadcrumbsItem href="/page" text="item 2" hasSeparator={false} />
-      </Breadcrumbs>
-      );
-    `,
-    'should not delete hasSeparator when they come from other library',
-  );
+        export default () => (
+        <Breadcrumbs testId="BreadcrumbsTestId">
+          <BreadcrumbsItem href="/page" text="item 1" hasSeparator />
+          <BreadcrumbsItem href="/page" text="item 2" hasSeparator={false} />
+        </Breadcrumbs>
+        );
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+              import Breadcrumbs from "@atlaskit/breadcrumbs";
+              import BreadcrumbsItem from "@facebook/breadcrumbs";
 
-      const props = {
-        hasSeparator: true,
-      };
+              export default () => (
+              <Breadcrumbs testId="BreadcrumbsTestId">
+                <BreadcrumbsItem href="/page" text="item 1" hasSeparator />
+                <BreadcrumbsItem href="/page" text="item 2" hasSeparator={false} />
+              </Breadcrumbs>
+              );"
+    `);
+  });
 
-      export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId">
-        <BreadcrumbsItem href="/page" text="item 1" {...props} />
-      </Breadcrumbs>
-      );
-    `,
-    `
-      /* TODO: (@hypermod) This file uses the @atlaskit/breadcrumbs \`hasSeparator\` prop which
-      has now been removed due to its poor performance characteristics. From version 11.0.0, we changed to
-      \`css\` pseudo element for the separator and consumer should not use hasSeparator directly anymore. */
+  it('should add comments when using spreading', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React from "react";
       import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
 
@@ -164,46 +162,71 @@ describe('@atlaskit/breadcrumbs@11.0.0 motion: delete hasSeparator prop', () => 
       </Breadcrumbs>
       );
     `,
-    'should add comments when using spreading',
-  );
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
+      {
+        parser: 'tsx',
+      },
+    );
 
-      const props = {
-        hasSeparator: true,
-      };
+    expect(result).toMatchInlineSnapshot(`
+      "/* TODO: (@hypermod) This file uses the @atlaskit/breadcrumbs \`hasSeparator\` prop which
+            has now been removed due to its poor performance characteristics. From version 11.0.0, we changed to
+            \`css\` pseudo element for the separator and consumer should not use hasSeparator directly anymore. */
+            import React from "react";
+            import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
 
-      export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId">
-        <BreadcrumbsItem href="/page" text="item 1" {...props} />
-        <BreadcrumbsItem href="/page" text="item 2" hasSeparator />
-        <BreadcrumbsItem href="/page" text="item 3" hasSeparator={false} />
-      </Breadcrumbs>
-      );
-    `,
-    `
-      /* TODO: (@hypermod) This file uses the @atlaskit/breadcrumbs \`hasSeparator\` prop which
-      has now been removed due to its poor performance characteristics. From version 11.0.0, we changed to
-      \`css\` pseudo element for the separator and consumer should not use hasSeparator directly anymore. */
-      import React from "react";
-      import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
+            const props = {
+              hasSeparator: true,
+            };
 
-      const props = {
-        hasSeparator: true,
-      };
+            export default () => (
+            <Breadcrumbs testId="BreadcrumbsTestId">
+              <BreadcrumbsItem href="/page" text="item 1" {...props} />
+            </Breadcrumbs>
+            );"
+    `);
+  });
+  it('should add comments when using spreading with multiple instances', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+        import React from "react";
+        import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
 
-      export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId">
-        <BreadcrumbsItem href="/page" text="item 1" {...props} />
-        <BreadcrumbsItem href="/page" text="item 2" />
-        <BreadcrumbsItem href="/page" text="item 3" />
-      </Breadcrumbs>
-      );
-    `,
-    'should add comments when using spreading with multiple instances',
-  );
+        const props = {
+          hasSeparator: true,
+        };
+
+        export default () => (
+        <Breadcrumbs testId="BreadcrumbsTestId">
+          <BreadcrumbsItem href="/page" text="item 1" {...props} />
+          <BreadcrumbsItem href="/page" text="item 2" hasSeparator />
+          <BreadcrumbsItem href="/page" text="item 3" hasSeparator={false} />
+        </Breadcrumbs>
+        );
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      "/* TODO: (@hypermod) This file uses the @atlaskit/breadcrumbs \`hasSeparator\` prop which
+              has now been removed due to its poor performance characteristics. From version 11.0.0, we changed to
+              \`css\` pseudo element for the separator and consumer should not use hasSeparator directly anymore. */
+              import React from "react";
+              import Breadcrumbs, {BreadcrumbsItem} from "@atlaskit/breadcrumbs";
+
+              const props = {
+                hasSeparator: true,
+              };
+
+              export default () => (
+              <Breadcrumbs testId="BreadcrumbsTestId">
+                <BreadcrumbsItem href="/page" text="item 1" {...props} />
+                <BreadcrumbsItem href="/page" text="item 2" />
+                <BreadcrumbsItem href="/page" text="item 3" />
+              </Breadcrumbs>
+              );"
+    `);
+  });
 });

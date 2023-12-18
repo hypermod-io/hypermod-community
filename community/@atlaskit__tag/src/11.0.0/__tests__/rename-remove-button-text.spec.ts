@@ -1,5 +1,5 @@
+import { applyTransform } from '@hypermod/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 import { renameRemoveButtonText } from '../motions/rename-remove-button-text';
 
@@ -16,245 +16,244 @@ function transformer(
 }
 
 describe('Rename removeButtonText prop to removeButtonLabel prop', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('should not rename removeButtonText if it is not provided', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React from "react";
       import Tag from "@atlaskit/tag";
 
       export default () => <Tag text="Removable button"/>;
     `,
-    `
-      import React from "react";
-      import Tag from "@atlaskit/tag";
+      {
+        parser: 'tsx',
+      },
+    );
 
-      export default () => <Tag text="Removable button"/>;
-    `,
-    'should not rename removeButtonText if it is not provided',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+            import Tag from "@atlaskit/tag";
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+            export default () => <Tag text="Removable button"/>;"
+    `);
+  });
+
+  it('should rename removeButtonText to removeButtonLabel', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React from "react";
       import Tag from "@atlaskit/tag";
 
       export default () => <Tag text="Removable button" removeButtonText=""/>;
     `,
-    `
-      import React from "react";
-      import Tag from "@atlaskit/tag";
+      {
+        parser: 'tsx',
+      },
+    );
 
-      export default () => <Tag text="Removable button" removeButtonLabel=""/>;
-    `,
-    'should rename removeButtonText to removeButtonLabel',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+            import Tag from "@atlaskit/tag";
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import Tag from "@atlaskit/tag";
+            export default () => <Tag text="Removable button" removeButtonLabel=""/>;"
+    `);
+  });
 
-      export default () => <Tag text="Removable button" removeButtonText="Remove" />;
-    `,
-    `
-      import React from "react";
-      import Tag from "@atlaskit/tag";
+  it('should rename removeButtonText to removeButtonLabel with value', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+        import React from "react";
+        import Tag from "@atlaskit/tag";
 
-      export default () => <Tag text="Removable button" removeButtonLabel="Remove" />;
-    `,
-    'should rename removeButtonText to removeButtonLabel with value',
-  );
+        export default () => <Tag text="Removable button" removeButtonText="Remove" />;
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import RemovableTag from "@atlaskit/tag";
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+              import Tag from "@atlaskit/tag";
 
-      export default () => <RemovableTag text="Removable button" removeButtonText="Remove" />;
-    `,
-    `
-      import React from "react";
-      import RemovableTag from "@atlaskit/tag";
+              export default () => <Tag text="Removable button" removeButtonLabel="Remove" />;"
+    `);
+  });
 
-      export default () => <RemovableTag text="Removable button" removeButtonLabel="Remove" />;
-    `,
-    'should rename removeButtonText to removeButtonLabel with alias',
-  );
+  it('should rename removeButtonText to removeButtonLabel with alias', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+        import React from "react";
+        import RemovableTag from "@atlaskit/tag";
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import RemovableTag from "@atlaskit/tag";
+        export default () => <RemovableTag text="Removable button" removeButtonText="Remove" />;
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
 
-      const removeButtonLabel = "remove button";
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+              import RemovableTag from "@atlaskit/tag";
 
-      export default () => <RemovableTag text="Removable button" removeButtonText={removeButtonLabel} />;
-    `,
-    `
-      import React from "react";
-      import RemovableTag from "@atlaskit/tag";
+              export default () => <RemovableTag text="Removable button" removeButtonLabel="Remove" />;"
+    `);
+  });
 
-      const removeButtonLabel = "remove button";
+  it('should rename removeButtonText to removeButtonLabel with alias when there is a removeButtonText defined as a variable', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+        import React from "react";
+        import RemovableTag from "@atlaskit/tag";
 
-      export default () => <RemovableTag text="Removable button" removeButtonLabel={removeButtonLabel} />;
-    `,
-    'should rename removeButtonText to removeButtonLabel with alias when there is a removeButtonText defined as a variable',
-  );
+        const removeButtonLabel = "remove button";
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import Tag from "@atlaskit/tag";
+        export default () => <RemovableTag text="Removable button" removeButtonText={removeButtonLabel} />;
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
 
-      const removeButtonLabel = "remove button";
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+              import RemovableTag from "@atlaskit/tag";
+
+              const removeButtonLabel = "remove button";
+
+              export default () => <RemovableTag text="Removable button" removeButtonLabel={removeButtonLabel} />;"
+    `);
+  });
+
+  it('should rename removeButtonText to removeButtonLabel for different cases', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+        import React from "react";
+        import Tag from "@atlaskit/tag";
+
+        const removeButtonLabel = "remove button";
+
+        export default () => (
+          <div>
+            <Tag text="Removable button" removeButtonText="Remove" />
+            <Tag text="Removable button" removeButtonText={removeButtonLabel} />
+            <Tag text="Removable button" />
+          </div>);
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      import React from "react"; import Tag from "@atlaskit/tag"; const removeButtonLabel
+      = "remove button"; export default () => (
+      <div>
+        <Tag text="Removable button" removeButtonLabel="Remove" />
+        <Tag text="Removable button" removeButtonLabel={removeButtonLabel} />
+        <Tag text="Removable button" />
+      </div>);
+    `);
+  });
+
+  it('should NOT rename removeButtonText to removeButtonLabel  when it is SimpleTag', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+        import React from "react";
+        import { SimpleTag as Tag } from "@atlaskit/tag";
+
+        export default () => <Tag text="Removable button" removeButtonText="Remove" />;
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+              import { SimpleTag as Tag } from "@atlaskit/tag";
+
+              export default () => <Tag text="Removable button" removeButtonText="Remove" />;"
+    `);
+  });
+
+  it('should rename removeButtonText to removeButtonLabel with value', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+      import React, { useState } from 'react';
+
+      import Tag from '@atlaskit/tag';
+      import TagGroup from '@atlaskit/tag-group';
+
+      interface Props {
+        alignment: 'start' | 'end';
+      }
+
+      export function MyTagGroup({ alignment }: Props) {
+        const [tags, setTags] = useState([
+          'Candy canes',
+          'Tiramisu',
+          'Gummi bears',
+          'Wagon Wheels',
+        ]);
+
+        const handleRemoveRequest = () => true;
+
+        const handleRemoveComplete = (text: string) => {
+          setTags(tags.filter(str => str !== text));
+        };
+
+        return (
+          <TagGroup alignment={alignment}>
+            {tags.map(text => (
+              <Tag
+                key={text}
+                onAfterRemoveAction={handleRemoveComplete}
+                onBeforeRemoveAction={handleRemoveRequest}
+                removeButtonText="Remove me"
+                text={text}
+              />
+            ))}
+          </TagGroup>
+        );
+      }
 
       export default () => (
         <div>
-          <Tag text="Removable button" removeButtonText="Remove" />
-          <Tag text="Removable button" removeButtonText={removeButtonLabel} />
-          <Tag text="Removable button" />
-        </div>);
-    `,
-    `
-      import React from "react";
-      import Tag from "@atlaskit/tag";
-
-      const removeButtonLabel = "remove button";
-
-      export default () => (
-        <div>
-          <Tag text="Removable button" removeButtonLabel="Remove" />
-          <Tag text="Removable button" removeButtonLabel={removeButtonLabel} />
-          <Tag text="Removable button" />
-        </div>);
-    `,
-    'should rename removeButtonText to removeButtonLabel for different cases',
-  );
-
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import { SimpleTag as Tag } from "@atlaskit/tag";
-
-      export default () => <Tag text="Removable button" removeButtonText="Remove" />;
-    `,
-    `
-      import React from "react";
-      import { SimpleTag as Tag } from "@atlaskit/tag";
-
-      export default () => <Tag text="Removable button" removeButtonText="Remove" />;
-    `,
-    'should NOT rename removeButtonText to removeButtonLabel  when it is SimpleTag',
-  );
-
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-    import React, { useState } from 'react';
-
-    import Tag from '@atlaskit/tag';
-    import TagGroup from '@atlaskit/tag-group';
-
-    interface Props {
-      alignment: 'start' | 'end';
-    }
-
-    export function MyTagGroup({ alignment }: Props) {
-      const [tags, setTags] = useState([
-        'Candy canes',
-        'Tiramisu',
-        'Gummi bears',
-        'Wagon Wheels',
-      ]);
-
-      const handleRemoveRequest = () => true;
-
-      const handleRemoveComplete = (text: string) => {
-        setTags(tags.filter(str => str !== text));
-      };
-
-      return (
-        <TagGroup alignment={alignment}>
-          {tags.map(text => (
-            <Tag
-              key={text}
-              onAfterRemoveAction={handleRemoveComplete}
-              onBeforeRemoveAction={handleRemoveRequest}
-              removeButtonText="Remove me"
-              text={text}
-            />
-          ))}
-        </TagGroup>
+          <MyTagGroup alignment="start" />
+          <MyTagGroup alignment="end" />
+        </div>
       );
-    }
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
 
-    export default () => (
+    expect(result).toMatchInlineSnapshot(`
+      import React, { useState } from 'react'; import Tag from '@atlaskit/tag';
+      import TagGroup from '@atlaskit/tag-group'; interface Props { alignment:
+      'start' | 'end'; } export function MyTagGroup({ alignment }: Props) { const
+      [tags, setTags] = useState([ 'Candy canes', 'Tiramisu', 'Gummi bears',
+      'Wagon Wheels', ]); const handleRemoveRequest = () => true; const handleRemoveComplete
+      = (text: string) => { setTags(tags.filter(str => str !== text)); }; return
+      (
+      <TagGroup alignment={alignment}>{tags.map(text => (
+        <Tag key={text} onAfterRemoveAction={handleRemoveComplete}
+        onBeforeRemoveAction={handleRemoveRequest} removeButtonLabel="Remove me"
+        text={text} />))}</TagGroup>); } export default () => (
       <div>
         <MyTagGroup alignment="start" />
         <MyTagGroup alignment="end" />
-      </div>
-    );
-    `,
-    `
-    import React, { useState } from 'react';
-
-    import Tag from '@atlaskit/tag';
-    import TagGroup from '@atlaskit/tag-group';
-
-    interface Props {
-      alignment: 'start' | 'end';
-    }
-
-    export function MyTagGroup({ alignment }: Props) {
-      const [tags, setTags] = useState([
-        'Candy canes',
-        'Tiramisu',
-        'Gummi bears',
-        'Wagon Wheels',
-      ]);
-
-      const handleRemoveRequest = () => true;
-
-      const handleRemoveComplete = (text: string) => {
-        setTags(tags.filter(str => str !== text));
-      };
-
-      return (
-        <TagGroup alignment={alignment}>
-          {tags.map(text => (
-            <Tag
-              key={text}
-              onAfterRemoveAction={handleRemoveComplete}
-              onBeforeRemoveAction={handleRemoveRequest}
-              removeButtonLabel="Remove me"
-              text={text}
-            />
-          ))}
-        </TagGroup>
-      );
-    }
-
-    export default () => (
-      <div>
-        <MyTagGroup alignment="start" />
-        <MyTagGroup alignment="end" />
-      </div>
-    );
-    `,
-    'should rename removeButtonText to removeButtonLabel with value',
-  );
+      </div>);
+    `);
+  });
 });

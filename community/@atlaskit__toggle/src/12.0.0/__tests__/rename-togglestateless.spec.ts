@@ -1,7 +1,6 @@
+import { applyTransform } from '@hypermod/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
 import renameToggleStateless from '../motions/rename-togglestateless';
-
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 function transformer(
   fileInfo: FileInfo,
@@ -16,10 +15,10 @@ function transformer(
 }
 
 describe('Change ToggleStateless to Toggle', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('change ToggleStateless to Toggle', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from 'react';
     import ToggleStateless from "@atlaskit/toggle";
 
@@ -27,21 +26,25 @@ describe('Change ToggleStateless to Toggle', () => {
       <ToggleStateless size="large" isChecked />
     );
     `,
-    `
-    import React from 'react';
-    import Toggle from "@atlaskit/toggle";
-
-    export default () => (
-      <Toggle size="large" isChecked />
+      {
+        parser: 'tsx',
+      },
     );
-    `,
-    'change ToggleStateless to Toggle',
-  );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+    expect(result).toMatchInlineSnapshot(`
+      "import React from 'react';
+          import Toggle from "@atlaskit/toggle";
+
+          export default () => (
+            <Toggle size="large" isChecked />
+          );"
+    `);
+  });
+
+  it('change ToggleStateless to DSToggle when name get conflict', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from 'react';
     import Toggle from '@material-ui/toggle';
     import ToggleStateless from "@atlaskit/toggle";
@@ -50,22 +53,26 @@ describe('Change ToggleStateless to Toggle', () => {
       <ToggleStateless size="large" isChecked />
     );
     `,
-    `
-    import React from 'react';
-    import Toggle from '@material-ui/toggle';
-    import DSToggle from "@atlaskit/toggle";
-
-    export default () => (
-      <DSToggle size="large" isChecked />
+      {
+        parser: 'tsx',
+      },
     );
-    `,
-    'change ToggleStateless to DSToggle when name get conflict',
-  );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+    expect(result).toMatchInlineSnapshot(`
+      "import React from 'react';
+          import Toggle from '@material-ui/toggle';
+          import DSToggle from "@atlaskit/toggle";
+
+          export default () => (
+            <DSToggle size="large" isChecked />
+          );"
+    `);
+  });
+
+  it('change ToggleStateless to Toggle', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from 'react';
     import ToggleStateless from "@atlaskit/toggle";
 
@@ -80,11 +87,14 @@ describe('Change ToggleStateless to Toggle', () => {
       </>
     );
     `,
-    `
-    import React from 'react';
-    import Toggle from "@atlaskit/toggle";
+      {
+        parser: 'tsx',
+      },
+    );
 
-    export default () => (
+    expect(result).toMatchInlineSnapshot(`
+      import React from 'react'; import Toggle from "@atlaskit/toggle"; export
+      default () => (
       <>
         <section>
           <Toggle size="large" isChecked />
@@ -92,9 +102,7 @@ describe('Change ToggleStateless to Toggle', () => {
         <section>
           <Toggle size="large" isChecked isDisabled />
         </section>
-      </>
-    );
-    `,
-    'change ToggleStateless to Toggle',
-  );
+        </>);
+    `);
+  });
 });

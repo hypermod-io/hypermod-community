@@ -1,7 +1,6 @@
+import { applyTransform } from '@hypermod/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
 import elevateStateless from '../motions/elevate-stateless';
-
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 function transformer(
   fileInfo: FileInfo,
@@ -16,10 +15,10 @@ function transformer(
 }
 
 describe('Merge Toggle and ToggleStateless', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('nothing would change if Toggle is used', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from 'react';
     import Toggle from "@atlaskit/toggle";
 
@@ -27,21 +26,25 @@ describe('Merge Toggle and ToggleStateless', () => {
       <Toggle size="large" defaultChecked />
     );
     `,
-    `
-    import React from 'react';
-    import Toggle from "@atlaskit/toggle";
-
-    export default () => (
-      <Toggle size="large" defaultChecked />
+      {
+        parser: 'tsx',
+      },
     );
-    `,
-    'nothing would change if Toggle is used',
-  );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+    expect(result).toMatchInlineSnapshot(`
+      "import React from 'react';
+          import Toggle from "@atlaskit/toggle";
+
+          export default () => (
+            <Toggle size="large" defaultChecked />
+          );"
+    `);
+  });
+
+  it('change to new Toggle when ToggleStateless is used', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from 'react';
     import { ToggleStateless } from "@atlaskit/toggle";
 
@@ -49,36 +52,44 @@ describe('Merge Toggle and ToggleStateless', () => {
       <ToggleStateless size="large" isChecked />
     );
     `,
-    `
-    import React from 'react';
-    import ToggleStateless from "@atlaskit/toggle";
-
-    export default () => (
-      <ToggleStateless size="large" isChecked />
+      {
+        parser: 'tsx',
+      },
     );
-    `,
-    'change to new Toggle when ToggleStateless is used',
-  );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-    import React from 'react';
-    import { ToggleStateless as Toggle } from "@atlaskit/toggle";
+    expect(result).toMatchInlineSnapshot(`
+      "import React from 'react';
+          import ToggleStateless from "@atlaskit/toggle";
 
-    export default () => (
-      <Toggle size="large" isChecked />
+          export default () => (
+            <ToggleStateless size="large" isChecked />
+          );"
+    `);
+  });
+
+  it('change to new Toggle when ToggleStateless is used, with alias', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+      import React from 'react';
+      import { ToggleStateless as Toggle } from "@atlaskit/toggle";
+
+      export default () => (
+        <Toggle size="large" isChecked />
+      );
+      `,
+      {
+        parser: 'tsx',
+      },
     );
-    `,
-    `
-    import React from 'react';
-    import Toggle from "@atlaskit/toggle";
 
-    export default () => (
-      <Toggle size="large" isChecked />
-    );
-    `,
-    'change to new Toggle when ToggleStateless is used, with alias',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from 'react';
+            import Toggle from "@atlaskit/toggle";
+
+            export default () => (
+              <Toggle size="large" isChecked />
+            );"
+    `);
+  });
 });

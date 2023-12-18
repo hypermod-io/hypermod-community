@@ -1,33 +1,36 @@
+import { applyTransform } from '@hypermod/utils';
 import transformer from '../transform';
-
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 describe('@atlaskit/side-navigation@0.8.0 transform', () => {
   describe('Updates and removes current inline styles', () => {
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    it('leaves unrelated code untouched', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import { ButtonItem } from '@atlaskit/something';
 
       const App = () => {
         return <ButtonItem />;
       }
     `,
-      `
-      import { ButtonItem } from '@atlaskit/something';
+        {
+          parser: 'tsx',
+        },
+      );
 
-      const App = () => {
-        return <ButtonItem />;
-      }
-  `,
-      'leaves unrelated code untouched',
-    );
+      expect(result).toMatchInlineSnapshot(`
+        "import { ButtonItem } from '@atlaskit/something';
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+              const App = () => {
+                return <ButtonItem />;
+              }"
+      `);
+    });
+
+    it('should remove current styles from inline function', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import { ButtonItem } from '@atlaskit/side-navigation';
 
       const App = () => {
@@ -36,24 +39,28 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
         })} />;
       }
     `,
-      `
-      import { ButtonItem } from '@atlaskit/side-navigation';
+        {
+          parser: 'tsx',
+        },
+      );
 
-      const App = () => {
-        return (
-          <ButtonItem cssFn={state => {
+      expect(result).toMatchInlineSnapshot(`
+        "import { ButtonItem } from '@atlaskit/side-navigation';
 
-          }} />
-        );
-      }
-  `,
-      'should remove current styles from inline function',
-    );
+              const App = () => {
+                return (
+                  <ButtonItem cssFn={state => {
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+                  }} />
+                );
+              }"
+      `);
+    });
+
+    it('should remove current styles from scope', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import { ButtonItem } from '@atlaskit/side-navigation';
 
       const App = () => {
@@ -71,150 +78,161 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
       };
 
       `,
-      `
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
+        import { ButtonItem } from '@atlaskit/side-navigation'; const App = ()
+        => { return (
+        <div cssFn={(styles, state)=>({ ...styles, })}>
+          <ButtonItem cssFn={state=>({})} /></div>); };
+      `);
+    });
+
+    it('correctly removes spread styles', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
+    import { ButtonItem } from '@atlaskit/side-navigation';
+
+    const App = () => {
+      return <ButtonItem cssFn={(styles, state) => ({
+        ...styles,
+        color: 'red'
+      })} />;
+    }
+      `,
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
+        "import { ButtonItem } from '@atlaskit/side-navigation';
+
+            const App = () => {
+              return (
+                <ButtonItem cssFn={state => ({
+                  color: 'red'
+                })} />
+              );
+            }"
+      `);
+    });
+
+    it('correctly removes spread styles with pseudo-selector access', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
+      import { ButtonItem } from '@atlaskit/side-navigation';
+
+      const App = () => {
+        return <ButtonItem cssFn={(styles, state) => ({
+          ...styles,
+          color: 'red',
+          ':hover': {
+            ...styles[':hover'],
+            color: 'blue'
+          }
+        })} />;
+      }
+        `,
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
+        "import { ButtonItem } from '@atlaskit/side-navigation';
+
+              const App = () => {
+                return (
+                  <ButtonItem cssFn={state => ({
+                    color: 'red',
+
+                    ':hover': {
+                      color: 'blue'
+                    }
+                  })} />
+                );
+              }"
+      `);
+    });
+
+    it('fail smoothly if the current styles are being used in a non-trivial way', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import { ButtonItem } from '@atlaskit/side-navigation';
 
       const App = () => {
         return (
-          <div cssFn={(styles, state) => ({
-            ...styles,
-          })}>
-            <ButtonItem
-              cssFn={state => ({})}
-            />
-          </div>
-        );
-      };
-  `,
-      'should remove current styles from scope',
-    );
-
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
-
-    const App = () => {
-      return <ButtonItem cssFn={(styles, state) => ({
-        ...styles,
-        color: 'red'
-      })} />;
-    }
-      `,
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
-
-    const App = () => {
-      return (
-        <ButtonItem cssFn={state => ({
-          color: 'red'
-        })} />
-      );
-    }
-    `,
-      'correctly removes spread styles',
-    );
-
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
-
-    const App = () => {
-      return <ButtonItem cssFn={(styles, state) => ({
-        ...styles,
-        color: 'red',
-        ':hover': {
-          ...styles[':hover'],
-          color: 'blue'
-        }
-      })} />;
-    }
-      `,
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
-
-    const App = () => {
-      return (
-        <ButtonItem cssFn={state => ({
-          color: 'red',
-
-          ':hover': {
-            color: 'blue'
-          }
-        })} />
-      );
-    }
-    `,
-      'correctly removes spread styles with pseudo-selector access',
-    );
-
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
-
-    const App = () => {
-      return (
-        <ButtonItem cssFn={(styles, state) => ({
-          ...(state.x ? styles : {}),
-          color: 'red'
-        })} />
-      );
-    }
-      `,
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
-
-    const App = () => {
-      return (
-        <ButtonItem
-          /*
-          TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
-          The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
-          For more info please reach out to #help-design-system-code.
-          */
-          cssFn={(styles, state) => ({
+          <ButtonItem cssFn={(styles, state) => ({
             ...(state.x ? styles : {}),
             color: 'red'
           })} />
+        );
+      }
+        `,
+        {
+          parser: 'tsx',
+        },
       );
-    }
-      `,
-      'fail smoothly if the current styles are being used in a non-trivial way',
-    );
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
+      expect(result).toMatchInlineSnapshot(`
+        "import { ButtonItem } from '@atlaskit/side-navigation';
 
-    const App = () => {
-      return <ButtonItem cssFn={() => ({
-        color: 'red'
-      })} />;
-    }
-      `,
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
+              const App = () => {
+                return (
+                  <ButtonItem
+                    /*
+                    TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
+                    The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
+                    For more info please reach out to #help-design-system-code.
+                    */
+                    cssFn={(styles, state) => ({
+                      ...(state.x ? styles : {}),
+                      color: 'red'
+                    })} />
+                );
+              }"
+      `);
+    });
 
-    const App = () => {
-      return <ButtonItem cssFn={() => ({
-        color: 'red'
-      })} />;
-    }
-    `,
-      'not change anything if user is not using the current state or styles',
-    );
+    it('not change anything if user is not using the current state or styles', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
+      import { ButtonItem } from '@atlaskit/side-navigation';
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+      const App = () => {
+        return <ButtonItem cssFn={() => ({
+          color: 'red'
+        })} />;
+      }
+        `,
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
+        "import { ButtonItem } from '@atlaskit/side-navigation';
+
+              const App = () => {
+                return <ButtonItem cssFn={() => ({
+                  color: 'red'
+                })} />;
+              }"
+      `);
+    });
+
+    it('should remove styles in nested children', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
     import { ButtonItem } from '@atlaskit/side-navigation';
 
     const App = () => {
@@ -229,50 +247,58 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
       </ButtonItem>;
     }
       `,
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
-
-    const App = () => {
-      return (
-        <ButtonItem cssFn={state => ({
-          color: 'red'
-        })}>
-          <ButtonItem cssFn={state => ({
-            color: 'red'
-          })}/>
-        </ButtonItem>
+        {
+          parser: 'tsx',
+        },
       );
-    }
-    `,
-      'should remove styles in nested children',
-    );
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
+      expect(result).toMatchInlineSnapshot(`
+        "import { ButtonItem } from '@atlaskit/side-navigation';
 
-    const App = () => {
-      return <ButtonItem />;
-    }
-      `,
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
+            const App = () => {
+              return (
+                <ButtonItem cssFn={state => ({
+                  color: 'red'
+                })}>
+                  <ButtonItem cssFn={state => ({
+                    color: 'red'
+                  })}/>
+                </ButtonItem>
+              );
+            }"
+      `);
+    });
 
-    const App = () => {
-      return <ButtonItem />;
-    }
-    `,
-      'should leave affected items with no use of cssFn untouched',
-    );
+    it('should leave affected items with no use of cssFn untouched', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
+      import { ButtonItem } from '@atlaskit/side-navigation';
+
+      const App = () => {
+        return <ButtonItem />;
+      }
+        `,
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
+        "import { ButtonItem } from '@atlaskit/side-navigation';
+
+              const App = () => {
+                return <ButtonItem />;
+              }"
+      `);
+    });
   });
 
   describe('Updates and removes current styles', () => {
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    it('should add prompt for non-inline function', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
     import { ButtonItem } from '@atlaskit/side-navigation';
 
     const cssFn = (styles, state) => ({
@@ -284,77 +310,85 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
       return <ButtonItem cssFn={cssFn} />;
     }
       `,
-      `
-    import { ButtonItem } from '@atlaskit/side-navigation';
+        {
+          parser: 'tsx',
+        },
+      );
 
-    const cssFn = (styles, state) => ({
-      ...styles,
-      color: 'red'
+      expect(result).toMatchInlineSnapshot(`
+        "import { ButtonItem } from '@atlaskit/side-navigation';
+
+            const cssFn = (styles, state) => ({
+              ...styles,
+              color: 'red'
+            });
+
+            const App = () => {
+              return (
+                <ButtonItem
+                  /*
+                  TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
+                  The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
+                  For more info please reach out to #help-design-system-code.
+                  */
+                  cssFn={cssFn} />
+              );
+            }"
+      `);
     });
 
-    const App = () => {
-      return (
-        <ButtonItem
-          /*
-          TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
-          The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
-          For more info please reach out to #help-design-system-code.
-          */
-          cssFn={cssFn} />
+    it('should add prompt for non-inline function to multiple instances', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
+      import { ButtonItem, LinkItem } from '@atlaskit/side-navigation';
+
+      const cssFunction = (styles, state) => ({
+        ...styles,
+        color: 'red'
+      });
+
+      const App = () => {
+        return (
+          <ButtonItem cssFn={cssFunction}>
+            <LinkItem cssFn={cssFunction} />
+          </ButtonItem>
+        );
+      };
+        `,
+        {
+          parser: 'tsx',
+        },
       );
-    }
-    `,
-      'should add prompt for non-inline function',
-    );
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-    import { ButtonItem, LinkItem } from '@atlaskit/side-navigation';
+      expect(result).toMatchInlineSnapshot(`
+        "import { ButtonItem, LinkItem } from '@atlaskit/side-navigation';
 
-    const cssFunction = (styles, state) => ({
-      ...styles,
-      color: 'red'
+              const cssFunction = (styles, state) => ({
+                ...styles,
+                color: 'red'
+              });
+
+              const App = () => {
+                return (
+                  <ButtonItem
+                    /*
+                    TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
+                    The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
+                    For more info please reach out to #help-design-system-code.
+                    */
+                    cssFn={cssFunction}>
+                    <LinkItem
+                      /*
+                      TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
+                      The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
+                      For more info please reach out to #help-design-system-code.
+                      */
+                      cssFn={cssFunction} />
+                  </ButtonItem>
+                );
+              };"
+      `);
     });
-
-    const App = () => {
-      return (
-        <ButtonItem cssFn={cssFunction}>
-          <LinkItem cssFn={cssFunction} />
-        </ButtonItem>
-      );
-    };
-      `,
-      `
-    import { ButtonItem, LinkItem } from '@atlaskit/side-navigation';
-
-    const cssFunction = (styles, state) => ({
-      ...styles,
-      color: 'red'
-    });
-
-    const App = () => {
-      return (
-        <ButtonItem
-          /*
-          TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
-          The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
-          For more info please reach out to #help-design-system-code.
-          */
-          cssFn={cssFunction}>
-          <LinkItem
-            /*
-            TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
-            The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
-            For more info please reach out to #help-design-system-code.
-            */
-            cssFn={cssFunction} />
-        </ButtonItem>
-      );
-    };
-    `,
-      'should add prompt for non-inline function to multiple instances',
-    );
   });
 });

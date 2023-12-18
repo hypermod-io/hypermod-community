@@ -1,24 +1,28 @@
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
+import { applyTransform } from '@hypermod/utils';
 
 import transformer from '../transform';
 
 describe('@atlaskit/tag@11.0.0 transform', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('should apply all 3 migrates', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React from "react";
       import AKTag, { TagColor } from "@atlaskit/tag";
 
       export default () => <AKTag text="Removable button" removeButtonText="Remove" />;
     `,
-    `
-      import React from "react";
-      import AKTag from "@atlaskit/tag/removable-tag";
-      import { TagColor } from "@atlaskit/tag";
+      {
+        parser: 'tsx',
+      },
+    );
 
-      export default () => <AKTag text="Removable button" isRemovable removeButtonLabel="Remove" />;
-    `,
-    'should apply all 3 migrates',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+            import AKTag from "@atlaskit/tag/removable-tag";
+            import { TagColor } from "@atlaskit/tag";
+
+            export default () => <AKTag text="Removable button" isRemovable removeButtonLabel="Remove" />;"
+    `);
+  });
 });
