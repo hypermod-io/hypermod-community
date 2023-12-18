@@ -1,6 +1,6 @@
+import { applyTransform } from '@hypermod/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
 import elevateStatelessToDefault from '../motions/elevate-stateless-to-default';
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 function transformer(
   fileInfo: FileInfo,
@@ -15,10 +15,10 @@ function transformer(
 }
 
 describe('@atlaskit/breadcrumbs@11.0.0 motion: Elevate BreadcrumbsStateless', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('nothing would change if Breadcrumbs is used', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from 'react';
     import Breadcrumbs from "@atlaskit/breadcrumbs";
 
@@ -26,72 +26,88 @@ describe('@atlaskit/breadcrumbs@11.0.0 motion: Elevate BreadcrumbsStateless', ()
       <Breadcrumbs testId="BreadcrumbsTestId" />
     );
     `,
-    `
-    import React from 'react';
-    import Breadcrumbs from "@atlaskit/breadcrumbs";
-
-    export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId" />
+      {
+        parser: 'tsx',
+      },
     );
-    `,
-    'nothing would change if Breadcrumbs is used',
-  );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-    import React from 'react';
-    import { BreadcrumbsStateless, BreadcrumbsItem} from "@atlaskit/breadcrumbs";
+    expect(result).toMatchInlineSnapshot(`
+      "import React from 'react';
+          import Breadcrumbs from "@atlaskit/breadcrumbs";
 
-    export default () => (
-      <BreadcrumbsStateless testId="BreadcrumbsTestId" />
+          export default () => (
+            <Breadcrumbs testId="BreadcrumbsTestId" />
+          );"
+    `);
+  });
+
+  it('elevate  BreadcrumbsStateless to default import and do not change other named imports', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+      import React from 'react';
+      import { BreadcrumbsStateless, BreadcrumbsItem} from "@atlaskit/breadcrumbs";
+
+      export default () => (
+        <BreadcrumbsStateless testId="BreadcrumbsTestId" />
+      );
+      `,
+      {
+        parser: 'tsx',
+      },
     );
-    `,
-    `
-    import React from 'react';
-    import BreadcrumbsStateless, { BreadcrumbsItem } from "@atlaskit/breadcrumbs";
 
-    export default () => (
-      <BreadcrumbsStateless testId="BreadcrumbsTestId" />
+    expect(result).toMatchInlineSnapshot(`
+      "import React from 'react';
+            import BreadcrumbsStateless, { BreadcrumbsItem } from "@atlaskit/breadcrumbs";
+
+            export default () => (
+              <BreadcrumbsStateless testId="BreadcrumbsTestId" />
+            );"
+    `);
+  });
+
+  it('elevate to new BCStateless default import when BreadcrumbsStateless has alias', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+      import React from 'react';
+      import { BreadcrumbsStateless as BCStateless, BreadcrumbsItem as Item} from "@atlaskit/breadcrumbs";
+      `,
+      {
+        parser: 'tsx',
+      },
     );
-    `,
-    'elevate  BreadcrumbsStateless to default import and do not change other named imports',
-  );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-    import React from 'react';
-    import { BreadcrumbsStateless as BCStateless, BreadcrumbsItem as Item} from "@atlaskit/breadcrumbs";
-    `,
-    `
-    import React from 'react';
-    import BCStateless, { BreadcrumbsItem as Item } from "@atlaskit/breadcrumbs";
-    `,
-    'elevate to new BCStateless default import when BreadcrumbsStateless has alias',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from 'react';
+            import BCStateless, { BreadcrumbsItem as Item } from "@atlaskit/breadcrumbs";"
+    `);
+  });
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-    import React from 'react';
-    import { BreadcrumbsStateless as Breadcrumbs } from "@atlaskit/breadcrumbs";
+  it('change to new Breadcrumbs when BreadcrumbsStateless is used with alias', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+      import React from 'react';
+      import { BreadcrumbsStateless as Breadcrumbs } from "@atlaskit/breadcrumbs";
 
-    export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId" />
+      export default () => (
+        <Breadcrumbs testId="BreadcrumbsTestId" />
+      );
+      `,
+      {
+        parser: 'tsx',
+      },
     );
-    `,
-    `
-    import React from 'react';
-    import Breadcrumbs from "@atlaskit/breadcrumbs";
 
-    export default () => (
-      <Breadcrumbs testId="BreadcrumbsTestId" />
-    );
-    `,
-    'change to new Breadcrumbs when BreadcrumbsStateless is used with alias',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from 'react';
+            import Breadcrumbs from "@atlaskit/breadcrumbs";
+
+            export default () => (
+              <Breadcrumbs testId="BreadcrumbsTestId" />
+            );"
+    `);
+  });
 });

@@ -1,5 +1,5 @@
+import { applyTransform } from '@hypermod/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 import { replaceImportStatement } from '../motions/replace-import-statements';
 
@@ -16,59 +16,71 @@ function transformer(
 }
 
 describe('Update entry point for importing', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('should change entry point for importing', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React from "react";
       import Tag from "@atlaskit/tag";
 
       export default () => <Tag text="Removable button"/>;
     `,
-    `
-      import React from "react";
-      import Tag from "@atlaskit/tag/removable-tag";
+      {
+        parser: 'tsx',
+      },
+    );
 
-      export default () => <Tag text="Removable button"/>;
-    `,
-    'should change entry point for importing',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+            import Tag from "@atlaskit/tag/removable-tag";
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import Tag, { TagColor } from "@atlaskit/tag";
+            export default () => <Tag text="Removable button"/>;"
+    `);
+  });
 
-      export default () => <Tag text="Removable button"/>;
-    `,
-    `
-      import React from "react";
-      import Tag from "@atlaskit/tag/removable-tag";
-      import { TagColor } from "@atlaskit/tag";
+  it('should change entry point for importing with multiple import entities', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+        import React from "react";
+        import Tag, { TagColor } from "@atlaskit/tag";
 
-      export default () => <Tag text="Removable button"/>;
-    `,
-    'should change entry point for importing with multiple import entities',
-  );
+        export default () => <Tag text="Removable button"/>;
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import AKTag, { TagColor } from "@atlaskit/tag";
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+              import Tag from "@atlaskit/tag/removable-tag";
+              import { TagColor } from "@atlaskit/tag";
 
-      export default () => <AKTag text="Removable button"/>;
-    `,
-    `
-      import React from "react";
-      import AKTag from "@atlaskit/tag/removable-tag";
-      import { TagColor } from "@atlaskit/tag";
+              export default () => <Tag text="Removable button"/>;"
+    `);
+  });
 
-      export default () => <AKTag text="Removable button"/>;
-    `,
-    'should change entry point for importing with multiple import entities with alias',
-  );
+  it('should change entry point for importing with multiple import entities with alias', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+        import React from "react";
+        import AKTag, { TagColor } from "@atlaskit/tag";
+
+        export default () => <AKTag text="Removable button"/>;
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+              import AKTag from "@atlaskit/tag/removable-tag";
+              import { TagColor } from "@atlaskit/tag";
+
+              export default () => <AKTag text="Removable button"/>;"
+    `);
+  });
 });

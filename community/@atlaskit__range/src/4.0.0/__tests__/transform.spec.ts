@@ -1,11 +1,11 @@
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
+import { applyTransform } from '@hypermod/utils';
 import transformer from '../transform';
 
 describe('@atlaskit/range@4.0.0 transform', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('should replace inputRef with ref', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React, { useRef } from 'react';
       import Range from '@atlaskit/range';
 
@@ -18,26 +18,30 @@ describe('@atlaskit/range@4.0.0 transform', () => {
         return <Range inputRef={inputRef} />;
       }
     `,
-    `
-      import React, { useRef } from 'react';
-      import Range from '@atlaskit/range';
+      {
+        parser: 'tsx',
+      },
+    );
 
-      const SimpleRange = () => {
-        let ref = useRef();
+    expect(result).toMatchInlineSnapshot(`
+      "import React, { useRef } from 'react';
+            import Range from '@atlaskit/range';
 
-        const inputRef = (newRef) => {
-          ref = newRef;
-        }
-        return <Range ref={inputRef} />;
-      }
-    `,
-    'should replace inputRef with ref',
-  );
+            const SimpleRange = () => {
+              let ref = useRef();
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+              const inputRef = (newRef) => {
+                ref = newRef;
+              }
+              return <Range ref={inputRef} />;
+            }"
+    `);
+  });
+
+  it('should replace inputRef with ref when defined inline', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React, { useRef } from 'react';
       import Range from '@atlaskit/range';
 
@@ -53,29 +57,33 @@ describe('@atlaskit/range@4.0.0 transform', () => {
         );
       }
     `,
-    `
-      import React, { useRef } from 'react';
-      import Range from '@atlaskit/range';
+      {
+        parser: 'tsx',
+      },
+    );
 
-      const SimpleRange = () => {
-        let ref = useRef();
+    expect(result).toMatchInlineSnapshot(`
+      "import React, { useRef } from 'react';
+            import Range from '@atlaskit/range';
 
-        return (
-          <Range
-            ref={newRef => {
-              ref = newRef;
-            }}
-          />
-        );
-      }
-    `,
-    'should replace inputRef with ref when defined inline',
-  );
+            const SimpleRange = () => {
+              let ref = useRef();
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+              return (
+                <Range
+                  ref={newRef => {
+                    ref = newRef;
+                  }}
+                />
+              );
+            }"
+    `);
+  });
+
+  it('should change inputRef with aliased import name', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React, { useRef } from 'react';
       import Foo from '@atlaskit/range';
 
@@ -88,19 +96,23 @@ describe('@atlaskit/range@4.0.0 transform', () => {
         return <Foo inputRef={inputRef} />;
       }
     `,
-    `
-      import React, { useRef } from 'react';
-      import Foo from '@atlaskit/range';
+      {
+        parser: 'tsx',
+      },
+    );
 
-      const SimpleRange = () => {
-        let ref = useRef();
+    expect(result).toMatchInlineSnapshot(`
+      "import React, { useRef } from 'react';
+            import Foo from '@atlaskit/range';
 
-        const inputRef = (newRef) => {
-          ref = newRef;
-        }
-        return <Foo ref={inputRef} />;
-      }
-    `,
-    'should change inputRef with aliased import name',
-  );
+            const SimpleRange = () => {
+              let ref = useRef();
+
+              const inputRef = (newRef) => {
+                ref = newRef;
+              }
+              return <Foo ref={inputRef} />;
+            }"
+    `);
+  });
 });

@@ -1,5 +1,5 @@
+import { applyTransform } from '@hypermod/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 import mapActionsProp from '../motions/map-actions-prop';
 
@@ -17,10 +17,10 @@ function transformer(
 
 describe('map actions prop to components', () => {
   describe('for default & named imports', () => {
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    it('should map actions correctly', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import React from "react";
       import SectionMessage from "@atlaskit/section-message";
 
@@ -37,7 +37,12 @@ describe('map actions prop to components', () => {
         />
       );
       `,
-      `
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
       import React from "react";
       import SectionMessage, { SectionMessageAction } from "@atlaskit/section-message";
 
@@ -58,14 +63,13 @@ describe('map actions prop to components', () => {
           ) => <SectionMessageAction {...restAction}>{text}</SectionMessageAction>)}
         />
       );
-      `,
-      'should map actions correctly',
-    );
+      `);
+    });
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    it('should map actions correctly if defined inline', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import React from "react";
       import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
 
@@ -80,7 +84,12 @@ describe('map actions prop to components', () => {
         />
       );
       `,
-      `
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
       import React from "react";
       import SectionMessage, { SectionMessageProps, SectionMessageAction } from "@atlaskit/section-message";
 
@@ -99,14 +108,13 @@ describe('map actions prop to components', () => {
           ) => <SectionMessageAction {...restAction}>{text}</SectionMessageAction>)}
         />
       );
-      `,
-      'should map actions correctly if defined inline',
-    );
+      `);
+    });
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    it('should map actions correctly - with alias', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import React from "react";
       import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
 
@@ -127,7 +135,12 @@ describe('map actions prop to components', () => {
 
       export default Component;
       `,
-      `
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
       import React from "react";
       import SectionMessage, { SectionMessageProps, SectionMessageAction as AtlaskitSectionMessageAction } from "@atlaskit/section-message";
 
@@ -152,14 +165,13 @@ describe('map actions prop to components', () => {
       );
 
       export default Component;
-      `,
-      'should map actions correctly - with alias',
-    );
+      `);
+    });
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    it('should only map when "actions" prop is defined', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import React from "react";
       import SectionMessage from "@atlaskit/section-message";
 
@@ -174,7 +186,12 @@ describe('map actions prop to components', () => {
         <SectionMessage />
       );
       `,
-      `
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
       import React from "react";
       import SectionMessage from "@atlaskit/section-message";
 
@@ -188,216 +205,235 @@ describe('map actions prop to components', () => {
       export default () => (
         <SectionMessage />
       );
-      `,
-      'should only map when "actions" prop is defined',
-    );
+      `);
+    });
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-      import React from "react";
-      import SectionMessage from "@atlaskit/section-message";
+    it('should map actions correctly if result coming from a function call', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
+        import React from "react";
+        import SectionMessage from "@atlaskit/section-message";
 
-      const getActions = () => [
-        { text: 'Action 1', key: '1', testId: 'one' },
-        { text: 'Action 2', key: '2' },
-        { text: 'Action 3', key: '3' },
-        { text: 'Action 4', key: '4' },
-      ];
+        const getActions = () => [
+          { text: 'Action 1', key: '1', testId: 'one' },
+          { text: 'Action 2', key: '2' },
+          { text: 'Action 3', key: '3' },
+          { text: 'Action 4', key: '4' },
+        ];
 
-      export default () => (
-        <SectionMessage
-          actions={getActions()}
-        />
+        export default () => (
+          <SectionMessage
+            actions={getActions()}
+          />
+        );
+        `,
+        {
+          parser: 'tsx',
+        },
       );
-      `,
-      `
-      import React from "react";
-      import SectionMessage, { SectionMessageAction } from "@atlaskit/section-message";
 
-      const getActions = () => [
-        { text: 'Action 1', key: '1', testId: 'one' },
-        { text: 'Action 2', key: '2' },
-        { text: 'Action 3', key: '3' },
-        { text: 'Action 4', key: '4' },
-      ];
+      expect(result).toMatchInlineSnapshot(`
+        import React from "react";
+        import SectionMessage, { SectionMessageAction } from "@atlaskit/section-message";
 
-      export default () => (
-        <SectionMessage
-          actions={getActions().map((
-            {
-              text,
-              ...restAction
-            }
-          ) => <SectionMessageAction {...restAction}>{text}</SectionMessageAction>)}
-        />
+        const getActions = () => [
+          { text: 'Action 1', key: '1', testId: 'one' },
+          { text: 'Action 2', key: '2' },
+          { text: 'Action 3', key: '3' },
+          { text: 'Action 4', key: '4' },
+        ];
+
+        export default () => (
+          <SectionMessage
+            actions={getActions().map((
+              {
+                text,
+                ...restAction
+              }
+            ) => <SectionMessageAction {...restAction}>{text}</SectionMessageAction>)}
+          />
+        );
+        `);
+    });
+
+    it('should map actions correctly if defined inline based on a condition', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
+        import React from "react";
+        import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
+
+        export default () => (
+          <SectionMessage
+            actions={true ? [
+              { text: 'Action 1', key: '1', testId: 'one' },
+              { text: 'Action 2', key: '2' },
+              { text: 'Action 3', key: '3' },
+              { text: 'Action 4', key: '4' },
+            ]: []}
+          />
+        );
+        `,
+        {
+          parser: 'tsx',
+        },
       );
-      `,
-      'should map actions correctly if result coming from a function call',
-    );
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-      import React from "react";
-      import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
+      expect(result).toMatchInlineSnapshot(`
+        import React from "react";
+        import SectionMessage, { SectionMessageProps, SectionMessageAction } from "@atlaskit/section-message";
 
-      export default () => (
-        <SectionMessage
-          actions={true ? [
-            { text: 'Action 1', key: '1', testId: 'one' },
-            { text: 'Action 2', key: '2' },
-            { text: 'Action 3', key: '3' },
-            { text: 'Action 4', key: '4' },
-          ]: []}
-        />
+        export default () => (
+          <SectionMessage
+            actions={(true ? [
+              { text: 'Action 1', key: '1', testId: 'one' },
+              { text: 'Action 2', key: '2' },
+              { text: 'Action 3', key: '3' },
+              { text: 'Action 4', key: '4' },
+            ] : []).map((
+              {
+                text,
+                ...restAction
+              }
+            ) => <SectionMessageAction {...restAction}>{text}</SectionMessageAction>)}
+          />
+        );
+        `);
+    });
+
+    it('should move "linkComponent" from "SectionMessage" to "SectionMessageAction" if pointing to a component', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
+        import React from "react";
+        import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
+
+        const CustomLink = () => <a></a>;
+
+        export default () => (
+          <SectionMessage
+            linkComponent={CustomLink}
+            actions={[
+              { text: 'Action 1', key: '1', testId: 'one' },
+              { text: 'Action 2', key: '2' },
+              { text: 'Action 3', key: '3' },
+              { text: 'Action 4', key: '4' },
+            ]}
+          />
+        );
+        `,
+        {
+          parser: 'tsx',
+        },
       );
-      `,
-      `
-      import React from "react";
-      import SectionMessage, { SectionMessageProps, SectionMessageAction } from "@atlaskit/section-message";
 
-      export default () => (
-        <SectionMessage
-          actions={(true ? [
-            { text: 'Action 1', key: '1', testId: 'one' },
-            { text: 'Action 2', key: '2' },
-            { text: 'Action 3', key: '3' },
-            { text: 'Action 4', key: '4' },
-          ] : []).map((
-            {
-              text,
-              ...restAction
-            }
-          ) => <SectionMessageAction {...restAction}>{text}</SectionMessageAction>)}
-        />
+      expect(result).toMatchInlineSnapshot(`
+        import React from "react";
+        import SectionMessage, { SectionMessageProps, SectionMessageAction } from "@atlaskit/section-message";
+
+        const CustomLink = () => <a></a>;
+
+        export default () => (
+          <SectionMessage
+            actions={[
+              { text: 'Action 1', key: '1', testId: 'one' },
+              { text: 'Action 2', key: '2' },
+              { text: 'Action 3', key: '3' },
+              { text: 'Action 4', key: '4' },
+            ].map((
+              {
+                text,
+                ...restAction
+              }
+            ) => <SectionMessageAction linkComponent={CustomLink} {...restAction}>{text}</SectionMessageAction>)} />
+        );
+        `);
+    });
+
+    it('should move "linkComponent" from "SectionMessage" to "SectionMessageAction" if component is defined inline', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
+        import React from "react";
+        import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
+
+        export default () => (
+          <SectionMessage
+            linkComponent={() => <a></a>}
+            actions={[
+              { text: 'Action 1', key: '1', testId: 'one' },
+              { text: 'Action 2', key: '2' },
+              { text: 'Action 3', key: '3' },
+              { text: 'Action 4', key: '4' },
+            ]}
+          />
+        );
+        `,
+        {
+          parser: 'tsx',
+        },
       );
-      `,
-      'should map actions correctly if defined inline based on a condition',
-    );
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-      import React from "react";
-      import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
+      expect(result).toMatchInlineSnapshot(`
+        import React from "react";
+        import SectionMessage, { SectionMessageProps, SectionMessageAction } from "@atlaskit/section-message";
 
-      const CustomLink = () => <a></a>;
+        export default () => (
+          <SectionMessage
+            actions={[
+              { text: 'Action 1', key: '1', testId: 'one' },
+              { text: 'Action 2', key: '2' },
+              { text: 'Action 3', key: '3' },
+              { text: 'Action 4', key: '4' },
+            ].map((
+              {
+                text,
+                ...restAction
+              }
+            ) => <SectionMessageAction linkComponent={() => <a></a>} {...restAction}>{text}</SectionMessageAction>)} />
+        );
+        `);
+    });
 
-      export default () => (
-        <SectionMessage
-          linkComponent={CustomLink}
-          actions={[
-            { text: 'Action 1', key: '1', testId: 'one' },
-            { text: 'Action 2', key: '2' },
-            { text: 'Action 3', key: '3' },
-            { text: 'Action 4', key: '4' },
-          ]}
-        />
+    it('should remove "linkComponent" from "SectionMessage" if no actions are present', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
+        import React from "react";
+        import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
+
+        const CustomLink = () => <a></a>;
+
+        export default () => (
+          <SectionMessage
+            linkComponent={CustomLink}
+          />
+        );
+        `,
+        {
+          parser: 'tsx',
+        },
       );
-      `,
-      `
-      import React from "react";
-      import SectionMessage, { SectionMessageProps, SectionMessageAction } from "@atlaskit/section-message";
 
-      const CustomLink = () => <a></a>;
+      expect(result).toMatchInlineSnapshot(`
+        import React from "react";
+        import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
 
-      export default () => (
-        <SectionMessage
-          actions={[
-            { text: 'Action 1', key: '1', testId: 'one' },
-            { text: 'Action 2', key: '2' },
-            { text: 'Action 3', key: '3' },
-            { text: 'Action 4', key: '4' },
-          ].map((
-            {
-              text,
-              ...restAction
-            }
-          ) => <SectionMessageAction linkComponent={CustomLink} {...restAction}>{text}</SectionMessageAction>)} />
-      );
-      `,
-      'should move "linkComponent" from "SectionMessage" to "SectionMessageAction" if pointing to a component',
-    );
+        const CustomLink = () => <a></a>;
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-      import React from "react";
-      import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
-
-      export default () => (
-        <SectionMessage
-          linkComponent={() => <a></a>}
-          actions={[
-            { text: 'Action 1', key: '1', testId: 'one' },
-            { text: 'Action 2', key: '2' },
-            { text: 'Action 3', key: '3' },
-            { text: 'Action 4', key: '4' },
-          ]}
-        />
-      );
-      `,
-      `
-      import React from "react";
-      import SectionMessage, { SectionMessageProps, SectionMessageAction } from "@atlaskit/section-message";
-
-      export default () => (
-        <SectionMessage
-          actions={[
-            { text: 'Action 1', key: '1', testId: 'one' },
-            { text: 'Action 2', key: '2' },
-            { text: 'Action 3', key: '3' },
-            { text: 'Action 4', key: '4' },
-          ].map((
-            {
-              text,
-              ...restAction
-            }
-          ) => <SectionMessageAction linkComponent={() => <a></a>} {...restAction}>{text}</SectionMessageAction>)} />
-      );
-      `,
-      'should move "linkComponent" from "SectionMessage" to "SectionMessageAction" if component is defined inline',
-    );
-
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
-      import React from "react";
-      import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
-
-      const CustomLink = () => <a></a>;
-
-      export default () => (
-        <SectionMessage
-          linkComponent={CustomLink}
-        />
-      );
-      `,
-      `
-      import React from "react";
-      import SectionMessage, { SectionMessageProps } from "@atlaskit/section-message";
-
-      const CustomLink = () => <a></a>;
-
-      export default () => (
-        <SectionMessage />
-      );
-      `,
-      'should remove "linkComponent" from "SectionMessage" if no actions are present',
-    );
+        export default () => (
+          <SectionMessage />
+        );
+        `);
+    });
   });
 
   describe('for dynamic imports', () => {
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    it('should map actions correctly', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import React from "react";
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
@@ -415,7 +451,12 @@ describe('map actions prop to components', () => {
         />
       );
       `,
-      `
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
       import React from "react";
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
@@ -440,14 +481,13 @@ describe('map actions prop to components', () => {
           ) => <SectionMessageAction {...restAction}>{text}</SectionMessageAction>)}
         />
       );
-      `,
-      'should map actions correctly',
-    );
+      `);
+    });
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    it('should map actions correctly if defined inline', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import React from "react";
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
@@ -463,7 +503,12 @@ describe('map actions prop to components', () => {
         />
       );
       `,
-      `
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
       import React from "react";
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
@@ -486,14 +531,13 @@ describe('map actions prop to components', () => {
           ) => <SectionMessageAction {...restAction}>{text}</SectionMessageAction>)}
         />
       );
-      `,
-      'should map actions correctly if defined inline',
-    );
+      `);
+    });
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    it('should map actions correctly - with alias', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import React from "react";
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
@@ -515,7 +559,12 @@ describe('map actions prop to components', () => {
 
       export default Component;
       `,
-      `
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
       import React from "react";
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
@@ -544,14 +593,13 @@ describe('map actions prop to components', () => {
       );
 
       export default Component;
-      `,
-      'should map actions correctly - with alias',
-    );
+      `);
+    });
 
-    defineInlineTest(
-      { default: transformer, parser: 'tsx' },
-      {},
-      `
+    it('should only map when "actions" prop is defined', async () => {
+      const result = await applyTransform(
+        transformer,
+        `
       import React from "react";
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
@@ -567,7 +615,12 @@ describe('map actions prop to components', () => {
         <SectionMessageDynamicImport />
       );
       `,
-      `
+        {
+          parser: 'tsx',
+        },
+      );
+
+      expect(result).toMatchInlineSnapshot(`
       import React from "react";
 
       const SectionMessageDynamicImport = React.lazy(() => import('@atlaskit/section-message'));
@@ -582,8 +635,7 @@ describe('map actions prop to components', () => {
       export default () => (
         <SectionMessageDynamicImport />
       );
-      `,
-      'should only map when "actions" prop is defined',
-    );
+      `);
+    });
   });
 });

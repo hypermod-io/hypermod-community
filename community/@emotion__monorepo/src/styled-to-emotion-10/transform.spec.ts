@@ -1,68 +1,98 @@
+import { applyTransform } from '@hypermod/utils';
 jest.autoMockOff();
-
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 import transformer from './transform';
 
 describe('Transform import', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    "import styled from 'styled-components';",
-    "import styled from '@emotion/styled';",
-    'it transforms standard styled-component imports',
-  );
+  it('it transforms standard styled-component imports', async () => {
+    const result = await applyTransform(
+      transformer,
+      "import styled from 'styled-components';",
+      {
+        parser: 'tsx',
+      },
+    );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+    expect(result).toMatchInlineSnapshot(
+      `"import styled from '@emotion/styled';"`,
+    );
+  });
+
+  it('it ignores other imports', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import styled from 'styled-components';
     import react from 'react';
     `,
-    `
-    import styled from '@emotion/styled';
-    import react from 'react';
-    `,
-    'it ignores other imports',
-  );
+      {
+        parser: 'tsx',
+      },
+    );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    "import { keyframes } from 'styled-components';",
-    "import { keyframes } from '@emotion/core';",
-    'it correctly detects misc core imports',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import styled from '@emotion/styled';
+          import react from 'react';"
+    `);
+  });
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    "import styled, { css } from 'styled-components';",
-    "import { css } from '@emotion/core';\nimport styled from '@emotion/styled';",
-    'it correctly splits out core and styled imports',
-  );
+  it('it correctly detects misc core imports', async () => {
+    const result = await applyTransform(
+      transformer,
+      "import { keyframes } from 'styled-components';",
+      {
+        parser: 'tsx',
+      },
+    );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    "import styled, { ThemeProvider } from 'styled-components';",
-    `
-    import styled from '@emotion/styled';
-import { ThemeProvider } from 'emotion-theming';
-    `,
-    'it correctly splits out core and themed imports',
-  );
+    expect(result).toMatchInlineSnapshot(
+      `"import { keyframes } from '@emotion/core';"`,
+    );
+  });
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    "import styled, { css, ThemeProvider, withTheme } from 'styled-components';",
-    `
-    import { css } from '@emotion/core';
-import styled from '@emotion/styled';
-import { ThemeProvider, withTheme } from 'emotion-theming';
-    `,
-    'it correctly splits out core and multiple themed imports',
-  );
+  it('it correctly splits out core and styled imports', async () => {
+    const result = await applyTransform(
+      transformer,
+      "import styled, { css } from 'styled-components';",
+      {
+        parser: 'tsx',
+      },
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      "import { css } from '@emotion/core';
+      import styled from '@emotion/styled';"
+    `);
+  });
+
+  it('it correctly splits out core and themed imports', async () => {
+    const result = await applyTransform(
+      transformer,
+      "import styled, { ThemeProvider } from 'styled-components';",
+      {
+        parser: 'tsx',
+      },
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      "import styled from '@emotion/styled';
+      import { ThemeProvider } from 'emotion-theming';"
+    `);
+  });
+
+  it('it correctly splits out core and multiple themed imports', async () => {
+    const result = await applyTransform(
+      transformer,
+      "import styled, { css, ThemeProvider, withTheme } from 'styled-components';",
+      {
+        parser: 'tsx',
+      },
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      "import { css } from '@emotion/core';
+      import styled from '@emotion/styled';
+      import { ThemeProvider, withTheme } from 'emotion-theming';"
+    `);
+  });
 });

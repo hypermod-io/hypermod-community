@@ -1,99 +1,117 @@
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
+import { applyTransform } from '@hypermod/utils';
 
 import transformer from '../transform';
 
 describe('@atlaskit/textarea@4.0.0 transform', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('should apply 1 migrates', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React, { useRef } from "react";
       import TextArea from "@atlaskit/textarea";
       const ref = useRef(null);
       export default () => <TextArea defaultValue="test" forwardedRef={ref}/>;
     `,
-    `
-      import React, { useRef } from "react";
-      import TextArea from "@atlaskit/textarea";
-      const ref = useRef(null);
-      export default () => <TextArea defaultValue="test" ref={ref}/>;
-    `,
-    'should apply 1 migrates',
-  );
+      {
+        parser: 'tsx',
+      },
+    );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+    expect(result).toMatchInlineSnapshot(`
+      import React, { useRef } from "react"; import TextArea from "@atlaskit/textarea";
+      const ref = useRef(null); export default () =>
+      <TextArea defaultValue="test"
+      ref={ref}/>;
+    `);
+  });
+
+  it('should not rename forwardedRef if it is not provided', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React from "react";
       import TextArea from "@atlaskit/textarea";
       export default () => <TextArea defaultValue="test"/>;
     `,
-    `
-      import React from "react";
-      import TextArea from "@atlaskit/textarea";
-      export default () => <TextArea defaultValue="test"/>;
-    `,
-    'should not rename forwardedRef if it is not provided',
-  );
+      {
+        parser: 'tsx',
+      },
+    );
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+    expect(result).toMatchInlineSnapshot(`
+      import React from "react"; import TextArea from "@atlaskit/textarea";
+      export default () =>
+      <TextArea defaultValue="test" />;
+    `);
+  });
+
+  it('should rename forwardedRef to ref', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from "react";
     import TextArea from "@atlaskit/textarea";
 
     const ref = React.createRef<HTMLTextAreaElement>();
     export default () => <TextArea defaultValue="test" forwardedRef={ref} />;
   `,
-    `
-    import React from "react";
-    import TextArea from "@atlaskit/textarea";
+      {
+        parser: 'tsx',
+      },
+    );
 
-    const ref = React.createRef<HTMLTextAreaElement>();
-    export default () => <TextArea defaultValue="test" ref={ref} />;
-  `,
-    'should rename forwardedRef to ref',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      import React from "react"; import TextArea from "@atlaskit/textarea";
+      const ref = React.createRef
+      <HTMLTextAreaElement>(); export default () =>
+        <TextArea defaultValue="test" ref={ref} />;
+    `);
+  });
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('should rename forwardedRef to ref with alias', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
       import React from "react";
       import SmartTextArea from "@atlaskit/textarea";
 
       const ref = React.createRef<HTMLTextAreaElement>();
       export default () => <SmartTextArea defaultValue="test" forwardedRef={ref} />;
     `,
-    `
-      import React from "react";
-      import SmartTextArea from "@atlaskit/textarea";
+      {
+        parser: 'tsx',
+      },
+    );
 
-      const ref = React.createRef<HTMLTextAreaElement>();
-      export default () => <SmartTextArea defaultValue="test" ref={ref} />;
-    `,
-    'should rename forwardedRef to ref with alias',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "import React from "react";
+            import SmartTextArea from "@atlaskit/textarea";
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
-      import React from "react";
-      import TextArea from "@atlaskit/textarea";
+            const ref = React.createRef<HTMLTextAreaElement>();
+            export default () => <SmartTextArea defaultValue="test" ref={ref} />;"
+    `);
+  });
 
-      const ref = useRef<HTMLTextAreaElement>(null);
-      export default () => <TextArea defaultValue="test" forwardedRef={ref} />;
-    `,
-    `
-      import React from "react";
-      import TextArea from "@atlaskit/textarea";
+  it('should rename forwardedRef to ref when using ref via useRef', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
+        import React from "react";
+        import TextArea from "@atlaskit/textarea";
 
-      const ref = useRef<HTMLTextAreaElement>(null);
-      export default () => <TextArea defaultValue="test" ref={ref} />;
-    `,
-    'should rename forwardedRef to ref when using ref via useRef',
-  );
+        const ref = useRef<HTMLTextAreaElement>(null);
+        export default () => <TextArea defaultValue="test" forwardedRef={ref} />;
+      `,
+      {
+        parser: 'tsx',
+      },
+    );
+
+    expect(result).toMatchInlineSnapshot(`
+      import React from "react"; import TextArea from "@atlaskit/textarea";
+      const ref = useRef
+      <HTMLTextAreaElement>(null); export default () =>
+        <TextArea defaultValue="test" ref={ref} />;
+    `);
+  });
 });

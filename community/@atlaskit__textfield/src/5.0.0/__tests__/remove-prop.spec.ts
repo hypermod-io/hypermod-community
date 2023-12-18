@@ -1,6 +1,6 @@
+import { applyTransform } from '@hypermod/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
 
-const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 import { removeThemeProp } from '../motions/remove-props';
 
 function transformer(
@@ -22,10 +22,10 @@ const themeToDoComment = `
     The appearance of TextField will have likely changed. */`;
 
 describe('Remove prop', () => {
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('should remove theme from Textfield and leave a comment', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from 'react';
     import Textfield from '@atlaskit/textfield';
     import customeTheme from './theme';
@@ -38,23 +38,30 @@ describe('Remove prop', () => {
       );
     }
   `,
-    `
-    ${themeToDoComment}
-    import React from 'react';
-    import Textfield from '@atlaskit/textfield';
-    import customeTheme from './theme';
+      {
+        parser: 'tsx',
+      },
+    );
 
-    const SimpleTextfield = () => {
-      return <Textfield />;
-    }
-  `,
-    'should remove theme from Textfield and leave a comment',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "/* TODO: (@hypermod) This file uses the @atlaskit/textfield \`theme\` prop which
+          has now been removed due to its poor performance characteristics. We have not replaced
+          theme with an equivalent API due to minimal usage of the \`theme\` prop.
+          The appearance of TextField will have likely changed. */
+          import React from 'react';
+          import Textfield from '@atlaskit/textfield';
+          import customeTheme from './theme';
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+          const SimpleTextfield = () => {
+            return <Textfield />;
+          }"
+    `);
+  });
+
+  it('should remove theme from TextField and leave a comment', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from 'react';
     import TextField from '@atlaskit/textfield';
     import customeTheme from './theme';
@@ -67,23 +74,30 @@ describe('Remove prop', () => {
       );
     }
   `,
-    `
-    ${themeToDoComment}
-    import React from 'react';
-    import TextField from '@atlaskit/textfield';
-    import customeTheme from './theme';
+      {
+        parser: 'tsx',
+      },
+    );
 
-    const SimpleTextfield = () => {
-      return <TextField />;
-    }
-  `,
-    'should remove theme from TextField and leave a comment',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "/* TODO: (@hypermod) This file uses the @atlaskit/textfield \`theme\` prop which
+          has now been removed due to its poor performance characteristics. We have not replaced
+          theme with an equivalent API due to minimal usage of the \`theme\` prop.
+          The appearance of TextField will have likely changed. */
+          import React from 'react';
+          import TextField from '@atlaskit/textfield';
+          import customeTheme from './theme';
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+          const SimpleTextfield = () => {
+            return <TextField />;
+          }"
+    `);
+  });
+
+  it('should remove 2 usages of theme and add 1 comment', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from 'react';
     import Textfield from '@atlaskit/textfield';
     import customeTheme from './theme';
@@ -101,28 +115,30 @@ describe('Remove prop', () => {
       );
     }
   `,
-    `
-    ${themeToDoComment}
-    import React from 'react';
-    import Textfield from '@atlaskit/textfield';
-    import customeTheme from './theme';
+      {
+        parser: 'tsx',
+      },
+    );
 
-    const SimpleTextfield = () => {
-      return (
-        <div>
-          <Textfield />
-          <Textfield />
-        </div>
-      );
-    }
-  `,
-    'should remove 2 usages of theme and add 1 comment',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      /* TODO: (@hypermod) This file uses the @atlaskit/textfield \`theme\` prop
+      which has now been removed due to its poor performance characteristics.
+      We have not replaced theme with an equivalent API due to minimal usage
+      of the \`theme\` prop. The appearance of TextField will have likely changed.
+      */ import React from 'react'; import Textfield from '@atlaskit/textfield';
+      import customeTheme from './theme'; const SimpleTextfield = () => { return
+      (
+      <div>
+        <Textfield />
+        <Textfield />
+      </div>); }
+    `);
+  });
 
-  defineInlineTest(
-    { default: transformer, parser: 'tsx' },
-    {},
-    `
+  it('should remove theme prop when using an aliased name', async () => {
+    const result = await applyTransform(
+      transformer,
+      `
     import React from 'react';
     import Foo from '@atlaskit/textfield';
     import customeTheme from './theme';
@@ -135,16 +151,23 @@ describe('Remove prop', () => {
       );
     }
   `,
-    `
-    ${themeToDoComment}
-    import React from 'react';
-    import Foo from '@atlaskit/textfield';
-    import customeTheme from './theme';
+      {
+        parser: 'tsx',
+      },
+    );
 
-    const SimpleTextfield = () => {
-      return <Foo />;
-    }
-  `,
-    'should remove theme prop when using an aliased name',
-  );
+    expect(result).toMatchInlineSnapshot(`
+      "/* TODO: (@hypermod) This file uses the @atlaskit/textfield \`theme\` prop which
+          has now been removed due to its poor performance characteristics. We have not replaced
+          theme with an equivalent API due to minimal usage of the \`theme\` prop.
+          The appearance of TextField will have likely changed. */
+          import React from 'react';
+          import Foo from '@atlaskit/textfield';
+          import customeTheme from './theme';
+
+          const SimpleTextfield = () => {
+            return <Foo />;
+          }"
+    `);
+  });
 });
