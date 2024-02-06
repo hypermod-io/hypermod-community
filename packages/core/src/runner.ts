@@ -162,7 +162,9 @@ export function run(
     ? Math.min(availableCpus, options.cpus)
     : availableCpus;
   const extensions =
-    options.extensions && options.extensions.split(',').map(ext => '.' + ext);
+    options.extensions &&
+    options.extensions.split(',').map(ext => '.' + ext.trim());
+
   const fileCounters: FileCounters = { error: 0, ok: 0, nochange: 0, skip: 0 };
   const statsCounter: Stats = {};
   const startTime = process.hrtime();
