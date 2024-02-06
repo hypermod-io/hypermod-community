@@ -45,7 +45,7 @@ program
   .option(
     '-e, --extensions <value>',
     'Transform files with these file extensions (comma separated list)',
-    'js, jsx, ts, tsx',
+    'js,jsx,ts,tsx',
   )
   .option(
     '--ignore-pattern <value>',
