@@ -15,12 +15,6 @@ function transformer(
   return source.toSource(options.printOptions);
 }
 
-const themeToDoComment = `
-/* TODO: (@hypermod) This file uses the @atlaskit/textfield \`theme\` prop which
-    has now been removed due to its poor performance characteristics. We have not replaced
-    theme with an equivalent API due to minimal usage of the \`theme\` prop.
-    The appearance of TextField will have likely changed. */`;
-
 describe('Remove prop', () => {
   it('should remove theme from Textfield and leave a comment', async () => {
     const result = await applyTransform(

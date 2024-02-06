@@ -42,10 +42,10 @@ describe('fetcher', () => {
         { virtual: true },
       );
 
-      const { filePath, config } = await fetchConfig(mockBasePath);
+      const configMeta = await fetchConfig(mockBasePath);
 
-      expect(config).toEqual(mockConfig);
-      expect(filePath).toEqual(mockFilePath);
+      expect(configMeta!.config).toEqual(mockConfig);
+      expect(configMeta!.filePath).toEqual(mockFilePath);
     });
 
     it('fetches config with named export', async () => {
@@ -57,10 +57,12 @@ describe('fetcher', () => {
         },
       );
 
-      const { filePath, config } = await fetchConfig(mockBasePath);
+      const configMeta = await fetchConfig(mockBasePath);
 
-      expect(config).toEqual(mockConfig);
-      expect(filePath).toEqual(path.join(mockBasePath, 'hypermod.config.js'));
+      expect(configMeta!.config).toEqual(mockConfig);
+      expect(configMeta!.filePath).toEqual(
+        path.join(mockBasePath, 'hypermod.config.js'),
+      );
     });
 
     it('fetches first matched config when multiple are found', async () => {
@@ -81,10 +83,10 @@ describe('fetcher', () => {
         path.join(mockBasePath, 'codemods', 'hypermod.config.tsx'),
       ];
 
-      const { config, filePath } = await fetchConfig(mockBasePath);
+      const configMeta = await fetchConfig(mockBasePath);
 
-      expect(config).toEqual(mockConfig);
-      expect(filePath).toEqual(
+      expect(configMeta!.config).toEqual(mockConfig);
+      expect(configMeta!.filePath).toEqual(
         path.join(mockBasePath, 'src', 'hypermod.config.ts'),
       );
     });

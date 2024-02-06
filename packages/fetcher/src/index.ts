@@ -28,7 +28,9 @@ function requireConfig(filePath: string, resolvedPath: string) {
   }
 }
 
-export async function fetchConfig(filePath: string): Promise<ConfigMeta> {
+export async function fetchConfig(
+  filePath: string,
+): Promise<ConfigMeta | undefined> {
   const configs = await fetchConfigs(filePath);
   return configs[0];
 }
@@ -94,7 +96,7 @@ export async function fetchPackage(
 export async function fetchRemotePackage(
   packageName: string,
   packageManager: PluginManager,
-): Promise<ConfigMeta> {
+): Promise<ConfigMeta | undefined> {
   if (['javascript', 'typescript'].includes(packageName)) {
     throw new Error(`'${packageName}' is ignored as a remote package.`);
   }
