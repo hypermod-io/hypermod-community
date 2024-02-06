@@ -1,5 +1,11 @@
 # @hypermod/fetcher
 
+## 0.5.3
+
+### Patch Changes
+
+- 6e3ab50: Correctly types fetchConfig function to correctly show that this function can return `undefined`
+
 ## 0.5.2
 
 ### Patch Changes

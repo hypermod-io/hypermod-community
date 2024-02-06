@@ -1,5 +1,17 @@
 # @hypermod/cli
 
+## 0.19.4
+
+### Patch Changes
+
+- 039fe2d: Fixes parsing of the default options for the extensions flag
+- Updated dependencies [039fe2d]
+- Updated dependencies [6e3ab50]
+- Updated dependencies [6e3ab50]
+  - @hypermod/core@0.2.3
+  - @hypermod/validator@0.6.5
+  - @hypermod/fetcher@0.5.3
+
 ## 0.19.3
 
 ### Patch Changes

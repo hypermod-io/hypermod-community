@@ -1,5 +1,13 @@
 # @hypermod/validator
 
+## 0.6.5
+
+### Patch Changes
+
+- 6e3ab50: Fixes usage of fetchConfig to account for undefined. Now errors should be reported correctly
+- Updated dependencies [6e3ab50]
+  - @hypermod/fetcher@0.5.3
+
 ## 0.6.4
 
 ### Patch Changes

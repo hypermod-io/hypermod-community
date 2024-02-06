@@ -1,5 +1,11 @@
 # @hypermod/mod-atlaskit\_\_textfield
 
+## 0.3.3
+
+### Patch Changes
+
+- 6e3ab50: Removes unused variables
+
 ## 0.3.2
 
 ### Patch Changes
