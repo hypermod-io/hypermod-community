@@ -134,6 +134,16 @@ describe('validator', () => {
       );
     });
 
+    it('should error if config file is not found', async () => {
+      const filePath = 'path/to/';
+
+      (fetchConfig as jest.Mock).mockResolvedValue(undefined);
+
+      await expect(isValidConfigAtPath(filePath)).rejects.toThrowError(
+        `Unable to locate config file at path: ${filePath}`,
+      );
+    });
+
     it('should error if config contains multiple invalid properties', async () => {
       (fetchConfig as jest.Mock).mockResolvedValue({
         location: 'path/to/hypermod.config.js',

@@ -38,25 +38,25 @@ export function isValidConfig(config: CodeshiftConfig) {
 }
 
 export async function isValidConfigAtPath(filePath: string) {
-  const { config } = await fetchConfig(filePath);
+  const configMeta = await fetchConfig(filePath);
 
-  if (!config) {
+  if (!configMeta) {
     throw new Error(`Unable to locate config file at path: ${filePath}`);
   }
 
-  const invalidProperites = getInvalidProperties(config);
+  const invalidProperites = getInvalidProperties(configMeta.config);
   if (invalidProperites.length) {
     throw new Error(
       `Invalid transform ids found: ${invalidProperites.join(', ')}`,
     );
   }
 
-  if (!hasValidTransforms(config)) {
+  if (!hasValidTransforms(configMeta.config)) {
     throw new Error(`Invalid transform ids found for config at "${filePath}".
 Please make sure all transforms are identified by a valid semver version. ie 10.0.0`);
   }
 
-  if (!hasValidPresets(config)) {
+  if (!hasValidPresets(configMeta.config)) {
     throw new Error(`Invalid preset ids found for config at "${filePath}".
 Please make sure all presets are kebab case and contain no spaces or special characters. ie sort-imports-by-scope`);
   }

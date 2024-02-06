@@ -15,10 +15,6 @@ function transformer(
   return source.toSource(options.printOptions);
 }
 
-const importToDoComment = `
-/* TODO: (@hypermod) This file uses exports used to help theme @atlaskit/textfield which
-    has now been removed due to its poor performance characteristics. */`;
-
 describe('Remove imports', () => {
   it('should remove theme imports from Textfield and leave a comment', async () => {
     const result = await applyTransform(

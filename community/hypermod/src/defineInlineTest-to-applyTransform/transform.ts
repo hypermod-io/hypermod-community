@@ -1,6 +1,6 @@
 import core, { API, FileInfo, Options, Collection } from 'jscodeshift';
 
-import { hasImportDeclaration, hasImportSpecifier } from '@hypermod/utils';
+import { hasImportSpecifier } from '@hypermod/utils';
 
 export default function transformer(
   file: FileInfo,
