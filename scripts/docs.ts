@@ -73,13 +73,13 @@ async function main() {
   const directories = communityCodemods.filter(dir => junk.not(dir));
 
   for (const dir of directories) {
-    const { config } = await fetchConfig(path.join(COMMUNITY_PATH, dir));
+    const configMeta = await fetchConfig(path.join(COMMUNITY_PATH, dir));
 
-    if (!config) {
+    if (!configMeta || !configMeta.config) {
       throw new Error(`Unable to locate config for path: ${dir}`);
     }
 
-    data.push({ name: dir, config });
+    data.push({ name: dir, config: configMeta.config });
   }
 
   cleanTargetDir(DOCS_PATH);

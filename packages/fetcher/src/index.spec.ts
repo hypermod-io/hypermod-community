@@ -109,13 +109,13 @@ describe('fetcher', () => {
         require: jest.fn().mockReturnValue(mockConfig),
       };
 
-      const { filePath, config } = await fetchPackage(
+      const configMeta = await fetchPackage(
         'fake-package',
         mockPackageManager as unknown as PluginManager,
       );
 
-      expect(config).toEqual(mockConfig);
-      expect(filePath).toEqual(mockFilePath);
+      expect(configMeta!.config).toEqual(mockConfig);
+      expect(configMeta!.filePath).toEqual(mockFilePath);
     });
 
     it('should throw if fetching fails', async () => {
@@ -148,13 +148,15 @@ describe('fetcher', () => {
         }),
       };
 
-      const { config, filePath } = await fetchRemotePackage(
+      const configMeta = await fetchRemotePackage(
         'fake-package',
         mockPackageManager as unknown as PluginManager,
       );
 
-      expect(config).toEqual(mockConfig);
-      expect(filePath).toEqual(mockBasePath + '/hypermod.config.js');
+      expect(configMeta!.config).toEqual(mockConfig);
+      expect(configMeta!.filePath).toEqual(
+        mockBasePath + '/hypermod.config.js',
+      );
     });
 
     it('should throw if fetching fails', async () => {
@@ -181,13 +183,13 @@ describe('fetcher', () => {
         }),
       };
 
-      const { config, filePath } = await fetchRemotePackage(
+      const configMeta = await fetchRemotePackage(
         'fake-package',
         mockPackageManager as unknown as PluginManager,
       );
 
-      expect(config).toEqual(mockConfig);
-      expect(filePath).toEqual(mockBasePath + '/index.js');
+      expect(configMeta!.config).toEqual(mockConfig);
+      expect(configMeta!.filePath).toEqual(mockBasePath + '/index.js');
     });
 
     it('throws if entrypoint-based config does not contain a valid config (and there are no config files available elsewhere)', async () => {

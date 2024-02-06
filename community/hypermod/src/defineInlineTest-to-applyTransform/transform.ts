@@ -102,7 +102,8 @@ function transformDefineInlineTestCalls(
           path.node.callee.property.name === 'defineInlineTest'),
     )
     .forEach(path => {
-      const [transformerOpts, input, output, description] = path.node.arguments;
+      const [transformerOpts, _configOpts, input, output, description] =
+        path.node.arguments;
 
       const transformer = j(transformerOpts).find(j.ObjectProperty, {
         key: { name: 'default' },
