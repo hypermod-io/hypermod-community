@@ -1,5 +1,11 @@
 # @hypermod/core
 
+## 0.2.3
+
+### Patch Changes
+
+- 039fe2d: Fixes parsing of the default options for the extensions flag
+
 ## 0.2.2
 
 ### Patch Changes
