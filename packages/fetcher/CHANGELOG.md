@@ -1,5 +1,17 @@
 # @hypermod/fetcher
 
+## 0.6.0
+
+### Minor Changes
+
+- 401823f: Adds typescript support for config requires. Now a config can be in TS/TSX etc.
+
+### Patch Changes
+
+- ea20de1: Renames type `CodeshiftConfig` to `Config` (with backwards compatible alias)
+- Updated dependencies [ea20de1]
+  - @hypermod/types@0.1.2
+
 ## 0.5.3
 
 ### Patch Changes

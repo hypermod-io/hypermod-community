@@ -1,5 +1,13 @@
 # @codeshift/cli
 
+## 0.19.5
+
+### Patch Changes
+
+- Updated dependencies [401823f]
+- Updated dependencies [ea20de1]
+  - @hypermod/cli@0.19.5
+
 ## 0.19.4
 
 ### Patch Changes

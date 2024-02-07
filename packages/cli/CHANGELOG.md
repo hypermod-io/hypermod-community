@@ -1,5 +1,17 @@
 # @hypermod/cli
 
+## 0.19.5
+
+### Patch Changes
+
+- 401823f: Patches selection of transform via local config prompt
+- ea20de1: Renames type `CodeshiftConfig` to `Config` (with backwards compatible alias)
+- Updated dependencies [401823f]
+- Updated dependencies [ea20de1]
+  - @hypermod/fetcher@0.6.0
+  - @hypermod/validator@0.6.6
+  - @hypermod/types@0.1.2
+
 ## 0.19.4
 
 ### Patch Changes

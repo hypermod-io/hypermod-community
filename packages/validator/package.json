@@ -1,14 +1,14 @@
 {
   "name": "@hypermod/validator",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
   "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/validator",
   "dependencies": {
-    "@hypermod/fetcher": "^0.5.3",
-    "@hypermod/types": "^0.1.1",
+    "@hypermod/fetcher": "^0.6.0",
+    "@hypermod/types": "^0.1.2",
     "semver": "^7.3.5"
   },
   "devDependencies": {

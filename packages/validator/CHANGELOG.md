@@ -1,5 +1,15 @@
 # @hypermod/validator
 
+## 0.6.6
+
+### Patch Changes
+
+- ea20de1: Renames type `CodeshiftConfig` to `Config` (with backwards compatible alias)
+- Updated dependencies [401823f]
+- Updated dependencies [ea20de1]
+  - @hypermod/fetcher@0.6.0
+  - @hypermod/types@0.1.2
+
 ## 0.6.5
 
 ### Patch Changes
