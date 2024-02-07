@@ -1,15 +1,15 @@
 import semver from 'semver';
 
-import { CodeshiftConfig } from '@hypermod/types';
+import { Config } from '@hypermod/types';
 import { fetchConfig } from '@hypermod/fetcher';
 
-function hasValidTransforms(config: CodeshiftConfig) {
+function hasValidTransforms(config: Config) {
   if (!config.transforms) return true;
 
   return Object.entries(config.transforms).every(([key]) => semver.valid(key));
 }
 
-function hasValidPresets(config: CodeshiftConfig): boolean {
+function hasValidPresets(config: Config): boolean {
   if (!config.presets) return true;
 
   return Object.entries(config.presets).every(([key]) =>
@@ -17,7 +17,7 @@ function hasValidPresets(config: CodeshiftConfig): boolean {
   );
 }
 
-function getInvalidProperties(config: CodeshiftConfig) {
+function getInvalidProperties(config: Config) {
   const validProperties = [
     'maintainers',
     'description',
@@ -33,7 +33,7 @@ export function isValidPackageName(dir: string): boolean {
   return !!dir.match(/^(@[a-z0-9-~][a-z0-9-._~]*__)?[a-z0-9-~][a-z0-9-._~]*$/);
 }
 
-export function isValidConfig(config: CodeshiftConfig) {
+export function isValidConfig(config: Config) {
   return hasValidTransforms(config) && hasValidPresets(config);
 }
 
@@ -44,10 +44,10 @@ export async function isValidConfigAtPath(filePath: string) {
     throw new Error(`Unable to locate config file at path: ${filePath}`);
   }
 
-  const invalidProperites = getInvalidProperties(configMeta.config);
-  if (invalidProperites.length) {
+  const invalidProperties = getInvalidProperties(configMeta.config);
+  if (invalidProperties.length) {
     throw new Error(
-      `Invalid transform ids found: ${invalidProperites.join(', ')}`,
+      `Invalid transform ids found: ${invalidProperties.join(', ')}`,
     );
   }
 
