@@ -164,9 +164,11 @@ export default async function main(
       if (config.transforms && config.transforms[answers.codemod]) {
         Object.entries(config.transforms)
           .filter(([key]) => semver.satisfies(key, `>=${answers.codemod}`))
-          .forEach(([, path]) => transforms.push(path));
+          .forEach(([, codemod]) =>
+            transforms.push(`${configFilePath}@${codemod}`),
+          );
       } else if (config.presets && config.presets[answers.codemod]) {
-        transforms.push(config.presets[answers.codemod]);
+        transforms.push(`${configFilePath}#${answers.codemod}`);
       }
     }
   }
