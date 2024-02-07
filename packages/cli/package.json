@@ -1,6 +1,6 @@
 {
   "name": "@hypermod/cli",
-  "version": "0.19.4",
+  "version": "0.19.5",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,10 +19,10 @@
   "dependencies": {
     "@antfu/install-pkg": "^0.1.1",
     "@hypermod/core": "^0.2.3",
-    "@hypermod/fetcher": "^0.5.3",
+    "@hypermod/fetcher": "^0.6.0",
     "@hypermod/initializer": "^0.5.3",
     "@hypermod/types": "*",
-    "@hypermod/validator": "^0.6.5",
+    "@hypermod/validator": "^0.6.6",
     "chalk": "^4.1.0",
     "commander": "^8.2.0",
     "find-up": "5.0.0",

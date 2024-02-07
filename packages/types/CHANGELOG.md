@@ -1,5 +1,11 @@
 # @hypermod/types
 
+## 0.1.2
+
+### Patch Changes
+
+- ea20de1: Renames type `CodeshiftConfig` to `Config` (with backwards compatible alias)
+
 ## 0.1.1
 
 ### Patch Changes
