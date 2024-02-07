@@ -1,8 +1,8 @@
 import inquirer from 'inquirer';
 
-import { CodeshiftConfig } from '@hypermod/types';
+import { Config } from '@hypermod/types';
 
-export const getConfigPrompt = (config: CodeshiftConfig) => {
+export const getConfigPrompt = (config: Config) => {
   const transforms = Object.keys(config.transforms || {});
   const presets = Object.keys(config.presets || {});
 
@@ -22,7 +22,7 @@ export const getConfigPrompt = (config: CodeshiftConfig) => {
 };
 
 export const getMultiConfigPrompt = (
-  configs: { filePath: string; config: CodeshiftConfig }[],
+  configs: { filePath: string; config: Config }[],
 ) => {
   const choices = configs.reduce<any[]>((accum, { filePath, config }) => {
     function mapToConfig(codemods: Record<string, string> = {}) {

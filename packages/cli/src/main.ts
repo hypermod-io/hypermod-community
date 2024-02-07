@@ -8,7 +8,7 @@ import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
 import { installPackage } from '@antfu/install-pkg';
 
 import * as core from '@hypermod/core';
-import { CodeshiftConfig } from '@hypermod/types';
+import { Config } from '@hypermod/types';
 import { fetchConfigAtPath, fetchConfigs } from '@hypermod/fetcher';
 
 import { InvalidUserInputError } from './errors';
@@ -78,7 +78,7 @@ export default async function main(
 
     if (rootPackageJson && rootPackageJson.workspaces) {
       const configs = await (rootPackageJson.workspaces as string[]).reduce<
-        Promise<{ filePath: string; config: CodeshiftConfig }[]>
+        Promise<{ filePath: string; config: Config }[]>
       >(async (accum, filePath) => {
         const configs = await fetchConfigs(filePath);
         if (!configs.length) return accum;

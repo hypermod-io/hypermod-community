@@ -3,14 +3,14 @@ import path from 'path';
 import globby from 'globby';
 import { PluginManager } from 'live-plugin-manager';
 
-import { CodeshiftConfig } from '@hypermod/types';
+import { Config } from '@hypermod/types';
 
 export interface ConfigMeta {
   filePath: string;
-  config: CodeshiftConfig;
+  config: Config;
 }
 
-function resolveConfigExport(pkg: any): CodeshiftConfig {
+function resolveConfigExport(pkg: any): Config {
   return pkg.default ? pkg.default : pkg;
 }
 
@@ -62,9 +62,7 @@ export async function fetchConfigs(filePath: string): Promise<ConfigMeta[]> {
   return configs;
 }
 
-export async function fetchConfigAtPath(
-  filePath: string,
-): Promise<CodeshiftConfig> {
+export async function fetchConfigAtPath(filePath: string): Promise<Config> {
   const resolvedFilePath = path.resolve(filePath);
   const exists = fs.existsSync(resolvedFilePath);
 
