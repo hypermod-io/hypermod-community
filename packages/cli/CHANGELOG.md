@@ -1,5 +1,11 @@
 # @hypermod/cli
 
+## 0.19.6
+
+### Patch Changes
+
+- 10cf791: Minor internal refactor.
+
 ## 0.19.5
 
 ### Patch Changes

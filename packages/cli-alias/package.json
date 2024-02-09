@@ -1,6 +1,6 @@
 {
   "name": "@codeshift/cli",
-  "version": "0.19.5",
+  "version": "0.19.6",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "start:dev": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@hypermod/cli": "^0.19.5",
+    "@hypermod/cli": "^0.19.6",
     "ts-node": "^10.9.1"
   },
   "engines": {

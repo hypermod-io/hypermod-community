@@ -1,6 +1,6 @@
 {
   "name": "@hypermod/cli",
-  "version": "0.19.5",
+  "version": "0.19.6",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
