@@ -9,7 +9,7 @@
   "scripts": {
     "predocs:start": "ts-node scripts/docs",
     "docs:start": "cd website && yarn start",
-    "postinstall": "yarn monorepo:check",
+    "postinstall": "yarn monorepo:fix && yarn monorepo:check",
     "build": "yarn build:pkgs && yarn build:community",
     "build:pkgs": "tsc --build tsconfig.packages.json",
     "build:pkgs:watch": "tsc --build --watch tsconfig.packages.json",

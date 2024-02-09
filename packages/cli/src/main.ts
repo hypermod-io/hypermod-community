@@ -1,5 +1,4 @@
 import path from 'path';
-import fs from 'fs-extra';
 import semver from 'semver';
 import chalk from 'chalk';
 import findUp from 'find-up';
@@ -8,12 +7,12 @@ import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
 import { installPackage } from '@antfu/install-pkg';
 
 import * as core from '@hypermod/core';
-import { Config } from '@hypermod/types';
-import { fetchConfigAtPath, fetchConfigs } from '@hypermod/fetcher';
+import { fetchConfigAtPath } from '@hypermod/fetcher';
 
 import { InvalidUserInputError } from './errors';
 import { fetchPackages } from './utils/fetch-package';
 import { mergeConfigs } from './utils/merge-configs';
+import { fetchConfigsForWorkspaces, getPackageJson } from './utils/file-system';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
 
 const ExperimentalModuleLoader = () => ({
@@ -65,27 +64,15 @@ export default async function main(
     );
 
     /**
-     * Attempt to locate a root package json with a workspaces config.
+     * Attempt to locate a root package.json with a workspaces config.
      * If found, show a prompt with all available codemods
      */
-    let rootPackageJson: any;
-    const packageJsonPath = await findUp('package.json');
+    const localPackageJson = await getPackageJson();
 
-    if (packageJsonPath) {
-      const packageJsonRaw = await fs.readFile(packageJsonPath, 'utf8');
-      rootPackageJson = JSON.parse(packageJsonRaw);
-    }
-
-    if (rootPackageJson && rootPackageJson.workspaces) {
-      const configs = await (rootPackageJson.workspaces as string[]).reduce<
-        Promise<{ filePath: string; config: Config }[]>
-      >(async (accum, filePath) => {
-        const configs = await fetchConfigs(filePath);
-        if (!configs.length) return accum;
-        const results = await accum;
-        return [...results, ...configs];
-      }, Promise.resolve([]));
-
+    if (localPackageJson && localPackageJson.workspaces) {
+      const configs = await fetchConfigsForWorkspaces(
+        localPackageJson.workspaces,
+      );
       const answers = await inquirer.prompt([getMultiConfigPrompt(configs)]);
       const selectedConfig = configs.find(
         ({ filePath }) => answers.codemod.filePath === filePath,
