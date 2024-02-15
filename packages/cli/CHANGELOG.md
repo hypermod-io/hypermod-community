@@ -1,5 +1,13 @@
 # @hypermod/cli
 
+## 0.19.7
+
+### Patch Changes
+
+- 885c4d6: Fixes logic to locate configs when bundled in deeply nested directories
+- Updated dependencies [885c4d6]
+  - @hypermod/fetcher@0.6.1
+
 ## 0.19.6
 
 ### Patch Changes

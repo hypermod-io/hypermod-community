@@ -1,5 +1,11 @@
 # @hypermod/fetcher
 
+## 0.6.1
+
+### Patch Changes
+
+- 885c4d6: Fixes logic to locate configs when bundled in deeply nested directories
+
 ## 0.6.0
 
 ### Minor Changes
