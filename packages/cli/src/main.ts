@@ -16,12 +16,23 @@ import { fetchConfigsForWorkspaces, getPackageJson } from './utils/file-system';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
 
 const ExperimentalModuleLoader = () => ({
-  install: async (packageName: string) =>
+  install: async (packageName: string) => {
     await installPackage(packageName, {
       cwd: __dirname,
       packageManager: 'npm',
       additionalArgs: ['--force'],
-    }),
+    });
+    await installPackage('postcss@^8.4.7', {
+      cwd: __dirname,
+      packageManager: 'npm',
+      additionalArgs: ['--force'],
+    });
+    await installPackage('postcss-less@^6.0.0', {
+      cwd: __dirname,
+      packageManager: 'npm',
+      additionalArgs: ['--force'],
+    });
+  },
   require: (packageName: string) => require(packageName),
   getInfo: (packageName: string) => {
     const entryPath = require.resolve(packageName);
