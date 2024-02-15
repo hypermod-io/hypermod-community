@@ -150,7 +150,7 @@ export async function fetchRemotePackage(
     if (configExport.transforms || configExport.presets) {
       return {
         filePath: info.location,
-        config: resolveConfigExport(pkg),
+        config: configExport,
       };
     }
   } catch (e) {

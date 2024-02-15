@@ -17,11 +17,19 @@ import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
 
 const ExperimentalModuleLoader = () => ({
   install: async (packageName: string) =>
-    await installPackage(packageName, { cwd: __dirname }),
+    await installPackage(packageName, {
+      cwd: __dirname,
+      packageManager: 'npm',
+      additionalArgs: ['--force'],
+    }),
   require: (packageName: string) => require(packageName),
-  getInfo: (packageName: string) => ({
-    location: require.resolve(packageName),
-  }),
+  getInfo: (packageName: string) => {
+    const entryPath = require.resolve(packageName);
+    return {
+      location: entryPath.split(packageName)[0] + packageName,
+      entryPath: entryPath,
+    };
+  },
 });
 
 export default async function main(
