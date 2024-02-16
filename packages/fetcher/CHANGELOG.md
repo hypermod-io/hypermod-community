@@ -1,5 +1,11 @@
 # @hypermod/fetcher
 
+## 0.7.0
+
+### Minor Changes
+
+- 4c8ce78: Removes unused Flow parser, bumps babel presets/plugins, fixes a minor bug where transforms could be detected in preset strings
+
 ## 0.6.1
 
 ### Patch Changes

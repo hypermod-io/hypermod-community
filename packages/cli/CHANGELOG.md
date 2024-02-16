@@ -1,5 +1,18 @@
 # @hypermod/cli
 
+## 0.20.0
+
+### Minor Changes
+
+- 4c8ce78: Removes unused Flow parser, bumps babel presets/plugins, fixes a minor bug where transforms could be detected in preset strings
+
+### Patch Changes
+
+- Updated dependencies [4c8ce78]
+  - @hypermod/fetcher@0.7.0
+  - @hypermod/core@0.3.0
+  - @hypermod/validator@0.6.7
+
 ## 0.19.7
 
 ### Patch Changes
