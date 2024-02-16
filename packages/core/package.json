@@ -13,7 +13,6 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
     "@babel/plugin-proposal-optional-chaining": "^7.13.12",
     "@babel/plugin-transform-modules-commonjs": "^7.13.8",
-    "@babel/preset-flow": "^7.13.13",
     "@babel/preset-typescript": "^7.23.0",
     "@babel/register": "^7.23.0",
     "@types/neo-async": "^2.6.0",
