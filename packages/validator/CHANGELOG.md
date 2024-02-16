@@ -1,5 +1,12 @@
 # @hypermod/validator
 
+## 0.6.7
+
+### Patch Changes
+
+- Updated dependencies [4c8ce78]
+  - @hypermod/fetcher@0.7.0
+
 ## 0.6.6
 
 ### Patch Changes
