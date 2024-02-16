@@ -47,6 +47,7 @@ function prepareJscodeshift(options) {
 }
 
 function retrieveTransformId(str) {
+  if (str.includes('#')) return false;
   return (str.match(/[^@]*(?:[@](?!.*[@]))(.*)$/) || [, ''])[1];
 }
 function retrievePresetId(str) {
@@ -68,11 +69,7 @@ function setup(entryPath, babel) {
       presets.push([presetEnv.default, { targets: { node: true } }]);
     }
 
-    presets.push(
-      /\.tsx?$/.test(entryPath)
-        ? require('@babel/preset-typescript').default
-        : require('@babel/preset-flow').default,
-    );
+    presets.push(require('@babel/preset-typescript').default);
 
     require('@babel/register')({
       configFile: false,

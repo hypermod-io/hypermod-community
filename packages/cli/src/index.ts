@@ -39,7 +39,7 @@ program
       '-p, --parser <parser>',
       'Parser to use for parsing the source files',
     )
-      .choices(['babel', 'babylon', 'flow', 'ts', 'tsx'])
+      .choices(['babel', 'babylon', 'ts', 'tsx'])
       .default('tsx'),
   )
   .option(
