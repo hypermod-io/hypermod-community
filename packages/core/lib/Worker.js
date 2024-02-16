@@ -47,6 +47,7 @@ function prepareJscodeshift(options) {
 }
 
 function retrieveTransformId(str) {
+  if (str.includes('#')) return false;
   return (str.match(/[^@]*(?:[@](?!.*[@]))(.*)$/) || [, ''])[1];
 }
 function retrievePresetId(str) {
