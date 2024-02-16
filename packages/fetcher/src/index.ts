@@ -147,6 +147,18 @@ export async function fetchRemotePackage(
     const pkg = packageManager.require(packageName);
     const configExport = resolveConfigExport(pkg);
 
+    // Install whitelisted deps
+    // @ts-expect-error legacy module loader doesn't know about these properties
+    if (info.pkgJson) {
+      await Promise.all(
+        configExport.dependencies?.map(dep => {
+          // @ts-expect-error legacy module loader doesn't know about these properties
+          const version = info.pkgJson.devDependencies[dep];
+          return packageManager.install(`${dep}@${version}`);
+        }) ?? [],
+      );
+    }
+
     if (configExport.transforms || configExport.presets) {
       return {
         filePath: info.location,

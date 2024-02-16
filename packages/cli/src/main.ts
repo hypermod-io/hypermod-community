@@ -3,6 +3,7 @@ import semver from 'semver';
 import chalk from 'chalk';
 import findUp from 'find-up';
 import inquirer from 'inquirer';
+import fs from 'fs-extra';
 import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
 import { installPackage } from '@antfu/install-pkg';
 
@@ -25,9 +26,16 @@ const ExperimentalModuleLoader = () => ({
   require: (packageName: string) => require(packageName),
   getInfo: (packageName: string) => {
     const entryPath = require.resolve(packageName);
+    const location = entryPath.split(packageName)[0] + packageName;
+    const packageJsonRaw = fs.readFileSync(
+      path.join(location, 'package.json'),
+      'utf8',
+    );
+
     return {
-      location: entryPath.split(packageName)[0] + packageName,
-      entryPath: entryPath,
+      location,
+      entryPath,
+      pkgJson: JSON.parse(packageJsonRaw),
     };
   },
 });
