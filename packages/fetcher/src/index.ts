@@ -148,14 +148,22 @@ export async function fetchRemotePackage(
     const configExport = resolveConfigExport(pkg);
 
     // Install whitelisted deps
-    // @ts-expect-error legacy module loader doesn't know about these properties
-    if (info.pkgJson) {
+    if (
+      // @ts-expect-error legacy module loader doesn't know about these properties
+      info.pkgJson &&
+      // @ts-expect-error legacy module loader doesn't know about these properties
+      info.pkgJson.devDependencies &&
+      configExport.dependencies
+    ) {
       await Promise.all(
-        configExport.dependencies?.map(dep => {
+        configExport.dependencies.map(dep => {
           // @ts-expect-error legacy module loader doesn't know about these properties
           const version = info.pkgJson.devDependencies[dep];
+
+          if (!version) return;
+
           return packageManager.install(`${dep}@${version}`);
-        }) ?? [],
+        }),
       );
     }
 
