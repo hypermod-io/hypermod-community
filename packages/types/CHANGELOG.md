@@ -1,5 +1,11 @@
 # @hypermod/types
 
+## 0.2.0
+
+### Minor Changes
+
+- 0f471c5: Adds dependencies property to the type definition + adds comments explaining all of the properties
+
 ## 0.1.2
 
 ### Patch Changes
