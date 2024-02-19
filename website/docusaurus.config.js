@@ -7,8 +7,9 @@ module.exports = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'Hypermod',
-  projectName: 'Hypermod',
+  organizationName: 'hypermod-io',
+  projectName: 'hypermod-community',
+  trailingSlash: false,
   themeConfig: {
     image: 'img/TwitterBanner.png',
     metadata: [
