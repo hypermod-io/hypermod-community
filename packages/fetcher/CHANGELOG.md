@@ -1,5 +1,16 @@
 # @hypermod/fetcher
 
+## 0.8.0
+
+### Minor Changes
+
+- 0f471c5: Adds experimental dependency property for whitelisting devdeps in co-located modules
+
+### Patch Changes
+
+- Updated dependencies [0f471c5]
+  - @hypermod/types@0.2.0
+
 ## 0.7.0
 
 ### Minor Changes

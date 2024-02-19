@@ -1,5 +1,19 @@
 # @hypermod/cli
 
+## 0.21.0
+
+### Minor Changes
+
+- 0f471c5: Adds experimental dependency property for whitelisting devdeps in co-located modules
+
+### Patch Changes
+
+- Updated dependencies [0f471c5]
+- Updated dependencies [0f471c5]
+  - @hypermod/types@0.2.0
+  - @hypermod/fetcher@0.8.0
+  - @hypermod/validator@0.6.8
+
 ## 0.20.0
 
 ### Minor Changes
