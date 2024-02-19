@@ -9,7 +9,6 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'hypermod-io',
   projectName: 'hypermod-community',
-  trailingSlash: false,
   themeConfig: {
     image: 'img/TwitterBanner.png',
     metadata: [
