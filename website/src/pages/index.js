@@ -25,19 +25,15 @@ export default function Home() {
           <h1 className={clsx(styles.heroHeadingBanner)}>
             The community-owned codemod registry.
           </h1>
-          <p className="hero__subtitle">
+          <p>
             Discover the power of codemods for your development workflow. Our
             tools and resources allow you to easily manage dependencies,
             automate refactoring, and transform your codebase.
           </p>
-          <p className="hero__subtitle">
+          <p>
             With support for code migration and evolution, you can modernize
             your code and keep it up-to-date with the latest best practices.
           </p>
-          <p className="hero__subtitle">
-            Try our tools today and improve your development process.
-          </p>
-          <p></p>
           <Link
             to={useBaseUrl('docs/')}
             className={clsx(
@@ -139,17 +135,17 @@ export default function Home() {
             <div className="row">
               <div className={clsx('col col--4')}>
                 <CodeBlock className="language-diff">
-                  {`+import Button from '@my-lib/button';
+                  {`import Button from '@my-lib/button';
 
 
-+const App = () => (
-+  <Button
-+    appearance="bold"
-+    handleClick=()
-+  >
-+    Submit
-+  </Button>
-+);`}
+const App = () => (
+  <Button
+    appearance="bold"
+    handleClick=()
+  >
+    Submit
+  </Button>
+);`}
                 </CodeBlock>
                 <div className={clsx(styles.center)}>
                   <span className={clsx(styles.lozenge)}>v1.0.0</span>
@@ -342,14 +338,6 @@ export default transformer;`}</CodeBlock>
                 Join our community!
               </Link>
             </div>
-          </div>
-        </section>
-        <section className={clsx(styles.logoBanner)}>
-          <div className={clsx(styles.containerCenter)}>
-            <Logo
-              title="Hypermod logo"
-              style={{ maxWidth: '160px', width: '100%' }}
-            />
           </div>
         </section>
       </main>

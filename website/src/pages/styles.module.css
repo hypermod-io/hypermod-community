@@ -8,18 +8,7 @@
 }
 
 .valueContainer {
-  padding: 1.5rem;
-  border-radius: 1rem;
   margin-bottom: 2rem;
-}
-
-[data-theme='light'] .valueContainer {
-  box-shadow: 0px 0px 1px rgb(124 58 162 / 50%),
-    0px 10px 24px -7px rgb(145 0 218 / 10%);
-}
-
-[data-theme='dark'] .valueContainer {
-  box-shadow: 0px 0px 1px var(--ifm-color-primary-dark);
 }
 
 .valueContainer p:last-child {

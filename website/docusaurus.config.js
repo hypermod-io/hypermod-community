@@ -1,14 +1,14 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'CodeshiftCommunity',
+  title: 'Hypermod Community',
   tagline: 'Codemods for everyone ✨',
   url: 'https://www.codeshiftcommunity.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'CodeshiftCommunity',
-  projectName: 'CodeshiftCommunity',
+  organizationName: 'Hypermod',
+  projectName: 'Hypermod',
   themeConfig: {
     image: 'img/TwitterBanner.png',
     metadata: [
@@ -33,10 +33,11 @@ module.exports = {
       darkTheme: require('prism-react-renderer/themes/palenight'),
     },
     navbar: {
-      title: 'CodeshiftCommunity',
+      title: 'Hypermod Community',
       logo: {
-        alt: 'CodeshiftCommunity Logo',
+        alt: 'Hypermod Logo',
         src: 'img/logo.svg',
+        srcDark: 'img/logo_dark.svg',
       },
       items: [
         {
@@ -65,7 +66,6 @@ module.exports = {
       ],
     },
     footer: {
-      style: 'dark',
       links: [
         {
           title: 'Docs',
