@@ -6,7 +6,7 @@ description: 'Welcome to Hypermod. This is a community of developers who use Hyp
 keywords: [codeshift, getting started, best practices]
 ---
 
-Hypermod (prev CodeshiftCommunity) is a community-owned global registry and documentation hub for codemods. This project provides users and maintainers of libraries with tools and resources to help them [write](authoring), [test](testing), [publish](contribution) and [use](consuming) codemods in a structured and familiar way. By providing a standardized platform for codemod authoring, publishing, and consumption, Hypermod aims to promote the use of codemods as a standard development practice and reduce the learning curve for these tools.
+Hypermod (prev CodeshiftCommunity) is a community-owned global registry and documentation hub for codemods. This project provides users and maintainers of libraries with tools and resources to help them [write](./authoring.mdx), [test](./testing.mdx), [publish](./contribution.mdx) and [use](./consuming.mdx) codemods in a structured and familiar way. By providing a standardized platform for codemod authoring, publishing, and consumption, Hypermod aims to promote the use of codemods as a standard development practice and reduce the learning curve for these tools.
 
 ## Why?
 
@@ -62,9 +62,9 @@ Our goal is to remove the stigma that codemods are difficult or time-consuming t
 
 ### A standardized CLI
 
-Hypermod allows developers to publish codemods as their own NPM packages or as part of an existing NPM package. We provide a [standardized CLI tool](cli) that can download and run the latest codemods from any location. This approach has the added benefit of allowing codemods to be published with dependencies, which is not currently possible with most JSCodeshift CLI implementations.
+Hypermod allows developers to publish codemods as their own NPM packages or as part of an existing NPM package. We provide a [standardized CLI tool](./api/hypermod-cli.mdx) that can download and run the latest codemods from any location. This approach has the added benefit of allowing codemods to be published with dependencies, which is not currently possible with most JSCodeshift CLI implementations.
 
-By using NPM, we aim to make it easy for developers to adopt codemods. All they need to do is publish an existing package with a codemod.config.js file and they are ready to go. For more information, see our guide on [authoring with existing packages](authoring#2-add-hypermod-to-an-existing-package).
+By using NPM, we aim to make it easy for developers to adopt codemods. All they need to do is publish an existing package with a codemod.config.js file and they are ready to go. For more information, see our guide on [authoring with existing packages](./authoring.mdx#2-add-hypermod-to-an-existing-package).
 
 ### A centralized registry
 
@@ -86,9 +86,9 @@ We want to remove the perception that codemods are difficult or time-consuming t
 
 ## Getting started
 
-- [Your first codemod](/docs/your-first-codemod)
-- [Consuming codemods](consuming)
-- [Writing codemods](authoring)
-- [Testing codemods](testing)
-- [Learning resources](your-first-codemod)
-- [Publishing & contribution](contribution)
+- [Your first codemod](./guides/your-first-codemod.mdx)
+- [Consuming codemods](./consuming.mdx)
+- [Writing codemods](./authoring.mdx)
+- [Testing codemods](./testing.mdx)
+- [Learning resources](./guides/your-first-codemod.mdx)
+- [Publishing & contribution](./contribution.mdx)
