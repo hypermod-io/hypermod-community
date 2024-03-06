@@ -1,5 +1,13 @@
 # @hypermod/cli
 
+## 0.21.1
+
+### Patch Changes
+
+- d7592d3: Force another bump to expose the latest bug fixes
+- Updated dependencies [d7592d3]
+  - @hypermod/fetcher@0.8.1
+
 ## 0.21.0
 
 ### Minor Changes

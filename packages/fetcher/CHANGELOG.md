@@ -1,5 +1,11 @@
 # @hypermod/fetcher
 
+## 0.8.1
+
+### Patch Changes
+
+- d7592d3: Force another bump to expose the latest bug fixes
+
 ## 0.8.0
 
 ### Minor Changes
