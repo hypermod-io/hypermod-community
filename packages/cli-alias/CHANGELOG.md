@@ -1,5 +1,12 @@
 # @codeshift/cli
 
+## 0.22.0
+
+### Patch Changes
+
+- Updated dependencies [2c9ae26]
+  - @hypermod/cli@0.22.0
+
 ## 0.21.1
 
 ### Patch Changes

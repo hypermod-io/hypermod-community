@@ -1,5 +1,11 @@
 # @hypermod/fetcher
 
+## 0.9.0
+
+### Minor Changes
+
+- 2c9ae26: Removes whitelist dependency fetching, this approach no longer works.
+
 ## 0.8.1
 
 ### Patch Changes
