@@ -16,29 +16,54 @@ import { mergeConfigs } from './utils/merge-configs';
 import { fetchConfigsForWorkspaces, getPackageJson } from './utils/file-system';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
 
-const ExperimentalModuleLoader = () => ({
-  install: async (packageName: string) =>
-    await installPackage(packageName, {
-      cwd: __dirname,
-      packageManager: 'npm',
-      additionalArgs: ['--force'],
-    }),
-  require: (packageName: string) => require(packageName),
-  getInfo: (packageName: string) => {
+const ExperimentalModuleLoader = () => {
+  const getInfo = (packageName: string) => {
     const entryPath = require.resolve(packageName);
     const location = entryPath.split(packageName)[0] + packageName;
-    const packageJsonRaw = fs.readFileSync(
+    const pkgJsonRaw = fs.readFileSync(
       path.join(location, 'package.json'),
       'utf8',
     );
+    const pkgJson = JSON.parse(pkgJsonRaw);
 
     return {
       location,
       entryPath,
-      pkgJson: JSON.parse(packageJsonRaw),
+      pkgJson,
     };
-  },
-});
+  };
+
+  const install = async (packageName: string) => {
+    await installPackage(packageName, {
+      cwd: __dirname,
+      packageManager: 'npm',
+      additionalArgs: ['--force'],
+    });
+
+    const { pkgJson } = getInfo(packageName);
+
+    // Install whitelisted devDependencies
+    if (pkgJson?.hypermod?.dependencies) {
+      await Promise.all(
+        pkgJson.hypermod.dependencies.map((dep: string) => {
+          const version = pkgJson.devDependencies[dep];
+          if (!version) return;
+          return installPackage(`${dep}@${version}`, {
+            cwd: __dirname,
+            packageManager: 'npm',
+            additionalArgs: ['--force'],
+          });
+        }),
+      );
+    }
+  };
+
+  return {
+    install,
+    getInfo,
+    require: (packageName: string) => require(packageName),
+  };
+};
 
 export default async function main(
   paths: string[],

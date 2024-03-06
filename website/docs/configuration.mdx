@@ -65,15 +65,3 @@ Targets list the packages that the codemod package targets.
 This is useful for Hypermod packages that have codemods targeting multiple related packages at the same time, such as packages from a monorepo.
 
 For example: `targets: ['@foo/bar', '@foo/baz']`
-
-### `dependencies`
-
-(Experimental feature, this will only work when the `--experimental-loader` flag is specified)
-
-A list of dependencies to be installed before running the transform. These are useful when co-locating codemods with an existing
-package and want to specify a whitelist of `devDependencies` to be installed only when run via `@hypermod/cli`.
-This avoids codemod-related dependencies from unnecessarily increasing the bundlesize for regular consumers of the package.
-
-Note: the versions installed are based on what's specified in the `package.json`
-
-Example: `dependencies: ['@hypermod/utils', 'postcss', 'postcss-less']`
