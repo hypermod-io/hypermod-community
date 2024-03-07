@@ -1,5 +1,17 @@
 # @hypermod/cli
 
+## 0.22.0
+
+### Minor Changes
+
+- 2c9ae26: Dependency fetching is now done via the loader module on install via reading a small config in a package.json.
+
+### Patch Changes
+
+- Updated dependencies [2c9ae26]
+  - @hypermod/fetcher@0.9.0
+  - @hypermod/validator@0.6.9
+
 ## 0.21.1
 
 ### Patch Changes
