@@ -1,4 +1,9 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
+
+const { themes } = require('prism-react-renderer');
+const lightTheme = themes.github;
+const darkTheme = themes.palenight;
+
 module.exports = {
   title: 'Hypermod Community',
   tagline: 'Codemods for everyone ✨',
@@ -11,6 +16,9 @@ module.exports = {
   projectName: 'hypermod-community',
   trailingSlash: false,
   themeConfig: {
+    defaultMode: 'light',
+    disableSwitch: true,
+    respectPrefersColorScheme: false,
     image: 'img/TwitterBanner.png',
     metadata: [
       {
@@ -30,8 +38,8 @@ module.exports = {
       },
     ],
     prism: {
-      theme: require('prism-react-renderer/themes/github'),
-      darkTheme: require('prism-react-renderer/themes/palenight'),
+      theme: lightTheme,
+      darkTheme: darkTheme,
     },
     navbar: {
       title: 'Hypermod Community',
@@ -163,5 +171,42 @@ module.exports = {
       src: 'https://cdn.splitbee.io/sb.js',
       async: true,
     },
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            from: ['/'],
+            to: 'https://www.hypermod.io/',
+          },
+          {
+            from: ['/docs'],
+            to: 'https://www.hypermod.io/docs',
+          },
+          {
+            from: ['/docs/your-first-codemod'],
+            to: 'https://www.hypermod.io/docs/guides/your-first-codemod',
+          },
+          {
+            from: ['/docs/understanding-asts'],
+            to: 'https://www.hypermod.io/docs/guides/understanding-asts',
+          },
+          {
+            from: ['/docs/import-manipulation'],
+            to: 'https://www.hypermod.io/docs/guides/import-manipulation',
+          },
+          {
+            from: ['/docs/react'],
+            to: 'https://www.hypermod.io/docs/guides/react-jsx',
+          },
+          {
+            from: ['/docs/typescript'],
+            to: 'https://www.hypermod.io/docs/guides/typescript',
+          },
+        ],
+      },
+    ],
   ],
 };
