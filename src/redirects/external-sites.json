@@ -1,0 +1,10 @@
+{
+  "/": "https://www.hypermod.io/",
+  "/docs": "https://www.hypermod.io/docs",
+  "/docs/your-first-codemod": "https://www.hypermod.io/docs/guides/your-first-codemod",
+  "/docs/understanding-asts": "https://www.hypermod.io/docs/guides/understanding-asts",
+  "/docs/import-manipulation": "https://www.hypermod.io/docs/guides/import-manipulation",
+  "/docs/react": "https://www.hypermod.io/docs/guides/react-jsx",
+  "/docs/typescript": "https://www.hypermod.io/docs/guides/typescript",
+  "/docs/cli": "https://www.hypermod.io/docs/tools/cli"
+}
