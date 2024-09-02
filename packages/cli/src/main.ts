@@ -10,11 +10,16 @@ import { installPackage } from '@antfu/install-pkg';
 import * as core from '@hypermod/core';
 import { fetchConfigAtPath } from '@hypermod/fetcher';
 
-import { InvalidUserInputError } from './errors';
-import { fetchPackages } from './utils/fetch-package';
-import { mergeConfigs } from './utils/merge-configs';
-import { fetchConfigsForWorkspaces, getPackageJson } from './utils/file-system';
-import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
+import { InvalidUserInputError } from './errors.js';
+import { fetchPackages } from './utils/fetch-package.js';
+import { mergeConfigs } from './utils/merge-configs.js';
+import {
+  fetchConfigsForWorkspaces,
+  getPackageJson,
+} from './utils/file-system.js';
+import { getConfigPrompt, getMultiConfigPrompt } from './prompt.js';
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 const ExperimentalModuleLoader = () => {
   const getInfo = (packageName: string) => {
@@ -156,21 +161,33 @@ export default async function main(
        */
       const configFilePath = await findUp([
         'hypermod.config.js',
+        'hypermod.config.cjs',
+        'hypermod.config.mjs',
         'hypermod.config.ts',
         'hypermod.config.tsx',
         'src/hypermod.config.js',
+        'src/hypermod.config.cjs',
+        'src/hypermod.config.mjs',
         'src/hypermod.config.ts',
         'src/hypermod.config.tsx',
         'codemods/hypermod.config.js',
+        'codemods/hypermod.config.cjs',
+        'codemods/hypermod.config.mjs',
         'codemods/hypermod.config.ts',
         'codemods/hypermod.config.tsx',
         'codeshift.config.js',
+        'codeshift.config.cjs',
+        'codeshift.config.mjs',
         'codeshift.config.ts',
         'codeshift.config.tsx',
         'src/codeshift.config.js',
+        'src/codeshift.config.cjs',
+        'src/codeshift.config.mjs',
         'src/codeshift.config.ts',
         'src/codeshift.config.tsx',
         'codemods/codeshift.config.js',
+        'codemods/codeshift.config.cjs',
+        'codemods/codeshift.config.mjs',
         'codemods/codeshift.config.ts',
         'codemods/codeshift.config.tsx',
       ]);
