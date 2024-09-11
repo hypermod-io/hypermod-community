@@ -1,12 +1,15 @@
+/** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   transform: {
     '^.+\\.ts$': [
       'ts-jest',
       {
-        tsconfig: 'tsconfig.json',
+        tsconfig: 'tsconfig.test.json',
+        useESM: true,
       },
     ],
   },
+  extensionsToTreatAsEsm: ['.ts'],
   moduleFileExtensions: ['ts', 'js'],
   testRegex: '^.+\\.(spec|test)\\.(ts|js)$',
   snapshotSerializers: ['jest-serializer-html-string'],
@@ -15,6 +18,7 @@ module.exports = {
     'jest-watch-typeahead/testname',
   ],
   moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
     '@hypermod/(.*)$': '<rootDir>/packages/$1/src',
     '@codeshift/(.*)$': '<rootDir>/packages/$1/src',
   },
