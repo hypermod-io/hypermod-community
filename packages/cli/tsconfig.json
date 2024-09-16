@@ -3,9 +3,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "baseUrl": ".",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext"
+    "baseUrl": "."
   },
   "include": ["src"],
   "references": [

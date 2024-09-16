@@ -1,15 +1,23 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   transform: {
-    '^.+\\.ts$': [
+    '\\.[jt]sx?$': [
       'ts-jest',
       {
-        tsconfig: 'tsconfig.test.json',
-        useESM: true,
+        diagnostics: { ignoreCodes: [1343] },
+        astTransformers: {
+          before: [
+            {
+              path: 'node_modules/ts-jest-mock-import-meta', // or, alternatively, 'ts-jest-mock-import-meta' directly, without node_modules.
+              options: {
+                metaObjectReplacement: { url: 'https://www.url.com' },
+              },
+            },
+          ],
+        },
       },
     ],
   },
-  extensionsToTreatAsEsm: ['.ts'],
   moduleFileExtensions: ['ts', 'js'],
   testRegex: '^.+\\.(spec|test)\\.(ts|js)$',
   snapshotSerializers: ['jest-serializer-html-string'],
@@ -18,7 +26,9 @@ module.exports = {
     'jest-watch-typeahead/testname',
   ],
   moduleNameMapper: {
-    '^(\\.{1,2}/.*)\\.js$': '$1',
+    // '@hypermod/(.*)\\.js': '<rootDir>/packages/$1/src',
+    '(.+)\\.js$': '$1',
+
     '@hypermod/(.*)$': '<rootDir>/packages/$1/src',
     '@codeshift/(.*)$': '<rootDir>/packages/$1/src',
   },
