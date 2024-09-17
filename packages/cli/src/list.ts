@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
 
-import { fetchPackages } from './utils/fetch-package';
-import { getHypermodPackageName } from './utils/package-names';
+import { fetchPackages } from './utils/fetch-package.js';
+import { getHypermodPackageName } from './utils/package-names.js';
 
 export default async function list(packages: string[]) {
   const packageManager = new PluginManager();

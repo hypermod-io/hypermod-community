@@ -1,6 +1,7 @@
 {
   "name": "@codeshift/cli",
   "version": "0.22.0",
+  "type": "module",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
