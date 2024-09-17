@@ -26,9 +26,7 @@ module.exports = {
     'jest-watch-typeahead/testname',
   ],
   moduleNameMapper: {
-    // '@hypermod/(.*)\\.js': '<rootDir>/packages/$1/src',
     '(.+)\\.js$': '$1',
-
     '@hypermod/(.*)$': '<rootDir>/packages/$1/src',
     '@codeshift/(.*)$': '<rootDir>/packages/$1/src',
   },
