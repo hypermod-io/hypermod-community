@@ -1,5 +1,16 @@
 # @codeshift/cli
 
+## 0.23.0
+
+### Minor Changes
+
+- fa45fcb: CLI packages now support hypermod packages using ESM syntax
+
+### Patch Changes
+
+- Updated dependencies [fa45fcb]
+  - @hypermod/cli@0.23.0
+
 ## 0.22.0
 
 ### Patch Changes
