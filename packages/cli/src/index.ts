@@ -9,10 +9,12 @@ import init from './init.js';
 import validate from './validate.js';
 import { InvalidUserInputError, InvalidConfigError } from './errors.js';
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
 const packageJson = readFileSync(
-  path.join(__dirname, '..', 'package.json'),
+  path.join(
+    path.dirname(new URL(import.meta.url).pathname),
+    '..',
+    'package.json',
+  ),
   'utf-8',
 );
 
