@@ -2,7 +2,6 @@ import fs, { lstatSync, existsSync } from 'fs-extra';
 import junk from 'junk';
 import path from 'path';
 import chalk from 'chalk';
-import { isValidPackageName, isValidConfigAtPath } from '@hypermod/validator';
 
 const validPackageNameFormat =
   /^@hypermod\/mod(-[a-zA-Z0-9]+)*(-(?!__)[a-zA-Z0-9]+)*(__([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)?)?$/;
@@ -29,6 +28,9 @@ For example: @hypermod/mod-foo__bar`);
 }
 
 async function main(targetPath: string) {
+  const { isValidPackageName, isValidConfigAtPath } = await import(
+    '@hypermod/validator'
+  );
   const directories = await fs.readdir(targetPath);
 
   directories

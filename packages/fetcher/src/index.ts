@@ -48,10 +48,10 @@ function resolveConfigExport(pkg: any): Config {
   return pkg.default ? pkg.default : pkg;
 }
 
-function requireConfig(filePath: string, resolvedPath: string) {
+async function requireConfig(filePath: string, resolvedPath: string) {
   try {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const pkg = require(resolvedPath);
+    const pkg = await import(resolvedPath);
     return resolveConfigExport(pkg);
   } catch (e) {
     console.log(resolvedPath, e);
@@ -89,7 +89,7 @@ export async function fetchConfigs(filePath: string): Promise<ConfigMeta[]> {
 
     configs.push({
       filePath: matchedPath,
-      config: requireConfig(matchedPath, resolvedMatchedPath),
+      config: await requireConfig(matchedPath, resolvedMatchedPath),
     });
   }
 
