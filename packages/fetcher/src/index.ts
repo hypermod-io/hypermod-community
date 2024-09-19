@@ -107,7 +107,7 @@ export async function fetchRemotePackage(
   }
 
   await packageManager.install(packageName);
-  const info = packageManager.getInfo(packageName);
+  const info = await packageManager.getInfo(packageName);
 
   if (!info) {
     throw new Error(

@@ -13,7 +13,7 @@ function hasValidPresets(config: Config): boolean {
   if (!config.presets) return true;
 
   return Object.entries(config.presets).every(([key]) =>
-    key.match(/^[0-9a-zA-Z\-]+$/),
+    key.match(/^[0-9a-zA-Z\-\.]+$/),
   );
 }
 
