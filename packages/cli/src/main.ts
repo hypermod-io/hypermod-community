@@ -37,7 +37,6 @@ const ExperimentalModuleLoader = () => {
   };
 
   const install = async (packageName: string) => {
-    const __dirname = path.dirname(new URL(import.meta.url).pathname);
     await installPackage(packageName, {
       cwd: __dirname,
       packageManager: 'npm',
@@ -80,11 +79,7 @@ export default async function main(
   }
 
   const pluginManagerConfig: Partial<PluginManagerOptions> = {
-    pluginsPath: path.join(
-      path.dirname(new URL(import.meta.url).pathname),
-      '..',
-      'node_modules',
-    ),
+    pluginsPath: path.join(__dirname, '..', 'node_modules'),
   };
 
   // If a registry is provided in the CLI flags, use it for the pluginManagers configuration.
