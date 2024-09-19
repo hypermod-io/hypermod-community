@@ -17,20 +17,21 @@ import { fetchConfigsForWorkspaces, getPackageJson } from './utils/file-system';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
 
 const ExperimentalModuleLoader = () => {
-  const getInfo = (packageName: string) => {
-    const entryPath = require.resolve(packageName);
-    const location = entryPath.split(packageName)[0] + packageName;
+  const getInfo = async (packageName: string) => {
+    // @ts-expect-error Experimental loader
+    const entryPath = import.meta.resolve(packageName);
+    // @ts-expect-error Experimental loader
+    const location = (entryPath.split(packageName)[0] + packageName).replace(
+      'file://',
+      '',
+    );
     const pkgJsonRaw = fs.readFileSync(
-      path.join(location, 'package.json'),
+      path.join(location.replace('file://', ''), 'package.json'),
       'utf8',
     );
     const pkgJson = JSON.parse(pkgJsonRaw);
 
-    return {
-      location,
-      entryPath,
-      pkgJson,
-    };
+    return { location, entryPath, pkgJson };
   };
 
   const install = async (packageName: string) => {
@@ -40,7 +41,7 @@ const ExperimentalModuleLoader = () => {
       additionalArgs: ['--force'],
     });
 
-    const { pkgJson } = getInfo(packageName);
+    const { pkgJson } = await getInfo(packageName);
 
     // Install whitelisted devDependencies
     if (pkgJson?.hypermod?.dependencies) {
@@ -61,7 +62,7 @@ const ExperimentalModuleLoader = () => {
   return {
     install,
     getInfo,
-    require: (packageName: string) => require(packageName),
+    require: async (packageName: string) => import(packageName),
   };
 };
 

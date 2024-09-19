@@ -85,8 +85,8 @@ export async function fetchPackage(
   packageManager: PluginManager,
 ): Promise<ConfigMeta> {
   await packageManager.install(packageName);
-  const pkg = packageManager.require(packageName);
-  const info = packageManager.getInfo(packageName);
+  const pkg = await packageManager.require(packageName);
+  const info = await packageManager.getInfo(packageName);
 
   if (!info) {
     throw new Error(`Unable to find package info for: ${packageName}`);
@@ -117,7 +117,7 @@ export async function fetchRemotePackage(
 
   // Search main entrypoint for transform/presets from the default import
   try {
-    const pkg = packageManager.require(packageName);
+    const pkg = await packageManager.require(packageName);
     const configExport = resolveConfigExport(pkg);
 
     if (configExport.transforms || configExport.presets) {
