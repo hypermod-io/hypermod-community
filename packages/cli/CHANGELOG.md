@@ -1,5 +1,11 @@
 # @hypermod/cli
 
+## 0.23.1
+
+### Patch Changes
+
+- e69f221: Reverts ESM support.
+
 ## 0.23.0
 
 ### Minor Changes
