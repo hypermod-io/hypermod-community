@@ -21,9 +21,9 @@ async function main() {
   const directories = communityCodemods.filter(dir => junk.not(dir));
 
   for (const dir of directories) {
-    const configMeta = await fetchConfig(path.join(COMMUNITY_PATH, dir));
+    const { config } = await fetchConfig(path.join(COMMUNITY_PATH, dir));
 
-    if (!configMeta?.config) {
+    if (!config) {
       throw new Error(`Unable to locate config for path: ${dir}`);
     }
 
@@ -31,9 +31,7 @@ async function main() {
     const rawPkgName = dir.replace('__', '/');
     data.push({
       pkgName,
-      targets:
-        rawPkgName +
-        (configMeta.config.targets ? `, ${configMeta.config.targets}` : ''),
+      targets: rawPkgName + (config.targets ? `, ${config.targets}` : ''),
     });
   }
 
