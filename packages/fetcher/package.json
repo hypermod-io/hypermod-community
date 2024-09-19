@@ -20,7 +20,8 @@
     "chalk": "^4.1.0",
     "fs-extra": "^9.1.0",
     "globby": "^11.1.0",
-    "live-plugin-manager": "^0.18.1"
+    "live-plugin-manager": "^0.18.1",
+    "tsx": "^4.19.1"
   },
   "engines": {
     "node": ">=14"
