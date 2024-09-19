@@ -1,2 +1,4 @@
 #!/usr/bin/env node
-export * from '../dist/index.js';
+const path = require('path');
+
+require(path.join('..', 'dist', 'index.js'));

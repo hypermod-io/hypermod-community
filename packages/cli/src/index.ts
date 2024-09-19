@@ -3,18 +3,14 @@ import { readFileSync } from 'fs';
 import chalk from 'chalk';
 import { Command, Option, CommanderError } from 'commander';
 
-import main from './main.js';
-import list from './list.js';
-import init from './init.js';
-import validate from './validate.js';
-import { InvalidUserInputError, InvalidConfigError } from './errors.js';
+import main from './main';
+import list from './list';
+import init from './init';
+import validate from './validate';
+import { InvalidUserInputError, InvalidConfigError } from './errors';
 
 const packageJson = readFileSync(
-  path.join(
-    path.dirname(new URL(import.meta.url).pathname),
-    '..',
-    'package.json',
-  ),
+  path.join(__dirname, '..', 'package.json'),
   'utf-8',
 );
 

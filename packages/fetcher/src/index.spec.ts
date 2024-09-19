@@ -19,7 +19,7 @@ describe('fetcher', () => {
   let mockMatchedPaths: string[] = [];
 
   beforeEach(() => {
-    mockMatchedPaths = [path.join(mockBasePath, 'hypermod.config.ts')];
+    mockMatchedPaths = [path.join(mockBasePath, 'hypermod.config.js')];
 
     (globby as unknown as jest.Mock).mockImplementation(() =>
       Promise.resolve(mockMatchedPaths),
@@ -34,10 +34,10 @@ describe('fetcher', () => {
 
   describe('fetchConfig', () => {
     it('fetches config with default export', async () => {
-      const mockFilePath = `${__dirname}/path/to/hypermod.config.ts`;
+      const mockFilePath = `${__dirname}/path/to/hypermod.config.js`;
 
       jest.mock(
-        `${__dirname}/path/to/hypermod.config.ts`,
+        `${__dirname}/path/to/hypermod.config.js`,
         () => ({ __esModule: true, default: mockConfig }),
         { virtual: true },
       );
@@ -50,7 +50,7 @@ describe('fetcher', () => {
 
     it('fetches config with named export', async () => {
       jest.mock(
-        path.join(mockBasePath, 'hypermod.config.ts'),
+        path.join(mockBasePath, 'hypermod.config.js'),
         () => mockConfig,
         {
           virtual: true,
@@ -61,7 +61,7 @@ describe('fetcher', () => {
 
       expect(configMeta!.config).toEqual(mockConfig);
       expect(configMeta!.filePath).toEqual(
-        path.join(mockBasePath, 'hypermod.config.ts'),
+        path.join(mockBasePath, 'hypermod.config.js'),
       );
     });
 
@@ -102,7 +102,7 @@ describe('fetcher', () => {
 
   describe('fetchPackage', () => {
     it('correctly fetches package and returns a config', async () => {
-      const mockFilePath = 'path/to/config.hypermod.ts';
+      const mockFilePath = 'path/to/config.hypermod.js';
       const mockPackageManager = {
         install: jest.fn(),
         getInfo: jest.fn().mockReturnValue({ location: mockFilePath }),
@@ -155,7 +155,7 @@ describe('fetcher', () => {
 
       expect(configMeta!.config).toEqual(mockConfig);
       expect(configMeta!.filePath).toEqual(
-        mockBasePath + '/hypermod.config.ts',
+        mockBasePath + '/hypermod.config.js',
       );
     });
 
