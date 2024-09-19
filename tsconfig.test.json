@@ -2,9 +2,9 @@
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
-    "moduleResolution": "node",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "target": "es6",
-    "module": "CommonJS",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": [

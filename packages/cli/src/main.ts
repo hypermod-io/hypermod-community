@@ -19,6 +19,8 @@ import {
 } from './utils/file-system.js';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt.js';
 
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
 const ExperimentalModuleLoader = () => {
   const getInfo = (packageName: string) => {
     const entryPath = require.resolve(packageName);

@@ -21,7 +21,7 @@
     "jest": "^29.0.0",
     "parcel": "^2.8.3",
     "prettier": "^2.0.0",
-    "ts-jest": "^29.2.5",
+    "ts-jest": "^29.0.0",
     "typescript": "^5.2.2"
   },
   "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/community/hypermod"
