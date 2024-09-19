@@ -20,7 +20,7 @@
     "@types/node": "^16.11.0",
     "jest": "^29.0.0",
     "prettier": "^2.0.0",
-    "ts-jest": "^29.0.0",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.2.2"
   },
   "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/community/javascript"

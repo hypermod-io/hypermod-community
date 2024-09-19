@@ -1,1 +1,1 @@
-export * from '@hypermod/cli';
+import '@hypermod/cli';
