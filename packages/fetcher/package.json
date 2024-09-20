@@ -8,6 +8,7 @@
   "license": "MIT",
   "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/fetcher",
   "dependencies": {
+    "@antfu/install-pkg": "^0.1.1",
     "@babel/core": "^7.23.0",
     "@babel/parser": "^7.23.0",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
@@ -20,10 +21,9 @@
     "chalk": "^4.1.0",
     "fs-extra": "^9.1.0",
     "globby": "^11.1.0",
-    "live-plugin-manager": "^0.18.1",
     "tsx": "^4.19.1"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=20"
   }
 }
