@@ -5,7 +5,7 @@ import { fetchPackages } from './utils/fetch-package';
 import { getHypermodPackageName } from './utils/package-names';
 
 export default async function list(packages: string[]) {
-  const packageManager = new PluginManager();
+  const packageManager = new PluginManager() as any;
   const configs = [];
 
   for (const packageName of packages) {

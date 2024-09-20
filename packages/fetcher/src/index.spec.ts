@@ -3,9 +3,13 @@ jest.mock('globby');
 import fs from 'fs';
 import path from 'path';
 import globby from 'globby';
-import { PluginManager } from 'live-plugin-manager';
 
-import { fetchConfig, fetchPackage, fetchRemotePackage } from '.';
+import {
+  fetchConfig,
+  fetchPackage,
+  fetchRemotePackage,
+  type ModuleLoader,
+} from '.';
 
 const mockBasePath = path.join(__dirname, 'path', 'to');
 
@@ -109,28 +113,23 @@ describe('fetcher', () => {
         require: jest.fn().mockReturnValue(mockConfig),
       };
 
-      const configMeta = await fetchPackage(
-        'fake-package',
-        mockPackageManager as unknown as PluginManager,
-      );
+      const configMeta = await fetchPackage('fake-package', mockPackageManager);
 
       expect(configMeta!.config).toEqual(mockConfig);
       expect(configMeta!.filePath).toEqual(mockFilePath);
     });
 
     it('should throw if fetching fails', async () => {
-      const mockPackageManager = {
+      const mockPackageManager: ModuleLoader = {
         install: jest.fn().mockRejectedValue('Import error'),
         require: jest.fn().mockReturnValue(mockConfig),
+        getInfo: jest.fn(),
       };
 
       expect.assertions(1);
 
       await expect(
-        fetchPackage(
-          'fake-package',
-          mockPackageManager as unknown as PluginManager,
-        ),
+        fetchPackage('fake-package', mockPackageManager),
       ).rejects.toEqual('Import error');
     });
   });
@@ -150,7 +149,7 @@ describe('fetcher', () => {
 
       const configMeta = await fetchRemotePackage(
         'fake-package',
-        mockPackageManager as unknown as PluginManager,
+        mockPackageManager,
       );
 
       expect(configMeta!.config).toEqual(mockConfig);
@@ -160,17 +159,16 @@ describe('fetcher', () => {
     });
 
     it('should throw if fetching fails', async () => {
-      const mockPackageManager = {
+      const mockPackageManager: ModuleLoader = {
         install: jest.fn().mockRejectedValue('Import error'),
+        getInfo: jest.fn(),
+        require: jest.fn(),
       };
 
       expect.assertions(1);
 
       await expect(
-        fetchRemotePackage(
-          'fake-package',
-          mockPackageManager as unknown as PluginManager,
-        ),
+        fetchRemotePackage('fake-package', mockPackageManager),
       ).rejects.toEqual('Import error');
     });
 
@@ -185,7 +183,7 @@ describe('fetcher', () => {
 
       const configMeta = await fetchRemotePackage(
         'fake-package',
-        mockPackageManager as unknown as PluginManager,
+        mockPackageManager,
       );
 
       expect(configMeta!.config).toEqual(mockConfig);
@@ -205,42 +203,38 @@ describe('fetcher', () => {
         Promise.resolve([]),
       );
 
-      const res = await fetchRemotePackage(
-        'fake-package',
-        mockPackageManager as unknown as PluginManager,
-      );
+      const res = await fetchRemotePackage('fake-package', mockPackageManager);
 
       expect(res).toBeUndefined();
     });
 
     it('should throw if fetching fails', async () => {
-      const mockPackageManager = {
+      const mockPackageManager: ModuleLoader = {
         install: jest.fn().mockRejectedValue('Import error'),
+        getInfo: jest.fn(),
+        require: jest.fn(),
       };
 
       expect.assertions(1);
 
       await expect(
-        fetchRemotePackage(
-          'fake-package',
-          mockPackageManager as unknown as PluginManager,
-        ),
+        fetchRemotePackage('fake-package', mockPackageManager),
       ).rejects.toEqual('Import error');
     });
 
     it('should throw if package source cannot be retrieved', async () => {
-      const mockPackageManager = {
+      const mockPackageManager: ModuleLoader = {
         install: jest.fn(),
-        getInfo: () => undefined,
+        getInfo: () => {
+          throw new Error('Package not found');
+        },
+        require: jest.fn(),
       };
 
       expect.assertions(1);
 
       await expect(
-        fetchRemotePackage(
-          'fake-package',
-          mockPackageManager as unknown as PluginManager,
-        ),
+        fetchRemotePackage('fake-package', mockPackageManager),
       ).rejects.toEqual(
         new Error(`Unable to locate package files for package: 'fake-package'`),
       );
