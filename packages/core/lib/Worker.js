@@ -1,43 +1,28 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-'use strict';
+import path from 'path';
+import async from 'neo-async';
+import fs from 'graceful-fs';
+import writeFileAtomic from 'write-file-atomic';
+import { fileURLToPath } from 'url';
+import { register } from 'tsx/esm/api';
 
-const path = require('path');
-const { EventEmitter } = require('events');
-const async = require('neo-async');
-const fs = require('graceful-fs');
-const writeFileAtomic = require('write-file-atomic');
-const { DEFAULT_EXTENSIONS } = require('@babel/core');
+import getParser from 'jscodeshift/src/getParser.js';
+import jscodeshift from 'jscodeshift/src/core.js';
+import { workerData, isMainThread, parentPort } from 'worker_threads';
 
-const getParser = require('jscodeshift/src/getParser');
-const jscodeshift = require('jscodeshift/src/core');
+/**
+ * Register the TSX plugin to allow import TS(X) files.
+ */
+register();
 
-let presetEnv;
-try {
-  presetEnv = require('@babel/preset-env');
-} catch (_) {}
-
-let emitter;
-let finish;
-let notify;
 let transform;
 let parserFromTransform;
 
-if (module.parent) {
-  emitter = new EventEmitter();
-  // @ts-expect-error
-  emitter.send = data => run(data);
-  finish = () => emitter.emit('disconnect');
-  notify = data => emitter.emit('message', data);
+// Get the __filename and __dirname equivalents for ESM
+const __filename = fileURLToPath(import.meta.url);
 
-  module.exports = args => {
-    setup(args[0], args[1]);
-    return emitter;
-  };
-} else {
-  finish = () => setImmediate(() => process.disconnect());
-  notify = data => process.send(data);
-  process.on('message', data => run(data));
-  setup(process.argv[2], process.argv[3]);
+if (!isMainThread) {
+  await setup(workerData.entrypointPath);
+  parentPort.on('message', data => run(data));
 }
 
 function prepareJscodeshift(options) {
@@ -102,12 +87,12 @@ async function setup(entryPath) {
 
 function updateStatus(status, file, msg) {
   msg = msg ? file + ' ' + msg : file;
-  notify({ action: 'status', status, msg });
+  parentPort.postMessage({ action: 'status', status, msg });
 }
 
 function stats(name, quantity) {
   quantity = typeof quantity !== 'number' ? 1 : quantity;
-  notify({ action: 'update', name: name, quantity: quantity });
+  parentPort.postMessage({ action: 'update', name: name, quantity: quantity });
 }
 
 function trimStackTrace(trace) {
@@ -130,9 +115,10 @@ function run(data) {
   const options = data.options || {};
 
   if (!files.length) {
-    finish();
+    parentPort.close();
     return;
   }
+
   async.each(
     files,
     function (file, callback) {
@@ -153,7 +139,8 @@ function run(data) {
               jscodeshift: jscodeshift,
               // eslint-disable-next-line @typescript-eslint/no-empty-function
               stats: options.dry ? stats : () => {},
-              report: msg => notify({ action: 'report', file, msg }),
+              report: msg =>
+                parentPort.postMessage({ action: 'report', file, msg }),
             },
             options,
           );
@@ -196,7 +183,7 @@ function run(data) {
       if (err) {
         updateStatus('error', '', 'This should never be shown!');
       }
-      notify({ action: 'free' });
+      parentPort.postMessage({ action: 'free' });
     },
   );
 }

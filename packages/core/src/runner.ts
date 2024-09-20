@@ -1,12 +1,15 @@
-import child_process from 'child_process';
+import { Worker } from 'worker_threads';
 import chalk from 'chalk';
 import fs from 'graceful-fs';
 import path from 'path';
 import os from 'os';
-// @ts-expect-error
-import ignores from 'jscodeshift/src/ignoreFiles';
 
-import { Message, Flags, Statuses } from './types';
+import { Message, Flags, Statuses } from './types.js';
+
+// @ts-expect-error
+const ignores = await import('jscodeshift/src/ignoreFiles.js');
+// @ts-expect-error
+const __dirname = import.meta.dirname;
 
 type FileCounters = Record<Statuses, number>;
 type Stats = Record<string, number>;
@@ -230,25 +233,23 @@ export function run(
         }
       }
 
-      const args = [entrypointPath, options.babel ? 'babel' : 'no-babel'];
-
-      const workers = [];
+      const workers: Worker[] = [];
 
       for (let i = 0; i < processes; i++) {
         workers.push(
-          options.runInBand
-            ? // eslint-disable-next-line @typescript-eslint/no-var-requires
-              require('../lib/Worker')(args)
-            : child_process.fork(
-                path.join(__dirname, '..', 'lib', 'Worker.js'),
-                args,
-              ),
+          new Worker(path.join(__dirname, '..', 'lib', 'Worker.js'), {
+            workerData: {
+              entrypointPath,
+              babel: options.babel ? 'babel' : 'no-babel',
+            },
+          }),
         );
       }
 
-      return workers.map(child => {
-        child.send({ files: next(), options });
-        child.on('message', (message: Message) => {
+      return workers.map(worker => {
+        worker.postMessage({ files: next(), options });
+        worker.on('error', (message: Message) => console.error(message));
+        worker.on('message', (message: Message) => {
           switch (message.action) {
             case 'status':
               fileCounters[message.status] += 1;
@@ -261,7 +262,7 @@ export function run(
               statsCounter[message.name] += message.quantity;
               break;
             case 'free':
-              child.send({ files: next(), options });
+              worker.postMessage({ files: next(), options });
               break;
             case 'report':
               bufferedWrite(
@@ -274,7 +275,7 @@ export function run(
               break;
           }
         });
-        return new Promise(resolve => child.on('disconnect', resolve));
+        return new Promise(resolve => worker.on('close', resolve));
       });
     })
     .then(pendingWorkers =>
