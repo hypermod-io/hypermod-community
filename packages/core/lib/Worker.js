@@ -41,15 +41,16 @@ if (module.parent) {
 }
 
 function prepareJscodeshift(options) {
-  const parser =
-    parserFromTransform || getParser(options.parser, options.parserConfig);
-  return jscodeshift.withParser(parser);
+  return jscodeshift.withParser(
+    parserFromTransform || getParser(options.parser, options.parserConfig),
+  );
 }
 
 function retrieveTransformId(str) {
   if (str.includes('#')) return false;
   return (str.match(/[^@]*(?:[@](?!.*[@]))(.*)$/) || [, ''])[1];
 }
+
 function retrievePresetId(str) {
   return (str.match(/[^#]*(?:[#](?!.*[#]))(.*)$/) || [, ''])[1];
 }
@@ -59,41 +60,16 @@ function retrievePath(str) {
 }
 
 function getModule(mod) {
-  return mod.hasOwnProperty('default') ? mod.default : mod;
+  return Boolean(mod.default) ? mod.default : mod;
 }
 
-function setup(entryPath, babel) {
-  if (babel === 'babel') {
-    const presets = [];
-    if (presetEnv) {
-      presets.push([presetEnv.default, { targets: { node: true } }]);
-    }
+async function getModuleName(path) {
+  const moduleName = retrievePath(path).split('node_modules/')[1];
+  const pkg = await import(moduleName);
+  return getModule(pkg);
+}
 
-    presets.push(require('@babel/preset-typescript').default);
-
-    require('@babel/register')({
-      configFile: false,
-      babelrc: false,
-      presets,
-      plugins: [
-        require('@babel/plugin-proposal-class-properties').default,
-        require('@babel/plugin-proposal-nullish-coalescing-operator').default,
-        require('@babel/plugin-proposal-optional-chaining').default,
-        require('@babel/plugin-transform-modules-commonjs').default,
-      ],
-      extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
-      // By default, babel register only compiles things inside the current working directory.
-      // https://github.com/babel/babel/blob/2a4f16236656178e84b05b8915aab9261c55782c/packages/babel-register/src/node.js#L140-L157
-      ignore: [
-        // Ignore parser related files
-        /@babel\/parser/,
-        /\/flow-parser\//,
-        /\/recast\//,
-        /\/ast-types\//,
-      ],
-    });
-  }
-
+async function setup(entryPath) {
   const transformId = retrieveTransformId(entryPath);
   const presetId = retrievePresetId(entryPath);
 
@@ -101,17 +77,17 @@ function setup(entryPath, babel) {
   let transformModule;
 
   if (transformId) {
-    transformPkg = getModule(require(path.resolve(retrievePath(entryPath))));
+    transformPkg = await getModuleName(entryPath);
     transformModule = transformPkg.transforms[transformId];
   }
 
   if (presetId) {
-    transformPkg = getModule(require(path.resolve(retrievePath(entryPath))));
+    transformPkg = await getModuleName(entryPath);
     transformModule = transformPkg.presets[presetId];
   }
 
   if (!transformId && !presetId) {
-    transformModule = require(path.resolve(entryPath));
+    transformModule = await import(path.resolve(entryPath));
   }
 
   transform = getModule(transformModule);
@@ -171,10 +147,7 @@ function run(data) {
         try {
           const jscodeshift = prepareJscodeshift(options);
           const out = await transform(
-            {
-              path: file,
-              source: source,
-            },
+            { path: file, source: source },
             {
               j: jscodeshift,
               jscodeshift: jscodeshift,
@@ -184,6 +157,7 @@ function run(data) {
             },
             options,
           );
+
           if (!out || out === source) {
             updateStatus(out ? 'nochange' : 'skip', file);
             callback();
