@@ -3,9 +3,7 @@ import semver from 'semver';
 import chalk from 'chalk';
 import findUp from 'find-up';
 import inquirer from 'inquirer';
-import fs from 'fs-extra';
-import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
-import { installPackage } from '@antfu/install-pkg';
+import { PluginManagerOptions } from 'live-plugin-manager';
 
 import * as core from '@hypermod/core';
 import { fetchConfigAtPath } from '@hypermod/fetcher';
@@ -15,56 +13,6 @@ import { fetchPackages } from './utils/fetch-package';
 import { mergeConfigs } from './utils/merge-configs';
 import { fetchConfigsForWorkspaces, getPackageJson } from './utils/file-system';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
-
-const ExperimentalModuleLoader = () => {
-  const getInfo = async (packageName: string) => {
-    // @ts-expect-error Experimental loader
-    const entryPath = import.meta.resolve(packageName);
-    // @ts-expect-error Experimental loader
-    const location = (entryPath.split(packageName)[0] + packageName).replace(
-      'file://',
-      '',
-    );
-    const pkgJsonRaw = fs.readFileSync(
-      path.join(location.replace('file://', ''), 'package.json'),
-      'utf8',
-    );
-    const pkgJson = JSON.parse(pkgJsonRaw);
-
-    return { location, entryPath, pkgJson };
-  };
-
-  const install = async (packageName: string) => {
-    await installPackage(packageName, {
-      cwd: __dirname,
-      packageManager: 'npm',
-      additionalArgs: ['--force'],
-    });
-
-    const { pkgJson } = await getInfo(packageName);
-
-    // Install whitelisted devDependencies
-    if (pkgJson?.hypermod?.dependencies) {
-      await Promise.all(
-        pkgJson.hypermod.dependencies.map((dep: string) => {
-          const version = pkgJson.devDependencies[dep];
-          if (!version) return;
-          return installPackage(`${dep}@${version}`, {
-            cwd: __dirname,
-            packageManager: 'npm',
-            additionalArgs: ['--force'],
-          });
-        }),
-      );
-    }
-  };
-
-  return {
-    install,
-    getInfo,
-    require: async (packageName: string) => import(packageName),
-  };
-};
 
 export default async function main(
   paths: string[],
@@ -91,10 +39,6 @@ export default async function main(
       auth: { token: flags.registryToken },
     };
   }
-
-  const packageManager = flags.experimentalLoader
-    ? ExperimentalModuleLoader()
-    : new PluginManager(pluginManagerConfig);
 
   let transforms: string[] = [];
 
@@ -234,11 +178,7 @@ export default async function main(
         .filter(id => id.startsWith('#'))
         .map(id => id.substring(1));
 
-      const { community, remote } = await fetchPackages(
-        pkgName,
-        // @ts-expect-error Experimental loader
-        packageManager,
-      );
+      const { community, remote } = await fetchPackages(pkgName);
 
       const config = mergeConfigs(community, remote);
 

@@ -66,10 +66,6 @@ program
     '--registryToken <value>',
     'Define an authentication token to use as credentials for the registry',
   )
-  .option(
-    '--experimental-loader',
-    'Enables the experimental package downloader',
-  )
   .addOption(
     new Option(
       '--verbose <parser>',

@@ -1,19 +1,14 @@
 import chalk from 'chalk';
-import { PluginManager } from 'live-plugin-manager';
 
 import { fetchPackages } from './utils/fetch-package';
 import { getHypermodPackageName } from './utils/package-names';
 
 export default async function list(packages: string[]) {
-  const packageManager = new PluginManager();
   const configs = [];
 
   for (const packageName of packages) {
     try {
-      const { community, remote } = await fetchPackages(
-        packageName,
-        packageManager,
-      );
+      const { community, remote } = await fetchPackages(packageName);
       community &&
         configs.push({
           packageName: getHypermodPackageName(packageName),

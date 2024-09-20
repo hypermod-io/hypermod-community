@@ -2,15 +2,18 @@
 import fs from 'fs';
 import path from 'path';
 import globby from 'globby';
-import { PluginManager } from 'live-plugin-manager';
 
 import { Config } from '@hypermod/types';
-import { register } from 'tsx/esm/api';
+
+import ModuleLoader from './module-loader.js';
 
 /**
  * Register the TSX plugin to allow require TS(X) files.
  */
+import { register } from 'tsx/esm/api';
 register();
+
+const moduleLoader = ModuleLoader();
 
 export interface ConfigMeta {
   filePath: string;
@@ -80,13 +83,10 @@ export async function fetchConfigAtPath(filePath: string): Promise<Config> {
   return requireConfig(filePath, resolvedFilePath);
 }
 
-export async function fetchPackage(
-  packageName: string,
-  packageManager: PluginManager,
-): Promise<ConfigMeta> {
-  await packageManager.install(packageName);
-  const pkg = await packageManager.require(packageName);
-  const info = await packageManager.getInfo(packageName);
+export async function fetchPackage(packageName: string): Promise<ConfigMeta> {
+  await moduleLoader.install(packageName);
+  const pkg = await moduleLoader.require(packageName);
+  const info = await moduleLoader.getInfo(packageName);
 
   if (!info) {
     throw new Error(`Unable to find package info for: ${packageName}`);
@@ -100,14 +100,13 @@ export async function fetchPackage(
 
 export async function fetchRemotePackage(
   packageName: string,
-  packageManager: PluginManager,
 ): Promise<ConfigMeta | undefined> {
   if (['javascript', 'typescript'].includes(packageName)) {
     throw new Error(`'${packageName}' is ignored as a remote package.`);
   }
 
-  await packageManager.install(packageName);
-  const info = await packageManager.getInfo(packageName);
+  await moduleLoader.install(packageName);
+  const info = await moduleLoader.getInfo(packageName);
 
   if (!info) {
     throw new Error(
@@ -117,7 +116,7 @@ export async function fetchRemotePackage(
 
   // Search main entrypoint for transform/presets from the default import
   try {
-    const pkg = await packageManager.require(packageName);
+    const pkg = await moduleLoader.require(packageName);
     const configExport = resolveConfigExport(pkg);
 
     if (configExport.transforms || configExport.presets) {

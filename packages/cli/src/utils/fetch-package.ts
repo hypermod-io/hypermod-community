@@ -1,6 +1,5 @@
 import ora from 'ora';
 import chalk from 'chalk';
-import { PluginManager } from 'live-plugin-manager';
 
 import {
   fetchPackage,
@@ -11,10 +10,7 @@ import { isValidConfig } from '@hypermod/validator';
 
 import { getHypermodPackageName } from './package-names';
 
-export async function fetchPackages(
-  packageName: string,
-  packageManager: PluginManager,
-) {
+export async function fetchPackages(packageName: string) {
   const hypermodPackageName = getHypermodPackageName(packageName);
   let hypermodPackage: ConfigMeta | undefined;
   let remotePackage: ConfigMeta | undefined;
@@ -24,7 +20,7 @@ export async function fetchPackages(
   ).start();
 
   try {
-    hypermodPackage = await fetchPackage(hypermodPackageName, packageManager);
+    hypermodPackage = await fetchPackage(hypermodPackageName);
     spinner.succeed(
       `${chalk.green('Found Hypermod package:')} ${hypermodPackageName}`,
     );
@@ -46,7 +42,7 @@ export async function fetchPackages(
     spinner.info(
       `${chalk.green(`Attempting to download npm package:`)} ${packageName}`,
     );
-    remotePackage = await fetchRemotePackage(packageName, packageManager);
+    remotePackage = await fetchRemotePackage(packageName);
     spinner.succeed(
       `${chalk.green('Found remote Hypermod package:')} ${packageName}`,
     );
