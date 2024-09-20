@@ -9,8 +9,12 @@ import {
 import { isValidConfig } from '@hypermod/validator';
 
 import { getHypermodPackageName } from './package-names';
+import ModuleLoader from './module-loader';
 
-export async function fetchPackages(packageName: string) {
+export async function fetchPackages(
+  packageName: string,
+  moduleLoader: ReturnType<typeof ModuleLoader>,
+) {
   const hypermodPackageName = getHypermodPackageName(packageName);
   let hypermodPackage: ConfigMeta | undefined;
   let remotePackage: ConfigMeta | undefined;
@@ -20,7 +24,7 @@ export async function fetchPackages(packageName: string) {
   ).start();
 
   try {
-    hypermodPackage = await fetchPackage(hypermodPackageName);
+    hypermodPackage = await fetchPackage(hypermodPackageName, moduleLoader);
     spinner.succeed(
       `${chalk.green('Found Hypermod package:')} ${hypermodPackageName}`,
     );
@@ -42,7 +46,7 @@ export async function fetchPackages(packageName: string) {
     spinner.info(
       `${chalk.green(`Attempting to download npm package:`)} ${packageName}`,
     );
-    remotePackage = await fetchRemotePackage(packageName);
+    remotePackage = await fetchRemotePackage(packageName, moduleLoader);
     spinner.succeed(
       `${chalk.green('Found remote Hypermod package:')} ${packageName}`,
     );

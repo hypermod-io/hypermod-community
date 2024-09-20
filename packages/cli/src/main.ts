@@ -1,9 +1,7 @@
-import path from 'path';
 import semver from 'semver';
 import chalk from 'chalk';
 import findUp from 'find-up';
 import inquirer from 'inquirer';
-import { PluginManagerOptions } from 'live-plugin-manager';
 
 import * as core from '@hypermod/core';
 import { fetchConfigAtPath } from '@hypermod/fetcher';
@@ -13,6 +11,8 @@ import { fetchPackages } from './utils/fetch-package';
 import { mergeConfigs } from './utils/merge-configs';
 import { fetchConfigsForWorkspaces, getPackageJson } from './utils/file-system';
 import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
+
+import ModuleLoader from './utils/module-loader';
 
 export default async function main(
   paths: string[],
@@ -24,21 +24,10 @@ export default async function main(
     );
   }
 
-  const pluginManagerConfig: Partial<PluginManagerOptions> = {
-    pluginsPath: path.join(__dirname, '..', 'node_modules'),
-  };
-
-  // If a registry is provided in the CLI flags, use it for the pluginManagers configuration.
-  if (flags.registry !== undefined) {
-    pluginManagerConfig.npmRegistryUrl = flags.registry;
-  }
-
-  // If a registryToken is provided in the CLI flags, use it as an authentication token for the pluginManager
-  if (flags.registryToken !== undefined) {
-    pluginManagerConfig.npmRegistryConfig = {
-      auth: { token: flags.registryToken },
-    };
-  }
+  const moduleLoader = ModuleLoader({
+    npmRegistryUrl: flags.registry,
+    authToken: flags.registryToken,
+  });
 
   let transforms: string[] = [];
 
@@ -178,7 +167,7 @@ export default async function main(
         .filter(id => id.startsWith('#'))
         .map(id => id.substring(1));
 
-      const { community, remote } = await fetchPackages(pkgName);
+      const { community, remote } = await fetchPackages(pkgName, moduleLoader);
 
       const config = mergeConfigs(community, remote);
 

@@ -17,6 +17,7 @@
     "start:dev": "ts-node src/index.ts"
   },
   "dependencies": {
+    "@antfu/install-pkg": "^0.1.1",
     "@hypermod/core": "^0.3.0",
     "@hypermod/fetcher": "^0.9.0",
     "@hypermod/initializer": "^0.5.3",
@@ -31,7 +32,8 @@
     "lodash": "^4.17.21",
     "ora": "^5.4.1",
     "semver": "^7.3.5",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "tsx": "^4.19.1"
   },
   "engines": {
     "node": ">=20"

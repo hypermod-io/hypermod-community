@@ -2,7 +2,16 @@ import path from 'path';
 import fs from 'fs-extra';
 import { installPackage } from '@antfu/install-pkg';
 
-const ModuleLoader = () => {
+/**
+ * Register the TSX plugin to allow require TS(X) files.
+ */
+import { register } from 'tsx/esm/api';
+register();
+
+const ModuleLoader = (config: {
+  npmRegistryUrl?: string;
+  authToken?: string;
+}) => {
   const getInfo = async (packageName: string) => {
     // @ts-expect-error Experimental loader
     const entryPath = await import.meta.resolve(packageName);
@@ -20,11 +29,21 @@ const ModuleLoader = () => {
   };
 
   const install = async (packageName: string) => {
+    // @ts-expect-error
     const __dirname = path.dirname(new URL(import.meta.url).pathname);
     await installPackage(packageName, {
       cwd: __dirname,
       packageManager: 'npm',
-      additionalArgs: ['--force'],
+      additionalArgs: [
+        '--force',
+        // --registry=https://your-custom-registry-url/ --//your-custom-registry-url/:_authToken=YOUR_AUTH_TOKEN
+        ...(config.npmRegistryUrl
+          ? [`--registry=${config.npmRegistryUrl}`]
+          : []),
+        ...(config.authToken
+          ? [`${config.npmRegistryUrl}/:_authToken=${config.authToken}`]
+          : []),
+      ],
     });
 
     const { pkgJson } = await getInfo(packageName);

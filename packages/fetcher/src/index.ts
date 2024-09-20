@@ -5,16 +5,6 @@ import globby from 'globby';
 
 import { Config } from '@hypermod/types';
 
-import ModuleLoader from './module-loader.js';
-
-/**
- * Register the TSX plugin to allow require TS(X) files.
- */
-import { register } from 'tsx/esm/api';
-register();
-
-const moduleLoader = ModuleLoader();
-
 export interface ConfigMeta {
   filePath: string;
   config: Config;
@@ -83,7 +73,10 @@ export async function fetchConfigAtPath(filePath: string): Promise<Config> {
   return requireConfig(filePath, resolvedFilePath);
 }
 
-export async function fetchPackage(packageName: string): Promise<ConfigMeta> {
+export async function fetchPackage(
+  packageName: string,
+  moduleLoader: any,
+): Promise<ConfigMeta> {
   await moduleLoader.install(packageName);
   const pkg = await moduleLoader.require(packageName);
   const info = await moduleLoader.getInfo(packageName);
@@ -100,6 +93,7 @@ export async function fetchPackage(packageName: string): Promise<ConfigMeta> {
 
 export async function fetchRemotePackage(
   packageName: string,
+  moduleLoader: any,
 ): Promise<ConfigMeta | undefined> {
   if (['javascript', 'typescript'].includes(packageName)) {
     throw new Error(`'${packageName}' is ignored as a remote package.`);
