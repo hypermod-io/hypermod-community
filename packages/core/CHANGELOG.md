@@ -1,5 +1,11 @@
 # @hypermod/core
 
+## 0.4.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+
 ## 0.3.0
 
 ### Minor Changes

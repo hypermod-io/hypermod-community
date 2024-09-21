@@ -1,5 +1,19 @@
 # @hypermod/initializer
 
+## 0.6.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+
+### Patch Changes
+
+- Updated dependencies [c17dd18]
+- Updated dependencies [425fdef]
+- Updated dependencies [b6714d3]
+  - @hypermod/utils@0.5.0
+  - @hypermod/cli@0.24.0
+
 ## 0.5.4
 
 ### Patch Changes
