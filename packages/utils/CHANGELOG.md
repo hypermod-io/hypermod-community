@@ -1,5 +1,11 @@
 # @hypermod/utils
 
+## 0.5.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+
 ## 0.4.2
 
 ### Patch Changes

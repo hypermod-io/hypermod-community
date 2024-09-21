@@ -1,5 +1,18 @@
 # @hypermod/validator
 
+## 0.7.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+
+### Patch Changes
+
+- 425fdef: Various configuration changes in support of ESM.
+- Updated dependencies [c17dd18]
+- Updated dependencies [b6714d3]
+  - @hypermod/fetcher@0.10.0
+
 ## 0.6.9
 
 ### Patch Changes

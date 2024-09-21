@@ -1,5 +1,23 @@
 # @hypermod/cli
 
+## 0.24.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+- b6714d3: Refactors the module loader in order to support custom npm registries + auth keys.
+
+### Patch Changes
+
+- 425fdef: Various configuration changes in support of ESM.
+- Updated dependencies [c17dd18]
+- Updated dependencies [425fdef]
+- Updated dependencies [b6714d3]
+  - @hypermod/initializer@0.6.0
+  - @hypermod/validator@0.7.0
+  - @hypermod/fetcher@0.10.0
+  - @hypermod/core@0.4.0
+
 ## 0.23.1
 
 ### Patch Changes

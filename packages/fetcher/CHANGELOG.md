@@ -1,5 +1,12 @@
 # @hypermod/fetcher
 
+## 0.10.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+- b6714d3: Refactors the module loader in order to support custom npm registries + auth keys.
+
 ## 0.9.0
 
 ### Minor Changes
