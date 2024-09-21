@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/utils",
   "engines": {
-    "node": ">=14"
+    "node": ">=20.17"
   },
   "dependencies": {
     "jscodeshift": "^0.13.1"
