@@ -15,7 +15,7 @@ const mockBasePath = path.join(__dirname, 'path', 'to');
 
 const mockConfig = {
   transforms: {
-    '10.0.0': 'path/to/transform.js',
+    '10.0.0': 'path/to/transform.ts',
   },
 };
 
@@ -23,7 +23,7 @@ describe('fetcher', () => {
   let mockMatchedPaths: string[] = [];
 
   beforeEach(() => {
-    mockMatchedPaths = [path.join(mockBasePath, 'hypermod.config.js')];
+    mockMatchedPaths = [path.join(mockBasePath, 'hypermod.config.ts')];
 
     (globby as unknown as jest.Mock).mockImplementation(() =>
       Promise.resolve(mockMatchedPaths),
@@ -38,10 +38,10 @@ describe('fetcher', () => {
 
   describe('fetchConfig', () => {
     it('fetches config with default export', async () => {
-      const mockFilePath = `${__dirname}/path/to/hypermod.config.js`;
+      const mockFilePath = `${__dirname}/path/to/hypermod.config.ts`;
 
       jest.mock(
-        `${__dirname}/path/to/hypermod.config.js`,
+        `${__dirname}/path/to/hypermod.config.ts`,
         () => ({ __esModule: true, default: mockConfig }),
         { virtual: true },
       );
@@ -54,7 +54,7 @@ describe('fetcher', () => {
 
     it('fetches config with named export', async () => {
       jest.mock(
-        path.join(mockBasePath, 'hypermod.config.js'),
+        path.join(mockBasePath, 'hypermod.config.ts'),
         () => mockConfig,
         {
           virtual: true,
@@ -65,7 +65,7 @@ describe('fetcher', () => {
 
       expect(configMeta!.config).toEqual(mockConfig);
       expect(configMeta!.filePath).toEqual(
-        path.join(mockBasePath, 'hypermod.config.js'),
+        path.join(mockBasePath, 'hypermod.config.ts'),
       );
     });
 
@@ -106,7 +106,7 @@ describe('fetcher', () => {
 
   describe('fetchPackage', () => {
     it('correctly fetches package and returns a config', async () => {
-      const mockFilePath = 'path/to/config.hypermod.js';
+      const mockFilePath = 'path/to/config.hypermod.ts';
       const mockPackageManager = {
         install: jest.fn(),
         getInfo: jest.fn().mockReturnValue({ location: mockFilePath }),
@@ -154,7 +154,7 @@ describe('fetcher', () => {
 
       expect(configMeta!.config).toEqual(mockConfig);
       expect(configMeta!.filePath).toEqual(
-        mockBasePath + '/hypermod.config.js',
+        mockBasePath + '/hypermod.config.ts',
       );
     });
 
@@ -177,7 +177,7 @@ describe('fetcher', () => {
         install: jest.fn(),
         require: jest.fn().mockReturnValueOnce(mockConfig),
         getInfo: jest.fn().mockReturnValue({
-          location: mockBasePath + '/index.js',
+          location: mockBasePath + '/index.ts',
         }),
       };
 
@@ -187,7 +187,7 @@ describe('fetcher', () => {
       );
 
       expect(configMeta!.config).toEqual(mockConfig);
-      expect(configMeta!.filePath).toEqual(mockBasePath + '/index.js');
+      expect(configMeta!.filePath).toEqual(mockBasePath + '/index.ts');
     });
 
     it('throws if entrypoint-based config does not contain a valid config (and there are no config files available elsewhere)', async () => {
@@ -195,7 +195,7 @@ describe('fetcher', () => {
         install: jest.fn(),
         require: jest.fn().mockReturnValueOnce({}),
         getInfo: jest.fn().mockReturnValue({
-          location: mockBasePath + '/index.js',
+          location: mockBasePath + '/index.ts',
         }),
       };
 
