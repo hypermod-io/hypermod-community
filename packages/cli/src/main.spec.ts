@@ -12,7 +12,7 @@ import globby from 'globby';
 
 import * as core from '@hypermod/core';
 
-import main from './main';
+import main from './main.js';
 
 const mockPath = 'src/pages/home-page/';
 

@@ -6,7 +6,7 @@ import os from 'os';
 // @ts-expect-error
 import ignores from 'jscodeshift/src/ignoreFiles';
 
-import { Message, Flags, Statuses } from './types';
+import { Message, Flags, Statuses } from './types.js';
 
 type FileCounters = Record<Statuses, number>;
 type Stats = Record<string, number>;

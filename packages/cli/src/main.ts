@@ -11,12 +11,15 @@ import {
   fetchConfigAtPath,
 } from '@hypermod/fetcher';
 
-import { InvalidUserInputError } from './errors';
-import { fetchPackages } from './utils/fetch-package';
-import { mergeConfigs } from './utils/merge-configs';
-import { fetchConfigsForWorkspaces, getPackageJson } from './utils/file-system';
-import ModuleLoader from './utils/module-loader';
-import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
+import { InvalidUserInputError } from './errors.js';
+import { fetchPackages } from './utils/fetch-package.js';
+import { mergeConfigs } from './utils/merge-configs.js';
+import {
+  fetchConfigsForWorkspaces,
+  getPackageJson,
+} from './utils/file-system.js';
+import ModuleLoader from './utils/module-loader.js';
+import { getConfigPrompt, getMultiConfigPrompt } from './prompt.js';
 
 export default async function main(
   paths: string[],
