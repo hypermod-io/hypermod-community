@@ -1,8 +1,12 @@
 import path from 'path';
 import fs from 'fs-extra';
+import { fileURLToPath } from 'url';
 import { installPackage } from '@antfu/install-pkg';
 
 import { ModuleLoader } from '@hypermod/fetcher';
+
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 /**
  * Register the TSX plugin to allow require TS(X) files.
@@ -14,9 +18,13 @@ const ModuleLoader = (config: {
   npmRegistryUrl?: string;
   authToken?: string;
 }): ModuleLoader => {
-  const getInfo = (packageName: string) => {
-    const entryPath = require.resolve(packageName);
-    const location = entryPath.split(packageName)[0] + packageName;
+  const getInfo = async (packageName: string) => {
+    // @ts-expect-error - TS doesn't know about import.meta
+    const entryPath = await import.meta.resolve(packageName);
+    const location = (entryPath.split(packageName)[0] + packageName).replace(
+      'file://',
+      '',
+    );
     const pkgJsonRaw = fs.readFileSync(
       path.join(location, 'package.json'),
       'utf8',
@@ -32,7 +40,7 @@ const ModuleLoader = (config: {
 
   const install = async (packageName: string) => {
     await installPackage(packageName, {
-      cwd: __dirname,
+      cwd: dirname,
       packageManager: 'npm',
       additionalArgs: [
         '--force',
@@ -44,7 +52,7 @@ const ModuleLoader = (config: {
       ],
     });
 
-    const { pkgJson } = getInfo(packageName);
+    const { pkgJson } = await getInfo(packageName);
 
     // Install whitelisted devDependencies
     if (pkgJson?.hypermod?.dependencies) {
@@ -53,7 +61,7 @@ const ModuleLoader = (config: {
           const version = pkgJson.devDependencies[dep];
           if (!version) return;
           return installPackage(`${dep}@${version}`, {
-            cwd: __dirname,
+            cwd: dirname,
             packageManager: 'npm',
             additionalArgs: ['--force'],
           });

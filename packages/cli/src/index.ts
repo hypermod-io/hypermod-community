@@ -1,5 +1,6 @@
 import path from 'path';
 import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
 import chalk from 'chalk';
 import { Command, Option, CommanderError } from 'commander';
 
@@ -8,6 +9,9 @@ import list from './list.js';
 import init from './init.js';
 import validate from './validate.js';
 import { InvalidUserInputError, InvalidConfigError } from './errors.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const packageJson = readFileSync(
   path.join(__dirname, '..', 'package.json'),

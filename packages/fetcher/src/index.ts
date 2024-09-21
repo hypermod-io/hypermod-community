@@ -7,12 +7,12 @@ import { Config } from '@hypermod/types';
 
 export interface ModuleLoader {
   install: (packageName: string) => Promise<void>;
-  getInfo: (packageName: string) => {
+  getInfo: (packageName: string) => Promise<{
     location: string;
     entryPath: string;
     pkgJson: any;
-  };
-  require: (packageName: string) => any;
+  }>;
+  require: (packageName: string) => Promise<any>;
 }
 
 export interface ConfigMeta {
@@ -24,10 +24,9 @@ function resolveConfigExport(pkg: any): Config {
   return pkg.default ? pkg.default : pkg;
 }
 
-function requireConfig(filePath: string, resolvedPath: string) {
+async function requireConfig(filePath: string, resolvedPath: string) {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const pkg = require(resolvedPath);
+    const pkg = await import(resolvedPath);
     return resolveConfigExport(pkg);
   } catch (e) {
     console.log(resolvedPath, e);
@@ -65,7 +64,7 @@ export async function fetchConfigs(filePath: string): Promise<ConfigMeta[]> {
 
     configs.push({
       filePath: matchedPath,
-      config: requireConfig(matchedPath, resolvedMatchedPath),
+      config: await requireConfig(matchedPath, resolvedMatchedPath),
     });
   }
 
@@ -88,8 +87,8 @@ export async function fetchPackage(
   packageManager: ModuleLoader,
 ): Promise<ConfigMeta> {
   await packageManager.install(packageName);
-  const pkg = packageManager.require(packageName);
-  const info = packageManager.getInfo(packageName);
+  const pkg = await packageManager.require(packageName);
+  const info = await packageManager.getInfo(packageName);
 
   if (!info) {
     throw new Error(`Unable to find package info for: ${packageName}`);
@@ -114,7 +113,7 @@ export async function fetchRemotePackage(
   let info;
 
   try {
-    info = packageManager.getInfo(packageName);
+    info = await packageManager.getInfo(packageName);
 
     if (!info) {
       throw new Error();
@@ -127,7 +126,7 @@ export async function fetchRemotePackage(
 
   // Search main entrypoint for transform/presets from the default import
   try {
-    const pkg = packageManager.require(packageName);
+    const pkg = await packageManager.require(packageName);
     const configExport = resolveConfigExport(pkg);
 
     if (configExport.transforms || configExport.presets) {

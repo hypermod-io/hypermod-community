@@ -1,5 +1,6 @@
 import child_process from 'child_process';
 import chalk from 'chalk';
+import { fileURLToPath } from 'url';
 import fs from 'graceful-fs';
 import path from 'path';
 import os from 'os';
@@ -7,6 +8,9 @@ import os from 'os';
 import ignores from 'jscodeshift/src/ignoreFiles';
 
 import { Message, Flags, Statuses } from './types.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 type FileCounters = Record<Statuses, number>;
 type Stats = Record<string, number>;
@@ -191,7 +195,7 @@ export function run(
     (name: string) =>
       !extensions || extensions.indexOf(path.extname(name)) != -1,
   )
-    .then(files => {
+    .then(async files => {
       const numFiles = files.length;
 
       if (numFiles === 0) {
@@ -230,15 +234,16 @@ export function run(
         }
       }
 
-      const args = [entrypointPath, options.babel ? 'babel' : 'no-babel'];
-
+      // @ts-expect-error
+      const Worker = await import('../lib/Worker.js');
+      const args = [entrypointPath];
       const workers = [];
 
       for (let i = 0; i < processes; i++) {
         workers.push(
           options.runInBand
             ? // eslint-disable-next-line @typescript-eslint/no-var-requires
-              require('../lib/Worker')(args)
+              await Worker.default(args)
             : child_process.fork(
                 path.join(__dirname, '..', 'lib', 'Worker.js'),
                 args,

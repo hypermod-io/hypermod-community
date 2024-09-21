@@ -5,6 +5,7 @@
     "target": "es6",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "allowJs": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": [
