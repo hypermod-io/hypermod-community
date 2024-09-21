@@ -22,6 +22,6 @@
     "live-plugin-manager": "^0.18.1"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=20.17"
   }
 }
