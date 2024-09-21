@@ -1,5 +1,6 @@
 {
   "name": "@codeshift/cli",
+  "type": "module",
   "version": "0.24.0",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -12,11 +13,11 @@
   },
   "scripts": {
     "start": "./bin/codeshift-cli.js",
-    "start:dev": "ts-node src/index.ts"
+    "start:dev": "tsx src/index.ts"
   },
   "dependencies": {
     "@hypermod/cli": "^0.24.0",
-    "ts-node": "^10.9.1"
+    "tsx": "^4.19.1"
   },
   "engines": {
     "node": ">=20.17"

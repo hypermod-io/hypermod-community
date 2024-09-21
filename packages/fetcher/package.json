@@ -1,5 +1,6 @@
 {
   "name": "@hypermod/fetcher",
+  "type": "module",
   "version": "0.10.0",
   "source": "src/index.ts",
   "main": "dist/index.js",
