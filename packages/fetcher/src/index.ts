@@ -15,39 +15,6 @@ export interface ModuleLoader {
   require: (packageName: string) => any;
 }
 
-// This configuration allows us to require TypeScript config files directly
-const { DEFAULT_EXTENSIONS } = require('@babel/core');
-const presets = [];
-
-let presetEnv;
-try {
-  presetEnv = require('@babel/preset-env');
-  presets.push([presetEnv.default, { targets: { node: true } }]);
-} catch (_) {}
-
-require('@babel/register')({
-  configFile: false,
-  babelrc: false,
-  presets: [...presets, require('@babel/preset-typescript').default],
-  plugins: [
-    require('@babel/plugin-transform-class-properties').default,
-    require('@babel/plugin-transform-nullish-coalescing-operator').default,
-    require('@babel/plugin-transform-optional-chaining').default,
-    require('@babel/plugin-transform-modules-commonjs').default,
-    require('@babel/plugin-transform-private-methods').default,
-  ],
-  extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
-  // By default, babel register only compiles things inside the current working directory.
-  // https://github.com/babel/babel/blob/2a4f16236656178e84b05b8915aab9261c55782c/packages/babel-register/src/node.js#L140-L157
-  ignore: [
-    // Ignore parser related files
-    /@babel\/parser/,
-    /\/flow-parser\//,
-    /\/recast\//,
-    /\/ast-types\//,
-  ],
-});
-
 export interface ConfigMeta {
   filePath: string;
   config: Config;

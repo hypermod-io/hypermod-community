@@ -8,19 +8,10 @@
   "license": "MIT",
   "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/fetcher",
   "dependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/parser": "^7.23.0",
-    "@babel/plugin-proposal-class-properties": "^7.13.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
-    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
-    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
-    "@babel/preset-typescript": "^7.23.0",
-    "@babel/register": "^7.23.0",
     "@hypermod/types": "*",
     "chalk": "^4.1.0",
     "fs-extra": "^9.1.0",
-    "globby": "^11.1.0",
-    "live-plugin-manager": "^0.18.1"
+    "globby": "^11.1.0"
   },
   "engines": {
     "node": ">=20.17"

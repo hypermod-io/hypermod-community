@@ -65,7 +65,7 @@ const ModuleLoader = (config: {
   return {
     install,
     getInfo,
-    require: (packageName: string) => await import(packageName),
+    require: async (packageName: string) => await import(packageName),
   };
 };
 
