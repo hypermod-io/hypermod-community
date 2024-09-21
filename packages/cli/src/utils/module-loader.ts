@@ -4,6 +4,12 @@ import { installPackage } from '@antfu/install-pkg';
 
 import { ModuleLoader } from '@hypermod/fetcher';
 
+/**
+ * Register the TSX plugin to allow require TS(X) files.
+ */
+import { register } from 'tsx/esm/api';
+register();
+
 const ModuleLoader = (config: {
   npmRegistryUrl?: string;
   authToken?: string;
@@ -59,7 +65,7 @@ const ModuleLoader = (config: {
   return {
     install,
     getInfo,
-    require: (packageName: string) => require(packageName),
+    require: (packageName: string) => await import(packageName),
   };
 };
 
