@@ -3,7 +3,7 @@ jest.mock('live-plugin-manager');
 import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
 
-import list from './list';
+import list from './list.js';
 
 describe('list', () => {
   beforeEach(() => {

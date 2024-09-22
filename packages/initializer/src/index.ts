@@ -1,9 +1,13 @@
 import fs from 'fs-extra';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import semver from 'semver';
 import * as recast from 'recast';
 import { version as cliVersion } from '@hypermod/cli/package.json';
 import { version as utilVersion } from '@hypermod/utils/package.json';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const TEMPLATE_PATH = path.join(__dirname, '..', 'template');
 
