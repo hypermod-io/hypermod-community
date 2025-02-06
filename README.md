@@ -28,11 +28,11 @@ The community-owned global registry and documentation hub for codemods. Providin
 
 ## Getting started
 
-- [Writing codemods](https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/authoring)
-- [Testing codemods](https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/testing)
-- [Guides & learning resources](https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/your-first-codemod)
-- [Publishing & contribution](https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/contribution)
-- [Consuming codemods](https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/consuming)
+- [Writing codemods](https://hypermod-io.github.io/hypermod-community//docs/authoring)
+- [Testing codemods](https://hypermod-io.github.io/hypermod-community//docs/testing)
+- [Guides & learning resources](https://hypermod-io.github.io/hypermod-community//docs/your-first-codemod)
+- [Publishing & contribution](https://hypermod-io.github.io/hypermod-community//docs/contribution)
+- [Consuming codemods](https://hypermod-io.github.io/hypermod-community//docs/consuming)
 
 ## Registry
 
@@ -63,6 +63,7 @@ and run with:
 `$ hypermod or $ hypermod-cli`
 
 ## Used by
+
 - [Algolia](https://www.algolia.com/doc/guides/building-search-ui/upgrade-guides/react/)
 - [Compiled CSS-in-JS](https://github.com/atlassian-labs/compiled/tree/master/packages/codemods)
 - [react-resource-router](https://github.com/atlassian-labs/react-resource-router/tree/master/codemods)
