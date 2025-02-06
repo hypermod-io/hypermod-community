@@ -7,7 +7,7 @@ const darkTheme = themes.palenight;
 module.exports = {
   title: 'Hypermod Community',
   tagline: 'Codemods for everyone ✨',
-  url: 'https://hypermod-io.github.io/hypermod-community/',
+  url: 'https://hypermod-io.github.io/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
