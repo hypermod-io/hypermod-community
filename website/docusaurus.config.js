@@ -7,7 +7,7 @@ const darkTheme = themes.palenight;
 module.exports = {
   title: 'Hypermod Community',
   tagline: 'Codemods for everyone ✨',
-  url: 'https://www.codeshiftcommunity.com',
+  url: 'https://hypermod-io.github.io/hypermod-community/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -118,11 +118,11 @@ module.exports = {
             },
             {
               label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/CodeshiftCommunity',
+              href: 'https://stackoverflow.com/questions/tagged/hypermod',
             },
             {
               label: 'Twitter',
-              href: 'https://twitter.com/CodeshiftCommunity',
+              href: 'https://twitter.com/hypermodio',
             },
           ],
         },
@@ -144,7 +144,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} CodeshiftCommunity.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Hypermod.io`,
     },
   },
   presets: [
