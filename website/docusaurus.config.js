@@ -8,7 +8,7 @@ module.exports = {
   title: 'Hypermod Community',
   tagline: 'Codemods for everyone ✨',
   url: 'https://hypermod-io.github.io/',
-  baseUrl: '/',
+  baseUrl: '/hypermod-community/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
