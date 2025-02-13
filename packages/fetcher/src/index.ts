@@ -7,46 +7,13 @@ import { Config } from '@hypermod/types';
 
 export interface ModuleLoader {
   install: (packageName: string) => Promise<void>;
-  getInfo: (packageName: string) => {
+  getInfo: (packageName: string) => Promise<{
     location: string;
     entryPath: string;
     pkgJson: any;
-  };
-  require: (packageName: string) => any;
+  }>;
+  require: (packageName: string) => Promise<any>;
 }
-
-// This configuration allows us to require TypeScript config files directly
-const { DEFAULT_EXTENSIONS } = require('@babel/core');
-const presets = [];
-
-let presetEnv;
-try {
-  presetEnv = require('@babel/preset-env');
-  presets.push([presetEnv.default, { targets: { node: true } }]);
-} catch (_) {}
-
-require('@babel/register')({
-  configFile: false,
-  babelrc: false,
-  presets: [...presets, require('@babel/preset-typescript').default],
-  plugins: [
-    require('@babel/plugin-transform-class-properties').default,
-    require('@babel/plugin-transform-nullish-coalescing-operator').default,
-    require('@babel/plugin-transform-optional-chaining').default,
-    require('@babel/plugin-transform-modules-commonjs').default,
-    require('@babel/plugin-transform-private-methods').default,
-  ],
-  extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
-  // By default, babel register only compiles things inside the current working directory.
-  // https://github.com/babel/babel/blob/2a4f16236656178e84b05b8915aab9261c55782c/packages/babel-register/src/node.js#L140-L157
-  ignore: [
-    // Ignore parser related files
-    /@babel\/parser/,
-    /\/flow-parser\//,
-    /\/recast\//,
-    /\/ast-types\//,
-  ],
-});
 
 export interface ConfigMeta {
   filePath: string;
@@ -57,10 +24,9 @@ function resolveConfigExport(pkg: any): Config {
   return pkg.default ? pkg.default : pkg;
 }
 
-function requireConfig(filePath: string, resolvedPath: string) {
+async function requireConfig(filePath: string, resolvedPath: string) {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const pkg = require(resolvedPath);
+    const pkg = await import(resolvedPath);
     return resolveConfigExport(pkg);
   } catch (e) {
     console.log(resolvedPath, e);
@@ -98,7 +64,7 @@ export async function fetchConfigs(filePath: string): Promise<ConfigMeta[]> {
 
     configs.push({
       filePath: matchedPath,
-      config: requireConfig(matchedPath, resolvedMatchedPath),
+      config: await requireConfig(matchedPath, resolvedMatchedPath),
     });
   }
 
@@ -121,8 +87,8 @@ export async function fetchPackage(
   packageManager: ModuleLoader,
 ): Promise<ConfigMeta> {
   await packageManager.install(packageName);
-  const pkg = packageManager.require(packageName);
-  const info = packageManager.getInfo(packageName);
+  const pkg = await packageManager.require(packageName);
+  const info = await packageManager.getInfo(packageName);
 
   if (!info) {
     throw new Error(`Unable to find package info for: ${packageName}`);
@@ -147,7 +113,7 @@ export async function fetchRemotePackage(
   let info;
 
   try {
-    info = packageManager.getInfo(packageName);
+    info = await packageManager.getInfo(packageName);
 
     if (!info) {
       throw new Error();
@@ -160,7 +126,7 @@ export async function fetchRemotePackage(
 
   // Search main entrypoint for transform/presets from the default import
   try {
-    const pkg = packageManager.require(packageName);
+    const pkg = await packageManager.require(packageName);
     const configExport = resolveConfigExport(pkg);
 
     if (configExport.transforms || configExport.presets) {

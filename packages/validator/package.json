@@ -1,5 +1,6 @@
 {
   "name": "@hypermod/validator",
+  "type": "module",
   "version": "0.7.0",
   "source": "src/index.ts",
   "main": "dist/index.js",

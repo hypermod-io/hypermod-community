@@ -9,7 +9,7 @@ import {
 } from '@hypermod/fetcher';
 import { isValidConfig } from '@hypermod/validator';
 
-import { getHypermodPackageName } from './package-names';
+import { getHypermodPackageName } from './package-names.js';
 
 export async function fetchPackages(
   packageName: string,

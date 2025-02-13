@@ -1,20 +1,21 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 'use strict';
 
-const path = require('path');
-const { EventEmitter } = require('events');
-const async = require('neo-async');
-const fs = require('graceful-fs');
-const writeFileAtomic = require('write-file-atomic');
-const { DEFAULT_EXTENSIONS } = require('@babel/core');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'graceful-fs';
+import { EventEmitter } from 'events';
+import async from 'neo-async';
+import writeFileAtomic from 'write-file-atomic';
 
-const getParser = require('jscodeshift/src/getParser');
-const jscodeshift = require('jscodeshift/src/core');
+import getParser from 'jscodeshift/src/getParser.js';
+import jscodeshift from 'jscodeshift/src/core.js';
 
-let presetEnv;
-try {
-  presetEnv = require('@babel/preset-env');
-} catch (_) {}
+/**
+ * Register the TSX plugin to allow require TS(X) files.
+ */
+import { register } from 'tsx/esm/api';
+register();
 
 let emitter;
 let finish;
@@ -22,22 +23,23 @@ let notify;
 let transform;
 let parserFromTransform;
 
-if (module.parent) {
+if (import.meta.url.replace('file://', '') !== process.argv[1]) {
   emitter = new EventEmitter();
   // @ts-expect-error
   emitter.send = data => run(data);
   finish = () => emitter.emit('disconnect');
   notify = data => emitter.emit('message', data);
-
-  module.exports = args => {
-    setup(args[0], args[1]);
-    return emitter;
-  };
 } else {
   finish = () => setImmediate(() => process.disconnect());
   notify = data => process.send(data);
   process.on('message', data => run(data));
   setup(process.argv[2], process.argv[3]);
+}
+
+// Used by `run-in-band` to run the worker in the same process
+export default async function main(args) {
+  await setup(args[0], args[1]);
+  return emitter;
 }
 
 function prepareJscodeshift(options) {
@@ -59,41 +61,16 @@ function retrievePath(str) {
 }
 
 function getModule(mod) {
-  return mod.hasOwnProperty('default') ? mod.default : mod;
+  return Boolean(mod.default) ? mod.default : mod;
 }
 
-function setup(entryPath, babel) {
-  if (babel === 'babel') {
-    const presets = [];
-    if (presetEnv) {
-      presets.push([presetEnv.default, { targets: { node: true } }]);
-    }
+async function getModuleName(path) {
+  const moduleName = retrievePath(path).split('node_modules/')[1];
+  const pkg = await import(moduleName);
+  return getModule(pkg);
+}
 
-    presets.push(require('@babel/preset-typescript').default);
-
-    require('@babel/register')({
-      configFile: false,
-      babelrc: false,
-      presets,
-      plugins: [
-        require('@babel/plugin-proposal-class-properties').default,
-        require('@babel/plugin-proposal-nullish-coalescing-operator').default,
-        require('@babel/plugin-proposal-optional-chaining').default,
-        require('@babel/plugin-transform-modules-commonjs').default,
-      ],
-      extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
-      // By default, babel register only compiles things inside the current working directory.
-      // https://github.com/babel/babel/blob/2a4f16236656178e84b05b8915aab9261c55782c/packages/babel-register/src/node.js#L140-L157
-      ignore: [
-        // Ignore parser related files
-        /@babel\/parser/,
-        /\/flow-parser\//,
-        /\/recast\//,
-        /\/ast-types\//,
-      ],
-    });
-  }
-
+async function setup(entryPath) {
   const transformId = retrieveTransformId(entryPath);
   const presetId = retrievePresetId(entryPath);
 
@@ -101,17 +78,17 @@ function setup(entryPath, babel) {
   let transformModule;
 
   if (transformId) {
-    transformPkg = getModule(require(path.resolve(retrievePath(entryPath))));
+    transformPkg = await getModuleName(entryPath);
     transformModule = transformPkg.transforms[transformId];
   }
 
   if (presetId) {
-    transformPkg = getModule(require(path.resolve(retrievePath(entryPath))));
+    transformPkg = await getModuleName(entryPath);
     transformModule = transformPkg.presets[presetId];
   }
 
   if (!transformId && !presetId) {
-    transformModule = require(path.resolve(entryPath));
+    transformModule = await import(path.resolve(entryPath));
   }
 
   transform = getModule(transformModule);
@@ -141,6 +118,7 @@ function trimStackTrace(trace) {
   // Remove this file from the stack trace of an error thrown in the transformer
   const result = [];
   trace.split('\n').every(line => {
+    const __filename = fileURLToPath(import.meta.url);
     if (line.indexOf(__filename) === -1) {
       result.push(line);
       return true;
