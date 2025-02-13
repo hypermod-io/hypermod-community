@@ -1,0 +1,3 @@
+# @codeshift/eslint-plugin
+
+Placeholder
