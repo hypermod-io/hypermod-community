@@ -14,13 +14,11 @@ The community-owned global registry and documentation hub for codemods. Providin
 
 ## Features
 
-🔭 Explore an extensive list of codemods [contributed by the community](https://www.codeshiftcommunity.com/docs/registry).
-
-✨ [Create](https://www.codeshiftcommunity.com/docs/authoring), [test](https://www.codeshiftcommunity.com/docs/testing) and [publish](https://www.codeshiftcommunity.com/docs/consuming) codemods from anywhere.
+🔭 Explore an extensive list of codemods [contributed by the community](https://www.hypermod.io/explore).
 
 ⚡️ Use our [helpers & testing utilities](https://www.codeshiftcommunity.com/docs/utils) to make writing codemods a breeze.
 
-🧠 Up-skill your engineering team using our [guides & resources](https://www.codeshiftcommunity.com/docs/your-first-codemod).
+🧠 Up-skill your engineering team using our [guides & resources](https://www.hypermod.io/docs/guides/your-first-codemod).
 
 🎨 Perfect for [Design Systems & Monorepos](https://www.codeshiftcommunity.com/docs/monorepos).
 
@@ -36,7 +34,7 @@ The community-owned global registry and documentation hub for codemods. Providin
 
 ## Registry
 
-[The registry](https://www.codeshiftcommunity.com/docs/registry) contains all community contributed codemods, hosted and published directly from the CodeshiftCommunity repository.
+[The registry](https://www.codeshiftcommunity.com/docs/registry) contains all community-contributed codemods, hosted and published directly from the CodeshiftCommunity repository.
 
 Source for these packages are located in the [/community folder](https://github.com/hypermod-io/hypermod-community/tree/main/community).
 
@@ -48,9 +46,9 @@ Source for these packages are located in the [/community folder](https://github.
 
 Downloading and running codemods as well as initialising and maintaining codemod packages can all be done via the Hypermod CLI (`@hypermod/cli`).
 
-[Please see the docs for more information and examples](https://www.codeshiftcommunity.com/docs/cli)
+[Please see the docs for more information and examples](https://www.hypermod.io/docs/tools/cli)
 
-We recommend running the CLI with $ npx to ensure you always have the latest version.
+We recommend running the CLI with `$ npx` to ensure you always have the latest version.
 
 `$ npx @hypermod/cli --packages mylib@1.0.0 /project/src`
 
