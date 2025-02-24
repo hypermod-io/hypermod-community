@@ -9,7 +9,7 @@ import {
   fetchPackage,
   fetchRemotePackage,
   type ModuleLoader,
-} from '.';
+} from './index.js';
 
 const mockBasePath = path.join(__dirname, 'path', 'to');
 

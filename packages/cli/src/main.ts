@@ -3,6 +3,7 @@ import semver from 'semver';
 import chalk from 'chalk';
 import findUp from 'find-up';
 import inquirer from 'inquirer';
+import { fileURLToPath } from 'url';
 import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';
 
 import * as core from '@hypermod/core';
@@ -11,12 +12,18 @@ import {
   fetchConfigAtPath,
 } from '@hypermod/fetcher';
 
-import { InvalidUserInputError } from './errors';
-import { fetchPackages } from './utils/fetch-package';
-import { mergeConfigs } from './utils/merge-configs';
-import { fetchConfigsForWorkspaces, getPackageJson } from './utils/file-system';
-import ModuleLoader from './utils/module-loader';
-import { getConfigPrompt, getMultiConfigPrompt } from './prompt';
+import { InvalidUserInputError } from './errors.js';
+import { fetchPackages } from './utils/fetch-package.js';
+import { mergeConfigs } from './utils/merge-configs.js';
+import {
+  fetchConfigsForWorkspaces,
+  getPackageJson,
+} from './utils/file-system.js';
+import ModuleLoader from './utils/module-loader.js';
+import { getConfigPrompt, getMultiConfigPrompt } from './prompt.js';
+
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default async function main(
   paths: string[],
@@ -29,7 +36,7 @@ export default async function main(
   }
 
   const pluginManagerConfig: Partial<PluginManagerOptions> = {
-    pluginsPath: path.join(__dirname, '..', 'node_modules'),
+    pluginsPath: path.join(dirname, '..', 'node_modules'),
   };
 
   // If a registry is provided in the CLI flags, use it for the pluginManagers configuration.

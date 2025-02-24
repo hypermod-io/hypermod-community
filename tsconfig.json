@@ -2,9 +2,10 @@
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
-    "moduleResolution": "node",
     "target": "es6",
-    "module": "CommonJS",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "allowJs": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": [

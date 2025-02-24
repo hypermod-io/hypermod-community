@@ -1,5 +1,6 @@
 {
   "name": "@hypermod/core",
+  "type": "module",
   "version": "0.4.0",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -7,14 +8,6 @@
   "license": "MIT",
   "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/core",
   "dependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/parser": "^7.23.0",
-    "@babel/plugin-proposal-class-properties": "^7.13.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
-    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
-    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
-    "@babel/preset-typescript": "^7.23.0",
-    "@babel/register": "^7.23.0",
     "@types/neo-async": "^2.6.0",
     "@types/write-file-atomic": "^4.0.0",
     "chalk": "^4.1.0",
