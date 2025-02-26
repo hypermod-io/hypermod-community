@@ -61,7 +61,7 @@
     "jest": "^29.0.0",
     "jest-serializer-html-string": "^1.0.1",
     "jest-watch-typeahead": "^0.4.2",
-    "jscodeshift": "^0.13.1",
+    "jscodeshift": "^17.1.2",
     "junk": "^3.1.0",
     "parcel": "^2.8.3",
     "prettier": "^2.0.0",

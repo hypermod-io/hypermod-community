@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hypermod/utils": "^0.5.0",
-    "jscodeshift": "^0.13.1"
+    "jscodeshift": "^17.1.2"
   },
   "devDependencies": {
     "@hypermod/cli": "^0.24.0",

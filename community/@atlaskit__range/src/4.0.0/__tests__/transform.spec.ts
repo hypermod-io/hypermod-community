@@ -70,11 +70,11 @@ describe('@atlaskit/range@4.0.0 transform', () => {
               let ref = useRef();
 
               return (
-                <Range
+                (<Range
                   ref={newRef => {
                     ref = newRef;
                   }}
-                />
+                />)
               );
             }"
     `);

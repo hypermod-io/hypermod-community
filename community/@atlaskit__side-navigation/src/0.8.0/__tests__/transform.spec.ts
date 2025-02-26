@@ -48,11 +48,7 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
         "import { ButtonItem } from '@atlaskit/side-navigation';
 
               const App = () => {
-                return (
-                  <ButtonItem cssFn={state => {
-
-                  }} />
-                );
+                return <ButtonItem cssFn={state => ({})} />;
               }"
       `);
     });
@@ -85,9 +81,9 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
 
       expect(result).toMatchInlineSnapshot(`
         import { ButtonItem } from '@atlaskit/side-navigation'; const App = ()
-        => { return (
+        => { return ( (
         <div cssFn={(styles, state)=>({ ...styles, })}>
-          <ButtonItem cssFn={state=>({})} /></div>); };
+          <ButtonItem cssFn={state=>({})} /></div>) ); };
       `);
     });
 
@@ -186,7 +182,7 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
 
               const App = () => {
                 return (
-                  <ButtonItem
+                  (<ButtonItem
                     /*
                     TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
                     The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
@@ -195,7 +191,7 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
                     cssFn={(styles, state) => ({
                       ...(state.x ? styles : {}),
                       color: 'red'
-                    })} />
+                    })} />)
                 );
               }"
       `);
@@ -371,7 +367,7 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
 
               const App = () => {
                 return (
-                  <ButtonItem
+                  (<ButtonItem
                     /*
                     TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
                     The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
@@ -385,7 +381,7 @@ describe('@atlaskit/side-navigation@0.8.0 transform', () => {
                       For more info please reach out to #help-design-system-code.
                       */
                       cssFn={cssFunction} />
-                  </ButtonItem>
+                  </ButtonItem>)
                 );
               };"
       `);

@@ -51,7 +51,7 @@ describe('Remove innerProps', () => {
             import Calendar from '@atlaskit/calendar';
 
             const SimpleCalendar = () => {
-              return <Calendar />;
+              return (<Calendar />);
             }"
     `);
   });
@@ -91,7 +91,7 @@ describe('Remove innerProps', () => {
             import AkCalendar from '@atlaskit/calendar';
 
             const SimpleCalendar = () => {
-              return <AkCalendar />;
+              return (<AkCalendar />);
             }"
     `);
   });
@@ -135,10 +135,10 @@ describe('Remove innerProps', () => {
 
             const SimpleCalendar = () => {
               return (
-                <Calendar
+                (<Calendar
                   defaultDisabled={['2020-12-04']}
                   defaultPreviouslySelected={['2020-12-06']}
-                  defaultSelected={['2020-12-08']} />
+                  defaultSelected={['2020-12-08']} />)
               );
             }"
     `);

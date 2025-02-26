@@ -142,7 +142,7 @@ describe('Update Avatar props', () => {
         import Avatar from '@atlaskit/avatar';
 
         const App = () => {
-          return <Avatar />;
+          return (<Avatar />);
         }
       `,
     'should remove all deleted props',
@@ -170,7 +170,7 @@ describe('Update Avatar props', () => {
         import Foo from '@atlaskit/avatar';
 
         const App = () => {
-          return <Foo />;
+          return (<Foo />);
         }
       `,
     'should remove all deleted props with aliased import name',
@@ -194,7 +194,7 @@ describe('Update Avatar props', () => {
         import Avatar from '@atlaskit/avatar';
 
         const App = () => {
-          return <Avatar />;
+          return (<Avatar />);
         }
       `,
     'should remove enableTooltip when false',
@@ -256,7 +256,7 @@ describe('Update AvatarItem props', () => {
         import Avatar, { AvatarItem } from '@atlaskit/avatar';
 
         const App = () => {
-          return <AvatarItem />;
+          return (<AvatarItem />);
         }
       `,
     'should remove all deleted props',
@@ -284,7 +284,7 @@ describe('Update AvatarItem props', () => {
       import { AvatarItem as Foo } from '@atlaskit/avatar';
 
       const App = () => {
-        return <Foo />;
+        return (<Foo />);
       }
     `,
     'should remove all deleted props with aliased import',
@@ -308,7 +308,7 @@ describe('Update AvatarItem props', () => {
     import { AvatarItem } from '@atlaskit/avatar';
 
     const App = () => {
-      return <AvatarItem />;
+      return (<AvatarItem />);
     }
   `,
     'should remove enableTextTruncate when defaulted to true',
@@ -333,9 +333,9 @@ describe('Update AvatarItem props', () => {
 
       const App = () => {
         return (
-          <AvatarItem
+          (<AvatarItem
             isTruncationDisabled
-          />
+          />)
         );
       }
     `,
@@ -365,9 +365,9 @@ describe('Update AvatarItem props', () => {
 
       const App = () => {
         return (
-          <AvatarItem
+          (<AvatarItem
             isTruncationDisabled={!value}
-          />
+          />)
         );
       }
     `,
@@ -399,9 +399,9 @@ describe('Update AvatarItem props', () => {
 
       const App = () => {
         return (
-          <AvatarItem
+          (<AvatarItem
             isTruncationDisabled={!(foo && bar)}
-          />
+          />)
         );
       }
     `,
@@ -426,7 +426,7 @@ describe('Update AvatarItem props', () => {
       import Avatar, { AvatarItem } from '@atlaskit/avatar';
 
       const App = () => {
-        return <AvatarItem />;
+        return (<AvatarItem />);
       }
     `,
     'should remove isTruncationDisabled when true',

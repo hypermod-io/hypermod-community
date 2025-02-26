@@ -10,6 +10,6 @@
     "node": ">=20.17"
   },
   "dependencies": {
-    "jscodeshift": "^0.13.1"
+    "jscodeshift": "^17.1.2"
   }
 }
