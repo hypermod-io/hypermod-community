@@ -1,5 +1,16 @@
 # @hypermod/mod-atlaskit\_\_checkbox
 
+## 0.4.0
+
+### Minor Changes
+
+- 6baffa1: Bumps jscodeshift, which may have unintended side-effects
+
+### Patch Changes
+
+- Updated dependencies [6baffa1]
+  - @hypermod/utils@0.6.0
+
 ## 0.3.3
 
 ### Patch Changes
