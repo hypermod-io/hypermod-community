@@ -90,12 +90,12 @@ describe('@atlaskit/progress-indicator@9.0.0 transform', () => {
 
     expect(result).toMatchInlineSnapshot(`
       import { ProgressIndicator } from '@atlaskit/progress-indicator'; const
-      Component = () =>{ return (
+      Component = () =>{ return ( (
       <div>
         <ProgressIndicator />
         <ProgressIndicator x={10} />
         <ProgressIndicator></ProgressIndicator>
-      </div>); }
+      </div>) ); }
     `);
   });
 

@@ -46,7 +46,7 @@ describe('Flatten Inner Prop Style As Prop', () => {
             import Calendar from '@atlaskit/calendar';
             const SimpleCalendar = () => {
               return (
-                <Calendar
+                (<Calendar
                   innerProps={{
                     style: {
                       border: '1px solid red',
@@ -58,7 +58,7 @@ describe('Flatten Inner Prop Style As Prop', () => {
                     border: '1px solid red',
                     display: 'inline-block',
                   }}
-                  className={'abc'} />
+                  className={'abc'} />)
               );
             };"
     `);
@@ -89,11 +89,11 @@ describe('Flatten Inner Prop Style As Prop', () => {
             import Calendar from '@atlaskit/calendar';
             const SimpleCalendar = () => {
               return (
-                <Calendar
+                (<Calendar
                   innerProps={{
                     className: 'abc',
                   }}
-                  className={'abc'} />
+                  className={'abc'} />)
               );
             };"
     `);
@@ -127,7 +127,7 @@ describe('Flatten Inner Prop Style As Prop', () => {
             import Calendar from '@atlaskit/calendar';
             const SimpleCalendar = () => {
               return (
-                <Calendar
+                (<Calendar
                   innerProps={{
                     style: {
                       border: '1px solid red',
@@ -137,7 +137,7 @@ describe('Flatten Inner Prop Style As Prop', () => {
                   style={{
                     border: '1px solid red',
                     display: 'inline-block',
-                  }} />
+                  }} />)
               );
             };"
     `);

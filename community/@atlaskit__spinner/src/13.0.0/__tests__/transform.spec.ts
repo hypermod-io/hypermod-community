@@ -84,7 +84,7 @@ describe('@atlaskit/spinner@13.0.0 transform', () => {
     function App() {
       const [isCompleting] = useState(false);
       const onComplete = () => {};
-      return <Spinner delay={1000} />;
+      return (<Spinner delay={1000} />);
     }
   `,
     });
@@ -143,13 +143,13 @@ describe('@atlaskit/spinner@13.0.0 transform', () => {
     import Spinner from '@atlaskit/spinner';
     import myValue from './my-value'
 
-    return <>
+    return (<>
       <Spinner />
       <Spinner />
       <Spinner />
       <Spinner delay={151} />
       <Spinner delay={myValue} />
-    </>;
+    </>);
   `,
     });
 
@@ -177,13 +177,13 @@ describe('@atlaskit/spinner@13.0.0 transform', () => {
     import value from './value';
 
 
-    return <>
+    return (<>
       <Spinner />
       <Spinner appearance="invert" />
       <Spinner />
       <Spinner appearance="invert" />
       <Spinner appearance={value ? "invert" : "inherit"} />
-    </>;
+    </>);
   `,
     });
   });

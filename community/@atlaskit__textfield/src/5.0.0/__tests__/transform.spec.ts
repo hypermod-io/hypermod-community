@@ -36,7 +36,7 @@ describe('@atlaskit/textfield@5.0.0 transform', () => {
               import React from 'react';
 
               const SimpleTextfield = () => {
-                return <Textfield />;
+                return (<Textfield />);
               }"
     `);
   });
@@ -86,7 +86,7 @@ describe('@atlaskit/textfield@5.0.0 transform', () => {
               import React from 'react';
 
               const SimpleTextfield = () => {
-                return <Textfield />;
+                return (<Textfield />);
               }"
     `);
   });
