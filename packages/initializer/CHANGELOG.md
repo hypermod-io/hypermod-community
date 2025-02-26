@@ -1,5 +1,17 @@
 # @hypermod/initializer
 
+## 0.7.0
+
+### Minor Changes
+
+- 6baffa1: Bumps jscodeshift to the latest version to surface bug fixes and various improvements. Note: this may inherently change how files are parsed and transformed.
+
+### Patch Changes
+
+- Updated dependencies [6baffa1]
+  - @hypermod/utils@0.6.0
+  - @hypermod/cli@0.25.0
+
 ## 0.6.0
 
 ### Minor Changes
