@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { PluginManager } from 'live-plugin-manager';
 
-import { fetchPackages } from './utils/fetch-package';
+import { fetchNpmPkg } from './fetchers/npm';
 import { getHypermodPackageName } from './utils/package-names';
 
 export default async function list(packages: string[]) {
@@ -10,7 +10,7 @@ export default async function list(packages: string[]) {
 
   for (const packageName of packages) {
     try {
-      const { community, remote } = await fetchPackages(
+      const { community, remote } = await fetchNpmPkg(
         packageName,
         packageManager,
       );
