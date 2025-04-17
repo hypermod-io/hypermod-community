@@ -9,9 +9,9 @@ import {
 } from '@hypermod/fetcher';
 import { isValidConfig } from '@hypermod/validator';
 
-import { getHypermodPackageName } from './package-names';
+import { getHypermodPackageName } from '../utils/package-names';
 
-export async function fetchPackages(
+export async function fetchNpmPkg(
   packageName: string,
   packageManager: ModuleLoader,
 ) {
