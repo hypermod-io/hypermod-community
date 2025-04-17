@@ -1,5 +1,11 @@
 # @hypermod/cli
 
+## 0.26.0
+
+### Minor Changes
+
+- 55bc230: Adds the ability to fetch codemods from the hypermod app API. Also includes a large refactor of the source code to accomidate
+
 ## 0.25.0
 
 ### Minor Changes
