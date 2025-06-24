@@ -15,7 +15,7 @@
     "jscodeshift": "^17.1.2"
   },
   "devDependencies": {
-    "@hypermod/cli": "^0.25.0",
+    "@hypermod/cli": "^0.26.0",
     "@types/jest": "^29.0.0",
     "@types/node": "^16.11.0",
     "jest": "^29.0.0",
