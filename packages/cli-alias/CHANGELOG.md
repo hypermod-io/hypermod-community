@@ -1,5 +1,16 @@
 # @codeshift/cli
 
+## 0.27.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
+### Patch Changes
+
+- Updated dependencies [68eabcf]
+  - @hypermod/cli@0.27.0
+
 ## 0.26.0
 
 ### Patch Changes

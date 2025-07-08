@@ -1,5 +1,20 @@
 # @hypermod/cli
 
+## 0.27.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
+### Patch Changes
+
+- Updated dependencies [68eabcf]
+  - @hypermod/core@0.6.0
+  - @hypermod/fetcher@0.11.0
+  - @hypermod/initializer@0.8.0
+  - @hypermod/types@0.3.0
+  - @hypermod/validator@0.8.0
+
 ## 0.26.0
 
 ### Minor Changes

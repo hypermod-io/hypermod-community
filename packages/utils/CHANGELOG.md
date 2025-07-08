@@ -1,5 +1,11 @@
 # @hypermod/utils
 
+## 0.7.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
 ## 0.6.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @hypermod/core
 
+## 0.6.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
 ## 0.5.0
 
 ### Minor Changes
