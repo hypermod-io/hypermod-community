@@ -1,5 +1,12 @@
 # @hypermod/mod-atlaskit\_\_popper
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [68eabcf]
+  - @hypermod/utils@0.7.0
+
 ## 0.4.0
 
 ### Minor Changes

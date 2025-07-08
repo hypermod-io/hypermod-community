@@ -1,5 +1,12 @@
 # @hypermod/mod-hypermod
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [68eabcf]
+  - @hypermod/utils@0.7.0
+
 ## 0.1.0
 
 ### Minor Changes

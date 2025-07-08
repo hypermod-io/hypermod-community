@@ -1,5 +1,16 @@
 # @hypermod/fetcher
 
+## 0.11.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
+### Patch Changes
+
+- Updated dependencies [68eabcf]
+  - @hypermod/types@0.3.0
+
 ## 0.10.0
 
 ### Minor Changes
