@@ -43,6 +43,7 @@ export default async function main(
     ? ModuleLoader({
         authToken: flags.registryToken,
         npmRegistryUrl: flags.registry,
+        verbose: Boolean(flags.verbose),
       })
     : (new PluginManager(pluginManagerConfig) as unknown as MdlLoader);
 
