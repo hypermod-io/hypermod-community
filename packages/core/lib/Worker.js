@@ -48,7 +48,8 @@ function prepareJscodeshift(options) {
 
 function retrieveTransformId(str) {
   if (str.includes('#')) return false;
-  return (str.match(/[^@]*(?:[@](?!.*[@]))(.*)$/) || [, ''])[1];
+  const match = str.match(/(?<!\/)@([^\/]+)$/);
+  return match ? match[1] : '';
 }
 function retrievePresetId(str) {
   return (str.match(/[^#]*(?:[#](?!.*[#]))(.*)$/) || [, ''])[1];

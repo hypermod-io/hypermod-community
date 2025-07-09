@@ -7,6 +7,7 @@ import { ModuleLoader } from '@hypermod/fetcher';
 const ModuleLoader = (config: {
   npmRegistryUrl?: string;
   authToken?: string;
+  verbose?: boolean;
 }): ModuleLoader => {
   const getInfo = (packageName: string) => {
     const entryPath = require.resolve(packageName);
@@ -26,6 +27,7 @@ const ModuleLoader = (config: {
 
   const install = async (packageName: string) => {
     await installPackage(packageName, {
+      silent: !config.verbose,
       cwd: __dirname,
       packageManager: 'npm',
       additionalArgs: [
