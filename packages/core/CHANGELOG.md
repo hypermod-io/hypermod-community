@@ -1,5 +1,11 @@
 # @hypermod/core
 
+## 0.6.1
+
+### Patch Changes
+
+- 432cd18: Patches issue with app codemod downloads + silences experimental loader logging
+
 ## 0.6.0
 
 ### Minor Changes

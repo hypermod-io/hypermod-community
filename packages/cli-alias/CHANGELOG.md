@@ -1,5 +1,13 @@
 # @codeshift/cli
 
+## 0.27.1
+
+### Patch Changes
+
+- 432cd18: Patches issue with app codemod downloads + silences experimental loader logging
+- Updated dependencies [432cd18]
+  - @hypermod/cli@0.27.1
+
 ## 0.27.0
 
 ### Minor Changes
