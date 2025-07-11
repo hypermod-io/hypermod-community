@@ -2,9 +2,18 @@
 import fs from 'fs';
 import path from 'path';
 import globby from 'globby';
-import { PluginManager } from 'live-plugin-manager';
 
 import { Config } from '@hypermod/types';
+
+export interface ModuleLoader {
+  install: (packageName: string) => Promise<void>;
+  getInfo: (packageName: string) => {
+    location: string;
+    entryPath: string;
+    pkgJson: any;
+  };
+  require: (packageName: string) => any;
+}
 
 // This configuration allows us to require TypeScript config files directly
 const { DEFAULT_EXTENSIONS } = require('@babel/core');
@@ -109,7 +118,7 @@ export async function fetchConfigAtPath(filePath: string): Promise<Config> {
 
 export async function fetchPackage(
   packageName: string,
-  packageManager: PluginManager,
+  packageManager: ModuleLoader,
 ): Promise<ConfigMeta> {
   await packageManager.install(packageName);
   const pkg = packageManager.require(packageName);
@@ -127,16 +136,23 @@ export async function fetchPackage(
 
 export async function fetchRemotePackage(
   packageName: string,
-  packageManager: PluginManager,
+  packageManager: ModuleLoader,
 ): Promise<ConfigMeta | undefined> {
   if (['javascript', 'typescript'].includes(packageName)) {
     throw new Error(`'${packageName}' is ignored as a remote package.`);
   }
 
   await packageManager.install(packageName);
-  const info = packageManager.getInfo(packageName);
 
-  if (!info) {
+  let info;
+
+  try {
+    info = packageManager.getInfo(packageName);
+
+    if (!info) {
+      throw new Error();
+    }
+  } catch (error) {
     throw new Error(
       `Unable to locate package files for package: '${packageName}'`,
     );

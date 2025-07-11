@@ -46,7 +46,7 @@ describe('@atlaskit/calendar@11.0.0 transform', () => {
 
           const SimpleCalendar= () => {
             return (
-              <Calendar
+              (<Calendar
                 defaultDisabled={['2020-12-04']}
                 defaultPreviouslySelected={['2020-12-06']}
                 defaultSelected={['2020-12-08']}
@@ -57,7 +57,7 @@ describe('@atlaskit/calendar@11.0.0 transform', () => {
                 style={{
                   border: '1px solid red',
                   display: 'inline-block',
-                }} />
+                }} />)
             );
           }"
     `);
@@ -107,7 +107,7 @@ describe('@atlaskit/calendar@11.0.0 transform', () => {
 
           const SimpleCalendar= () => {
             return (
-              <Calendar
+              (<Calendar
                 defaultDisabled={['2020-12-04']}
                 defaultPreviouslySelected={['2020-12-06']}
                 defaultSelected={['2020-12-08']}
@@ -118,7 +118,7 @@ describe('@atlaskit/calendar@11.0.0 transform', () => {
                 style={{
                   border: '1px solid red',
                   display: 'inline-block',
-                }} />
+                }} />)
             );
           }"
     `);
@@ -161,13 +161,13 @@ describe('@atlaskit/calendar@11.0.0 transform', () => {
             import Calendar from '@atlaskit/calendar';
             const SimpleCalendar= () => {
               return (
-                <Calendar
+                (<Calendar
                   defaultDisabled={['2020-12-04']}
                   defaultPreviouslySelected={['2020-12-06']}
                   defaultSelected={['2020-12-08']}
                   defaultMonth={12}
                   defaultYear={2020}
-                  testId="the-calendar" />
+                  testId="the-calendar" />)
               );
             }"
     `);

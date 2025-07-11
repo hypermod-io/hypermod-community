@@ -1,20 +1,20 @@
 {
   "name": "@hypermod/validator",
-  "version": "0.6.9",
+  "version": "0.8.0",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
   "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/validator",
   "dependencies": {
-    "@hypermod/fetcher": "^0.9.0",
-    "@hypermod/types": "^0.2.0",
+    "@hypermod/fetcher": "^0.11.0",
+    "@hypermod/types": "^0.3.0",
     "semver": "^7.3.5"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.176"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=20.17"
   }
 }

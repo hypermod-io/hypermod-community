@@ -180,7 +180,6 @@ Examples:
     }
 
     console.error(chalk.red(error));
-    console.log(error);
     process.exit(1);
   }
 })();

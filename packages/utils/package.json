@@ -1,15 +1,15 @@
 {
   "name": "@hypermod/utils",
-  "version": "0.4.2",
+  "version": "0.7.0",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
   "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/packages/utils",
   "engines": {
-    "node": ">=14"
+    "node": ">=20.17"
   },
   "dependencies": {
-    "jscodeshift": "^0.13.1"
+    "jscodeshift": "^17.1.2"
   }
 }

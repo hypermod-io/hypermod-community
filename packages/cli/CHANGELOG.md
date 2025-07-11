@@ -1,5 +1,77 @@
 # @hypermod/cli
 
+## 0.27.1
+
+### Patch Changes
+
+- 432cd18: Patches issue with app codemod downloads + silences experimental loader logging
+- Updated dependencies [432cd18]
+  - @hypermod/core@0.6.1
+  - @hypermod/fetcher@0.11.1
+
+## 0.27.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
+### Patch Changes
+
+- Updated dependencies [68eabcf]
+  - @hypermod/core@0.6.0
+  - @hypermod/fetcher@0.11.0
+  - @hypermod/initializer@0.8.0
+  - @hypermod/types@0.3.0
+  - @hypermod/validator@0.8.0
+
+## 0.26.0
+
+### Minor Changes
+
+- 55bc230: Adds the ability to fetch codemods from the hypermod app API. Also includes a large refactor of the source code to accomidate
+
+## 0.25.0
+
+### Minor Changes
+
+- 6baffa1: Bumps jscodeshift to the latest version to surface bug fixes and various improvements. Note: this may inherently change how files are parsed and transformed.
+
+### Patch Changes
+
+- Updated dependencies [6baffa1]
+  - @hypermod/initializer@0.7.0
+  - @hypermod/core@0.5.0
+
+## 0.24.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+- b6714d3: Refactors the module loader in order to support custom npm registries + auth keys.
+
+### Patch Changes
+
+- 425fdef: Various configuration changes in support of ESM.
+- Updated dependencies [c17dd18]
+- Updated dependencies [425fdef]
+- Updated dependencies [b6714d3]
+  - @hypermod/initializer@0.6.0
+  - @hypermod/validator@0.7.0
+  - @hypermod/fetcher@0.10.0
+  - @hypermod/core@0.4.0
+
+## 0.23.1
+
+### Patch Changes
+
+- e69f221: Reverts ESM support.
+
+## 0.23.0
+
+### Minor Changes
+
+- fa45fcb: CLI packages now support hypermod packages using ESM syntax
+
 ## 0.22.0
 
 ### Minor Changes

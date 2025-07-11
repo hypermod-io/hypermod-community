@@ -229,11 +229,11 @@ describe('Update ref prop', () => {
                 let ref = useRef();
 
                 return (
-                  <Checkbox
+                  (<Checkbox
                     ref={newRef => {
                       ref = newRef;
                     }}
-                  />
+                  />)
                 );
               }"
     `);
@@ -345,7 +345,7 @@ describe('Remove props', () => {
               import Icon from '@atlaskit/icon/glyph/check-circle';
 
               const SimpleCheckbox = () => {
-                return <Checkbox />;
+                return (<Checkbox />);
               }"
     `);
   });
@@ -381,7 +381,7 @@ describe('Remove props', () => {
               import customeTheme from './theme';
 
               const SimpleCheckbox = () => {
-                return <Checkbox />;
+                return (<Checkbox />);
               }"
     `);
   });
@@ -437,7 +437,7 @@ describe('Remove props', () => {
               import customeTheme from './theme';
 
               const SimpleCheckbox = () => {
-                return <Checkbox />;
+                return (<Checkbox />);
               }"
     `);
   });
@@ -498,7 +498,7 @@ describe('Remove props', () => {
                   import customeTheme from './theme';
 
                   const SimpleCheckbox = () => {
-                    return <Checkbox />;
+                    return (<Checkbox />);
                   }"
     `);
   });
@@ -536,11 +536,11 @@ describe('Remove props', () => {
       of the checkbox there is now a \`size\` prop. The appearance of Checkbox
       will have likely changed. */ import React from 'react'; import { Checkbox
       } from "@atlaskit/checkbox"; import customeTheme from './theme'; const
-      SimpleCheckbox = () => { return (
+      SimpleCheckbox = () => { return ( (
       <div>
         <Checkbox />
         <Checkbox />
-      </div>); }
+      </div>) ); }
     `);
   });
   it('should remove props when using an aliased name', async () => {
@@ -595,7 +595,7 @@ describe('Remove props', () => {
               import customeTheme from './theme';
 
               const SimpleCheckbox = () => {
-                return <Foo />;
+                return (<Foo />);
               }"
     `);
   });

@@ -252,7 +252,7 @@ describe('Convert offset props', () => {
 
     function numCommaOffset() {
       return (
-        <Popup
+        (<Popup
           isOpen={isOpen}
           onClose={() => {}}
           offset={[5, 8]}
@@ -262,13 +262,13 @@ describe('Convert offset props', () => {
           trigger={triggerProps => (
             <div />
           )}
-        />
+        />)
       );
     }
 
     function numStringOffset() {
       return (
-        <Popup
+        (<Popup
           isOpen={isOpen}
           onClose={() => {}}
           offset={[10, 0]}
@@ -278,13 +278,13 @@ describe('Convert offset props', () => {
           trigger={triggerProps => (
             <div />
           )}
-        />
+        />)
       );
     }
 
     function numOffset() {
       return (
-        <Popup
+        (<Popup
           isOpen={isOpen}
           onClose={() => {}}
           offset={[10, 0]}
@@ -294,7 +294,7 @@ describe('Convert offset props', () => {
           trigger={triggerProps => (
             <div />
           )}
-        />
+        />)
       );
     }
     `,

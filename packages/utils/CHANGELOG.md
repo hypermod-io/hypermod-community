@@ -1,5 +1,23 @@
 # @hypermod/utils
 
+## 0.7.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
+## 0.6.0
+
+### Minor Changes
+
+- 6baffa1: Bumps jscodeshift to the latest version to surface bug fixes and various improvements. Note: this may inherently change how files are parsed and transformed.
+
+## 0.5.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+
 ## 0.4.2
 
 ### Patch Changes

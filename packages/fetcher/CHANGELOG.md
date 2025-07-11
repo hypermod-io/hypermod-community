@@ -1,5 +1,29 @@
 # @hypermod/fetcher
 
+## 0.11.1
+
+### Patch Changes
+
+- 432cd18: Patches issue with app codemod downloads + silences experimental loader logging
+
+## 0.11.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
+### Patch Changes
+
+- Updated dependencies [68eabcf]
+  - @hypermod/types@0.3.0
+
+## 0.10.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+- b6714d3: Refactors the module loader in order to support custom npm registries + auth keys.
+
 ## 0.9.0
 
 ### Minor Changes

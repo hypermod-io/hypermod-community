@@ -1,5 +1,70 @@
 # @codeshift/cli
 
+## 0.27.1
+
+### Patch Changes
+
+- 432cd18: Patches issue with app codemod downloads + silences experimental loader logging
+- Updated dependencies [432cd18]
+  - @hypermod/cli@0.27.1
+
+## 0.27.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
+### Patch Changes
+
+- Updated dependencies [68eabcf]
+  - @hypermod/cli@0.27.0
+
+## 0.26.0
+
+### Patch Changes
+
+- Updated dependencies [55bc230]
+  - @hypermod/cli@0.26.0
+
+## 0.25.0
+
+### Patch Changes
+
+- Updated dependencies [6baffa1]
+  - @hypermod/cli@0.25.0
+
+## 0.24.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+
+### Patch Changes
+
+- Updated dependencies [c17dd18]
+- Updated dependencies [425fdef]
+- Updated dependencies [b6714d3]
+  - @hypermod/cli@0.24.0
+
+## 0.23.1
+
+### Patch Changes
+
+- e69f221: Reverts ESM support.
+- Updated dependencies [e69f221]
+  - @hypermod/cli@0.23.1
+
+## 0.23.0
+
+### Minor Changes
+
+- fa45fcb: CLI packages now support hypermod packages using ESM syntax
+
+### Patch Changes
+
+- Updated dependencies [fa45fcb]
+  - @hypermod/cli@0.23.0
+
 ## 0.22.0
 
 ### Patch Changes

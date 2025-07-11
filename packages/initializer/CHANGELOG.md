@@ -1,5 +1,43 @@
 # @hypermod/initializer
 
+## 0.8.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
+### Patch Changes
+
+- Updated dependencies [68eabcf]
+  - @hypermod/cli@0.27.0
+  - @hypermod/utils@0.7.0
+
+## 0.7.0
+
+### Minor Changes
+
+- 6baffa1: Bumps jscodeshift to the latest version to surface bug fixes and various improvements. Note: this may inherently change how files are parsed and transformed.
+
+### Patch Changes
+
+- Updated dependencies [6baffa1]
+  - @hypermod/utils@0.6.0
+  - @hypermod/cli@0.25.0
+
+## 0.6.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+
+### Patch Changes
+
+- Updated dependencies [c17dd18]
+- Updated dependencies [425fdef]
+- Updated dependencies [b6714d3]
+  - @hypermod/utils@0.5.0
+  - @hypermod/cli@0.24.0
+
 ## 0.5.4
 
 ### Patch Changes

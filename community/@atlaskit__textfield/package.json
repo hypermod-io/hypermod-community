@@ -1,6 +1,6 @@
 {
   "name": "@hypermod/mod-atlaskit__textfield",
-  "version": "0.3.3",
+  "version": "0.4.1",
   "license": "MIT",
   "source": "src/hypermod.config.js",
   "main": "dist/hypermod.config.js",
@@ -11,16 +11,16 @@
     "validate": "hypermod validate ."
   },
   "dependencies": {
-    "@hypermod/utils": "^0.4.1",
-    "jscodeshift": "^0.13.1"
+    "@hypermod/utils": "^0.7.0",
+    "jscodeshift": "^17.1.2"
   },
   "devDependencies": {
-    "@hypermod/cli": "^0.22.0",
+    "@hypermod/cli": "^0.27.0",
     "@types/jest": "^29.0.0",
     "@types/node": "^16.11.0",
     "jest": "^29.0.0",
     "prettier": "^2.0.0",
-    "ts-jest": "^29.0.0",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.2.2"
   },
   "repository": "https://github.com/hypermod-io/hypermod-community/tree/main/community/@atlaskit__textfield"

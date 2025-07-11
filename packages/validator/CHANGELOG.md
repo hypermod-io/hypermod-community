@@ -1,5 +1,30 @@
 # @hypermod/validator
 
+## 0.8.0
+
+### Minor Changes
+
+- 68eabcf: Bump CLI to surface changes to App package downloads
+
+### Patch Changes
+
+- Updated dependencies [68eabcf]
+  - @hypermod/fetcher@0.11.0
+  - @hypermod/types@0.3.0
+
+## 0.7.0
+
+### Minor Changes
+
+- c17dd18: Require node 20.17 in support of moving from CJS to ESM
+
+### Patch Changes
+
+- 425fdef: Various configuration changes in support of ESM.
+- Updated dependencies [c17dd18]
+- Updated dependencies [b6714d3]
+  - @hypermod/fetcher@0.10.0
+
 ## 0.6.9
 
 ### Patch Changes

@@ -1,19 +1,19 @@
 import ora from 'ora';
 import chalk from 'chalk';
-import { PluginManager } from 'live-plugin-manager';
 
 import {
   fetchPackage,
   fetchRemotePackage,
   ConfigMeta,
+  type ModuleLoader,
 } from '@hypermod/fetcher';
 import { isValidConfig } from '@hypermod/validator';
 
-import { getHypermodPackageName } from './package-names';
+import { getHypermodPackageName } from '../utils/package-names';
 
-export async function fetchPackages(
+export async function fetchNpmPkg(
   packageName: string,
-  packageManager: PluginManager,
+  packageManager: ModuleLoader,
 ) {
   const hypermodPackageName = getHypermodPackageName(packageName);
   let hypermodPackage: ConfigMeta | undefined;
