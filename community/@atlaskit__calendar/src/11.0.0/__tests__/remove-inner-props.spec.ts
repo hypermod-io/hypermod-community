@@ -135,10 +135,10 @@ describe('Remove innerProps', () => {
 
             const SimpleCalendar = () => {
               return (
-                (<Calendar
+                <Calendar
                   defaultDisabled={['2020-12-04']}
                   defaultPreviouslySelected={['2020-12-06']}
-                  defaultSelected={['2020-12-08']} />)
+                  defaultSelected={['2020-12-08']} />
               );
             }"
     `);

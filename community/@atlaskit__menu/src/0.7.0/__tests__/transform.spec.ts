@@ -65,9 +65,9 @@ describe('@atlaskit/menu@0.7.0 transform', () => {
 
       const App = () => {
         return (
-          (<div cssFn={(styles, state) => ({ ...styles })}>
+          <div cssFn={(styles, state) => ({ ...styles })}>
             <ButtonItem cssFn={state => ({})} />
-          </div>)
+          </div>
         );
       };
   `,
@@ -156,7 +156,7 @@ describe('@atlaskit/menu@0.7.0 transform', () => {
 
     const App = () => {
       return (
-        (<ButtonItem
+        <ButtonItem
           /*
           TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
           The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
@@ -165,7 +165,7 @@ describe('@atlaskit/menu@0.7.0 transform', () => {
           cssFn={(styles, state) => ({
             ...(state.x ? styles : {}),
             color: 'red'
-          })} />)
+          })} />
       );
     }
       `,
@@ -321,7 +321,7 @@ describe('Updates and removes current styles', () => {
 
     const App = () => {
       return (
-        (<ButtonItem
+        <ButtonItem
           /*
           TODO: (@hypermod) The usage of the 'cssFn' prop in this component could not be transformed and requires manual intervention.
           The 'cssFn' prop has been simplified so that users no longer need to merge the inherited styles with their own overrides.
@@ -335,7 +335,7 @@ describe('Updates and removes current styles', () => {
             For more info please reach out to #help-design-system-code.
             */
             cssFn={cssFunction} />
-        </ButtonItem>)
+        </ButtonItem>
       );
     };
     `,

@@ -143,13 +143,15 @@ describe('@atlaskit/spinner@13.0.0 transform', () => {
     import Spinner from '@atlaskit/spinner';
     import myValue from './my-value'
 
-    return (<>
-      <Spinner />
-      <Spinner />
-      <Spinner />
-      <Spinner delay={151} />
-      <Spinner delay={myValue} />
-    </>);
+    return (
+      <>
+        <Spinner />
+        <Spinner />
+        <Spinner />
+        <Spinner delay={151} />
+        <Spinner delay={myValue} />
+      </>
+    );
   `,
     });
 
@@ -177,13 +179,15 @@ describe('@atlaskit/spinner@13.0.0 transform', () => {
     import value from './value';
 
 
-    return (<>
-      <Spinner />
-      <Spinner appearance="invert" />
-      <Spinner />
-      <Spinner appearance="invert" />
-      <Spinner appearance={value ? "invert" : "inherit"} />
-    </>);
+    return (
+      <>
+        <Spinner />
+        <Spinner appearance="invert" />
+        <Spinner />
+        <Spinner appearance="invert" />
+        <Spinner appearance={value ? "invert" : "inherit"} />
+      </>
+    );
   `,
     });
   });

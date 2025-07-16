@@ -121,11 +121,11 @@ describe('Remove prop', () => {
       of the \`theme\` prop. The appearance of TextField will have likely changed.
       */ import React from 'react'; import Textfield from '@atlaskit/textfield';
       import customeTheme from './theme'; const SimpleTextfield = () => { return
-      ( (
+      (
       <div>
         <Textfield />
         <Textfield />
-      </div>) ); }
+      </div>); }
     `);
   });
 

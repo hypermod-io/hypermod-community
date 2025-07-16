@@ -138,11 +138,13 @@ describe('@atlaskit/button@15.1.1 transform', () => {
     import { StandardButton, LoadingButton, CustomThemeButton } from '@atlaskit/button';
 
     function App() {
-      return <>
-        <StandardButton testId="my-testid">click me</StandardButton>
-        <LoadingButton testId="my-testid">click me</LoadingButton>
-        <CustomThemeButton testId="my-testid">click me</CustomThemeButton>
-      </>;
+      return (
+        <>
+          <StandardButton testId="my-testid">click me</StandardButton>
+          <LoadingButton testId="my-testid">click me</LoadingButton>
+          <CustomThemeButton testId="my-testid">click me</CustomThemeButton>
+        </>
+      );
     }
   `,
   });
@@ -154,22 +156,26 @@ describe('@atlaskit/button@15.1.1 transform', () => {
     import { StandardButton as SB, LoadingButton as LB, CustomThemeButton as CTB } from '@atlaskit/button';
 
     function App() {
-      return <>
-        <SB data-testid="my-testid">click me</SB>
-        <LB data-testid="my-testid">click me</LB>
-        <CTB data-testid="my-testid">click me</CTB>
-      </>;
+      return (
+        <>
+          <SB data-testid="my-testid">click me</SB>
+          <LB data-testid="my-testid">click me</LB>
+          <CTB data-testid="my-testid">click me</CTB>
+        </>
+      );
     }
   `,
     expected: `
     import { StandardButton as SB, LoadingButton as LB, CustomThemeButton as CTB } from '@atlaskit/button';
 
     function App() {
-      return <>
-        <SB testId="my-testid">click me</SB>
-        <LB testId="my-testid">click me</LB>
-        <CTB testId="my-testid">click me</CTB>
-      </>;
+      return (
+        <>
+          <SB testId="my-testid">click me</SB>
+          <LB testId="my-testid">click me</LB>
+          <CTB testId="my-testid">click me</CTB>
+        </>
+      );
     }
   `,
   });
@@ -204,11 +210,13 @@ describe('@atlaskit/button@15.1.1 transform', () => {
     import Something from '@atlaskit/foobar';
 
     function App() {
-      return <>
-        <DSButton data-testid="my-testid">
-          <Something data-testid="hello">click me</Something>
-        </DSButton>
-      </>;
+      return (
+        <>
+          <DSButton data-testid="my-testid">
+            <Something data-testid="hello">click me</Something>
+          </DSButton>
+        </>
+      );
     }
   `,
     expected: `
@@ -216,11 +224,13 @@ describe('@atlaskit/button@15.1.1 transform', () => {
     import Something from '@atlaskit/foobar';
 
     function App() {
-      return <>
-        <DSButton testId="my-testid">
-          <Something data-testid="hello">click me</Something>
-        </DSButton>
-      </>;
+      return (
+        <>
+          <DSButton testId="my-testid">
+            <Something data-testid="hello">click me</Something>
+          </DSButton>
+        </>
+      );
     }
   `,
   });

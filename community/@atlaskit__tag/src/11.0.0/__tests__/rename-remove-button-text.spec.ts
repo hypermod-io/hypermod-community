@@ -245,11 +245,11 @@ describe('Rename removeButtonText prop to removeButtonLabel prop', () => {
       [tags, setTags] = useState([ 'Candy canes', 'Tiramisu', 'Gummi bears',
       'Wagon Wheels', ]); const handleRemoveRequest = () => true; const handleRemoveComplete
       = (text: string) => { setTags(tags.filter(str => str !== text)); }; return
-      ( (
+      (
       <TagGroup alignment={alignment}>{tags.map(text => (
         <Tag key={text} onAfterRemoveAction={handleRemoveComplete}
         onBeforeRemoveAction={handleRemoveRequest} removeButtonLabel="Remove me"
-        text={text} />))}</TagGroup>) ); } export default () => (
+        text={text} />))}</TagGroup>); } export default () => (
       <div>
         <MyTagGroup alignment="start" />
         <MyTagGroup alignment="end" />

@@ -229,11 +229,11 @@ describe('Update ref prop', () => {
                 let ref = useRef();
 
                 return (
-                  (<Checkbox
+                  <Checkbox
                     ref={newRef => {
                       ref = newRef;
                     }}
-                  />)
+                  />
                 );
               }"
     `);
@@ -536,11 +536,11 @@ describe('Remove props', () => {
       of the checkbox there is now a \`size\` prop. The appearance of Checkbox
       will have likely changed. */ import React from 'react'; import { Checkbox
       } from "@atlaskit/checkbox"; import customeTheme from './theme'; const
-      SimpleCheckbox = () => { return ( (
+      SimpleCheckbox = () => { return (
       <div>
         <Checkbox />
         <Checkbox />
-      </div>) ); }
+      </div>); }
     `);
   });
   it('should remove props when using an aliased name', async () => {

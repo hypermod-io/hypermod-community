@@ -19,7 +19,7 @@
     "@types/write-file-atomic": "^4.0.0",
     "chalk": "^4.1.0",
     "graceful-fs": "^4.2.4",
-    "jscodeshift": "^17.1.2",
+    "jscodeshift": "^17.3.0",
     "neo-async": "^2.5.0",
     "write-file-atomic": "^2.3.0"
   },

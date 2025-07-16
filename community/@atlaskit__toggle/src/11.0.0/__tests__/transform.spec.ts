@@ -51,10 +51,10 @@ describe('@atlaskit/toggle@11.0.0 transform', () => {
 
     expect(result).toMatchInlineSnapshot(`
       import React from "react"; import Toggle from "@atlaskit/toggle"; () =>
-      { return ( (
+      { return (
       <div>
         <Toggle defaultChecked={true} />
-      </div>) ); };
+      </div>); };
     `);
   });
 
@@ -79,10 +79,10 @@ describe('@atlaskit/toggle@11.0.0 transform', () => {
 
     expect(result).toMatchInlineSnapshot(`
       import React from "react"; import Toggle from "@atlaskit/toggle"; () =>
-      { return ( (
+      { return (
       <div>
         <Toggle defaultChecked={false} />
-      </div>) ); };
+      </div>); };
     `);
   });
 
@@ -116,13 +116,13 @@ describe('@atlaskit/toggle@11.0.0 transform', () => {
     expect(result).toMatchInlineSnapshot(`
       import React from "react"; import Toggle from "@atlaskit/toggle"; () =>
       { const T = Toggle; const X = Toggle; const Z = Toggle; const FOO = "bar";
-      return ( (
+      return (
       <div>
         <Toggle defaultChecked={true} />
         <T defaultChecked={true} />
         <X id={true} />
         <Z defaultChecked={true} />
-      </div>) ); };
+      </div>); };
     `);
   });
 });

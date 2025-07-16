@@ -23,7 +23,7 @@ export function getPackageJson(packageName: string, version = '0.0.0') {
       },
       dependencies: {
         '@hypermod/utils': `^${utilVersion}`,
-        jscodeshift: '^17.1.2',
+        jscodeshift: '^17.3.0',
       },
       devDependencies: {
         '@hypermod/cli': `^${cliVersion}`,

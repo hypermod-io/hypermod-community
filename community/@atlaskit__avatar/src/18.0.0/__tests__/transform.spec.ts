@@ -333,9 +333,9 @@ describe('Update AvatarItem props', () => {
 
       const App = () => {
         return (
-          (<AvatarItem
+          <AvatarItem
             isTruncationDisabled
-          />)
+          />
         );
       }
     `,
@@ -365,9 +365,9 @@ describe('Update AvatarItem props', () => {
 
       const App = () => {
         return (
-          (<AvatarItem
+          <AvatarItem
             isTruncationDisabled={!value}
-          />)
+          />
         );
       }
     `,
@@ -399,9 +399,9 @@ describe('Update AvatarItem props', () => {
 
       const App = () => {
         return (
-          (<AvatarItem
+          <AvatarItem
             isTruncationDisabled={!(foo && bar)}
-          />)
+          />
         );
       }
     `,

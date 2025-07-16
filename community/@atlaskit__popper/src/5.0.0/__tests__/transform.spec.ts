@@ -49,7 +49,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
     export default () => {
       customModifiers = {flip: {enabled: true}};
       return (
-        (<Popper modifiers={customModifiers}>
+        <Popper modifiers={customModifiers}>
           {({
             ref,
             style,
@@ -62,7 +62,7 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
               )}
             </>
           )}
-        </Popper>)
+        </Popper>
       );};
   `,
     );
@@ -198,14 +198,14 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
 
       function numCommaOffset() {
         return (
-          (<Popper offset={[5, 8]}>
+          <Popper offset={[5, 8]}>
             {({ ref, style }) => (
               <div
                 ref={ref}
                 style={style}
               />
             )}
-          </Popper>)
+          </Popper>
         );
       }
       `,
@@ -236,14 +236,14 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
 
     function numStringOffset() {
       return (
-        (<Popper offset={[10, 0]}>
+        <Popper offset={[10, 0]}>
           {({ ref, style }) => (
             <div
               ref={ref}
               style={style}
             />
           )}
-        </Popper>)
+        </Popper>
       );
     }
     `,
@@ -274,14 +274,14 @@ describe('@atlaskit/popper@5.0.0 transform', () => {
 
     function numOffset() {
       return (
-        (<Popper offset={[10, 0]}>
+        <Popper offset={[10, 0]}>
           {({ ref, style }) => (
             <div
               ref={ref}
               style={style}
             />
           )}
-        </Popper>)
+        </Popper>
       );
     }
     `,
