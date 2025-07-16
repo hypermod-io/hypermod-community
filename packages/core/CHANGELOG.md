@@ -1,5 +1,11 @@
 # @hypermod/core
 
+## 0.6.2
+
+### Patch Changes
+
+- 1cfe66f: Bump jscodeshift to fix JSX redundant brackets error
+
 ## 0.6.1
 
 ### Patch Changes

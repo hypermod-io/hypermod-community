@@ -1,5 +1,13 @@
 # @hypermod/mod-javascript
 
+## 0.5.2
+
+### Patch Changes
+
+- 1cfe66f: Bump jscodeshift to fix JSX redundant brackets error
+- Updated dependencies [1cfe66f]
+  - @hypermod/utils@0.7.1
+
 ## 0.5.1
 
 ### Patch Changes
