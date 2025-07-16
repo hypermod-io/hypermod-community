@@ -1,5 +1,13 @@
 # @hypermod/mod-atlaskit\_\_textarea
 
+## 0.4.2
+
+### Patch Changes
+
+- 1cfe66f: Bump jscodeshift to fix JSX redundant brackets error
+- Updated dependencies [1cfe66f]
+  - @hypermod/utils@0.7.1
+
 ## 0.4.1
 
 ### Patch Changes
