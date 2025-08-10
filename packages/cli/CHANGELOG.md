@@ -1,5 +1,11 @@
 # @hypermod/cli
 
+## 0.27.3
+
+### Patch Changes
+
+- c1ce817: Handle 403 errs returned from App PKG fetches
+
 ## 0.27.2
 
 ### Patch Changes
