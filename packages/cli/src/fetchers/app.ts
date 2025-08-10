@@ -50,6 +50,10 @@ export async function fetchHmPkg(slug: string, dir: string) {
         throw new Error(`Transform not found: ${slug}`);
       }
 
+      if (res.status === 403) {
+        throw new Error(`Access forbidden for transform: ${slug}`);
+      }
+
       if (!res.ok) {
         throw new Error(`Error fetching transform: ${res.statusText}`);
       }
