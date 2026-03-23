@@ -13,7 +13,7 @@ export default function transformer(
    * It is often good practice to exit early and return the original source file
    * if it does not contain code relevant to the codemod.
    * See this page for more information:
-   * https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/your-first-codemod#output
+   * https://www.hypermod.io/docs/guides/your-first-codemod
    */
   if (/* Some condition here */ true) {
     return file.source;
@@ -26,7 +26,7 @@ export default function transformer(
    * consider grouping specific actions into 'motions' and running them in sequence
    *
    * See this page for more information:
-   * https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/authoring#motions
+   * https://www.hypermod.io/docs
    */
   source.findVariableDeclarators('foo').renameTo('bar');
 

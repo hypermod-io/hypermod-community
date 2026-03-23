@@ -1,3 +1,3 @@
 # @hypermod/utils
 
-[Documentation](https://www.codeshiftcommunity.com/docs/utils)
+[Documentation](https://www.hypermod.io/docs)
