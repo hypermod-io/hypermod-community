@@ -34,13 +34,9 @@ The community-owned global registry and documentation hub for codemods. Providin
 
 ## Registry
 
-[The registry](https://www.codeshiftcommunity.com/docs/registry) contains all community-contributed codemods, hosted and published directly from the CodeshiftCommunity repository.
+[The registry](https://www.hypermod.io/explore) contains all community-contributed codemods, hosted and published directly from the Hypermod Platform.
 
 Source for these packages are located in the [/community folder](https://github.com/hypermod-io/hypermod-community/tree/main/community).
-
-- [Registry homepage](https://www.codeshiftcommunity.com/docs/contribution)
-- [Contributing to the registry](https://www.codeshiftcommunity.com/docs/contribution)
-- [Registry source files](https://github.com/hypermod-io/hypermod-community/tree/main/community)
 
 ## CLI
 
