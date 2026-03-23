@@ -16,27 +16,13 @@ The community-owned global registry and documentation hub for codemods. Providin
 
 🔭 Explore an extensive list of codemods [contributed by the community](https://www.hypermod.io/explore).
 
-⚡️ Use our [helpers & testing utilities](https://www.codeshiftcommunity.com/docs/utils) to make writing codemods a breeze.
-
 🧠 Up-skill your engineering team using our [guides & resources](https://www.hypermod.io/docs/guides/your-first-codemod).
 
-🎨 Perfect for [Design Systems & Monorepos](https://www.codeshiftcommunity.com/docs/monorepos).
-
-🦄 Bring your own [AST transformer](https://www.codeshiftcommunity.com/docs/css-codemods).
-
-## Getting started
-
-- [Writing codemods](https://hypermod-io.github.io/hypermod-community//docs/authoring)
-- [Testing codemods](https://hypermod-io.github.io/hypermod-community//docs/testing)
-- [Guides & learning resources](https://hypermod-io.github.io/hypermod-community//docs/your-first-codemod)
-- [Publishing & contribution](https://hypermod-io.github.io/hypermod-community//docs/contribution)
-- [Consuming codemods](https://hypermod-io.github.io/hypermod-community//docs/consuming)
+🎨 Perfect for [Design Systems & Monorepos](https://www.hypermod.io/docs/local-development/monorepos).
 
 ## Registry
 
 [The registry](https://www.hypermod.io/explore) contains all community-contributed codemods, hosted and published directly from the Hypermod Platform.
-
-Source for these packages are located in the [/community folder](https://github.com/hypermod-io/hypermod-community/tree/main/community).
 
 ## CLI
 
