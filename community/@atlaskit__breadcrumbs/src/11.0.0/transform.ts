@@ -18,7 +18,7 @@ export default function transformer(
    * It is often good practice to exit early and return the original source file
    * if it does not contain code relevant to the codemod.
    * See this page for more information:
-   * https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/your-first-codemod#output
+   * https://www.hypermod.io/docs/guides/your-first-codemod
    */
   if (!hasImportDeclaration(j, source, '@atlaskit/breadcrumbs')) {
     return fileInfo.source;
@@ -31,7 +31,7 @@ export default function transformer(
    * consider grouping specific actions into 'motions' and running them in sequence
    *
    * See this page for more information:
-   * https://codeshiftcommunity.github.io/CodeshiftCommunity/docs/authoring#motions
+   * https://www.hypermod.io/docs
    */
   applyMotions(j, source, [
     removeHasSeparator,

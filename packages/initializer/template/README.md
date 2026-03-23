@@ -1,8 +1,8 @@
 # <% packageName %>
 
-This project was bootstrapped with [Hypermod 🚚](https://www.codeshiftcommunity.com/). Please see the [external packages guide](https://www.codeshiftcommunity.com/docs/external-packages) for more information on how to work with this repo.
+This project was bootstrapped with [Hypermod 🚚](https://www.hypermod.io/). Please see the [Hypermod docs](https://www.hypermod.io/docs) for more information on how to work with this repo.
 
-![Hypermod logo](https://www.codeshiftcommunity.com/img/logo.svg)
+![Hypermod logo](https://www.hypermod.io/img/logo.svg)
 
 ## Scripts
 
@@ -14,19 +14,19 @@ Runs the Hypermod CLI useful for testing transform files as if they have been pu
 
 Alternatively, you can run `npm run dev` to see an interactive list of codemods to choose from.
 
-See the [cli reference](https://www.codeshiftcommunity.com/docs/cli) for more information.
+See the [CLI docs](https://www.hypermod.io/docs) for more information.
 
 ### `npm run test`
 
 Launches the test runner in interactive watch mode.
 
-See the [testing guide](https://www.codeshiftcommunity.com/docs/testing) for more information.
+See the [testing guide](https://www.hypermod.io/docs) for more information.
 
 ### `npm run validate`
 
 Checks the validity of your `hypermod.config.js` file.
 
-See the [configuration options](https://www.codeshiftcommunity.com/docs/configuration) for more information.
+See the [configuration docs](https://www.hypermod.io/docs) for more information.
 
 ### `npm run build`
 

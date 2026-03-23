@@ -1,46 +1,135 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/hypermod-io/hypermod-community/assets/3030010/f4ec415a-b320-4949-b352-0be9b1666f97">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/hypermod-io/hypermod-community/assets/3030010/9deed89f-1b24-4914-8007-74551abf40b2">
-  <img alt="Hypermod – App repository banner" src="https://github.com/hypermod-io/hypermod-community/assets/3030010/9deed89f-1b24-4914-8007-74551abf40b2">
+  <img alt="Hypermod Community banner" src="https://github.com/hypermod-io/hypermod-community/assets/3030010/9deed89f-1b24-4914-8007-74551abf40b2">
 </picture>
 
 # Hypermod Community
 
-**Formerly: CodeshiftCommunity**
+Hypermod Community is the open-source codemod registry and CLI ecosystem for [Hypermod.io](https://www.hypermod.io/).
+Use this repository to discover, author, test, publish, and contribute codemods; use Hypermod.io to explore codemods, learn migration workflows, and promote safer package upgrades at scale.
 
-The community-owned global registry and documentation hub for codemods. Providing library maintainers & users with facilities to help write, test, publish and consume codemods in a structured, standardized and familiar way.
+[Explore Hypermod.io](https://www.hypermod.io/) •
+[Browse codemods](https://www.hypermod.io/explore) •
+[Read the docs](https://www.hypermod.io/docs) •
+[Join Discord](https://discord.gg/XGqmKNZ8Rk)
 
-[💬 Join our community on Discord](https://discord.gg/XGqmKNZ8Rk)
+## Why this project exists
 
-## Features
+Upgrading dependencies is expensive when maintainers only ship changelogs and users are left to translate breaking changes by hand.
+Hypermod helps library maintainers, platform teams, design-system teams, and migration owners turn breaking API changes into repeatable codemods that can be shared with the wider ecosystem and used by agents.
 
-🔭 Explore an extensive list of codemods [contributed by the community](https://www.hypermod.io/explore).
+This repository is the community-facing home for that workflow:
 
-🧠 Up-skill your engineering team using our [guides & resources](https://www.hypermod.io/docs/guides/your-first-codemod).
+- **Community codemod registry** for versioned and reusable codemods.
+- **CLI packages** for running codemods locally, from npm, or from Hypermod.io-hosted sources.
+- **Authoring utilities** for creating, validating, and testing codemod packages.
+- **Examples and templates** that make it easier to ship migrations users can actually adopt.
 
-🎨 Perfect for [Design Systems & Monorepos](https://www.hypermod.io/docs/local-development/monorepos).
+## How Hypermod Community and Hypermod.io fit together
 
-## Registry
+- **Hypermod.io** is the orchestration and discovery layer: explore codemods, generate codemods, deploy migrations across repositories, and access hosted Hypermod experiences.
+- **`@hypermod/cli`** is the command-line entry point for running codemods in local projects, from npm packages, and from Hypermod.io-powered sources.
+- **This repository** is the open-source registry, package monorepo, and contribution surface behind the ecosystem.
 
-[The registry](https://www.hypermod.io/explore) contains all community-contributed codemods, hosted and published directly from the Hypermod Platform.
+## Get started with the CLI
 
-## CLI
+We recommend using the CLI with `npx` so you always run the latest version:
 
-Downloading and running codemods as well as initialising and maintaining codemod packages can all be done via the Hypermod CLI (`@hypermod/cli`).
+```bash
+npx @hypermod/cli --packages react@18.0.0 ./src
+```
 
-[Please see the docs for more information and examples](https://www.hypermod.io/docs/tools/cli)
+You can also install it globally:
 
-We recommend running the CLI with `$ npx` to ensure you always have the latest version.
+```bash
+npm install -g @hypermod/cli
+# or
+yarn global add @hypermod/cli
+```
 
-`$ npx @hypermod/cli --packages mylib@1.0.0 /project/src`
+Then run it with either binary:
 
-But it can also be installed globally:
+```bash
+hypermod --help
+# or
+hypermod-cli --help
+```
 
-`$ npm install -g @hypermod/cli or yarn global add @hypermod/cli`
+### Common usage examples
 
-and run with:
+#### Run a package migration from npm/community codemods
 
-`$ hypermod or $ hypermod-cli`
+```bash
+npx @hypermod/cli --packages @atlaskit/button@3.0.0 ./src
+```
+
+#### Run all transforms from a version to latest
+
+```bash
+npx @hypermod/cli --sequence --packages @mylib/button@3.0.0 ./src
+```
+
+#### Run a preset
+
+```bash
+npx @hypermod/cli --packages @mylib/button#remove-deprecated-props ./src
+```
+
+#### Run a local transform file
+
+```bash
+npx @hypermod/cli --transform ./codemods/rename-imports/transform.ts ./src
+```
+
+#### Browse available codemods for packages
+
+```bash
+npx @hypermod/cli list react @atlaskit/button
+```
+
+#### Initialize a new codemod package
+
+```bash
+npx @hypermod/cli init --transform 1.0.0 my-codemod-package
+```
+
+#### Validate a codemod package
+
+```bash
+npx @hypermod/cli validate ./community/my-package
+```
+
+## What the CLI supports
+
+`@hypermod/cli` is built for real migration workflows, not just one-off transforms.
+
+- Run codemods from **local transform files**.
+- Resolve codemods from **npm packages** and the **community registry**.
+- Run **versioned transforms in sequence** for safer upgrades.
+- Run **presets** for utility codemods that are not tied to a semver milestone.
+- Initialize and validate codemod packages for maintainers and contributors.
+- Access Hypermod.io-powered transform sources through the same CLI surface.
+
+For the latest product docs and guides, visit [hypermod.io/docs](https://www.hypermod.io/docs).
+
+## Who this is for
+
+- **Library maintainers** who want to ship upgrades users can actually adopt.
+- **Platform and infra teams** performing large-scale migrations across many repositories.
+- **Design-system teams** managing frequent component API changes.
+- **Application teams** that want safer, faster JavaScript and TypeScript refactors.
+
+## Contributing codemods
+
+Community codemods live in the [`community/`](./community) directory and are published as packages that can be discovered and run through the Hypermod ecosystem.
+
+Useful starting points:
+
+- Browse the community packages in [`community/`](./community)
+- Inspect the CLI in [`packages/cli`](./packages/cli)
+- Use the package template in [`packages/initializer/template`](./packages/initializer/template)
+- Explore product docs on [Hypermod.io](https://www.hypermod.io/docs)
 
 ## Used by
 

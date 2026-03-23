@@ -1,14 +1,80 @@
 # @hypermod/cli
 
-To download and run codemods, we provide a CLI tool called @hypermod/cli.
+`@hypermod/cli` is the command-line interface for running codemods from local files, npm packages, the Hypermod community registry, and Hypermod.io-powered sources.
 
-`@hypermod/cli` is responsible for running the provided transform against your entire codebase. Under the hood, it is a wrapper of jscodeshift's CLI, which provides additional functionality.
+It builds on top of `jscodeshift` and adds workflow features needed for real package migrations:
 
-- Ability to run community codemods hosted on npm
-- Runs versioned codemods in sequence
-- Always runs the latest version of a codemod
-- The CLI allows you to run transforms either from the the [public registry](https://www.codeshiftcommunity.com/docs/registry) or on your local machine as per the original implementation of jscodeshift
+- Run codemods from local transform files.
+- Resolve codemods from npm packages and the community registry.
+- Run versioned codemods in sequence.
+- Run presets using the same package addressing format.
+- Initialize and validate codemod packages.
+- Use the same CLI surface for Hypermod.io-powered transforms.
 
-_Note:_ Codemods are designed to do the heavy lifting, but they may not be perfect, so some manual work may still be required in order to successfully migrate.
+> Codemods are designed to do the heavy lifting, but some manual review may still be required after running a migration.
 
-[Documentation](https://www.codeshiftcommunity.com/docs/cli)
+## Install
+
+Use `npx` for the latest version:
+
+```bash
+npx @hypermod/cli --help
+```
+
+Or install globally:
+
+```bash
+npm install -g @hypermod/cli
+# or
+yarn global add @hypermod/cli
+```
+
+## Usage
+
+### Run a package migration
+
+```bash
+npx @hypermod/cli --packages react@18.0.0 ./src
+```
+
+### Run all transforms since a version
+
+```bash
+npx @hypermod/cli --sequence --packages @mylib/button@3.0.0 ./src
+```
+
+### Run a preset
+
+```bash
+npx @hypermod/cli --packages @mylib/button#remove-deprecated-props ./src
+```
+
+### Run a local transform
+
+```bash
+npx @hypermod/cli --transform ./codemods/rename-imports/transform.ts ./src
+```
+
+### List available codemods
+
+```bash
+npx @hypermod/cli list react @atlaskit/button
+```
+
+### Initialize a new codemod package
+
+```bash
+npx @hypermod/cli init --transform 1.0.0 my-codemod-package
+```
+
+### Validate a codemod package
+
+```bash
+npx @hypermod/cli validate ./community/my-package
+```
+
+## Learn more
+
+- Product and docs: [hypermod.io/docs](https://www.hypermod.io/docs)
+- Explore codemods: [hypermod.io/explore](https://www.hypermod.io/explore)
+- Repository: [hypermod-community](https://github.com/hypermod-io/hypermod-community)
