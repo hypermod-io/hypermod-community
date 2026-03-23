@@ -1,7 +1,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/hypermod-io/hypermod-community/assets/3030010/f4ec415a-b320-4949-b352-0be9b1666f97">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/hypermod-io/hypermod-community/assets/3030010/9deed89f-1b24-4914-8007-74551abf40b2">
-  <img alt="Hypermod community repository banner" src="https://github.com/hypermod-io/hypermod-community/assets/3030010/9deed89f-1b24-4914-8007-74551abf40b2">
+  <img alt="Hypermod Community banner" src="https://github.com/hypermod-io/hypermod-community/assets/3030010/9deed89f-1b24-4914-8007-74551abf40b2">
 </picture>
 
 # Hypermod Community
@@ -17,7 +17,7 @@ Use this repository to discover, author, test, publish, and contribute codemods;
 ## Why this project exists
 
 Upgrading dependencies is expensive when maintainers only ship changelogs and users are left to translate breaking changes by hand.
-Hypermod helps library maintainers, platform teams, design-system teams, and migration owners turn breaking API changes into repeatable codemods that can be shared with the wider ecosystem.
+Hypermod helps library maintainers, platform teams, design-system teams, and migration owners turn breaking API changes into repeatable codemods that can be shared with the wider ecosystem and used by agents.
 
 This repository is the community-facing home for that workflow:
 
@@ -28,7 +28,7 @@ This repository is the community-facing home for that workflow:
 
 ## How Hypermod Community and Hypermod.io fit together
 
-- **Hypermod.io** is the product and discovery layer: explore codemods, learn workflows, and access hosted Hypermod experiences.
+- **Hypermod.io** is the orchestration and discovery layer: explore codemods, generate codemods, deploy migrations across repositories, and access hosted Hypermod experiences.
 - **`@hypermod/cli`** is the command-line entry point for running codemods in local projects, from npm packages, and from Hypermod.io-powered sources.
 - **This repository** is the open-source registry, package monorepo, and contribution surface behind the ecosystem.
 
