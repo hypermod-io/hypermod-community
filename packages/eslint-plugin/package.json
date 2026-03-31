@@ -1,0 +1,17 @@
+{
+  "name": "eslint-plugin-codemod",
+  "version": "0.0.1",
+  "dependencies": {
+    "eslint-codemod-utils": "latest"
+  },
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/eslint": "^8.4.1",
+    "typescript": "^4.5.5"
+  }
+}
