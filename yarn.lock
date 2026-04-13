@@ -2956,10 +2956,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/inquirer@^8.2.1":
-  version "8.2.10"
-  resolved "https://registry.npmjs.org/@types/inquirer/-/inquirer-8.2.10.tgz"
-  integrity sha512-IdD5NmHyVjWM8SHWo/kPBgtzXatwPkfwzyP3fN1jF2g9BWt5WO+8hL2F4o2GKIYsU40PpqeevuUWvkS/roXJkA==
+"@types/inquirer@^9.0.0":
+  version "9.0.9"
+  resolved "https://registry.yarnpkg.com/@types/inquirer/-/inquirer-9.0.9.tgz#c659dffbb8c2dab112324c7ae19b3303a972a96d"
+  integrity sha512-/mWx5136gts2Z2e5izdoRCo46lPp5TMs9R15GTSsgg/XnZyxDWVqoVU3R9lWnccKpqwsJLvRoxbCjoJtZB7DSw==
   dependencies:
     "@types/through" "*"
     rxjs "^7.2.0"
