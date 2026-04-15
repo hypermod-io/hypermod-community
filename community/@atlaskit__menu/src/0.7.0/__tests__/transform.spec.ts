@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 const defineInlineTest = require('jscodeshift/dist/testUtils').defineInlineTest;
 
 import * as transformer from '../transform';

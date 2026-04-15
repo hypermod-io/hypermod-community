@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 export interface Config {
   /**
    * Targets represent the packages that the hypermod package is providing transforms to.

@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import core, { Collection, JSXElement } from 'jscodeshift';
 import { insertCommentToStartOfFile, hasJSXAttributes } from '@hypermod/utils';
 import { NodePath } from 'ast-types/lib/node-path';

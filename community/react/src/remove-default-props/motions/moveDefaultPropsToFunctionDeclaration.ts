@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import { JSCodeshift, Collection } from 'jscodeshift';
 import { getNewParams } from './getNewParams';
 

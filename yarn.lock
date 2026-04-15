@@ -6188,7 +6188,7 @@ js-yaml@^4.1.0:
 
 jscodeshift@^17.3.0:
   version "17.3.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/jscodeshift/-/jscodeshift-17.3.0.tgz#b9ea1d8d1c9255103bfc4cb42ddb46e18cb2415c"
+  resolved "https://registry.yarnpkg.com/jscodeshift/-/jscodeshift-17.3.0.tgz#b9ea1d8d1c9255103bfc4cb42ddb46e18cb2415c"
   integrity sha512-LjFrGOIORqXBU+jwfC9nbkjmQfFldtMIoS6d9z2LG/lkmyNXsJAySPT+2SWXJEoE68/bCWcxKpXH37npftgmow==
   dependencies:
     "@babel/core" "^7.24.7"

@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 jest.mock('globby');
 jest.mock('live-plugin-manager');
 jest.mock('find-up');

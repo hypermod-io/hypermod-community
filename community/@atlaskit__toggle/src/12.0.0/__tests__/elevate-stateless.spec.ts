@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import { applyTransform } from '@hypermod/utils';
 import { API, FileInfo, Options } from 'jscodeshift';
 import elevateStateless from '../motions/elevate-stateless';
