@@ -20,7 +20,7 @@ module.exports = {
       },
     ],
   },
-  moduleFileExtensions: ['ts', 'js'],
+  moduleFileExtensions: ['ts', 'js', 'mts', 'cts', 'json', 'node'],
   testRegex: '^.+\\.(spec|test)\\.(ts|js)$',
   snapshotSerializers: ['jest-serializer-html-string'],
   watchPlugins: [

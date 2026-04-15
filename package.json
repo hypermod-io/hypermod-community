@@ -44,7 +44,7 @@
     "@parcel/packager-ts": "^2.8.3",
     "@parcel/transformer-typescript-types": "^2.8.3",
     "@types/inquirer": "^8.2.1",
-    "@types/jest": "^29.0.0",
+    "@types/jest": "^30.0.0",
     "@types/jscodeshift": "^0.11.6",
     "@types/node": "^16.11.0",
     "@types/prettier": "^2.0.0",
@@ -72,7 +72,7 @@
     "ts-loader": "^6.2.1",
     "ts-node": "^10.9.1",
     "tslib": "^2.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.4.0"
   },
   "resolutions": {
     "colors": "1.4.0"
