@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import jscodeshift, { FileInfo } from 'jscodeshift';
 
 type Parser = 'babel' | 'babylon' | 'flow' | 'ts' | 'tsx';

@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 export const messageForUsingExpression = `
 Popper.js has been upgraded from 1.14.1 to 2.4.2,
 and as a result the offset prop has changed to be an array. e.g '0px 8px' -> [0, 8]

@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import core, { API, Collection, FileInfo, Options } from 'jscodeshift';
 import {
   getDefaultImportSpecifierName,

@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import fs, { lstatSync, existsSync } from 'fs-extra';
 import junk from 'junk';
 import path from 'path';

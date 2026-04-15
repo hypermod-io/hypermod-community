@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import { FileInfo, API, Options } from 'jscodeshift';
 
 type Actions = 'status' | 'update' | 'free' | 'report';

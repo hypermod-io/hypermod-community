@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import path from 'path';
 import fs from 'fs-extra';
 import { installPackage } from '@antfu/install-pkg';

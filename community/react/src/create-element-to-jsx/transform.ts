@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import { API, FileInfo, Options, Collection } from 'jscodeshift';
 
 const hasModule = (j: any, path: Collection, module: string) =>

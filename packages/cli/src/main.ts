@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import path from 'path';
 import chalk from 'chalk';
 import { PluginManager, PluginManagerOptions } from 'live-plugin-manager';

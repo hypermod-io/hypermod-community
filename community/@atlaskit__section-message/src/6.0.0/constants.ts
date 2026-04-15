@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 export const SECTION_MESSAGE_PACKAGE_NAME = '@atlaskit/section-message';
 export const APPEARANCE_PROP_NAME = 'appearance';
 export const APPEARANCE_OLD_TO_NEW_MAPPING: {

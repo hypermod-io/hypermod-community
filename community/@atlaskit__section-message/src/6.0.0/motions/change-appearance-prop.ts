@@ -1,3 +1,4 @@
+// hypermod: Run "tsc" to verify the updated @types/jscodeshift@1.0.0 types.
 import core, { JSXAttribute, Node } from 'jscodeshift';
 import { Collection } from 'jscodeshift/src/Collection';
 
