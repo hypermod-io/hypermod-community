@@ -35,10 +35,10 @@
     "release": "yarn changeset publish"
   },
   "dependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/parser": "^7.23.0",
-    "@babel/preset-env": "^7.23.0",
-    "@babel/preset-typescript": "^7.23.0",
+    "@babel/core": "^7.29.0",
+    "@babel/parser": "^7.29.2",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-typescript": "^7.28.5",
     "@changesets/cli": "^2.6.2",
     "@manypkg/cli": "^0.20.0",
     "@parcel/packager-ts": "^2.8.3",
