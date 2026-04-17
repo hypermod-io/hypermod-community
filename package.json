@@ -65,7 +65,7 @@
     "parcel": "^2.8.3",
     "prettier": "^2.0.0",
     "rimraf": "^2.6.3",
-    "semver": "^7.3.5",
+    "semver": "^7.7.4",
     "tar": "^6.1.0",
     "ts-jest": "^29.2.5",
     "ts-jest-mock-import-meta": "^1.2.0",
